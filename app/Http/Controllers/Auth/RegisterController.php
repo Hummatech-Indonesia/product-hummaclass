@@ -24,7 +24,6 @@ class RegisterController extends Controller
     |
     */
 
-    use RegistersUsers;
 
     /**
      * Where to redirect users after registration.
@@ -50,5 +49,4 @@ class RegisterController extends Controller
         $this->service->handleRegister($request);
         return response()->json(['success' => trans('auth.register_success')]);
     }
-
 }
