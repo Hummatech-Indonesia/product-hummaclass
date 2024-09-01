@@ -23,5 +23,4 @@ class Category extends Model implements HasSubCategories
     {
         return $this->hasMany(SubCategory::class);
     }
-
 }
