@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
@@ -47,6 +48,6 @@ class RegisterController extends Controller
     public function register(RegisterRequest $request): JsonResponse
     {
         $this->service->handleRegister($request);
-        return response()->json(['success' => trans('auth.register_success')]);
+        return ResponseHelper::success(trans('auth.register_success'));
     }
 }

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class RegisterRequest extends ApiRequest
+class SubCategoryRequest extends ApiRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,9 +22,15 @@ class RegisterRequest extends ApiRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|max:255|email|unique:users',
-            'password' => 'required|string|min:8|confirmed',
+            'category_id' => 'required',
+            'name' => 'required',
+        ];
+    }
+    public function messages(): array
+    {
+        return [
+            'category_id.required' => 'Kategori wajib diisi',
+            'name.required' => 'Nama wajib diisi'
         ];
     }
 }

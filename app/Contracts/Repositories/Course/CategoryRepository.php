@@ -1,16 +1,10 @@
 <?php
 
-namespace App\Contracts\Repositories;
+namespace App\Contracts\Repositories\Course;
 
-use App\Contracts\Interfaces\CategoryInterface;
-use App\Contracts\Interfaces\RegisterInterface;
-use App\Contracts\Interfaces\UserInterface;
-use App\Enums\UserRoleEnum;
-use App\Helpers\UserHelper;
+use App\Contracts\Interfaces\Course\CategoryInterface;
+use App\Contracts\Repositories\BaseRepository;
 use App\Models\Category;
-use App\Models\User;
-use App\Traits\Datatables\UserDatatable;
-use Illuminate\Http\Request;
 
 class CategoryRepository extends BaseRepository implements CategoryInterface
 {
