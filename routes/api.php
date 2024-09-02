@@ -48,7 +48,7 @@ Route::middleware('enable.cors')->group(function () {
     Route::post('/forgot-password', [ResetPasswordController::class, 'sendEmail'])->middleware('guest')->name('password.email');
 
     Route::middleware('throttle:10,1')->prefix('password')->group(function () {
-        Route::get('reset/{token}', [ResetPasswordController::class, 'resetToken'])->name('password.reset');
+        Route::get('reset', [ResetPasswordController::class, 'resetToken'])->name('password.reset');
         Route::post('reset', [ResetPasswordController::class, 'reset'])->name('password.reset');
     });
 });

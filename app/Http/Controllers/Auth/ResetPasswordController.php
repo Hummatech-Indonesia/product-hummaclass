@@ -33,9 +33,9 @@ class ResetPasswordController extends Controller
 
 
     // return token untuk reset
-    public function resetToken($token)
+    public function resetToken(Request $request)
     {
-        return ResponseHelper::success(['token' => $token]);
+        return ResponseHelper::success(['token' => $request->token]);
     }
 
     // reset password
