@@ -10,6 +10,7 @@ use Illuminate\Auth\Notifications\ResetPassword;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Course\CourseController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\Course\CourseReviewController;
 use App\Http\Controllers\Course\SubCategoryController;
 
 /*
@@ -30,6 +31,7 @@ Route::middleware('enable.cors')->group(function () {
     Route::post('register', [RegisterController::class, 'register']);
     Route::patch('profile-update/{user}', [ProfileController::class, 'update']);
 
+    Route::post('course-review/{user_course}',[CourseReviewController::class,'store']);
 
     Route::resources([
         'categories' => CategoryController::class,
@@ -48,7 +50,7 @@ Route::middleware('enable.cors')->group(function () {
     Route::post('/forgot-password', [ResetPasswordController::class, 'sendEmail'])->middleware('guest')->name('password.email');
 
     Route::middleware('throttle:10,1')->prefix('password')->group(function () {
-        Route::get('reset', [ResetPasswordController::class, 'resetToken'])->name('password.reset');
-        Route::post('reset', [ResetPasswordController::class, 'reset'])->name('password.reset');
+        Route::get('reset/{token}', [ResetPasswordController::class, 'resetToken'])->name('password.reset');
+        Route::post('reset', [ResetPasswordController::class, 'reset']);
     });
 });
