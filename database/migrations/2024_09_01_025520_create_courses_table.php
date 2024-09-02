@@ -15,8 +15,8 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->foreignId('sub_category_id')->constrained()->restrictOnUpdate()->restrictOnDelete();
             $table->string('title')->unique();
-            $table->string('slug')->unique();
             $table->string('sub_title');
+            $table->string('slug')->unique();
             $table->text('description');
             $table->boolean('is_premium');
             $table->integer('price')->default(0);

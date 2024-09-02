@@ -11,8 +11,18 @@ class Course extends Model implements HasSubCategory
 {
     use HasFactory;
 
+    public $incrementing = false;
+    public $keyType = 'char';
+    protected $table = 'courses';
+    protected $primaryKey = 'id';
+    protected $fillable = ['sub_category_id', 'title', 'sub_title', 'description', 'is_premium', 'price'];
 
-    public function sub_category(): BelongsTo
+    /**
+     * Method subCategory
+     *
+     * @return BelongsTo
+     */
+    public function subCategory(): BelongsTo
     {
         return $this->belongsTo(SubCategory::class);
     }

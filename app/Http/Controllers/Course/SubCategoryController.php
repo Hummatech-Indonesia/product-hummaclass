@@ -12,7 +12,14 @@ use Illuminate\Http\Request;
 
 class SubCategoryController extends Controller
 {
-    private SubCategoryInterface $subCategory;
+    private SubCategoryInterface $subCategory;    
+    /**
+     * Method __construct
+     *
+     * @param SubCategoryInterface $subCategory [explicite description]
+     *
+     * @return void
+     */
     public function __construct(SubCategoryInterface $subCategory)
     {
         $this->subCategory = $subCategory;

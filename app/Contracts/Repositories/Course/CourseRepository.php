@@ -2,23 +2,24 @@
 
 namespace App\Contracts\Repositories\Course;
 
-use App\Contracts\Interfaces\Course\SubCategoryInterface;
+use App\Contracts\Interfaces\Course\CategoryInterface;
+use App\Contracts\Interfaces\Course\CourseInterface;
 use App\Contracts\Repositories\BaseRepository;
 use App\Models\Category;
-use App\Models\SubCategory;
+use App\Models\Course;
 
-class SubCategoryRepository extends BaseRepository implements SubCategoryInterface
+class CourseRepository extends BaseRepository implements CourseInterface
 {    
     /**
      * Method __construct
      *
-     * @param SubCategory $subCategory [explicite description]
+     * @param Course $course [explicite description]
      *
      * @return void
      */
-    public function __construct(SubCategory $subCategory)
+    public function __construct(Course $course)
     {
-        $this->model = $subCategory;
+        $this->model = $course;
     }
     /**
      * Method get

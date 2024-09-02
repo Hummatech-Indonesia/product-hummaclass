@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use App\Base\Interfaces\HasCategory;
+use App\Base\Interfaces\HasCourses;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class SubCategory extends Model
+class SubCategory extends Model implements HasCategory, HasCourses
 {
     use HasFactory;
 
@@ -21,5 +24,14 @@ class SubCategory extends Model
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
+    }
+    /**
+     * Get all of the courses for the SubCategory
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function courses(): HasMany
+    {
+        return $this->hasMany(Course::class);
     }
 }

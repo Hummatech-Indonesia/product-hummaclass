@@ -7,7 +7,14 @@ use App\Contracts\Repositories\BaseRepository;
 use App\Models\Category;
 
 class CategoryRepository extends BaseRepository implements CategoryInterface
-{
+{    
+    /**
+     * Method __construct
+     *
+     * @param Category $category [explicite description]
+     *
+     * @return void
+     */
     public function __construct(Category $category)
     {
         $this->model = $category;

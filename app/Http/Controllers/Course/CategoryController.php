@@ -12,7 +12,14 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    private CategoryInterface $category;
+    private CategoryInterface $category;    
+    /**
+     * Method __construct
+     *
+     * @param CategoryInterface $category [explicite description]
+     *
+     * @return void
+     */
     public function __construct(CategoryInterface $category)
     {
         $this->category = $category;
