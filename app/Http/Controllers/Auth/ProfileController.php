@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Contracts\Interfaces\Auth\ProfileInterface;
+use App\Models\User;
 use App\Helpers\ResponseHelper;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProfileRequest;
-use App\Models\User;
 use App\Services\Auth\ProfileService;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Request;
+use App\Contracts\Interfaces\Auth\ProfileInterface;
+
 
 class ProfileController extends Controller
 {
@@ -35,9 +36,9 @@ class ProfileController extends Controller
      *
      * @return JsonResponse
      */
-    public function update(ProfileRequest $request, User $user): JsonResponse
+    public function update(ProfileRequest $request): JsonResponse
     {
-
+        $user = auth()->user();
         $this->profile->update($user->id, $this->service->update($user, $request));
         return ResponseHelper::success(trans('alert.profile_updated'));
     }

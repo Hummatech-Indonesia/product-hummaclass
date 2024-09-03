@@ -29,9 +29,13 @@ Route::middleware('enable.cors')->group(function () {
 
     Route::post('login', [LoginController::class, 'showLoginForm']);
     Route::post('register', [RegisterController::class, 'register']);
-    Route::patch('profile-update/{user}', [ProfileController::class, 'update']);
 
-    Route::post('course-review/{user_course}',[CourseReviewController::class,'store']);
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::post('profile-update', [ProfileController::class, 'update']);
+    });
+
+
+    Route::post('course-review/{user_course}', [CourseReviewController::class, 'store']);
 
     Route::resources([
         'categories' => CategoryController::class,

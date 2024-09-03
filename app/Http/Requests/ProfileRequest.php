@@ -24,7 +24,7 @@ class ProfileRequest extends ApiRequest
         return [
             'name' => 'required',
             'email' => 'required|email|unique:users',
-            'phone_number' => 'required|regex:/^0[0-9]{9,12}$/',
+            'phone_number' => 'required',
             'address' => 'required|string|max:500',
             'photo' => 'nullable|mimes:png,jpg|image',
         ];
@@ -39,9 +39,14 @@ class ProfileRequest extends ApiRequest
         return [
             'name.required' => 'Nama wajib diisi',
             'email.required' => 'Email wajib diisi',
-            'address.required' => 'Alamat wajib diisi',
-            'address.max' => 'Alamat maksimal :max karakter',
+            'email.email' => 'Format email tidak valid',
+            'email.unique' => 'Email sudah terdaftar',
             'phone_number.required' => 'Nomor telepon wajib diisi',
+            'address.required' => 'Alamat wajib diisi',
+            'address.string' => 'Alamat harus berupa teks',
+            'address.max' => 'Alamat maksimal :max karakter',
+            'photo.mimes' => 'Foto harus berupa file dengan ekstensi png atau jpg',
+            'photo.image' => 'Foto harus berupa gambar',
         ];
     }
 }
