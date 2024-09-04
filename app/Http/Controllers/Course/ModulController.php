@@ -5,9 +5,12 @@ namespace App\Http\Controllers\Course;
 use App\Contracts\Interfaces\Course\ModulInterface;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CourseRequest;
 use App\Http\Requests\ModulRequest;
 use App\Http\Resources\Course\CourseResource;
 use App\Http\Resources\Course\ModulResource;
+use App\Models\Course;
+use App\Models\Modul;
 use Illuminate\Http\Request;
 
 class ModulController extends Controller
@@ -59,16 +62,22 @@ class ModulController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(ModulRequest $request, Modul $modul)
     {
-        //
+        $this->modul->update($modul->id, $request->validated());
+        return ResponseHelper::success(null, trans('alert.update_success'));
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Modul $modul)
     {
-        //
+        try {
+            $this->modul->delete($modul->id);
+            return ResponseHelper::success(trans('alert.delete_success'));
+        } catch (\Throwable $e) {
+            return ResponseHelper::success(trans('alert.delete_constrained'));
+        }
     }
 }

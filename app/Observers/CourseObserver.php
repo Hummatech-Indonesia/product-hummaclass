@@ -13,4 +13,8 @@ class CourseObserver
         $course->id = Uuid::uuid();
         $course->slug = Str::slug($course->title);
     }
+    public function updating(Course $course): void
+    {
+        $course->slug = Str::slug($course->title);
+    }
 }
