@@ -43,7 +43,7 @@ class CategoryController extends Controller
     public function store(CategoryRequest $request): JsonResponse
     {
         $this->category->store($request->validated());
-        return ResponseHelper::success(true,trans('alert.add_success'));
+        return ResponseHelper::success(true, trans('alert.add_success'));
     }
 
     /**

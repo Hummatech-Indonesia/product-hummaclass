@@ -22,7 +22,7 @@ class CategoryRequest extends ApiRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255'
+            'name' => 'required|string|max:255|unique:categories'
         ];
     }
     /**
@@ -33,7 +33,8 @@ class CategoryRequest extends ApiRequest
     public function messages(): array
     {
         return [
-            'name.required' => 'Nama wajib diisi'
+            'name.required' => 'Nama wajib diisi',
+            'name.unique' => 'Nama sudah digunakan',
         ];
     }
 }
