@@ -33,6 +33,7 @@ Route::middleware('enable.cors')->group(function () {
     Route::post('register', [RegisterController::class, 'register']);
 
     Route::get('users', [UserController::class, 'index']);
+    Route::get('users/{user}', [UserController::class, 'show']);
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('profile-update', [ProfileController::class, 'update']);
