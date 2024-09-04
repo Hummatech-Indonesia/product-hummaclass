@@ -39,7 +39,6 @@ Route::middleware('enable.cors')->group(function () {
         Route::post('profile-update', [ProfileController::class, 'update']);
     });
 
-
     Route::post('course-review/{user_course}', [CourseReviewController::class, 'store']);
 
     Route::resources([

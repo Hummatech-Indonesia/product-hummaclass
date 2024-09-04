@@ -4,19 +4,18 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('moduls', function (Blueprint $table) {
+        Schema::create('modules', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('course_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('title')->unique();
-            $table->string('slug')->unique();
             $table->string('sub_title');
+            $table->string('slug')->unique();
             $table->timestamps();
         });
     }
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('moduls');
+        Schema::dropIfExists('modules');
     }
 };

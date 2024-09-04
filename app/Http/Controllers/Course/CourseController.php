@@ -34,7 +34,7 @@ class CourseController extends Controller
     public function index(): JsonResponse
     {
         $courses = $this->course->get();
-        return ResponseHelper::success($courses);
+        return ResponseHelper::success($courses,trans('alert.fetch_success'));
     }
 
     /**
@@ -47,7 +47,7 @@ class CourseController extends Controller
     public function store(CourseRequest $request): JsonResponse
     {
         $this->course->store($this->service->store($request));
-        return ResponseHelper::success(trans('alert.add_success'));
+        return ResponseHelper::success(true,trans('alert.add_success'));
     }
     /**
      * Method update
@@ -60,7 +60,7 @@ class CourseController extends Controller
     public function update(CourseRequest $request, Course $course): JsonResponse
     {
         $this->course->update($course->id, $request->validated());
-        return ResponseHelper::success(trans('alert.update_success'));
+        return ResponseHelper::success(true,trans('alert.update_success'));
     }
     /**
      * Method destroy
@@ -73,9 +73,9 @@ class CourseController extends Controller
     {
         try {
             $this->course->delete($course->id);
-            return ResponseHelper::success(trans('alert.delete_success'));
+            return ResponseHelper::success(true,trans('alert.delete_success'));
         } catch (\Throwable $e) {
-            return ResponseHelper::success(trans('alert.delete_constrained'));
+            return ResponseHelper::success(true,trans('alert.delete_constrained'));
         }
     }
 }
