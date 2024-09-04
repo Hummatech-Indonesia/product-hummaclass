@@ -12,7 +12,7 @@ class CourseObserver
     {
         $course->id = Uuid::uuid();
         $course->slug = Str::slug($course->title);
-    }    
+    }
     /**
      * updating
      *

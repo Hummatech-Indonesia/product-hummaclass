@@ -20,7 +20,7 @@ class Module extends Model implements HasCourse, HasSubModules
         'course_id',
         'title',
         'slug',
-        'subtitle'
+        'sub_title'
     ];
 
     /**
