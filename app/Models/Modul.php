@@ -11,6 +11,10 @@ class Modul extends Model implements HasCourse
 {
     use HasFactory;
 
+    public $keyType = 'char';
+    protected $table = 'moduls';
+    protected $primaryKey = 'id';
+    protected $fillable = ['title', 'title', 'sub_title'];
     /**
      * course
      *
