@@ -7,16 +7,18 @@ use App\Contracts\Interfaces\Auth\UserInterface;
 use App\Contracts\Interfaces\Course\CategoryInterface;
 use App\Contracts\Interfaces\Course\CourseInterface;
 use App\Contracts\Interfaces\Course\CourseReviewInterface;
-use App\Contracts\Interfaces\Course\ModulInterface;
+use App\Contracts\Interfaces\Course\ModuleInterface;
 use App\Contracts\Interfaces\Course\SubCategoryInterface;
+use App\Contracts\Interfaces\Course\SubModuleInterface;
 use App\Contracts\Interfaces\RegisterInterface;
 use App\Contracts\Repositories\Auth\ProfileRepository;
 use App\Contracts\Repositories\Auth\UserRepository;
 use App\Contracts\Repositories\Course\CategoryRepository;
 use App\Contracts\Repositories\Course\CourseRepository;
 use App\Contracts\Repositories\Course\CourseReviewRepository;
-use App\Contracts\Repositories\Course\ModulRepository;
+use App\Contracts\Repositories\Course\ModuleRepository;
 use App\Contracts\Repositories\Course\SubCategoryRepository;
+use App\Contracts\Repositories\Course\SubModuleRepository;
 use App\Contracts\Repositories\RegisterRepository;
 use Illuminate\Support\ServiceProvider;
 
@@ -30,7 +32,8 @@ class AppServiceProvider extends ServiceProvider
         CourseInterface::class => CourseRepository::class,
         ProfileInterface::class => ProfileRepository::class,
         CourseReviewInterface::class => CourseReviewRepository::class,
-        ModulInterface::class => ModulRepository::class,
+        ModuleInterface::class => ModuleRepository::class,
+        SubModuleInterface::class => SubModuleRepository::class,
         UserInterface::class => UserRepository::class,
     ];
 

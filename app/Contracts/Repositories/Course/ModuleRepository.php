@@ -2,18 +2,23 @@
 
 namespace App\Contracts\Repositories\Course;
 
-use App\Contracts\Interfaces\Course\ModulInterface;
+use App\Contracts\Interfaces\Course\ModuleInterface;
 use App\Contracts\Repositories\BaseRepository;
-use App\Models\Category;
-use App\Models\Course;
-use App\Models\Modul;
+use App\Models\Module;
 
-class ModulRepository extends BaseRepository implements ModulInterface
+class ModuleRepository extends BaseRepository implements ModuleInterface
 {
 
-    public function __construct(Modul $modul)
+    /**
+     * Method __construct
+     *
+     * @param Module $module [explicite description]
+     *
+     * @return void
+     */
+    public function __construct(Module $module)
     {
-        $this->model = $modul;
+        $this->model = $module;
     }
     /**
      * Method get

@@ -28,12 +28,13 @@ class CourseRequest extends ApiRequest
             'description' => 'required|string|max:500',
             'is_premium' => 'required',
             'price' => 'required|integer',
-            'photo' => 'required|mimes:png,jpg,jpeg'
+            'photo' => 'nullable|mimes:png,jpg,jpeg'
         ];
     }
     public function messages(): array
     {
         return [
+            'photo.mimes' => 'Photo wajib png,jpg,jpeg',
             'sub_category_id.required' => 'Sub-kategori wajib diisi',
             'title.required' => 'Judul wajib diisi',
             'sub_title.required' => 'Sub-judul wajib diisi',

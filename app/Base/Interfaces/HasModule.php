@@ -4,7 +4,7 @@ namespace App\Base\Interfaces;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-interface HasSubCategory
+interface HasModule
 {
 
     /**
@@ -13,5 +13,5 @@ interface HasSubCategory
      * @return BelongsTo
      */
 
-    public function sub_category(): BelongsTo;
+    public function module(): BelongsTo;
 }

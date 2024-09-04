@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use App\Base\Interfaces\HasModules;
 use App\Base\Interfaces\HasSubCategory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Course extends Model implements HasSubCategory
+class Course extends Model implements HasSubCategory, HasModules
 {
     use HasFactory;
 
@@ -25,5 +27,14 @@ class Course extends Model implements HasSubCategory
     public function subCategory(): BelongsTo
     {
         return $this->belongsTo(SubCategory::class);
+    }
+    /**
+     * Get all of the modules for the Course
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function modules(): HasMany
+    {
+        return $this->hasMany(Module::class);
     }
 }

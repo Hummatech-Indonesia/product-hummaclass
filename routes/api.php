@@ -13,7 +13,9 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\Course\CourseReviewController;
 use App\Http\Controllers\Course\ModulController;
+use App\Http\Controllers\Course\ModuleController;
 use App\Http\Controllers\Course\SubCategoryController;
+use App\Http\Controllers\Course\SubModuleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,11 +35,11 @@ Route::middleware('enable.cors')->group(function () {
     Route::post('register', [RegisterController::class, 'register']);
 
     Route::get('users', [UserController::class, 'index']);
+    Route::get('users/{user}', [UserController::class, 'show']);
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('profile-update', [ProfileController::class, 'update']);
     });
-
 
     Route::post('course-review/{user_course}', [CourseReviewController::class, 'store']);
 
@@ -45,7 +47,8 @@ Route::middleware('enable.cors')->group(function () {
         'categories' => CategoryController::class,
         'sub-categories' => SubCategoryController::class,
         'courses' => CourseController::class,
-        'moduls' => ModulController::class,
+        'modules' => ModuleController::class,
+        'sub-modules' => SubModuleController::class,
     ], [
         'only' => ['index', 'store', 'update', 'destroy']
     ]);
