@@ -13,6 +13,7 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\Course\CourseReviewController;
 use App\Http\Controllers\Course\ModulController;
+use App\Http\Controllers\Course\ModuleController;
 use App\Http\Controllers\Course\SubCategoryController;
 
 /*
@@ -45,7 +46,7 @@ Route::middleware('enable.cors')->group(function () {
         'categories' => CategoryController::class,
         'sub-categories' => SubCategoryController::class,
         'courses' => CourseController::class,
-        'moduls' => ModulController::class,
+        'modules' => ModuleController::class,
     ], [
         'only' => ['index', 'store', 'update', 'destroy']
     ]);
