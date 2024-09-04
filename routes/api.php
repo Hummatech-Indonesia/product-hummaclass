@@ -10,6 +10,7 @@ use Illuminate\Auth\Notifications\ResetPassword;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Course\CourseController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\Course\CourseReviewController;
 use App\Http\Controllers\Course\ModulController;
 use App\Http\Controllers\Course\SubCategoryController;
@@ -31,6 +32,7 @@ Route::middleware('enable.cors')->group(function () {
     Route::post('login', [LoginController::class, 'showLoginForm']);
     Route::post('register', [RegisterController::class, 'register']);
 
+    Route::get('users', [UserController::class, 'index']);
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('profile-update', [ProfileController::class, 'update']);
