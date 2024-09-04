@@ -30,6 +30,7 @@ Route::middleware('enable.cors')->group(function () {
     Route::post('login', [LoginController::class, 'showLoginForm']);
     Route::post('register', [RegisterController::class, 'register']);
 
+    
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('profile-update', [ProfileController::class, 'update']);
     });
@@ -42,9 +43,8 @@ Route::middleware('enable.cors')->group(function () {
         'sub-categories' => SubCategoryController::class,
         'courses' => CourseController::class,
     ], [
-        'only' => ['store', 'update', 'destroy']
+        'only' => ['index', 'store', 'update', 'destroy']
     ]);
-
 
 
     Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

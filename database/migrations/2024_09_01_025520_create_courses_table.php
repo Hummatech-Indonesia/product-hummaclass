@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('sub_category_id')->constrained()->restrictOnUpdate()->restrictOnDelete();
             $table->string('title')->unique();
             $table->string('sub_title');
+            $table->string('photo');
             $table->string('slug')->unique();
             $table->text('description');
             $table->boolean('is_premium');

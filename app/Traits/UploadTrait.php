@@ -4,6 +4,7 @@ namespace App\Traits;
 
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 trait UploadTrait
 {
@@ -65,7 +66,9 @@ trait UploadTrait
         $slug = str_replace(' ', '-', $slug);
         $slug = str_replace(':', '-', $slug);
 
-        $fileName = $originalName ? $file->getClientOriginalName() : $slug . '.' . $file->getClientOriginalExtension();
+        $fileName = $originalName
+            ? $file->getClientOriginalName()
+            : Str::random(10) . '.' . $file->getClientOriginalExtension();
 
         return $file->storeAs($disk, $fileName);
     }
@@ -80,5 +83,4 @@ trait UploadTrait
     {
         if (!$this->exist($disk)) Storage::makeDirectory($disk);
     }
-
 }

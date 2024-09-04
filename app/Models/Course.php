@@ -15,7 +15,7 @@ class Course extends Model implements HasSubCategory
     public $keyType = 'char';
     protected $table = 'courses';
     protected $primaryKey = 'id';
-    protected $fillable = ['sub_category_id', 'title', 'sub_title', 'description', 'is_premium', 'price'];
+    protected $fillable = ['sub_category_id', 'title', 'sub_title', 'description', 'is_premium', 'price', 'photo'];
 
     /**
      * Method subCategory

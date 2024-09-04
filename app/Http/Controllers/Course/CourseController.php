@@ -7,12 +7,17 @@ use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CourseRequest;
 use App\Models\Course;
+use App\Services\Course\CourseService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class CourseController extends Controller
 {
-    private CourseInterface $course;    
+    private CourseInterface $course;
+    private CourseService $service;
+
+
+
     /**
      * Method __construct
      *
@@ -20,10 +25,18 @@ class CourseController extends Controller
      *
      * @return void
      */
-    public function __construct(CourseInterface $course)
+    public function __construct(CourseInterface $course, CourseService $service)
     {
         $this->course = $course;
-    }    
+        $this->service = $service;
+    }
+
+    public function index(): JsonResponse
+    {
+        $courses = $this->course->get();
+        return ResponseHelper::success($courses);
+    }
+
     /**
      * Method store
      *
@@ -33,9 +46,9 @@ class CourseController extends Controller
      */
     public function store(CourseRequest $request): JsonResponse
     {
-        $this->course->store($request->validated());
+        $this->course->store($this->service->store($request));
         return ResponseHelper::success(trans('alert.add_success'));
-    }    
+    }
     /**
      * Method update
      *
@@ -48,7 +61,7 @@ class CourseController extends Controller
     {
         $this->course->update($course->id, $request->validated());
         return ResponseHelper::success(trans('alert.update_success'));
-    }    
+    }
     /**
      * Method destroy
      *
