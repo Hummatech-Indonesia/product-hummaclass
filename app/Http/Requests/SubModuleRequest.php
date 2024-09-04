@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ModuleRequest extends ApiRequest
+class SubModuleRequest extends ApiRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,11 +22,13 @@ class ModuleRequest extends ApiRequest
     public function rules(): array
     {
         return [
-            'course_id' => 'required',
+            'module_id' => 'required',
             'title' => 'required',
-            'sub_title' => 'required'
+            'sub_title' => 'required',
+            'content' => 'required',
+            'url_youtube' => 'required',
         ];
-    }
+    }    
     /**
      * Method messages
      *
@@ -35,9 +37,11 @@ class ModuleRequest extends ApiRequest
     public function messages(): array
     {
         return [
-            'course_id.required' => 'Id Kursus wajib diisi',
+            'module_id.required' => 'Id module wajib diisi',
             'title.required' => 'Judul wajib diisi',
-            'sub_title.required' => 'Sub judul wajib diisi'
+            'sub_title' => 'Sub judul wajib diisi',
+            'content' => 'Konten wajib diisi',
+            'url_youtube' => 'Url youtube wajib diisi',
         ];
     }
 }

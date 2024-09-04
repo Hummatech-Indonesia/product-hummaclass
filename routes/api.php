@@ -15,6 +15,7 @@ use App\Http\Controllers\Course\CourseReviewController;
 use App\Http\Controllers\Course\ModulController;
 use App\Http\Controllers\Course\ModuleController;
 use App\Http\Controllers\Course\SubCategoryController;
+use App\Http\Controllers\Course\SubModuleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,6 +48,7 @@ Route::middleware('enable.cors')->group(function () {
         'sub-categories' => SubCategoryController::class,
         'courses' => CourseController::class,
         'modules' => ModuleController::class,
+        'sub-modules' => SubModuleController::class,
     ], [
         'only' => ['index', 'store', 'update', 'destroy']
     ]);
