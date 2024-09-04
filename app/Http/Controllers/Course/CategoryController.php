@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    private CategoryInterface $category;    
+    private CategoryInterface $category;
     /**
      * Method __construct
      *
@@ -24,6 +24,18 @@ class CategoryController extends Controller
     {
         $this->category = $category;
     }
+    /**
+     * Method index
+     *
+     * @param Request $request [explicite description]
+     *
+     * @return JsonResponse
+     */
+    public function index(Request $request): JsonResponse
+    {
+        $data = $this->category->search($request);
+        return ResponseHelper::success($data, trans('alert.fetch_success'));
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -31,7 +43,7 @@ class CategoryController extends Controller
     public function store(CategoryRequest $request): JsonResponse
     {
         $this->category->store($request->validated());
-        return ResponseHelper::success(trans('alert.add_success'));
+        return ResponseHelper::success(true,trans('alert.add_success'));
     }
 
     /**
@@ -40,7 +52,7 @@ class CategoryController extends Controller
     public function update(CategoryRequest $request, Category $category): JsonResponse
     {
         $this->category->update($category->id, $request->validated());
-        return ResponseHelper::success(trans('alert.update_success'));
+        return ResponseHelper::success(true, trans('alert.update_success'));
     }
 
     /**
@@ -50,9 +62,9 @@ class CategoryController extends Controller
     {
         try {
             $this->category->delete($category->id);
-            return ResponseHelper::success(trans('alert.delete_success'));
+            return ResponseHelper::success(true, trans('alert.delete_success'));
         } catch (\Throwable $e) {
-            return ResponseHelper::success(trans('alert.delete_constrained'));
+            return ResponseHelper::success(true, trans('alert.delete_constrained'));
         }
     }
 }

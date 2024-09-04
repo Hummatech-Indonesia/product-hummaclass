@@ -5,9 +5,11 @@ namespace App\Contracts\Repositories\Course;
 use App\Contracts\Interfaces\Course\CategoryInterface;
 use App\Contracts\Repositories\BaseRepository;
 use App\Models\Category;
+use Illuminate\Http\Request;
 
 class CategoryRepository extends BaseRepository implements CategoryInterface
-{    
+{
+    
     /**
      * Method __construct
      *
@@ -18,15 +20,19 @@ class CategoryRepository extends BaseRepository implements CategoryInterface
     public function __construct(Category $category)
     {
         $this->model = $category;
-    }
+    }    
     /**
-     * Method get
+     * Method search
+     *
+     * @param Request $request [explicite description]
      *
      * @return mixed
      */
-    public function get(): mixed
+    public function search(Request $request): mixed
     {
-        return $this->model->query()->get();
+        return $this->model->query()->when($request->search, function ($query) use ($request) {
+            return $query->whereLike('name', $request->search);
+        })->get();
     }
     /**
      * Method store
