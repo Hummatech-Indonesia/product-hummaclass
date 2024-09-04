@@ -18,9 +18,9 @@ class LoginService
     {
         if (auth()->attempt(['email' => $request->email, 'password' => $request->password])) {
             $data['token'] =  auth()->user()->createToken('auth_token')->plainTextToken;
-            return ResponseHelper::success($data, trans('alert.login_success'));
+            return ResponseHelper::success($data, trans('auth.success'));
         }
 
-        return ResponseHelper::error(null, trans('alert.password_or_email_false'), Response::HTTP_BAD_REQUEST);
+        return ResponseHelper::error(null, trans('auth.failed'), Response::HTTP_BAD_REQUEST);
     }
 }
