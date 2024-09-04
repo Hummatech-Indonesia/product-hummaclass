@@ -45,15 +45,10 @@ class CourseService implements ShouldHandleFileUpload
             if ($photo) {
                 $this->remove($photo);
             }
-            $photo = $this->uploadslug(UploadDiskEnum::USERS->value, $request->file('photo'), "users-" . now());
+            $photo = $this->uploadSlug(UploadDiskEnum::COURSES->value, $request->file('photo'), false);
         }
 
-        return [
-            'name' => $data['name'],
-            'phone_number' => $data['phone_number'],
-            'email' => $data['email'],
-            'address' => $data['address'],
-            'photo' => $photo,
-        ];
+        $data['photo'] = $photo;
+        return $data;
     }
 }
