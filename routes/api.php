@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Course\SubmissionTaskController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Password;
@@ -12,12 +13,14 @@ use App\Http\Controllers\Course\CourseController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\Course\CourseReviewController;
+use App\Http\Controllers\Course\CourseTaskController;
 use App\Http\Controllers\Course\ModulController;
 use App\Http\Controllers\Course\ModuleController;
 use App\Http\Controllers\Course\ModuleQuestionController;
 use App\Http\Controllers\Course\QuizController;
 use App\Http\Controllers\Course\SubCategoryController;
 use App\Http\Controllers\Course\SubModuleController;
+use App\Models\SubmissionTask;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,7 +52,20 @@ Route::middleware('enable.cors')->group(function () {
     Route::patch('course-reviews/{course_review}', [CourseReviewController::class, 'update']);
 
     Route::post('module-questions/{module}', [ModuleQuestionController::class, 'store']);
-    ROute::post('quizzes/{module}', [QuizController::class, 'store']);
+    Route::post('quizzes/{module}', [QuizController::class, 'store']);
+
+    Route::get('course-tasks/{course}', [CourseTaskController::class, 'index']);
+    Route::post('course-tasks/{course}', [CourseTaskController::class, 'store']);
+
+    Route::get('submission-tasks/{course_task}', [SubmissionTask::class, 'index']);
+    Route::post('submission-tasks/{course_task}', [SubmissionTask::class, 'store']);
+
+    Route::resources([
+        'course-tasks' => CourseTaskController::class,
+        'submission-tasks' => SubmissionTaskController::class,
+    ], [
+        'only' => ['update', 'destroy']
+    ]);
 
     Route::resources([
         'quizzes' => QuizController::class,
@@ -57,6 +73,8 @@ Route::middleware('enable.cors')->group(function () {
     ], [
         'except' => ['create', 'edit', 'store']
     ]);
+
+
 
     Route::resources([
         'categories' => CategoryController::class,

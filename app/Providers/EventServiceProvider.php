@@ -3,17 +3,21 @@
 namespace App\Providers;
 
 use App\Models\Course;
+use App\Models\CourseTask;
 use App\Models\Modul;
 use App\Models\Module;
 use App\Models\ModuleQuestion;
 use App\Models\Quiz;
+use App\Models\SubmissionTask;
 use App\Models\SubModule;
 use App\Models\User;
 use App\Observers\CourseObserver;
+use App\Observers\CourseTaskObserver;
 use App\Observers\ModuleObserver;
 use App\Observers\ModuleQuestionObserver;
 use App\Observers\ModulObserver;
 use App\Observers\QuizObserver;
+use App\Observers\SubmissionTaskObserver;
 use App\Observers\SubModuleObserver;
 use App\Observers\UserObserver;
 use Illuminate\Auth\Events\Registered;
@@ -45,6 +49,8 @@ class EventServiceProvider extends ServiceProvider
         SubModule::observe(SubModuleObserver::class);
         ModuleQuestion::observe(ModuleQuestionObserver::class);
         Quiz::observe(QuizObserver::class);
+        CourseTask::observe(CourseTaskObserver::class);
+        SubmissionTask::observe(SubmissionTaskObserver::class);
     }
 
     /**

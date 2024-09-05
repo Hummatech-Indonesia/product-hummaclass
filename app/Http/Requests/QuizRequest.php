@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\ModuleQuestion;
 use Illuminate\Foundation\Http\FormRequest;
 
 class QuizRequest extends ApiRequest
@@ -23,7 +24,16 @@ class QuizRequest extends ApiRequest
     {
         return [
             'title' => 'required',
-            'total_question' => 'required'
+            'total_question' => [
+                'required',
+                'integer',
+                function ($attribute, $value, $fail) {
+                    $moduleQuestionCount = ModuleQuestion::count();
+                    if ($value > $moduleQuestionCount) {
+                        $fail("Jumlah pertanyaan tidak boleh lebih dari {$moduleQuestionCount}");
+                    }
+                }
+            ]
         ];
     }
     /**
@@ -35,7 +45,8 @@ class QuizRequest extends ApiRequest
     {
         return [
             'title.required' => 'Judul wajib diisi',
-            'total_question' => 'Total pertanyaan wajib diisi'
+            'total_question.required' => 'Total pertanyaan wajib diisi',
+            'total_question.integer' => 'Total pertanyaan wajib berupa angka'
         ];
     }
 }
