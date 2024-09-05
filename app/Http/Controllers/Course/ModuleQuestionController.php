@@ -7,6 +7,7 @@ use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ModuleQuestionRequest;
 use App\Http\Resources\ModuleQuestionResource;
+use App\Models\Module;
 use App\Models\ModuleQuestion;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -27,17 +28,20 @@ class ModuleQuestionController extends Controller
     {
         $moduleQuestions = $this->moduleQuestion->get();
         return ResponseHelper::success(ModuleQuestionResource::collection($moduleQuestions), trans('alert.fetch_success'));
-    }
+    }    
     /**
      * Method store
      *
      * @param ModuleQuestionRequest $request [explicite description]
+     * @param Module $module [explicite description]
      *
      * @return JsonResponse
      */
-    public function store(ModuleQuestionRequest $request): JsonResponse
+    public function store(ModuleQuestionRequest $request, Module $module): JsonResponse
     {
-        $this->moduleQuestion->store($request->validated());
+        $data = $request->validated();
+        $data['module_id'] = $module->id;
+        $this->moduleQuestion->store($data);
         return ResponseHelper::success(true, trans('alert.add_success'));
     }
     /**

@@ -15,6 +15,7 @@ use App\Http\Controllers\Course\CourseReviewController;
 use App\Http\Controllers\Course\ModulController;
 use App\Http\Controllers\Course\ModuleController;
 use App\Http\Controllers\Course\ModuleQuestionController;
+use App\Http\Controllers\Course\QuizController;
 use App\Http\Controllers\Course\SubCategoryController;
 use App\Http\Controllers\Course\SubModuleController;
 
@@ -47,13 +48,22 @@ Route::middleware('enable.cors')->group(function () {
     Route::get('course-reviews/course_review', [CourseReviewController::class, 'show']);
     Route::patch('course-reviews/{course_review}', [CourseReviewController::class, 'update']);
 
+    Route::post('module-questions/{module}', [ModuleQuestionController::class, 'store']);
+    ROute::post('quizzes/{module}', [QuizController::class, 'store']);
+
+    Route::resources([
+        'quizzes' => QuizController::class,
+        'module-questions' => ModuleQuestionController::class,
+    ], [
+        'except' => ['create', 'edit', 'store']
+    ]);
+
     Route::resources([
         'categories' => CategoryController::class,
         'sub-categories' => SubCategoryController::class,
         'courses' => CourseController::class,
         'modules' => ModuleController::class,
         'sub-modules' => SubModuleController::class,
-        'module-questions' => ModuleQuestionController::class,
     ], [
         'except' => ['create', 'edit']
     ]);

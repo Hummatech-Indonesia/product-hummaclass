@@ -9,6 +9,7 @@ use App\Contracts\Interfaces\Course\CourseInterface;
 use App\Contracts\Interfaces\Course\CourseReviewInterface;
 use App\Contracts\Interfaces\Course\ModuleInterface;
 use App\Contracts\Interfaces\Course\ModuleQuestionInterface;
+use App\Contracts\Interfaces\Course\QuizInterface;
 use App\Contracts\Interfaces\Course\SubCategoryInterface;
 use App\Contracts\Interfaces\Course\SubModuleInterface;
 use App\Contracts\Interfaces\RegisterInterface;
@@ -19,6 +20,7 @@ use App\Contracts\Repositories\Course\CourseRepository;
 use App\Contracts\Repositories\Course\CourseReviewRepository;
 use App\Contracts\Repositories\Course\ModuleQuestionRepository;
 use App\Contracts\Repositories\Course\ModuleRepository;
+use App\Contracts\Repositories\Course\QuizRepository;
 use App\Contracts\Repositories\Course\SubCategoryRepository;
 use App\Contracts\Repositories\Course\SubModuleRepository;
 use App\Contracts\Repositories\RegisterRepository;
@@ -37,7 +39,8 @@ class AppServiceProvider extends ServiceProvider
         ModuleInterface::class => ModuleRepository::class,
         SubModuleInterface::class => SubModuleRepository::class,
         UserInterface::class => UserRepository::class,
-        ModuleQuestionInterface::class => ModuleQuestionRepository::class
+        ModuleQuestionInterface::class => ModuleQuestionRepository::class,
+        QuizInterface::class => QuizRepository::class
     ];
 
     /**

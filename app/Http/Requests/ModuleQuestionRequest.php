@@ -22,7 +22,6 @@ class ModuleQuestionRequest extends ApiRequest
     public function rules(): array
     {
         return [
-            'module_id' => 'required',
             'question' => 'required',
             'option_a' => 'required',
             'option_b' => 'required',
@@ -40,7 +39,6 @@ class ModuleQuestionRequest extends ApiRequest
     public function messages(): array
     {
         return [
-            'module_id.required' => 'Modul wajib diisi',
             'question.required' => 'Pertanyaan wajib diisi',
             'option_a.required' => 'Opsi a wajib diisi',
             'option_b.required' => 'Opsi b wajib diisi',
