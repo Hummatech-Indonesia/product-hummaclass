@@ -6,9 +6,11 @@ use App\Contracts\Interfaces\Course\SubCategoryInterface;
 use App\Contracts\Repositories\BaseRepository;
 use App\Models\Category;
 use App\Models\SubCategory;
+use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class SubCategoryRepository extends BaseRepository implements SubCategoryInterface
-{    
+{
     /**
      * Method __construct
      *
@@ -21,13 +23,18 @@ class SubCategoryRepository extends BaseRepository implements SubCategoryInterfa
         $this->model = $subCategory;
     }
     /**
-     * Method get
+     * Method customPaginate
      *
-     * @return mixed
+     * @param Request $request [explicite description]
+     * @param int $pagination [explicite description]
+     *
+     * @return LengthAwarePaginator
      */
-    public function get(): mixed
+    public function customPaginate(Request $request, int $pagination = 10): LengthAwarePaginator
     {
-        return $this->model->query()->get();
+        return $this->model->query()->when($request->search, function ($query) use ($request) {
+            $query->whereLike('name', $request->search);
+        })->fastPaginate($pagination);
     }
     /**
      * Method store

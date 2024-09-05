@@ -7,9 +7,11 @@ use App\Contracts\Interfaces\Course\CourseInterface;
 use App\Contracts\Repositories\BaseRepository;
 use App\Models\Category;
 use App\Models\Course;
+use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class CourseRepository extends BaseRepository implements CourseInterface
-{    
+{
     /**
      * Method __construct
      *
@@ -22,13 +24,18 @@ class CourseRepository extends BaseRepository implements CourseInterface
         $this->model = $course;
     }
     /**
-     * Method get
+     * Method customPaginate
      *
-     * @return mixed
+     * @param Request $request [explicite description]
+     * @param int $pagination [explicite description]
+     *
+     * @return LengthAwarePaginator
      */
-    public function get(): mixed
+    public function customPaginate(Request $request, int $pagination = 10): LengthAwarePaginator
     {
-        return $this->model->query()->get();
+        return $this->model->query()->with('modules')->when($request->search, function ($query) use ($request) {
+            $query->whereLike('name', $request->search);
+        })->fastPaginate($pagination);
     }
     /**
      * Method store

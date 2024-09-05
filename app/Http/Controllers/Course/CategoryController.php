@@ -6,6 +6,7 @@ use App\Contracts\Interfaces\Course\CategoryInterface;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoryRequest;
+use App\Http\Resources\Course\CategoryResource;
 use App\Models\Category;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -33,8 +34,8 @@ class CategoryController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $data = $this->category->search($request);
-        return ResponseHelper::success($data, trans('alert.fetch_success'));
+        $categories = $this->category->customPaginate($request);
+        return ResponseHelper::success(CategoryResource::collection($categories), trans('alert.fetch_success'));
     }
 
     /**

@@ -6,6 +6,7 @@ use App\Contracts\Interfaces\Course\SubModuleInterface;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SubModuleRequest;
+use App\Http\Resources\SubModuleResource;
 use App\Models\SubModule;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -16,17 +17,19 @@ class SubModuleController extends Controller
     public function __construct(SubModuleInterface $subModule)
     {
         $this->subModule = $subModule;
-    }    
+    }
     /**
      * Method index
      *
+     * @param Request $request [explicite description]
+     *
      * @return JsonResponse
      */
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        $data = $this->subModule->get();
-        return ResponseHelper::success($data, trans('alert.fetch_success'));
-    }    
+        $subModules = $this->subModule->customPaginate($request);
+        return ResponseHelper::success(SubModuleResource::collection($subModules), trans('alert.fetch_success'));
+    }
     /**
      * Method store
      *
@@ -38,7 +41,7 @@ class SubModuleController extends Controller
     {
         $this->subModule->store($request->validated());
         return ResponseHelper::success(true, trans('alert.add_success'));
-    }    
+    }
     /**
      * Method update
      *
@@ -51,7 +54,7 @@ class SubModuleController extends Controller
     {
         $this->subModule->update($subModule->id, $request->validated());
         return ResponseHelper::success(true, trans('alert.update_success'));
-    }    
+    }
     /**
      * Method destroy
      *

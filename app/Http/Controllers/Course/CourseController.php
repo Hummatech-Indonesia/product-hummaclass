@@ -6,6 +6,7 @@ use App\Contracts\Interfaces\Course\CourseInterface;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CourseRequest;
+use App\Http\Resources\CourseResource;
 use App\Models\Course;
 use App\Services\Course\CourseService;
 use Illuminate\Http\JsonResponse;
@@ -31,10 +32,10 @@ class CourseController extends Controller
         $this->service = $service;
     }
 
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        $courses = $this->course->get();
-        return ResponseHelper::success($courses,trans('alert.fetch_success'));
+        $courses = $this->course->customPaginate($request);
+        return ResponseHelper::success(CourseResource::collection($courses), trans('alert.fetch_success'));
     }
 
     /**
@@ -47,7 +48,7 @@ class CourseController extends Controller
     public function store(CourseRequest $request): JsonResponse
     {
         $this->course->store($this->service->store($request));
-        return ResponseHelper::success(true,trans('alert.add_success'));
+        return ResponseHelper::success(true, trans('alert.add_success'));
     }
     /**
      * Method update
@@ -60,7 +61,7 @@ class CourseController extends Controller
     public function update(CourseRequest $request, Course $course): JsonResponse
     {
         $this->course->update($course->id, $request->validated());
-        return ResponseHelper::success(true,trans('alert.update_success'));
+        return ResponseHelper::success(true, trans('alert.update_success'));
     }
     /**
      * Method destroy
@@ -73,9 +74,9 @@ class CourseController extends Controller
     {
         try {
             $this->course->delete($course->id);
-            return ResponseHelper::success(true,trans('alert.delete_success'));
+            return ResponseHelper::success(true, trans('alert.delete_success'));
         } catch (\Throwable $e) {
-            return ResponseHelper::success(true,trans('alert.delete_constrained'));
+            return ResponseHelper::success(true, trans('alert.delete_constrained'));
         }
     }
 }

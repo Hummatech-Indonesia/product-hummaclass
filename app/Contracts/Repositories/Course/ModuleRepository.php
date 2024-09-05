@@ -5,6 +5,8 @@ namespace App\Contracts\Repositories\Course;
 use App\Contracts\Interfaces\Course\ModuleInterface;
 use App\Contracts\Repositories\BaseRepository;
 use App\Models\Module;
+use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class ModuleRepository extends BaseRepository implements ModuleInterface
 {
@@ -21,13 +23,18 @@ class ModuleRepository extends BaseRepository implements ModuleInterface
         $this->model = $module;
     }
     /**
-     * Method get
+     * Method customPaginate
      *
-     * @return mixed
+     * @param Request $request [explicite description]
+     * @param int $pagination [explicite description]
+     *
+     * @return LengthAwarePaginator
      */
-    public function get(): mixed
+    public function customPaginate(Request $request, int $pagination = 10): LengthAwarePaginator
     {
-        return $this->model->query()->get();
+        return $this->model->query()->with('subModules')->when($request->search, function ($query) use ($request) {
+            $query->whereLike('title', $request->search);
+        })->fastPaginate($pagination);
     }
     /**
      * Method store

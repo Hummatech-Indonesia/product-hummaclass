@@ -6,13 +6,14 @@ use App\Contracts\Interfaces\Course\ModuleInterface;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ModuleRequest;
+use App\Http\Resources\ModuleResource;
 use App\Models\Module;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class ModuleController extends Controller
 {
-    private ModuleInterface $module;    
+    private ModuleInterface $module;
     /**
      * Method __construct
      *
@@ -23,17 +24,17 @@ class ModuleController extends Controller
     public function __construct(ModuleInterface $module)
     {
         $this->module = $module;
-    }    
+    }
     /**
      * Method index
      *
      * @return JsonResponse
      */
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        $data = $this->module->get();
-        return ResponseHelper::success($data, trans('alert.fetch_success'));
-    }    
+        $modules = $this->module->customPaginate($request);
+        return ResponseHelper::success(ModuleResource::collection($modules), trans('alert.fetch_success'));
+    }
     /**
      * Method store
      *
@@ -45,7 +46,7 @@ class ModuleController extends Controller
     {
         $this->module->store($request->validated());
         return ResponseHelper::success(true, trans('alert.add_success'));
-    }    
+    }
     /**
      * Method update
      *
@@ -58,7 +59,7 @@ class ModuleController extends Controller
     {
         $this->module->update($module->id, $request->validated());
         return ResponseHelper::success(true, trans('alert.update_success'));
-    }    
+    }
     /**
      * Method destroy
      *

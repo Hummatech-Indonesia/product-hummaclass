@@ -6,10 +6,11 @@ use App\Contracts\Interfaces\Course\CategoryInterface;
 use App\Contracts\Repositories\BaseRepository;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class CategoryRepository extends BaseRepository implements CategoryInterface
 {
-    
+
     /**
      * Method __construct
      *
@@ -20,19 +21,20 @@ class CategoryRepository extends BaseRepository implements CategoryInterface
     public function __construct(Category $category)
     {
         $this->model = $category;
-    }    
+    }
     /**
-     * Method search
+     * Method customPaginate
      *
      * @param Request $request [explicite description]
+     * @param int $pagination [explicite description]
      *
-     * @return mixed
+     * @return LengthAwarePaginator
      */
-    public function search(Request $request): mixed
+    public function customPaginate(Request $request, int $pagination = 10): LengthAwarePaginator
     {
         return $this->model->query()->when($request->search, function ($query) use ($request) {
-            return $query->whereLike('name', $request->search);
-        })->get();
+            $query->whereLike('name', $request->search);
+        })->fastPaginate($pagination);
     }
     /**
      * Method store

@@ -6,13 +6,14 @@ use App\Contracts\Interfaces\Course\SubCategoryInterface;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SubCategoryRequest;
+use App\Http\Resources\SubCategoryResource;
 use App\Models\SubCategory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class SubCategoryController extends Controller
 {
-    private SubCategoryInterface $subCategory;    
+    private SubCategoryInterface $subCategory;
     /**
      * Method __construct
      *
@@ -23,6 +24,18 @@ class SubCategoryController extends Controller
     public function __construct(SubCategoryInterface $subCategory)
     {
         $this->subCategory = $subCategory;
+    }
+    /**
+     * Method index
+     *
+     * @param Request $request [explicite description]
+     *
+     * @return JsonResponse
+     */
+    public function index(Request $request): JsonResponse
+    {
+        $subCategories = $this->subCategory->customPaginate($request);
+        return ResponseHelper::success(SubCategoryResource::collection($subCategories), trans('fetch_success'));
     }
     /**
      * Method store
