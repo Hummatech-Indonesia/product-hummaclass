@@ -26,4 +26,9 @@ class ProfileRepository extends BaseRepository implements ProfileInterface
     {
         return $this->model->findOrFail($id)->update($data);
     }
+
+    public function show(mixed $id): mixed
+    {
+        return $this->model->findOrFail($id);
+    }
 }

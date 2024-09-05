@@ -40,6 +40,7 @@ class ProfileController extends Controller
     {
         $user = auth()->user();
         $this->profile->update($user->id, $this->service->update($user, $request));
-        return ResponseHelper::success(trans('alert.profile_updated'));
+        $user = $this->profile->show($user->id);
+        return ResponseHelper::success(['user' => $user], trans('alert.profile_updated'));
     }
 }
