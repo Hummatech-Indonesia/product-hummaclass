@@ -40,8 +40,11 @@ Route::middleware('enable.cors')->group(function () {
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('profile-update', [ProfileController::class, 'update']);
     });
-
-    Route::post('course-review/{user_course}', [CourseReviewController::class, 'store']);
+    
+    Route::get('course-reviews', [CourseReviewController::class, 'index']);
+    Route::post('course-reviews/{course}', [CourseReviewController::class, 'store']);
+    Route::get('course-reviews/course_review', [CourseReviewController::class, 'show']);
+    Route::patch('course-reviews/{course_review}', [CourseReviewController::class, 'update']);
 
     Route::resources([
         'categories' => CategoryController::class,

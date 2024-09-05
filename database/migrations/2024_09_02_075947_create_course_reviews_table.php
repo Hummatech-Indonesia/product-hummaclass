@@ -12,7 +12,8 @@ return new class extends Migration {
     {
         Schema::create('course_reviews', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_course_id')->constrained();
+            $table->foreignUuid('user_id')->constrained();
+            $table->foreignUuid('course_id')->constrained();
             $table->integer('rating');
             $table->text('review');
             $table->timestamps();

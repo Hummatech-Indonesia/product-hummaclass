@@ -6,6 +6,9 @@ use App\Contracts\Interfaces\Course\CourseReviewInterface;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CourseReviewRequest;
+use App\Http\Resources\CourseReviewResource;
+use App\Models\Course;
+use App\Models\CourseReview;
 use App\Models\User;
 use App\Models\UserCourse;
 use Illuminate\Http\JsonResponse;
@@ -25,15 +28,55 @@ class CourseReviewController extends Controller
     {
         $this->courseReview = $courseReview;
     }
-    public function store(CourseReviewRequest $request, UserCourse $userCourse): JsonResponse
+    /**
+     * Method index
+     *
+     * @return JsonResponse
+     */
+    public function index(): JsonResponse
+    {
+        $courseReview = $this->courseReview->get();
+        return ResponseHelper::success(CourseReviewResource::collection($courseReview), trans('alert.fetch_success'));
+    }
+    /**
+     * Method store
+     *
+     * @param CourseReviewRequest $request [explicite description]
+     * @param Course $course [explicite description]
+     *
+     * @return mixed
+     */
+    public function store(CourseReviewRequest $request, Course $course): JsonResponse
     {
         $data = $request->validated();
-        $data['user_course_id']->$userCourse->id;
-        if ($userCourse->user_id == $request->user()->id) {
+        $data['user_id'] = $request->auth()->id;
+        $data['course_id'] =
             $this->courseReview->store($data);
-            return ResponseHelper::success(trans('alert.add_review'));
-        } else {
-            return ResponseHelper::error(trans('alert.add_failed'));
-        }
+        return ResponseHelper::success(true, trans('alert.add_success'));
+    }    
+    /**
+     * Method show
+     *
+     * @param CourseReview $courseReview [explicite description]
+     *
+     * @return JsonResponse
+     */
+    public function show(CourseReview $courseReview): JsonResponse
+    {
+        $courseReview = $this->courseReview($courseReview->id);
+        return ResponseHelper::success(new CourseReviewResource($courseReview), trans('alert.fetch_success'));
+    }
+    /**
+     * Method update
+     *
+     * @param CourseReviewRequest $request [explicite description]
+     * @param CourseReview $courseReview [explicite description]
+     *
+     * @return JsonResponse
+     */
+    public function update(CourseReviewRequest $request, CourseReview $courseReview): JsonResponse
+    {
+        $this->courseReview->update($courseReview->id, $request->validated());
+        return ResponseHelper::success(true, trans('alert.update_success'));
     }
 }

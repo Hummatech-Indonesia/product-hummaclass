@@ -7,16 +7,11 @@ use App\Contracts\Interfaces\Course\CourseReviewInterface;
 use App\Contracts\Repositories\BaseRepository;
 use App\Models\Category;
 use App\Models\CourseReview;
+use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class CourseReviewRepository extends BaseRepository implements CourseReviewInterface
 {
-    /**
-     * Method __construct
-     *
-     * @param CourseReview $courseReview [explicite description]
-     *
-     * @return void
-     */
     public function __construct(CourseReview $courseReview)
     {
         $this->model = $courseReview;
@@ -28,7 +23,7 @@ class CourseReviewRepository extends BaseRepository implements CourseReviewInter
      */
     public function get(): mixed
     {
-        return $this->model->query()->get();
+        return $this->model->get();
     }
     /**
      * Method store
@@ -62,17 +57,6 @@ class CourseReviewRepository extends BaseRepository implements CourseReviewInter
      */
     public function update(mixed $id, array $data): mixed
     {
-        return $this->show($id)->update($data);
-    }
-    /**
-     * Method delete
-     *
-     * @param mixed $id [explicite description]
-     *
-     * @return mixed
-     */
-    public function delete(mixed $id): mixed
-    {
-        return $this->show($id)->delete();
+        return $this->model->show($id)->update($data);
     }
 }
