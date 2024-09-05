@@ -19,5 +19,16 @@ class ModuleObserver
     {
         $module->id = Uuid::uuid();
         $module->slug = Str::slug($module->title);
+    }    
+    /**
+     * Method updating
+     *
+     * @param Module $module [explicite description]
+     *
+     * @return void
+     */
+    public function updating(Module $module): void
+    {
+        $module->slug = Str::slug($module->title);
     }
 }

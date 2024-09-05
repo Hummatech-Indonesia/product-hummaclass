@@ -14,6 +14,7 @@ use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\Course\CourseReviewController;
 use App\Http\Controllers\Course\ModulController;
 use App\Http\Controllers\Course\ModuleController;
+use App\Http\Controllers\Course\ModuleQuestionController;
 use App\Http\Controllers\Course\SubCategoryController;
 use App\Http\Controllers\Course\SubModuleController;
 
@@ -40,7 +41,7 @@ Route::middleware('enable.cors')->group(function () {
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('profile-update', [ProfileController::class, 'update']);
     });
-    
+
     Route::get('course-reviews', [CourseReviewController::class, 'index']);
     Route::post('course-reviews/{course}', [CourseReviewController::class, 'store']);
     Route::get('course-reviews/course_review', [CourseReviewController::class, 'show']);
@@ -52,6 +53,7 @@ Route::middleware('enable.cors')->group(function () {
         'courses' => CourseController::class,
         'modules' => ModuleController::class,
         'sub-modules' => SubModuleController::class,
+        'module-questions' => ModuleQuestionController::class,
     ], [
         'except' => ['create', 'edit']
     ]);

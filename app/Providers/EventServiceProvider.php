@@ -5,10 +5,12 @@ namespace App\Providers;
 use App\Models\Course;
 use App\Models\Modul;
 use App\Models\Module;
+use App\Models\ModuleQuestion;
 use App\Models\SubModule;
 use App\Models\User;
 use App\Observers\CourseObserver;
 use App\Observers\ModuleObserver;
+use App\Observers\ModuleQuestionObserver;
 use App\Observers\ModulObserver;
 use App\Observers\SubModuleObserver;
 use App\Observers\UserObserver;
@@ -39,6 +41,7 @@ class EventServiceProvider extends ServiceProvider
         Course::observe(CourseObserver::class);
         Module::observe(ModuleObserver::class);
         SubModule::observe(SubModuleObserver::class);
+        ModuleQuestion::observe(ModuleQuestionObserver::class);
     }
 
     /**

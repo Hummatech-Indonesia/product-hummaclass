@@ -15,6 +15,7 @@ class CourseResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id' => $this->id,
             'sub_category' => $this->subCategory->name,
             'title' => $this->title,
             'sub_title' => $this->sub_title,
