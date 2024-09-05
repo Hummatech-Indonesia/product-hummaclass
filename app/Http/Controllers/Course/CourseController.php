@@ -51,6 +51,18 @@ class CourseController extends Controller
         return ResponseHelper::success(true, trans('alert.add_success'));
     }
     /**
+     * Method show
+     *
+     * @param Course $course [explicite description]
+     *
+     * @return JsonResponse
+     */
+    public function show(Course $course): JsonResponse
+    {
+        $course = $this->course->show($course->id);
+        return ResponseHelper::success(new CourseResource($course), trans('alert.fetch_success'));
+    }
+    /**
      * Method update
      *
      * @param CourseRequest $request [explicite description]

@@ -50,7 +50,7 @@ Route::middleware('enable.cors')->group(function () {
         'modules' => ModuleController::class,
         'sub-modules' => SubModuleController::class,
     ], [
-        'only' => ['index', 'store', 'update', 'destroy']
+        'except' => ['create', 'edit']
     ]);
 
 
