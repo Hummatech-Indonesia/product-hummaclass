@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->uuid('id')->primary();
             $table->foreignUuid('course_id')->constrained();
             $table->integer('number_of');
-            $table->string('question');
+            $table->text('question');
             $table->timestamps();
         });
     }
