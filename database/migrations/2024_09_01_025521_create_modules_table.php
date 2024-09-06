@@ -13,8 +13,9 @@ return new class extends Migration {
         Schema::create('modules', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('course_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->integer('step');
             $table->string('title')->unique();
-            $table->string('sub_title');
+            $table->text('sub_title');
             $table->string('slug')->unique();
             $table->timestamps();
         });

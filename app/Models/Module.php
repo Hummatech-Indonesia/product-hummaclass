@@ -3,13 +3,15 @@
 namespace App\Models;
 
 use App\Base\Interfaces\HasCourse;
+use App\Base\Interfaces\HasModuleQuestions;
+use App\Base\Interfaces\HasQuizzes;
 use App\Base\Interfaces\HasSubModules;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Module extends Model implements HasCourse, HasSubModules
+class Module extends Model implements HasCourse, HasSubModules, HasModuleQuestions, HasQuizzes
 {
     use HasFactory;
     public $keyType = 'char';
@@ -18,6 +20,7 @@ class Module extends Model implements HasCourse, HasSubModules
     protected $table = 'modules';
     protected $fillable = [
         'course_id',
+        'step',
         'title',
         'slug',
         'sub_title'
@@ -40,6 +43,24 @@ class Module extends Model implements HasCourse, HasSubModules
     public function subModules(): HasMany
     {
         return $this->hasMany(SubModule::class);
+    }
+    /**
+     * Method moduleQuestions
+     *
+     * @return HasMany
+     */
+    public function moduleQuestions(): HasMany
+    {
+        return $this->hasMany(ModuleQuestion::class);
+    }
+    /**
+     * Get all of the quizzes for the Module
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function quizzes(): HasMany
+    {
+        return $this->hasMany(Quiz::class);
     }
 
 }

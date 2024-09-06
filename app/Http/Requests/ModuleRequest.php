@@ -22,7 +22,7 @@ class ModuleRequest extends ApiRequest
     public function rules(): array
     {
         return [
-            'course_id' => 'required',
+            'step' => 'required',
             'title' => 'required',
             'sub_title' => 'required'
         ];
@@ -35,7 +35,7 @@ class ModuleRequest extends ApiRequest
     public function messages(): array
     {
         return [
-            'course_id.required' => 'Id Kursus wajib diisi',
+            'step.required' => 'Urutan wajib diisi',
             'title.required' => 'Judul wajib diisi',
             'sub_title.required' => 'Sub judul wajib diisi'
         ];

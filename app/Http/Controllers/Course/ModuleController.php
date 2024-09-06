@@ -7,6 +7,7 @@ use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ModuleRequest;
 use App\Http\Resources\ModuleResource;
+use App\Models\Course;
 use App\Models\Module;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -30,9 +31,10 @@ class ModuleController extends Controller
      *
      * @return JsonResponse
      */
-    public function index(Request $request): JsonResponse
+    public function index(Course $course, Request $request): JsonResponse
     {
         $modules = $this->module->customPaginate($request);
+        $modules->where(['course_id', $course->id]);
         return ResponseHelper::success(ModuleResource::collection($modules), trans('alert.fetch_success'));
     }
     /**
@@ -42,9 +44,11 @@ class ModuleController extends Controller
      *
      * @return JsonResponse
      */
-    public function store(ModuleRequest $request): JsonResponse
+    public function store(Course $course, ModuleRequest $request): JsonResponse
     {
-        $this->module->store($request->validated());
+        $data = $request->validated();
+        $data['course_id'] = $course->id;
+        $this->module->store($data);
         return ResponseHelper::success(true, trans('alert.add_success'));
     }
     /**
