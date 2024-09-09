@@ -6,14 +6,17 @@ use App\Contracts\Interfaces\Course\CategoryInterface;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoryRequest;
-use App\Http\Resources\Course\CategoryResource;
+use App\Http\Resources\CategoryResource;
 use App\Models\Category;
+use App\Traits\PaginationTrait;
+use App\Traits\UploadTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
     private CategoryInterface $category;
+    use PaginationTrait;
     /**
      * Method __construct
      *
@@ -35,7 +38,9 @@ class CategoryController extends Controller
     public function index(Request $request): JsonResponse
     {
         $categories = $this->category->customPaginate($request);
-        return ResponseHelper::success(CategoryResource::collection($categories), trans('alert.fetch_success'));
+        $data['paginate'] = $this->customPaginate($categories->currentPage(), $categories->lastPage());
+        $data['data'] = CategoryResource::collection($categories);
+        return ResponseHelper::success($data, trans('alert.fetch_success'));
     }
 
     /**
