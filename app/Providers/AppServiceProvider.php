@@ -8,6 +8,7 @@ use App\Contracts\Interfaces\Course\CategoryInterface;
 use App\Contracts\Interfaces\Course\CourseInterface;
 use App\Contracts\Interfaces\Course\CourseReviewInterface;
 use App\Contracts\Interfaces\Course\CourseTaskInterface;
+use App\Contracts\Interfaces\Course\CourseVoucherInterface;
 use App\Contracts\Interfaces\Course\ModuleInterface;
 use App\Contracts\Interfaces\Course\ModuleQuestionInterface;
 use App\Contracts\Interfaces\Course\QuizInterface;
@@ -21,6 +22,7 @@ use App\Contracts\Repositories\Course\CategoryRepository;
 use App\Contracts\Repositories\Course\CourseRepository;
 use App\Contracts\Repositories\Course\CourseReviewRepository;
 use App\Contracts\Repositories\Course\CourseTaskRepository;
+use App\Contracts\Repositories\Course\CourseVoucherRepository;
 use App\Contracts\Repositories\Course\ModuleQuestionRepository;
 use App\Contracts\Repositories\Course\ModuleRepository;
 use App\Contracts\Repositories\Course\QuizRepository;
@@ -46,7 +48,8 @@ class AppServiceProvider extends ServiceProvider
         ModuleQuestionInterface::class => ModuleQuestionRepository::class,
         QuizInterface::class => QuizRepository::class,
         CourseTaskInterface::class => CourseTaskRepository::class,
-        SubmissionTaskInterface::class => SubmissionTaskRepository::class
+        SubmissionTaskInterface::class => SubmissionTaskRepository::class,
+        CourseVoucherInterface::class => CourseVoucherRepository::class,
     ];
 
     /**
