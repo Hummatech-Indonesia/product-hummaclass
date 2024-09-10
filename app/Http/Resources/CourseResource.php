@@ -22,9 +22,10 @@ class CourseResource extends JsonResource
             'description' => $this->description,
             'slug' => $this->slug,
             'is_premium' => $this->is_premium,
-            'price' => $this->price,
-            'photo' => $this->photo,
+            'price' => 'Rp. ' . number_format($this->price, 0, ',', '.'),
+            'photo' => asset('storage/' . $this->photo),
             'modules' => $this->modules,
+            'modules_count' => $this->modules->count(),
         ];
     }
 }
