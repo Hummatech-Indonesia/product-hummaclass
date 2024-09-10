@@ -26,7 +26,7 @@ class CourseVoucherUserController extends Controller
             return ResponseHelper::error(false, "batas penggunaan voucher sudah tercapai");
         } else {
             CourseVoucherUser::create($data);
-            return ResponseHelper::error(false, "berhasil menggunakan voucher");
+            return ResponseHelper::success(true, "berhasil menggunakan voucher");
         }
     }
 }
