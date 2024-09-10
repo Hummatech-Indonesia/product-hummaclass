@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Course;
 use App\Models\CourseTask;
+use App\Models\CourseVoucher;
 use App\Models\Modul;
 use App\Models\Module;
 use App\Models\ModuleQuestion;
@@ -13,6 +14,7 @@ use App\Models\SubModule;
 use App\Models\User;
 use App\Observers\CourseObserver;
 use App\Observers\CourseTaskObserver;
+use App\Observers\CourseVoucherObserver;
 use App\Observers\ModuleObserver;
 use App\Observers\ModuleQuestionObserver;
 use App\Observers\ModulObserver;
@@ -51,6 +53,7 @@ class EventServiceProvider extends ServiceProvider
         Quiz::observe(QuizObserver::class);
         CourseTask::observe(CourseTaskObserver::class);
         SubmissionTask::observe(SubmissionTaskObserver::class);
+        CourseVoucher::observe(CourseVoucherObserver::class);
     }
 
     /**
