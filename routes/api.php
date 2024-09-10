@@ -15,6 +15,7 @@ use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\Course\CourseReviewController;
 use App\Http\Controllers\Course\CourseTaskController;
 use App\Http\Controllers\Course\CourseVoucherController;
+use App\Http\Controllers\Course\CourseVoucherUserController;
 use App\Http\Controllers\Course\ModulController;
 use App\Http\Controllers\Course\ModuleController;
 use App\Http\Controllers\Course\ModuleQuestionController;
@@ -55,6 +56,8 @@ Route::middleware('enable.cors')->group(function () {
     Route::post('course-vouchers/{course}', [CourseVoucherController::class, 'store']);
     Route::patch('course-vouchers/{course_voucher}', [CourseVoucherController::class, 'update']);
     Route::delete('course-vouchers/{course_voucher}', [CourseVoucherController::class, 'destroy']);
+
+    Route::post('course-voucher-users', [CourseVoucherUserController::class, 'store']);
 
     Route::post('module-questions/{module}', [ModuleQuestionController::class, 'store']);
     Route::post('quizzes/{module}', [QuizController::class, 'store']);
