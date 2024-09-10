@@ -22,7 +22,9 @@ use App\Http\Controllers\Course\ModuleQuestionController;
 use App\Http\Controllers\Course\QuizController;
 use App\Http\Controllers\Course\SubCategoryController;
 use App\Http\Controllers\Course\SubModuleController;
+use App\Http\Controllers\Payment\TripayController;
 use App\Models\SubmissionTask;
+use App\Services\TripayService;
 
 /*
 |--------------------------------------------------------------------------
@@ -100,6 +102,8 @@ Route::middleware('enable.cors')->group(function () {
 
     Route::get('sub-categories/category/{category}', [SubCategoryController::class, 'getByCategory']);
 
+    Route::get('payment-channels', [TripayController::class, 'getPaymentChannels']);
+    Route::get('payment-instructions', [TripayController::class, 'getPaymentInstructions']);
 
     Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         return $request->user();
