@@ -81,4 +81,18 @@ class ModuleRepository extends BaseRepository implements ModuleInterface
     {
         return $this->show($id)->delete();
     }
+
+    /**
+     * getOneByCourse
+     *
+     * @param  mixed $data
+     * @return mixed
+     */
+    public function getOneByCourse(string $id): mixed
+    {
+        return $this->model->query()
+            ->where('course_id', $id)
+            ->latest()
+            ->first();
+    }
 }

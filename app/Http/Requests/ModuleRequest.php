@@ -22,7 +22,6 @@ class ModuleRequest extends ApiRequest
     public function rules(): array
     {
         return [
-            'step' => 'required',
             'title' => 'required',
             'sub_title' => 'required'
         ];

@@ -48,9 +48,17 @@ class ModuleController extends Controller
     {
         $data = $request->validated();
         $data['course_id'] = $course->id;
+
+        $module = $this->module->getOneByCourse($course->id);
+        if ($module != null) {
+            $data['step'] = $module->step + 1;
+        } else {
+            $data['step'] = 1;
+        }
         $this->module->store($data);
         return ResponseHelper::success(true, trans('alert.add_success'));
     }
+
     /**
      * Method update
      *
