@@ -1,30 +1,31 @@
 <?php
 
-use App\Http\Controllers\Course\SubmissionTaskController;
 use Illuminate\Http\Request;
+use App\Models\SubmissionTask;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Password;
-use App\Http\Controllers\Course\CategoryController;
+use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Course\QuizController;
 use App\Http\Controllers\Auth\ProfileController;
+use App\Http\Controllers\Course\ModulController;
 use Illuminate\Auth\Notifications\ResetPassword;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Course\CourseController;
-use App\Http\Controllers\Auth\ResetPasswordController;
-use App\Http\Controllers\Auth\UserController;
-use App\Http\Controllers\Course\CourseReviewController;
-use App\Http\Controllers\Course\CourseTaskController;
-use App\Http\Controllers\Course\CourseVoucherController;
-use App\Http\Controllers\Course\CourseVoucherUserController;
-use App\Http\Controllers\Course\ModulController;
 use App\Http\Controllers\Course\ModuleController;
-use App\Http\Controllers\Course\ModuleQuestionController;
-use App\Http\Controllers\Course\QuizController;
-use App\Http\Controllers\Course\SubCategoryController;
+use App\Http\Controllers\Auth\SocialiteController;
+use App\Http\Controllers\Course\CategoryController;
 use App\Http\Controllers\Course\SubModuleController;
 use App\Http\Controllers\Payment\TripayController;
-use App\Models\SubmissionTask;
 use App\Services\TripayService;
+use App\Http\Controllers\Course\CourseTaskController;
+use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\Course\SubCategoryController;
+use App\Http\Controllers\Course\CourseReviewController;
+use App\Http\Controllers\Course\CourseVoucherController;
+use App\Http\Controllers\Course\ModuleQuestionController;
+use App\Http\Controllers\Course\SubmissionTaskController;
+use App\Http\Controllers\Course\CourseVoucherUserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,6 +39,14 @@ use App\Services\TripayService;
 */
 
 Route::middleware('enable.cors')->group(function () {
+
+    /**
+     * socialite auth
+     */
+    Route::middleware(['web'])->group(function () {
+        Route::get('/auth/{provider}', [SocialiteController::class, 'redirectToProvider']);
+        Route::get('/auth/{provider}/callback', [SocialiteController::class, 'handleProvideCallback']);
+    });
 
     Route::post('login', [LoginController::class, 'showLoginForm']);
     Route::post('register', [RegisterController::class, 'register']);
