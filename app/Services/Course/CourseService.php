@@ -23,10 +23,7 @@ class CourseService implements ShouldHandleFileUpload
     public function store(CourseRequest $request): array|bool
     {
         $data = $request->validated();
-        if ($request->hasFile('photo')) {
-            $data['photo'] = $this->uploadSlug(UploadDiskEnum::COURSES->value, $request->file('photo'), false);
-        }
-
+        $data['photo'] = $this->uploadSlug(UploadDiskEnum::COURSES->value, $request->file('photo'), false);
         return $data;
     }
 

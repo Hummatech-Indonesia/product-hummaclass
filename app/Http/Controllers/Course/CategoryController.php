@@ -37,9 +37,14 @@ class CategoryController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $categories = $this->category->customPaginate($request);
-        $data['paginate'] = $this->customPaginate($categories->currentPage(), $categories->lastPage());
-        $data['data'] = CategoryResource::collection($categories);
+        if ($request->has('page')) {
+            $categories = $this->category->customPaginate($request);
+            $data['paginate'] = $this->customPaginate($categories->currentPage(), $categories->lastPage());
+            $data['data'] = CategoryResource::collection($categories);
+        } else {
+            $categories = $this->category->search($request);
+            $data['data'] = CategoryResource::collection($categories);
+        }
         return ResponseHelper::success($data, trans('alert.fetch_success'));
     }
 

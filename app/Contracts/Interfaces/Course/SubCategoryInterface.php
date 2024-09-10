@@ -11,4 +11,10 @@ use App\Contracts\Interfaces\Eloquent\UpdateInterface;
 
 interface SubCategoryInterface extends CustomPaginationInterface, StoreInterface, ShowInterface, UpdateInterface, DeleteInterface
 {
+    /**
+     * getByCategory
+     *
+     * @return mixed
+     */
+    public function getByCategory(mixed $id): mixed;
 }

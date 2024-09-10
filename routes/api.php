@@ -35,7 +35,6 @@ use App\Models\SubmissionTask;
 
 Route::middleware('enable.cors')->group(function () {
 
-
     Route::post('login', [LoginController::class, 'showLoginForm']);
     Route::post('register', [RegisterController::class, 'register']);
 
@@ -85,6 +84,8 @@ Route::middleware('enable.cors')->group(function () {
     ], [
         'except' => ['create', 'edit']
     ]);
+
+    Route::get('sub-categories/category/{category}', [SubCategoryController::class, 'getByCategory']);
 
 
     Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

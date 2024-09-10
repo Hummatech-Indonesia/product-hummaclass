@@ -28,7 +28,7 @@ class CourseRequest extends ApiRequest
             'description' => 'required|string|max:500',
             'is_premium' => 'required',
             'price' => 'required|integer',
-            'photo' => 'nullable|mimes:png,jpg,jpeg'
+            'photo' => 'required|mimes:png,jpg,jpeg'
         ];
     }
     public function messages(): array

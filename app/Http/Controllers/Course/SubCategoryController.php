@@ -7,6 +7,7 @@ use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SubCategoryRequest;
 use App\Http\Resources\SubCategoryResource;
+use App\Models\Category;
 use App\Models\SubCategory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -14,6 +15,7 @@ use Illuminate\Http\Request;
 class SubCategoryController extends Controller
 {
     private SubCategoryInterface $subCategory;
+
     /**
      * Method __construct
      *
@@ -25,6 +27,7 @@ class SubCategoryController extends Controller
     {
         $this->subCategory = $subCategory;
     }
+
     /**
      * Method index
      *
@@ -37,6 +40,8 @@ class SubCategoryController extends Controller
         $subCategories = $this->subCategory->customPaginate($request);
         return ResponseHelper::success(SubCategoryResource::collection($subCategories), trans('fetch_success'));
     }
+
+
     /**
      * Method store
      *
@@ -49,6 +54,7 @@ class SubCategoryController extends Controller
         $this->subCategory->store($request->validated());
         return ResponseHelper::success(trans('alert.add_success'));
     }
+
     /**
      * Method update
      *
@@ -62,6 +68,7 @@ class SubCategoryController extends Controller
         $this->subCategory->update($subCategory->id, $request->validated());
         return ResponseHelper::success(trans('alert.update_success'));
     }
+
     /**
      * Method destroy
      *
@@ -77,5 +84,16 @@ class SubCategoryController extends Controller
         } catch (\Throwable $e) {
             return ResponseHelper::success(trans('alert.delete_constrained'));
         }
+    }
+
+    /**
+     * getByCategory
+     *
+     * @return JsonResponse
+     */
+    public function getByCategory(Category $category): JsonResponse
+    {
+        $subCategories = $this->subCategory->getByCategory($category->id);
+        return ResponseHelper::success(SubCategoryResource::collection($subCategories));
     }
 }

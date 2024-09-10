@@ -81,4 +81,16 @@ class SubCategoryRepository extends BaseRepository implements SubCategoryInterfa
     {
         return $this->show($id)->delete();
     }
+
+    /**
+     * getByCategory
+     *
+     * @param  mixed $id
+     * @return mixed
+     */
+    public function getByCategory(mixed $id): mixed
+    {
+        return $this->model->query()->where('category_id', $id)
+            ->get();
+    }
 }
