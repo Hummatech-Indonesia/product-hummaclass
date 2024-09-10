@@ -23,8 +23,8 @@ class CourseVoucherRequest extends ApiRequest
     {
         return [
             'code' => 'required|string|max:255',
-            'discount' => 'required|between:1,100',
-            'usage_limit' => 'required',
+            'discount' => 'required|integer|between:1,100',
+            'usage_limit' => 'required|integer|min:1',
         ];
     }
     /**
@@ -38,6 +38,7 @@ class CourseVoucherRequest extends ApiRequest
             'code.required' => 'Kode wajib diisi',
             'discount.required' => 'Diskon wajib diisi',
             'discount.between' => 'Diskon antara 1 sampai 100',
+            'usage_limit.min'=>'Batas penggunaan minimal :min',
             'usage_limit.required' => 'Batas Penggunaan wajib diisi',
         ];
     }
