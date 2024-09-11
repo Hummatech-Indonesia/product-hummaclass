@@ -17,10 +17,12 @@ class SubModuleResource extends JsonResource
         return [
             'id' => $this->id,
             'module' => $this->module->title,
+            'module_id' => $this->module->id,
             'title' => $this->title,
             'sub_title' => $this->sub_title,
             'content' => $this->content,
             'url_youtube' => $this->url_youtube,
+            'course_id' => $this->module->course_id
         ];
     }
 }
