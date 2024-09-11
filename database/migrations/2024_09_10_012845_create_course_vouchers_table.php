@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->uuid('id')->primary();
             $table->foreignUuid('course_id')->constrained();
             $table->integer('usage_limit');
-            $table->string('code');
+            $table->string('code')->unique();
             $table->integer('discount');
             $table->timestamps();
         });

@@ -20,12 +20,15 @@ use App\Http\Controllers\Payment\TripayController;
 use App\Services\TripayService;
 use App\Http\Controllers\Course\CourseTaskController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\Course\SubCategoryController;
 use App\Http\Controllers\Course\CourseReviewController;
 use App\Http\Controllers\Course\CourseVoucherController;
 use App\Http\Controllers\Course\ModuleQuestionController;
 use App\Http\Controllers\Course\SubmissionTaskController;
 use App\Http\Controllers\Course\CourseVoucherUserController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -58,6 +61,22 @@ Route::middleware('enable.cors')->group(function () {
         Route::post('profile-update', [ProfileController::class, 'update']);
     });
 
+
+    // Mengirim ulang email verifikasi
+    Route::post('/email/resend', function (Request $request) {
+        $request->user()->sendEmailVerificationNotification();
+
+        return response()->json(['message' => 'Verification link sent']);
+    })->middleware('auth:sanctum');
+
+    // Verifikasi email
+    Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+        $request->fulfill();
+
+        return response()->json(['message' => 'Email verified successfully']);
+    })->middleware(['auth:sanctum', 'signed'])->name('verification.verify');
+
+
     Route::get('course-reviews', [CourseReviewController::class, 'index']);
     Route::post('course-reviews/{course}', [CourseReviewController::class, 'store']);
     Route::get('course-reviews/course_review', [CourseReviewController::class, 'show']);
@@ -65,8 +84,6 @@ Route::middleware('enable.cors')->group(function () {
 
     Route::get('course-vouchers/{course}', [CourseVoucherController::class, 'index']);
     Route::post('course-vouchers/{course}', [CourseVoucherController::class, 'store']);
-    Route::patch('course-vouchers/{course_voucher}', [CourseVoucherController::class, 'update']);
-    Route::delete('course-vouchers/{course_voucher}', [CourseVoucherController::class, 'destroy']);
 
     Route::post('course-voucher-users', [CourseVoucherUserController::class, 'store']);
 
@@ -82,6 +99,7 @@ Route::middleware('enable.cors')->group(function () {
     Route::resources([
         'course-tasks' => CourseTaskController::class,
         'submission-tasks' => SubmissionTaskController::class,
+        'course-vouchers' => CourseVoucherController::class,
     ], [
         'only' => ['update', 'destroy']
     ]);
