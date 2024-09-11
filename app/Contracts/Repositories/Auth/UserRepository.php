@@ -22,7 +22,7 @@ class UserRepository extends BaseRepository implements UserInterface
      */
     public function search(Request $request): mixed
     {
-        return $this->model->query()->get();
+        return $this->model->query()->where('email', '!=', 'admin@gmail.com')->get();
     }
     /**
      * Method show

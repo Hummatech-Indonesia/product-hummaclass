@@ -27,7 +27,7 @@ class UserController extends Controller
     {
         $data = $this->user->search($request);
         return ResponseHelper::success($data, trans('alert.fetch_success'));
-    }    
+    }
     /**
      * Method show
      *
