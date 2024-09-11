@@ -43,8 +43,8 @@ class SubModuleController extends Controller
     {
         $data = $request->validated();
         $data['module_id'] = $module->id;
-        $this->subModule->store($data);
-        return ResponseHelper::success(true, trans('alert.add_success'));
+        $subModule = $this->subModule->store($data);
+        return ResponseHelper::success(SubModuleResource::make($subModule), trans('alert.add_success'));
     }
     /**
      * Method update
