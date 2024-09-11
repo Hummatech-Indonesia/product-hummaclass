@@ -22,6 +22,7 @@ return [
     'logout_success' => 'Berhasil logout',
     'logout_error' => 'Terjadi kesalahan! gagal logout, coba lagi nanti',
     'register_success' => 'Registrasi berhasil! Silahkan cek email anda untuk verifikasi akun',
-    'user_registered_with_google' => 'Email yang anda masukkan terdaftar di akun google'
+    'user_registered_with_google' => 'Email yang anda masukkan terdaftar di akun google',
+    'verification'=>'Verifikasi email sudah terkirim'
 
 ];

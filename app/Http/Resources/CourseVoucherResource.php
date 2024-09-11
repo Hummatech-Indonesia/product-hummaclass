@@ -20,7 +20,7 @@ class CourseVoucherResource extends JsonResource
             'usage_limit' => $this->usage_limit,
             'discount' => $this->discount,
             'code' => $this->code,
-            'users' => $this->users,
+            'users' => $this->courseVoucherUsers,
         ];
     }
 }

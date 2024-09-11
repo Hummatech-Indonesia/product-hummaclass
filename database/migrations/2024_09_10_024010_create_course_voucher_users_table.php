@@ -10,12 +10,10 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('course_vouchers', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->foreignUuid('course_id')->constrained();
-            $table->integer('usage_limit');
-            $table->string('code')->unique();
-            $table->integer('discount');
+        Schema::create('course_voucher_users', function (Blueprint $table) {
+            $table->id();
+            $table->foreignUuid('user_id')->constrained();
+            $table->foreignUuid('course_voucher_id')->constrained();
             $table->timestamps();
         });
     }
@@ -25,6 +23,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('course_vouchers');
+        Schema::dropIfExists('course_voucher_users');
     }
 };

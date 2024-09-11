@@ -1,27 +1,34 @@
 <?php
 
-use App\Http\Controllers\Course\SubmissionTaskController;
 use Illuminate\Http\Request;
+use App\Models\SubmissionTask;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Password;
-use App\Http\Controllers\Course\CategoryController;
+use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Course\QuizController;
 use App\Http\Controllers\Auth\ProfileController;
+use App\Http\Controllers\Course\ModulController;
 use Illuminate\Auth\Notifications\ResetPassword;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Course\CourseController;
-use App\Http\Controllers\Auth\ResetPasswordController;
-use App\Http\Controllers\Auth\UserController;
-use App\Http\Controllers\Course\CourseReviewController;
-use App\Http\Controllers\Course\CourseTaskController;
-use App\Http\Controllers\Course\CourseVoucherController;
-use App\Http\Controllers\Course\ModulController;
 use App\Http\Controllers\Course\ModuleController;
-use App\Http\Controllers\Course\ModuleQuestionController;
-use App\Http\Controllers\Course\QuizController;
-use App\Http\Controllers\Course\SubCategoryController;
+use App\Http\Controllers\Auth\SocialiteController;
+use App\Http\Controllers\Course\CategoryController;
 use App\Http\Controllers\Course\SubModuleController;
-use App\Models\SubmissionTask;
+use App\Http\Controllers\Payment\TripayController;
+use App\Services\TripayService;
+use App\Http\Controllers\Course\CourseTaskController;
+use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\Auth\VerificationController;
+use App\Http\Controllers\Course\SubCategoryController;
+use App\Http\Controllers\Course\CourseReviewController;
+use App\Http\Controllers\Course\CourseVoucherController;
+use App\Http\Controllers\Course\ModuleQuestionController;
+use App\Http\Controllers\Course\SubmissionTaskController;
+use App\Http\Controllers\Course\CourseVoucherUserController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -36,6 +43,14 @@ use App\Models\SubmissionTask;
 
 Route::middleware('enable.cors')->group(function () {
 
+    /**
+     * socialite auth
+     */
+    Route::middleware(['web'])->group(function () {
+        Route::get('/auth/{provider}', [SocialiteController::class, 'redirectToProvider']);
+        Route::get('/auth/{provider}/callback', [SocialiteController::class, 'handleProvideCallback']);
+    });
+
     Route::post('login', [LoginController::class, 'showLoginForm']);
     Route::post('register', [RegisterController::class, 'register']);
 
@@ -46,6 +61,22 @@ Route::middleware('enable.cors')->group(function () {
         Route::post('profile-update', [ProfileController::class, 'update']);
     });
 
+
+    // Mengirim ulang email verifikasi
+    Route::post('/email/resend', function (Request $request) {
+        $request->user()->sendEmailVerificationNotification();
+
+        return response()->json(['message' => 'Verification link sent']);
+    })->middleware('auth:sanctum');
+
+    // Verifikasi email
+    Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+        $request->fulfill();
+
+        return response()->json(['message' => 'Email verified successfully']);
+    })->middleware(['auth:sanctum', 'signed'])->name('verification.verify');
+
+
     Route::get('course-reviews', [CourseReviewController::class, 'index']);
     Route::post('course-reviews/{course}', [CourseReviewController::class, 'store']);
     Route::get('course-reviews/course_review', [CourseReviewController::class, 'show']);
@@ -53,8 +84,8 @@ Route::middleware('enable.cors')->group(function () {
 
     Route::get('course-vouchers/{course}', [CourseVoucherController::class, 'index']);
     Route::post('course-vouchers/{course}', [CourseVoucherController::class, 'store']);
-    Route::patch('course-vouchers/{course_voucher}', [CourseVoucherController::class, 'update']);
-    Route::delete('course-vouchers/{course_voucher}', [CourseVoucherController::class, 'destroy']);
+
+    Route::post('course-voucher-users', [CourseVoucherUserController::class, 'store']);
 
     Route::post('module-questions/{module}', [ModuleQuestionController::class, 'store']);
     Route::post('quizzes/{module}', [QuizController::class, 'store']);
@@ -68,6 +99,7 @@ Route::middleware('enable.cors')->group(function () {
     Route::resources([
         'course-tasks' => CourseTaskController::class,
         'submission-tasks' => SubmissionTaskController::class,
+        'course-vouchers' => CourseVoucherController::class,
     ], [
         'only' => ['update', 'destroy']
     ]);
@@ -102,6 +134,8 @@ Route::middleware('enable.cors')->group(function () {
 
     Route::get('sub-categories/category/{category}', [SubCategoryController::class, 'getByCategory']);
 
+    Route::get('payment-channels', [TripayController::class, 'getPaymentChannels']);
+    Route::get('payment-instructions', [TripayController::class, 'getPaymentInstructions']);
 
     Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         return $request->user();
