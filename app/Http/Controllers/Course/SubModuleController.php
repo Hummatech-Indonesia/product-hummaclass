@@ -7,6 +7,7 @@ use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SubModuleRequest;
 use App\Http\Resources\SubModuleResource;
+use App\Models\Module;
 use App\Models\SubModule;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -25,8 +26,9 @@ class SubModuleController extends Controller
      *
      * @return JsonResponse
      */
-    public function index(Request $request): JsonResponse
+    public function index(Request $request, Module $module): JsonResponse
     {
+        $request->merge(['module_id' => $module->id]);
         $subModules = $this->subModule->customPaginate($request);
         return ResponseHelper::success(SubModuleResource::collection($subModules), trans('alert.fetch_success'));
     }
@@ -37,9 +39,11 @@ class SubModuleController extends Controller
      *
      * @return JsonResponse
      */
-    public function store(SubModuleRequest $request): JsonResponse
+    public function store(SubModuleRequest $request, Module $module): JsonResponse
     {
-        $this->subModule->store($request->validated());
+        $data = $request->validated();
+        $data['module_id'] = $module->id;
+        $this->subModule->store($data);
         return ResponseHelper::success(true, trans('alert.add_success'));
     }
     /**

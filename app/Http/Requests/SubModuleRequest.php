@@ -22,13 +22,12 @@ class SubModuleRequest extends ApiRequest
     public function rules(): array
     {
         return [
-            'module_id' => 'required',
-            'title' => 'required',
-            'sub_title' => 'required',
+            'title' => 'required|max:255',
+            'sub_title' => 'required|max:255',
             'content' => 'required',
-            'url_youtube' => 'required',
+            'url_youtube' => 'nullable|url',
         ];
-    }    
+    }
     /**
      * Method messages
      *
@@ -37,7 +36,6 @@ class SubModuleRequest extends ApiRequest
     public function messages(): array
     {
         return [
-            'module_id.required' => 'Id module wajib diisi',
             'title.required' => 'Judul wajib diisi',
             'sub_title' => 'Sub judul wajib diisi',
             'content' => 'Konten wajib diisi',

@@ -22,7 +22,7 @@ class ModuleRequest extends ApiRequest
     public function rules(): array
     {
         return [
-            'title' => 'required',
+            'title' => 'required|unique:modules,id',
             'sub_title' => 'required'
         ];
     }

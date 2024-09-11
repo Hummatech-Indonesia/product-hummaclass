@@ -85,15 +85,20 @@ Route::middleware('enable.cors')->group(function () {
         'categories' => CategoryController::class,
         'sub-categories' => SubCategoryController::class,
         'courses' => CourseController::class,
-        'sub-modules' => SubModuleController::class,
     ], [
         'except' => ['create', 'edit']
     ]);
 
     Route::get('modules/{course}', [ModuleController::class, 'index']);
     Route::post('modules/{course}', [ModuleController::class, 'store']);
+    Route::get('modules/detail/{module}', [ModuleController::class, 'show']);
     Route::put('modules/{module}', [ModuleController::class, 'update']);
     Route::delete('modules/{module}', [ModuleController::class, 'destroy']);
+
+    Route::get('sub-modules/{module}', [SubModuleController::class, 'index']);
+    Route::post('sub-modules/{module}', [SubModuleController::class, 'store']);
+    Route::put('sub-modules/{subModule}', [SubModuleController::class, 'update']);
+    Route::delete('sub-modules/{subModule}', [SubModuleController::class, 'update']);
 
     Route::get('sub-categories/category/{category}', [SubCategoryController::class, 'getByCategory']);
 

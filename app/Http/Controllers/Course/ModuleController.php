@@ -60,6 +60,18 @@ class ModuleController extends Controller
     }
 
     /**
+     * show
+     *
+     * @param  mixed $module
+     * @return void
+     */
+    public function show(Module $module)
+    {
+        $module = $this->module->show($module->id);
+        return ResponseHelper::success(ModuleResource::make($module));
+    }
+
+    /**
      * Method update
      *
      * @param ModuleRequest $request [explicite description]
