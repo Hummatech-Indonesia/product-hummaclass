@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class SubCategoryRequest extends ApiRequest
 {
@@ -22,15 +23,25 @@ class SubCategoryRequest extends ApiRequest
     public function rules(): array
     {
         return [
-            'category_id' => 'required',
-            'name' => 'required',
+            'category_id' => [
+                'required',
+                'exists:categories,id',
+            ],
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('sub_categories')->ignore($this->route('sub_category')),
+            ],
         ];
     }
+
     public function messages(): array
     {
         return [
             'category_id.required' => 'Kategori wajib diisi',
-            'name.required' => 'Nama wajib diisi'
+            'name.required' => 'Nama wajib diisi',
+            'name.unique' => 'Nama sudah digunakan'
         ];
     }
 }
