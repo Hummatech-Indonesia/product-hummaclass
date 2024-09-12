@@ -5,7 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use Laravel\Sanctum\HasApiTokens;
-use App\Base\Interfaces\HasUserCourse;
+use App\Base\Interfaces\HasUserCourses;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use App\Base\Interfaces\HasSocialAccount;
@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable implements HasUserCourse, HasSocialAccount, MustVerifyEmail
+class User extends Authenticatable implements HasUserCourses, HasSocialAccount, MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
@@ -74,5 +74,14 @@ class User extends Authenticatable implements HasUserCourse, HasSocialAccount, M
     public function socialAccounts(): HasMany
     {
         return $this->hasMany(SocialAccount::class);
+    }
+    /**
+     * Get all of the userCourses for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function userCourses(): HasMany
+    {
+        return $this->hasMany(UserCourse::class);
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Helpers\ResponseHelper;
 use Illuminate\Http\Request;
 use App\Models\SubmissionTask;
 use Illuminate\Support\Facades\Route;
@@ -136,14 +137,19 @@ Route::middleware('enable.cors')->group(function () {
     Route::get('payment-channels', [TripayController::class, 'getPaymentChannels']);
     Route::get('payment-instructions', [TripayController::class, 'getPaymentInstructions']);
 
-    Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-        return $request->user();
-    });
-
+    
     Route::post('/forgot-password', [ResetPasswordController::class, 'sendEmail'])->middleware('guest')->name('password.email');
-
+    
     Route::middleware('throttle:10,1')->prefix('password')->group(function () {
         Route::get('reset/{token}', [ResetPasswordController::class, 'resetToken'])->name('password.reset');
         Route::post('reset', [ResetPasswordController::class, 'reset']);
     });
+
+    Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+        return $request->user();
+    });
+
+    Route::get('login', function (){
+        return ResponseHelper::error(null, 'Authenticated');
+    })->name('login');
 });

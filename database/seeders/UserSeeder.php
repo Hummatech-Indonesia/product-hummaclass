@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\GenderEnum;
 use App\Enums\RoleEnum;
 use App\Models\Outlet;
 use App\Models\Store;
@@ -22,6 +23,9 @@ class UserSeeder extends Seeder
             $user = User::create([
                 'id' => Uuid::uuid(),
                 'name' => $role->name,
+                'phone_number' => "08912345678",
+                'gender' => GenderEnum::FEMALE->value,
+                'address' => "lorem ipsum dolor sit amet is simply dummy text for industrial",
                 'email' => str_replace(' ', '', $role->name) . "@gmail.com",
                 'password' => bcrypt('password'),
                 'email_verified_at' => now(),

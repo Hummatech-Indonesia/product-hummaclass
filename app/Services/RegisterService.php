@@ -32,7 +32,7 @@ class RegisterService
      *
      * @return void
      */
-    public function handleRegister(RegisterRequest $request): void
+    public function handleRegister(RegisterRequest $request): mixed
     {
         $data = $request->validated();
         $password = bcrypt($data['password']);
@@ -42,5 +42,8 @@ class RegisterService
             'password' => $password,
         ]);
         auth()->attempt(['email' => $user['email'], 'password' => $data['password']]);
+
+        $data['token'] =  auth()->user()->createToken('auth_token')->plainTextToken;
+        return ResponseHelper::success($data, trans('auth.success'));
     }
 }

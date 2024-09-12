@@ -3,43 +3,45 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class SubModuleRequest extends ApiRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
         return [
-            'title' => 'required|max:255',
-            'sub_title' => 'required|max:255',
-            'content' => 'required',
-            'url_youtube' => 'nullable|url',
+            'module_id' => 'required|exists:modules,id',
+            'title' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('sub_modules')->ignore($this->route('sub_module')),
+            ],
+            'sub_title' => 'required|string|max:255',
+            'content' => 'required|string',
+            'url_youtube' => 'required|url',
         ];
     }
-    /**
-     * Method messages
-     *
-     * @return array
-     */
+
     public function messages(): array
     {
         return [
-            'title.required' => 'Judul wajib diisi',
-            'sub_title' => 'Sub judul wajib diisi',
-            'content' => 'Konten wajib diisi',
-            'url_youtube' => 'Url youtube wajib diisi',
+            'module_id.required' => 'ID module wajib diisi.',
+            'module_id.exists' => 'ID module tidak valid.',
+            'title.required' => 'Judul wajib diisi.',
+            'title.unique' => 'Judul sudah digunakan.',
+            'sub_title.required' => 'Sub-judul wajib diisi.',
+            'sub_title.string' => 'Sub-judul harus berupa teks.',
+            'sub_title.max' => 'Sub-judul maksimal :max karakter.',
+            'content.required' => 'Konten wajib diisi.',
+            'content.string' => 'Konten harus berupa teks.',
+            'url_youtube.required' => 'URL YouTube wajib diisi.',
+            'url_youtube.url' => 'URL YouTube tidak valid.',
         ];
     }
 }

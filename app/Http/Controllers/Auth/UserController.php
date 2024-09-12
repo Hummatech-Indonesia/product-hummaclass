@@ -5,12 +5,15 @@ namespace App\Http\Controllers\Auth;
 use App\Contracts\Interfaces\Auth\UserInterface;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
 use App\Models\User;
+use App\Traits\PaginationTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+    use PaginationTrait;
     private UserInterface $user;
     public function __construct(UserInterface $user)
     {
@@ -25,9 +28,11 @@ class UserController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $data = $this->user->search($request);
+        $users = $this->user->customPaginate($request);
+        $data['paginate'] = $this->customPaginate($users->currentPage(), $users->lastPage());
+        $data['data'] = UserResource::collection($users);
         return ResponseHelper::success($data, trans('alert.fetch_success'));
-    }    
+    }
     /**
      * Method show
      *
@@ -38,6 +43,6 @@ class UserController extends Controller
     public function show(User $user): JsonResponse
     {
         $data = $this->user->show($user->id);
-        return ResponseHelper::success($data, trans('alert.fetch_success'));
+        return ResponseHelper::success(new UserResource($data), trans('alert.fetch_success'));
     }
 }
