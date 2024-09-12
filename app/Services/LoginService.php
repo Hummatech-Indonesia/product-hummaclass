@@ -17,6 +17,9 @@ class LoginService
     public function handleLogin(LoginRequest $request): mixed
     {
         if (auth()->attempt(['email' => $request->email, 'password' => $request->password])) {
+            $roles = auth()->user()->roles->pluck('name');
+            $data['user'] = auth()->user();
+            $data['user']->roles = $roles;
             $data['token'] =  auth()->user()->createToken('auth_token')->plainTextToken;
             return ResponseHelper::success($data, trans('auth.success'));
         }
