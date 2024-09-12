@@ -37,4 +37,24 @@ class Course extends Model implements HasSubCategory, HasModules
     {
         return $this->hasMany(Module::class);
     }
+
+    /**
+     * Get all of the courseReviews for the Course
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function courseReviews(): HasMany
+    {
+        return $this->hasMany(CourseReview::class);
+    }
+
+    /**
+     * Get all of the userCourses for the Course
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function userCourses(): HasMany
+    {
+        return $this->hasMany(UserCourse::class);
+    }
 }

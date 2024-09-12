@@ -33,10 +33,20 @@ class CourseRepository extends BaseRepository implements CourseInterface
      */
     public function customPaginate(Request $request, int $pagination = 10): LengthAwarePaginator
     {
-        return $this->model->query()->with('modules')->when($request->search, function ($query) use ($request) {
-            $query->whereLike('name', $request->search);
-        })->fastPaginate($pagination);
+
+        // dd($request->order);
+        return $this->model->query()
+            ->with('modules')
+            ->withCount('userCourses')
+            ->when($request->search, function ($query) use ($request) {
+                $query->whereLike('name', $request->search);
+            })
+            ->when($request->order == "best seller", function ($query) use ($request) {
+                $query->orderBy('user_courses_count', 'desc');
+            })
+            ->fastPaginate($pagination);
     }
+
     /**
      * Method store
      *
