@@ -49,9 +49,11 @@ class SubCategoryController extends Controller
      *
      * @return JsonResponse
      */
-    public function store(SubCategoryRequest $request): JsonResponse
+    public function store(SubCategoryRequest $request, Category $category): JsonResponse
     {
-        $this->subCategory->store($request->validated());
+        $data = $request->validated();
+        $data['category_id'] = $category->id;
+        $this->subCategory->store($data);
         return ResponseHelper::success(trans('alert.add_success'));
     }
 
