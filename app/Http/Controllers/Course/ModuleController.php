@@ -60,15 +60,16 @@ class ModuleController extends Controller
     }
 
     /**
-     * show
+     * Method show
      *
-     * @param  mixed $module
-     * @return void
+     * @param Module $module [explicite description]
+     *
+     * @return JsonResponse
      */
-    public function show(Module $module)
+    public function show(Module $module): JsonResponse
     {
         $module = $this->module->show($module->id);
-        return ResponseHelper::success(ModuleResource::make($module));
+        return ResponseHelper::success(new ModuleResource($module));
     }
 
     /**
@@ -98,6 +99,29 @@ class ModuleController extends Controller
             return ResponseHelper::success(true, trans('alert.delete_success'));
         } catch (\Throwable $e) {
             return ResponseHelper::error(false, trans('alert.delete_constrained'));
+        }
+    }
+    public function forward(Module $module): JsonResponse
+    {
+        try {
+            $forwardModule = $this->module->getForward($module->step);
+            $forwardModule->decrement('step');
+            $module->increment('step');
+            return ResponseHelper::success([$module, $forwardModule], trans('alert.update_success'));
+        } catch (\Throwable $e) {
+            return ResponseHelper::error(false, trans('alert.update_failed'));
+        }
+    }
+
+    public function backward(Module $module): JsonResponse
+    {
+        try {
+            $forwardModule = $this->module->getBackward($module->step);
+            $forwardModule->increment('step');
+            $module->decrement('step');
+            return ResponseHelper::success([$module, $forwardModule], trans('alert.update_success'));
+        } catch (\Throwable $e) {
+            return ResponseHelper::error(trans('alert.update_failed'));
         }
     }
 }

@@ -95,4 +95,26 @@ class ModuleRepository extends BaseRepository implements ModuleInterface
             ->latest()
             ->first();
     }
+    /**
+     * Method getOneStepForward
+     *
+     * @param mixed $step [explicite description]
+     *
+     * @return mixed
+     */
+    public function getForward(mixed $mixed): mixed
+    {
+        return $this->model->query()->where('step', '>', $mixed)->first();
+    }
+    /**
+     * Method getOneStepBackward
+     *
+     * @param mixed $mixed [explicite description]
+     *
+     * @return mixed
+     */
+    public function getBackward(mixed $mixed): mixed
+    {
+        return $this->model->query()->where('step', '<', $mixed)->first();
+    }
 }

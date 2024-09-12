@@ -18,4 +18,21 @@ interface ModuleInterface extends CustomPaginationInterface, StoreInterface, Sho
      * @return mixed
      */
     public function getOneByCourse(string $id): mixed;
+
+    /**
+     * Method getOneStep
+     *
+     * @param mixed $mixed [explicite description]
+     *
+     * @return mixed
+     */
+    public function getForward(mixed $mixed): mixed;
+    /**
+     * Method getOneStepBackward
+     *
+     * @param mixed $mixed [explicite description]
+     *
+     * @return mixed
+     */
+    public function getBackward(mixed $mixed): mixed;
 }

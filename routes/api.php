@@ -28,6 +28,7 @@ use App\Http\Controllers\Course\CourseVoucherController;
 use App\Http\Controllers\Course\ModuleQuestionController;
 use App\Http\Controllers\Course\SubmissionTaskController;
 use App\Http\Controllers\Course\CourseVoucherUserController;
+use App\Http\Controllers\Course\UserCourseController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 
@@ -121,11 +122,15 @@ Route::middleware('enable.cors')->group(function () {
         'except' => ['create', 'edit']
     ]);
 
+    Route::get('user-courses/{course}', [UserCourseController::class, 'index']);
+
     Route::get('modules/{course}', [ModuleController::class, 'index']);
     Route::post('modules/{course}', [ModuleController::class, 'store']);
     Route::get('modules/detail/{module}', [ModuleController::class, 'show']);
     Route::put('modules/{module}', [ModuleController::class, 'update']);
     Route::delete('modules/{module}', [ModuleController::class, 'destroy']);
+    Route::patch('modules-forward/{module}', [ModuleController::class, 'forward']);
+    Route::patch('modules-backward/{module}', [ModuleController::class, 'backward']);
 
     Route::post('sub-modules/{module}', [SubModuleController::class, 'store']);
     Route::put('sub-modules/{subModule}', [SubModuleController::class, 'update']);
@@ -141,7 +146,9 @@ Route::middleware('enable.cors')->group(function () {
     Route::get('payment-instructions', [TripayController::class, 'getPaymentInstructions']);
 
 
+
     Route::post('/forgot-password', [ResetPasswordController::class, 'sendEmail'])->middleware('guest')->name('password.email');
+
 
     Route::middleware('throttle:10,1')->prefix('password')->group(function () {
         Route::get('reset/{token}', [ResetPasswordController::class, 'resetToken'])->name('password.reset');
