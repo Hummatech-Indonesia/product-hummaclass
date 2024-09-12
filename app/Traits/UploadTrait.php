@@ -46,7 +46,7 @@ trait UploadTrait
             return $file->storeAs('/public/' . $disk, $file->getClientOriginalName());
         }
 
-        return Storage::put($disk, $file);
+        return Storage::put('/public/' . $disk, $file);
     }
     /**
      * uploadSlug
