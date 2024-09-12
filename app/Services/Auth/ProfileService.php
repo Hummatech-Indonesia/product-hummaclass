@@ -22,7 +22,7 @@ class ProfileService implements ShouldHandleFileUpload
             if ($photo) {
                 $this->remove($photo);
             }
-            $photo = $this->uploadslug(UploadDiskEnum::USERS->value, $request->file('photo'), "users-" . now());
+            $photo = $this->upload(UploadDiskEnum::USERS->value, $request->file('photo'), "users-" . now());
         }
 
         return [

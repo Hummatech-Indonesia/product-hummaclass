@@ -43,7 +43,7 @@ trait UploadTrait
         $this->makeDirectory($disk);
 
         if ($originalName) {
-            return $file->storeAs($disk, $file->getClientOriginalName());
+            return $file->storeAs('/public/' . $disk, $file->getClientOriginalName());
         }
 
         return Storage::put($disk, $file);
