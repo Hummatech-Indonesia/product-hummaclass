@@ -42,6 +42,7 @@ class CourseSeeder extends Seeder
         SubModule::create([
             'id' => Uuid::uuid(),
             'module_id' => $module->id,
+            'step' => 1,
             'title' => 'lorem ipsum',
             'slug' => Str::slug('lorem ipsum'),
             'sub_title' => 'lroem ipsum dolor sit amet',
@@ -73,6 +74,5 @@ class CourseSeeder extends Seeder
             'number_of' => 1,
             'question' => 'lorem ipsum dolor sit amet'
         ]);
-
     }
 }

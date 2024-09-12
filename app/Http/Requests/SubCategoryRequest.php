@@ -23,10 +23,6 @@ class SubCategoryRequest extends ApiRequest
     public function rules(): array
     {
         return [
-            'category_id' => [
-                'required',
-                'exists:categories,id',
-            ],
             'name' => [
                 'required',
                 'string',
@@ -39,7 +35,6 @@ class SubCategoryRequest extends ApiRequest
     public function messages(): array
     {
         return [
-            'category_id.required' => 'Kategori wajib diisi',
             'name.required' => 'Nama wajib diisi',
             'name.unique' => 'Nama sudah digunakan'
         ];

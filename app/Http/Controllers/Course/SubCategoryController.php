@@ -28,18 +28,6 @@ class SubCategoryController extends Controller
         $this->subCategory = $subCategory;
     }
 
-    /**
-     * Method index
-     *
-     * @param Request $request [explicite description]
-     *
-     * @return JsonResponse
-     */
-    public function index(Request $request): JsonResponse
-    {
-        $subCategories = $this->subCategory->customPaginate($request);
-        return ResponseHelper::success(SubCategoryResource::collection($subCategories), trans('fetch_success'));
-    }
 
 
     /**
@@ -49,9 +37,11 @@ class SubCategoryController extends Controller
      *
      * @return JsonResponse
      */
-    public function store(SubCategoryRequest $request): JsonResponse
+    public function store(SubCategoryRequest $request, Category $category): JsonResponse
     {
-        $this->subCategory->store($request->validated());
+        $data = $request->validated();
+        $data['category_id'] = $category->id;
+        $this->subCategory->store($data);
         return ResponseHelper::success(trans('alert.add_success'));
     }
 

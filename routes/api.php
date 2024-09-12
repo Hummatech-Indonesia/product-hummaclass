@@ -116,7 +116,6 @@ Route::middleware('enable.cors')->group(function () {
 
     Route::resources([
         'categories' => CategoryController::class,
-        'sub-categories' => SubCategoryController::class,
         'courses' => CourseController::class,
     ], [
         'except' => ['create', 'edit']
@@ -130,7 +129,11 @@ Route::middleware('enable.cors')->group(function () {
 
     Route::post('sub-modules/{module}', [SubModuleController::class, 'store']);
     Route::put('sub-modules/{subModule}', [SubModuleController::class, 'update']);
-    Route::delete('sub-modules/{subModule}', [SubModuleController::class, 'update']);
+    Route::delete('sub-modules/{subModule}', [SubModuleController::class, 'destroy']);
+
+    Route::post('sub-categories/{category}', [SubCategoryController::class, 'store']);
+    Route::put('sub-categories/{subCategory}', [SubCategoryController::class, 'update']);
+    Route::delete('sub-categories/{subCategory}', [SubCategoryController::class, 'destroy']);
 
     Route::get('sub-categories/category/{category}', [SubCategoryController::class, 'getByCategory']);
 
@@ -149,7 +152,7 @@ Route::middleware('enable.cors')->group(function () {
         return $request->user();
     });
 
-        Route::get('login', function () {
-            return ResponseHelper::error(null, 'Unauthenticated');
-        })->name('login');
+    Route::get('login', function () {
+        return ResponseHelper::error(null, 'Unauthenticated');
+    })->name('login');
 });
