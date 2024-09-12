@@ -19,7 +19,8 @@ class ModuleResource extends JsonResource
             'title' => $this->title,
             'step' => $this->step,
             'sub_title' => $this->sub_title,
-            'sub_modules' => $this->subModules
+            'sub_modules' => $this->subModules,
+            'sub_module_count' => $this->subModules->count()
         ];
     }
 }

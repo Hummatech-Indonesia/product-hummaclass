@@ -15,7 +15,7 @@ return [
 
     'email.empty' => 'Email tidak boleh kosong',
     'success' => 'Berhasil login',
-    'failed' => 'Kredensial tidak valid',
+    'failed' => 'Email atau password tidak sesuai',
     'not_found' => 'Akun tidak ditemukan',
     'google_failed' => 'Email atau password salah',
     'invalid_api_token' => 'Api token tidak valid',

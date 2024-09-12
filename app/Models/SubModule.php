@@ -17,6 +17,7 @@ class SubModule extends Model implements HasModule
         'module_id',
         'title',
         'slug',
+        'step',
         'sub_title',
         'content',
         'url_youtube'

@@ -11,4 +11,11 @@ use App\Contracts\Interfaces\Eloquent\UpdateInterface;
 
 interface SubModuleInterface extends CustomPaginationInterface, StoreInterface, UpdateInterface, ShowInterface, DeleteInterface
 {
+    /**
+     * getOneByModul
+     *
+     * @param  mixed $id
+     * @return mixed
+     */
+    public function getOneByModul(string $id): mixed;
 }

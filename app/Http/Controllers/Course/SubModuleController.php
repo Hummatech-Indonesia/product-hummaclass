@@ -20,19 +20,6 @@ class SubModuleController extends Controller
         $this->subModule = $subModule;
     }
     /**
-     * Method index
-     *
-     * @param Request $request [explicite description]
-     *
-     * @return JsonResponse
-     */
-    public function index(Request $request, Module $module): JsonResponse
-    {
-        $request->merge(['module_id' => $module->id]);
-        $subModules = $this->subModule->customPaginate($request);
-        return ResponseHelper::success(SubModuleResource::collection($subModules), trans('alert.fetch_success'));
-    }
-    /**
      * Method store
      *
      * @param SubModuleRequest $request [explicite description]
@@ -43,6 +30,12 @@ class SubModuleController extends Controller
     {
         $data = $request->validated();
         $data['module_id'] = $module->id;
+        $subModule = $this->subModule->getOneByModul($module->id);
+        if ($subModule != null) {
+            $data['step'] = $subModule->step + 1;
+        } else {
+            $data['step'] = 1;
+        }
         $subModule = $this->subModule->store($data);
         return ResponseHelper::success(SubModuleResource::make($subModule), trans('alert.add_success'));
     }

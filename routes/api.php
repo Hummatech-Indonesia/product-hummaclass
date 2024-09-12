@@ -127,7 +127,6 @@ Route::middleware('enable.cors')->group(function () {
     Route::put('modules/{module}', [ModuleController::class, 'update']);
     Route::delete('modules/{module}', [ModuleController::class, 'destroy']);
 
-    Route::get('sub-modules/{module}', [SubModuleController::class, 'index']);
     Route::post('sub-modules/{module}', [SubModuleController::class, 'store']);
     Route::put('sub-modules/{subModule}', [SubModuleController::class, 'update']);
     Route::delete('sub-modules/{subModule}', [SubModuleController::class, 'update']);

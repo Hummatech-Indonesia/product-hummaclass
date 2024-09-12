@@ -84,4 +84,18 @@ class SubModuleRepository extends BaseRepository implements SubModuleInterface
     {
         return $this->show($id)->delete();
     }
+
+    /**
+     * getOneByModul
+     *
+     * @param  mixed $id
+     * @return mixed
+     */
+    public function getOneByModul(string $id): mixed
+    {
+        return $this->model->query()
+            ->where('module_id', $id)
+            ->latest()
+            ->first();
+    }
 }

@@ -13,6 +13,7 @@ return new class extends Migration {
         Schema::create('sub_modules', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('module_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->integer('step');
             $table->string('title')->unique();
             $table->string('slug')->unique();
             $table->string('sub_title');
