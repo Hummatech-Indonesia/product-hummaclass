@@ -27,7 +27,8 @@ class CourseResource extends JsonResource
             'photo' => asset('storage/' . $this->photo),
             'modules_count' => $this->modules->count(),
             'rating' => $this->courseReviews->avg('rating'),
-            'review' => $this->courseReviews,
+            'course_review' => $this->courseReviews,
+            'course_review_count' => $this->courseReviews->count(),
             'user_courses_count' => $this->userCourses->count(),
             'created' => $this->created_at->format('d/m/Y'),
         ];
