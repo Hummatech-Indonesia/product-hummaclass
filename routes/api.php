@@ -130,6 +130,8 @@ Route::middleware('enable.cors')->group(function () {
     Route::get('courses-show/{slug}', [CourseController::class, 'show']);
 
     Route::get('modules/{course}', [ModuleController::class, 'index']);
+    Route::get('list-module/{slug}', [ModuleController::class, 'listModule']);
+
     Route::post('modules/{course}', [ModuleController::class, 'store']);
     Route::get('modules/detail/{module}', [ModuleController::class, 'show']);
     Route::put('modules/{module}', [ModuleController::class, 'update']);

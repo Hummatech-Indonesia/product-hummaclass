@@ -109,4 +109,16 @@ class SubModuleRepository extends BaseRepository implements SubModuleInterface
             ->latest()
             ->first();
     }
+
+    /**
+     * showWithSlug
+     *
+     * @param  mixed $slug
+     * @return mixed
+     */
+    public function showWithSlug(string $slug): mixed
+    {
+        return $this->model->query()
+            ->where('slug', $slug)->firstOrFail();
+    }
 }

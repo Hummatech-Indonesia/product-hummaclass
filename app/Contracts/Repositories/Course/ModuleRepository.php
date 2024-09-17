@@ -121,4 +121,20 @@ class ModuleRepository extends BaseRepository implements ModuleInterface
     {
         return $this->model->query()->where('step', '<', $mixed)->first();
     }
+
+    /**
+     * search
+     *
+     * @param  mixed $request
+     * @return mixed
+     */
+    public function search(Request $request): mixed
+    {
+        return $this->model->query()
+            ->when($request->course_id, function ($query) use ($request) {
+                $query->where('course_id', $request->course_id);
+            })
+            ->orderBy('step', 'desc')
+            ->get();
+    }
 }

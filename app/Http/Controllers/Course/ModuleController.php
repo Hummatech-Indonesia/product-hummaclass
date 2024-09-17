@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Course;
 
 use App\Contracts\Interfaces\Course\ModuleInterface;
+use App\Contracts\Interfaces\Course\SubModuleInterface;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ModuleRequest;
@@ -15,6 +16,7 @@ use Illuminate\Http\Request;
 class ModuleController extends Controller
 {
     private ModuleInterface $module;
+    private SubModuleInterface $subModule;
     /**
      * Method __construct
      *
@@ -22,9 +24,10 @@ class ModuleController extends Controller
      *
      * @return void
      */
-    public function __construct(ModuleInterface $module)
+    public function __construct(ModuleInterface $module, SubModuleInterface $subModule)
     {
         $this->module = $module;
+        $this->subModule = $subModule;
     }
     /**
      * Method index
@@ -101,6 +104,13 @@ class ModuleController extends Controller
             return ResponseHelper::error(false, trans('alert.delete_constrained'));
         }
     }
+
+    /**
+     * forward
+     *
+     * @param  mixed $module
+     * @return JsonResponse
+     */
     public function forward(Module $module): JsonResponse
     {
         try {
@@ -113,6 +123,12 @@ class ModuleController extends Controller
         }
     }
 
+    /**
+     * backward
+     *
+     * @param  mixed $module
+     * @return JsonResponse
+     */
     public function backward(Module $module): JsonResponse
     {
         try {
@@ -123,5 +139,19 @@ class ModuleController extends Controller
         } catch (\Throwable $e) {
             return ResponseHelper::error(trans('alert.update_failed'));
         }
+    }
+
+    /**
+     * listModule
+     *
+     * @param  mixed $slug
+     * @return void
+     */
+    public function listModule(string $slug, Request $request)
+    {
+        $subModule = $this->subModule->showWithSlug($slug);
+        $request->merge(['course_id' => $subModule->module->course_id]);
+        $modules = $this->module->search($request);
+        return ResponseHelper::success(ModuleResource::collection($modules));
     }
 }
