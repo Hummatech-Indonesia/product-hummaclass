@@ -33,8 +33,8 @@ class ModuleController extends Controller
      */
     public function index(Course $course, Request $request): JsonResponse
     {
+        $request->merge(['course_id' => $course->id]);
         $modules = $this->module->customPaginate($request);
-        $modules->where(['course_id', $course->id]);
         return ResponseHelper::success(ModuleResource::collection($modules), trans('alert.fetch_success'));
     }
     /**

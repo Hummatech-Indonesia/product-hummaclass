@@ -32,9 +32,13 @@ class ModuleRepository extends BaseRepository implements ModuleInterface
      */
     public function customPaginate(Request $request, int $pagination = 10): LengthAwarePaginator
     {
-        return $this->model->query()->with('subModules')->when($request->search, function ($query) use ($request) {
-            $query->whereLike('title', $request->search);
-        })->fastPaginate($pagination);
+        return $this->model->query()->with('subModules')
+            ->when($request->search, function ($query) use ($request) {
+                $query->whereLike('title', $request->search);
+            })->when($request->course_id, function ($query) use ($request) {
+                $query->where('course_id', $request->course_id);
+            })
+            ->fastPaginate($pagination);
     }
     /**
      * Method store

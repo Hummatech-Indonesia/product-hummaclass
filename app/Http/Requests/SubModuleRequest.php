@@ -15,7 +15,6 @@ class SubModuleRequest extends ApiRequest
     public function rules(): array
     {
         return [
-            'module_id' => 'required|exists:modules,id',
             'title' => [
                 'required',
                 'string',
@@ -24,15 +23,13 @@ class SubModuleRequest extends ApiRequest
             ],
             'sub_title' => 'required|string|max:255',
             'content' => 'required|string',
-            'url_youtube' => 'required|url',
+            'url_youtube' => 'nullable|url',
         ];
     }
 
     public function messages(): array
     {
         return [
-            'module_id.required' => 'ID module wajib diisi.',
-            'module_id.exists' => 'ID module tidak valid.',
             'title.required' => 'Judul wajib diisi.',
             'title.unique' => 'Judul sudah digunakan.',
             'sub_title.required' => 'Sub-judul wajib diisi.',
