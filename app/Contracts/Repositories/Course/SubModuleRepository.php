@@ -61,6 +61,7 @@ class SubModuleRepository extends BaseRepository implements SubModuleInterface
     {
         return $this->model->query()->findOrFail($id);
     }
+
     /**
      * Method update
      *
@@ -97,5 +98,17 @@ class SubModuleRepository extends BaseRepository implements SubModuleInterface
             ->where('module_id', $id)
             ->latest()
             ->first();
+    }
+
+    /**
+     * showWithSlug
+     *
+     * @param  mixed $slug
+     * @return mixed
+     */
+    public function showWithSlug(string $slug): mixed
+    {
+        return $this->model->query()
+            ->where('slug', $slug)->firstOrFail();
     }
 }

@@ -70,6 +70,17 @@ class CourseRepository extends BaseRepository implements CourseInterface
         return $this->model->query()->findOrFail($id);
     }
     /**
+     * Method showWithSlug
+     *
+     * @param string $slug [explicite description]
+     *
+     * @return mixed
+     */
+    public function showWithSlug(string $slug): mixed
+    {
+        return $this->model->query()->where(['slug' => $slug])->firstOrFail();
+    }
+    /**
      * Method update
      *
      * @param mixed $id [explicite description]

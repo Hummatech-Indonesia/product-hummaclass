@@ -48,12 +48,13 @@ class CourseReviewController extends Controller
      */
     public function store(CourseReviewRequest $request, Course $course): JsonResponse
     {
+        return response()->json($request);
         $data = $request->validated();
-        $data['user_id'] = $request->auth()->id;
-        $data['course_id'] =
-            $this->courseReview->store($data);
+        $data['user_id'] = auth()->user()->id;
+        $data['course_id'] = $course->id;
+        $this->courseReview->store($data);
         return ResponseHelper::success(true, trans('alert.add_success'));
-    }    
+    }
     /**
      * Method show
      *

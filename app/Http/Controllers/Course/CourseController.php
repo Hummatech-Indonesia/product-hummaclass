@@ -6,6 +6,7 @@ use App\Contracts\Interfaces\Course\CourseInterface;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CourseRequest;
+use App\Http\Resources\Course\DetailCourseResource;
 use App\Http\Resources\CourseResource;
 use App\Models\Course;
 use App\Services\Course\CourseService;
@@ -57,11 +58,12 @@ class CourseController extends Controller
      *
      * @return JsonResponse
      */
-    public function show(Course $course): JsonResponse
+    public function show(string $slug): JsonResponse
     {
-        $course = $this->course->show($course->id);
-        return ResponseHelper::success(new CourseResource($course), trans('alert.fetch_success'));
+        $course = $this->course->showWithSlug($slug);
+        return ResponseHelper::success(DetailCourseResource::make($course), trans('alert.fetch_success'));
     }
+
     /**
      * Method update
      *

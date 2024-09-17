@@ -32,9 +32,13 @@ class ModuleRepository extends BaseRepository implements ModuleInterface
      */
     public function customPaginate(Request $request, int $pagination = 10): LengthAwarePaginator
     {
-        return $this->model->query()->with('subModules')->when($request->search, function ($query) use ($request) {
-            $query->whereLike('title', $request->search);
-        })->fastPaginate($pagination);
+        return $this->model->query()->with('subModules')
+            ->when($request->search, function ($query) use ($request) {
+                $query->whereLike('title', $request->search);
+            })->when($request->course_id, function ($query) use ($request) {
+                $query->where('course_id', $request->course_id);
+            })
+            ->fastPaginate($pagination);
     }
     /**
      * Method store
@@ -94,5 +98,43 @@ class ModuleRepository extends BaseRepository implements ModuleInterface
             ->where('course_id', $id)
             ->latest()
             ->first();
+    }
+    /**
+     * Method getOneStepForward
+     *
+     * @param mixed $step [explicite description]
+     *
+     * @return mixed
+     */
+    public function getForward(mixed $mixed): mixed
+    {
+        return $this->model->query()->where('step', '>', $mixed)->first();
+    }
+    /**
+     * Method getOneStepBackward
+     *
+     * @param mixed $mixed [explicite description]
+     *
+     * @return mixed
+     */
+    public function getBackward(mixed $mixed): mixed
+    {
+        return $this->model->query()->where('step', '<', $mixed)->first();
+    }
+
+    /**
+     * search
+     *
+     * @param  mixed $request
+     * @return mixed
+     */
+    public function search(Request $request): mixed
+    {
+        return $this->model->query()
+            ->when($request->course_id, function ($query) use ($request) {
+                $query->where('course_id', $request->course_id);
+            })
+            ->orderBy('step', 'desc')
+            ->get();
     }
 }

@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Course;
 
 use App\Contracts\Interfaces\Course\ModuleInterface;
+use App\Contracts\Interfaces\Course\SubModuleInterface;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ModuleRequest;
-use App\Http\Resources\ModuleResource;
+use App\Http\Resources\Course\ModuleResource;
 use App\Models\Course;
 use App\Models\Module;
 use Illuminate\Http\JsonResponse;
@@ -15,6 +16,7 @@ use Illuminate\Http\Request;
 class ModuleController extends Controller
 {
     private ModuleInterface $module;
+    private SubModuleInterface $subModule;
     /**
      * Method __construct
      *
@@ -22,9 +24,10 @@ class ModuleController extends Controller
      *
      * @return void
      */
-    public function __construct(ModuleInterface $module)
+    public function __construct(ModuleInterface $module, SubModuleInterface $subModule)
     {
         $this->module = $module;
+        $this->subModule = $subModule;
     }
     /**
      * Method index
@@ -33,8 +36,8 @@ class ModuleController extends Controller
      */
     public function index(Course $course, Request $request): JsonResponse
     {
+        $request->merge(['course_id' => $course->id]);
         $modules = $this->module->customPaginate($request);
-        $modules->where(['course_id', $course->id]);
         return ResponseHelper::success(ModuleResource::collection($modules), trans('alert.fetch_success'));
     }
     /**
@@ -60,15 +63,16 @@ class ModuleController extends Controller
     }
 
     /**
-     * show
+     * Method show
      *
-     * @param  mixed $module
-     * @return void
+     * @param Module $module [explicite description]
+     *
+     * @return JsonResponse
      */
-    public function show(Module $module)
+    public function show(Module $module): JsonResponse
     {
         $module = $this->module->show($module->id);
-        return ResponseHelper::success(ModuleResource::make($module));
+        return ResponseHelper::success(new ModuleResource($module));
     }
 
     /**
@@ -99,5 +103,55 @@ class ModuleController extends Controller
         } catch (\Throwable $e) {
             return ResponseHelper::error(false, trans('alert.delete_constrained'));
         }
+    }
+
+    /**
+     * forward
+     *
+     * @param  mixed $module
+     * @return JsonResponse
+     */
+    public function forward(Module $module): JsonResponse
+    {
+        try {
+            $forwardModule = $this->module->getForward($module->step);
+            $forwardModule->decrement('step');
+            $module->increment('step');
+            return ResponseHelper::success([$module, $forwardModule], trans('alert.update_success'));
+        } catch (\Throwable $e) {
+            return ResponseHelper::error(false, trans('alert.update_failed'));
+        }
+    }
+
+    /**
+     * backward
+     *
+     * @param  mixed $module
+     * @return JsonResponse
+     */
+    public function backward(Module $module): JsonResponse
+    {
+        try {
+            $forwardModule = $this->module->getBackward($module->step);
+            $forwardModule->increment('step');
+            $module->decrement('step');
+            return ResponseHelper::success([$module, $forwardModule], trans('alert.update_success'));
+        } catch (\Throwable $e) {
+            return ResponseHelper::error(trans('alert.update_failed'));
+        }
+    }
+
+    /**
+     * listModule
+     *
+     * @param  mixed $slug
+     * @return void
+     */
+    public function listModule(string $slug, Request $request)
+    {
+        $subModule = $this->subModule->showWithSlug($slug);
+        $request->merge(['course_id' => $subModule->module->course_id]);
+        $modules = $this->module->search($request);
+        return ResponseHelper::success(ModuleResource::collection($modules));
     }
 }

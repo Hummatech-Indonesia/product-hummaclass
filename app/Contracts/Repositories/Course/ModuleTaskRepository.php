@@ -5,25 +5,27 @@ namespace App\Contracts\Repositories\Course;
 use App\Contracts\Interfaces\Course\CategoryInterface;
 use App\Contracts\Interfaces\Course\CourseInterface;
 use App\Contracts\Interfaces\Course\CourseTaskInterface;
+use App\Contracts\Interfaces\Course\ModuleTaskInterface;
 use App\Contracts\Repositories\BaseRepository;
 use App\Models\Category;
 use App\Models\Course;
 use App\Models\CourseTask;
+use App\Models\ModuleTask;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class CourseTaskRepository extends BaseRepository implements CourseTaskInterface
+class ModuleTaskRepository extends BaseRepository implements ModuleTaskInterface
 {
     /**
      * Method __construct
      *
-     * @param CourseTask $courseTask [explicite description]
+     * @param ModuleTask $moduleTask [explicite description]
      *
      * @return void
      */
-    public function __construct(CourseTask $courseTask)
+    public function __construct(ModuleTask $moduleTask)
     {
-        $this->model = $courseTask;
+        $this->model = $moduleTask;
     }
     /**
      * Method getWhere

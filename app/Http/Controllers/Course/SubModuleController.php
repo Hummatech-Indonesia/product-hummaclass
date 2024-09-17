@@ -19,6 +19,12 @@ class SubModuleController extends Controller
     {
         $this->subModule = $subModule;
     }
+    public function index(Request $request, string $slug): JsonResponse
+    {
+        $request->merge(['slug' => $slug]);
+        $subModules = $this->subModule->customPaginate($request);
+        return ResponseHelper::success(SubModuleResource::collection($subModules), trans('alert.fetch_success'));
+    }
     /**
      * Method store
      *
@@ -40,6 +46,18 @@ class SubModuleController extends Controller
         return ResponseHelper::success(SubModuleResource::make($subModule), trans('alert.add_success'));
     }
     /**
+     * Method show
+     *
+     * @param string $slug [explicite description]
+     *
+     * @return JsonResponse
+     */
+    public function show(string $slug): JsonResponse
+    {
+        $subModule = $this->subModule->showWithSlug($slug);
+        return ResponseHelper::success($subModule, trans('alert.fetch_success'));
+    }
+    /**
      * Method update
      *
      * @param SubModuleRequest $request [explicite description]
@@ -50,8 +68,9 @@ class SubModuleController extends Controller
     public function update(SubModuleRequest $request, SubModule $subModule): JsonResponse
     {
         $this->subModule->update($subModule->id, $request->validated());
-        return ResponseHelper::success(true, trans('alert.update_success'));
+        return ResponseHelper::success(null, trans('alert.update_success'));
     }
+
     /**
      * Method destroy
      *

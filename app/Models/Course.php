@@ -2,14 +2,18 @@
 
 namespace App\Models;
 
+use App\Base\Interfaces\HasAverageRating;
+use App\Base\Interfaces\HasCourseReview;
+use App\Base\Interfaces\HasCourseReviews;
 use App\Base\Interfaces\HasModules;
 use App\Base\Interfaces\HasSubCategory;
+use App\Base\Interfaces\HasUserCourses;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Course extends Model implements HasSubCategory, HasModules
+class Course extends Model implements HasSubCategory, HasModules, HasUserCourses, HasCourseReviews
 {
     use HasFactory;
 

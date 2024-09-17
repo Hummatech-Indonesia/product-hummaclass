@@ -6,6 +6,7 @@ use App\Models\Course;
 use App\Models\CourseTask;
 use App\Models\Module;
 use App\Models\ModuleQuestion;
+use App\Models\ModuleTask;
 use App\Models\Quiz;
 use App\Models\SubmissionTask;
 use App\Models\SubModule;
@@ -31,6 +32,7 @@ class CourseSeeder extends Seeder
             'price' => 100000,
             'is_premium' => true,
         ]);
+
         $module = Module::create([
             'id' => Uuid::uuid(),
             'course_id' => $course->id,
@@ -39,8 +41,16 @@ class CourseSeeder extends Seeder
             'slug' => Str::slug('lorem ipsum'),
             'sub_title' => 'lorem ipsum dolor sit amet'
         ]);
-        SubModule::create([
+        $module = Module::create([
             'id' => Uuid::uuid(),
+            'course_id' => $course->id,
+            'step' => 2,
+            'title' => 'lorem ipsum second',
+            'slug' => Str::slug('lorem ipsum second'),
+            'sub_title' => 'lorem ipsum dolor sit amet'
+        ]);
+        SubModule::create([
+            'id' => Uuid::uuid(),   
             'module_id' => $module->id,
             'step' => 1,
             'title' => 'lorem ipsum',
@@ -68,9 +78,9 @@ class CourseSeeder extends Seeder
             'slug' => Str::slug('lorem ipsum dolor sit amet'),
             'total_question' => 10
         ]);
-        $courseTask = CourseTask::create([
+        $moduleTask = ModuleTask::create([
             'id' => Uuid::uuid(),
-            'course_id' => $course->id,
+            'module_id' => $module->id,
             'number_of' => 1,
             'question' => 'lorem ipsum dolor sit amet'
         ]);

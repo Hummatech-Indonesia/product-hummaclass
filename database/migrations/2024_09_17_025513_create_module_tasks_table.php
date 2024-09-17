@@ -10,9 +10,9 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('course_tasks', function (Blueprint $table) {
+        Schema::create('module_tasks', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('course_id')->constrained();
+            $table->foreignUuid('module_id')->constrained();
             $table->integer('number_of');
             $table->text('question');
             $table->timestamps();
@@ -24,6 +24,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('course_tasks');
+        Schema::dropIfExists('module_tasks');
     }
 };

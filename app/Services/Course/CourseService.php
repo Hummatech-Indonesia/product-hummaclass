@@ -23,7 +23,7 @@ class CourseService implements ShouldHandleFileUpload
     public function store(CourseRequest $request): array|bool
     {
         $data = $request->validated();
-        $data['photo'] = $this->uploadSlug(UploadDiskEnum::COURSES->value, $request->file('photo'), false);
+        $data['photo'] = $this->upload(UploadDiskEnum::COURSES->value, $request->file('photo'));
         return $data;
     }
 
@@ -44,7 +44,7 @@ class CourseService implements ShouldHandleFileUpload
             if ($photo) {
                 $this->remove($photo);
             }
-            $photo = $this->uploadSlug(UploadDiskEnum::COURSES->value, $request->file('photo'), false);
+            $photo = $this->upload(UploadDiskEnum::COURSES->value, $request->file('photo'));
         }
 
         $data['photo'] = $photo;
