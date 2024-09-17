@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\SocialAccount;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Http;
 use Laravel\Socialite\Facades\Socialite;
 
 class SocialiteController extends Controller
@@ -29,10 +30,38 @@ class SocialiteController extends Controller
 
         // login user
         $auth = Auth()->login($authUser, true);
+        $token = auth()->user()->createToken('auth_token')->plainTextToken;
+        $user = auth()->user();
+        $user->assignRole('guest');
+        $roles = $user->roles->pluck('name');
+        $user->roles = json_encode($roles);
 
+
+        // dd($token, $user);
+
+        // $response = Http::post(env('FRONTEND_URL') . '/save-token', [
+        //     'token' => $token,
+        //     'user' => $user
+        // ]);
+
+        // // Check the status code and response body
+        // $status = $response->status();
+        // $body = $response->body();
+        // $contentType = $response->header('Content-Type');
+
+        // dd($status, $contentType, $body);
+
+        // if ($response->successful()) {
+        //     $data = $response->json();
+        return redirect(env('FRONTEND_URL') . "/save-token-google?token=$token&user=$user");
+        //     //     dd('success', $data);
+        // }
+        // else {
+        //     dd('Failed to get a successful response', $body);
+        // }
         // setelah login redirect ke dashboard
         // return response()->json(['auth' => $auth]);
-        return redirect(env('FRONTEND_URL') . '/courses');
+
     }
 
     public function findOrCreateUser($socialUser, $provider)
