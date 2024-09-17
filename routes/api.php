@@ -104,6 +104,7 @@ Route::middleware('enable.cors')->group(function () {
         'module-tasks' => ModuleTaskController::class,
         'submission-tasks' => SubmissionTaskController::class,
         'course-vouchers' => CourseVoucherController::class,
+        'courses' => CourseController::class,
     ], [
         'only' => ['update', 'destroy']
     ]);
@@ -119,12 +120,14 @@ Route::middleware('enable.cors')->group(function () {
 
     Route::resources([
         'categories' => CategoryController::class,
-        'courses' => CourseController::class,
     ], [
         'except' => ['create', 'edit']
     ]);
 
     Route::get('user-courses/{course}', [UserCourseController::class, 'index']);
+
+    Route::get('courses/{slug}', [CourseController::class, 'index']);
+    Route::get('courses-show/{slug}', [CourseController::class, 'show']);
 
     Route::get('modules/{course}', [ModuleController::class, 'index']);
     Route::post('modules/{course}', [ModuleController::class, 'store']);

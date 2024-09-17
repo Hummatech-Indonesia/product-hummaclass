@@ -58,9 +58,9 @@ class CourseController extends Controller
      *
      * @return JsonResponse
      */
-    public function show(Course $course): JsonResponse
+    public function show(string $slug): JsonResponse
     {
-        $course = $this->course->show($course->id);
+        $course = $this->course->showWithSlug($slug);
         return ResponseHelper::success(DetailCourseResource::make($course), trans('alert.fetch_success'));
     }
 
