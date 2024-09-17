@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -14,11 +15,15 @@ class CourseReviewResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $createdAt = Carbon::parse($this->created_at); // Ganti $this->created_at dengan atribut tanggal pembuatan yang sesuai
+
         return [
+            'user' => new UserResource($this->user),
             'course' => $this->course,
-            'user' => $this->user->name,
             'rating' => $this->rating,
-            'review' => $this->review
+            'review' => $this->review,
+            'created' => $createdAt->diffForHumans(), // Menampilkan tanggal dalam format "X hari yang lalu"
         ];
+
     }
 }
