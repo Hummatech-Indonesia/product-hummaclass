@@ -12,6 +12,7 @@ use App\Contracts\Interfaces\Course\CourseTaskInterface;
 use App\Contracts\Interfaces\Course\CourseVoucherInterface;
 use App\Contracts\Interfaces\Course\ModuleInterface;
 use App\Contracts\Interfaces\Course\ModuleQuestionInterface;
+use App\Contracts\Interfaces\Course\ModuleTaskInterface;
 use App\Contracts\Interfaces\Course\QuizInterface;
 use App\Contracts\Interfaces\Course\SubCategoryInterface;
 use App\Contracts\Interfaces\Course\SubmissionTaskInterface;
@@ -28,6 +29,7 @@ use App\Contracts\Repositories\Course\CourseTaskRepository;
 use App\Contracts\Repositories\Course\CourseVoucherRepository;
 use App\Contracts\Repositories\Course\ModuleQuestionRepository;
 use App\Contracts\Repositories\Course\ModuleRepository;
+use App\Contracts\Repositories\Course\ModuleTaskRepository;
 use App\Contracts\Repositories\Course\QuizRepository;
 use App\Contracts\Repositories\Course\SubCategoryRepository;
 use App\Contracts\Repositories\Course\SubmissionTaskRepository;
@@ -51,7 +53,7 @@ class AppServiceProvider extends ServiceProvider
         UserInterface::class => UserRepository::class,
         ModuleQuestionInterface::class => ModuleQuestionRepository::class,
         QuizInterface::class => QuizRepository::class,
-        CourseTaskInterface::class => CourseTaskRepository::class,
+        ModuleTaskInterface::class => ModuleTaskRepository::class,
         SubmissionTaskInterface::class => SubmissionTaskRepository::class,
         UserCourseInterface::class => UserCourseRepository::class,
         CourseVoucherInterface::class => CourseVoucherRepository::class,

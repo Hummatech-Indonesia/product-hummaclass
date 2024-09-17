@@ -8,6 +8,6 @@ use App\Contracts\Interfaces\Eloquent\ShowInterface;
 use App\Contracts\Interfaces\Eloquent\StoreInterface;
 use App\Contracts\Interfaces\Eloquent\UpdateInterface;
 
-interface CourseTaskInterface extends GetWhereInterface, StoreInterface, UpdateInterface, ShowInterface, DeleteInterface
+interface ModuleTaskInterface extends GetWhereInterface, StoreInterface, UpdateInterface, ShowInterface, DeleteInterface
 {
 }

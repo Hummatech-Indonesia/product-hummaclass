@@ -6,6 +6,7 @@ use App\Models\Course;
 use App\Models\CourseTask;
 use App\Models\Module;
 use App\Models\ModuleQuestion;
+use App\Models\ModuleTask;
 use App\Models\Quiz;
 use App\Models\SubmissionTask;
 use App\Models\SubModule;
@@ -31,7 +32,7 @@ class CourseSeeder extends Seeder
             'price' => 100000,
             'is_premium' => true,
         ]);
-        
+
         $module = Module::create([
             'id' => Uuid::uuid(),
             'course_id' => $course->id,
@@ -40,7 +41,7 @@ class CourseSeeder extends Seeder
             'slug' => Str::slug('lorem ipsum'),
             'sub_title' => 'lorem ipsum dolor sit amet'
         ]);
-        Module::create([
+        $module = Module::create([
             'id' => Uuid::uuid(),
             'course_id' => $course->id,
             'step' => 2,
@@ -49,11 +50,10 @@ class CourseSeeder extends Seeder
             'sub_title' => 'lorem ipsum dolor sit amet'
         ]);
         SubModule::create([
-            'id' => Uuid::uuid(),
+            'id' => Uuid::uuid(),   
             'module_id' => $module->id,
             'step' => 1,
             'title' => 'lorem ipsum',
-            'step' => 1,
             'slug' => Str::slug('lorem ipsum'),
             'sub_title' => 'lroem ipsum dolor sit amet',
             'content' => "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).",
@@ -78,9 +78,9 @@ class CourseSeeder extends Seeder
             'slug' => Str::slug('lorem ipsum dolor sit amet'),
             'total_question' => 10
         ]);
-        $courseTask = CourseTask::create([
+        $moduleTask = ModuleTask::create([
             'id' => Uuid::uuid(),
-            'course_id' => $course->id,
+            'module_id' => $module->id,
             'number_of' => 1,
             'question' => 'lorem ipsum dolor sit amet'
         ]);

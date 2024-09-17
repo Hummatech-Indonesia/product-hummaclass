@@ -3,8 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class CourseTaskRequest extends ApiRequest
+class ModuleTaskRequest extends ApiRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,20 +23,20 @@ class CourseTaskRequest extends ApiRequest
     public function rules(): array
     {
         return [
-            'number_of' => 'required',
-            'question' => 'required',
+            'number_of' => [
+                'required',
+                'integer',
+                Rule::unique('module_tasks')->ignore($this->route('module_task')),
+            ],
+            'question' => 'required|string|max:500',
         ];
-    }    
-    /**
-     * Method messages
-     *
-     * @return array
-     */
+    }
     public function messages(): array
     {
         return [
-            'number_of.required' => 'Nomor wajib diisi',
-            'question.required' => 'Pertanyaan wajib diisi'
+            'number_of.required' => 'nomor wajib diisi',
+            'number_of.unique' => 'nomor sudah digunakan',
+            'question.required' => 'pertanyaan wajib diisi'
         ];
     }
 }

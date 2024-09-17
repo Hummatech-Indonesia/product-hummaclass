@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Base\Interfaces\HasCourse;
 use App\Base\Interfaces\HasModuleQuestions;
+use App\Base\Interfaces\HasModuleTasks;
 use App\Base\Interfaces\HasQuizzes;
 use App\Base\Interfaces\HasSubModules;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Module extends Model implements HasCourse, HasSubModules, HasModuleQuestions, HasQuizzes
+class Module extends Model implements HasCourse, HasSubModules, HasModuleQuestions, HasQuizzes, HasModuleTasks
 {
     use HasFactory;
     public $keyType = 'char';
@@ -61,6 +62,15 @@ class Module extends Model implements HasCourse, HasSubModules, HasModuleQuestio
     public function quizzes(): HasMany
     {
         return $this->hasMany(Quiz::class);
+    }
+    /**
+     * Get all of the moduleTasks for the Module
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function moduleTasks(): HasMany
+    {
+        return $this->hasMany(ModuleTask::class);
     }
 
 }

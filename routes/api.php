@@ -29,6 +29,7 @@ use App\Http\Controllers\Course\CourseVoucherController;
 use App\Http\Controllers\Course\ModuleQuestionController;
 use App\Http\Controllers\Course\SubmissionTaskController;
 use App\Http\Controllers\Course\CourseVoucherUserController;
+use App\Http\Controllers\Course\ModuleTaskController;
 use App\Http\Controllers\Course\UserCourseController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
@@ -93,14 +94,14 @@ Route::middleware('enable.cors')->group(function () {
     Route::post('module-questions/{module}', [ModuleQuestionController::class, 'store']);
     Route::post('quizzes/{module}', [QuizController::class, 'store']);
 
-    Route::get('course-tasks/{course}', [CourseTaskController::class, 'index']);
-    Route::post('course-tasks/{course}', [CourseTaskController::class, 'store']);
+    Route::get('module-tasks/{module}', [ModuleTaskController::class, 'index']);
+    Route::post('module-tasks/{module}', [ModuleTaskController::class, 'store']);
 
     Route::get('submission-tasks/{course_task}', [SubmissionTask::class, 'index']);
     Route::post('submission-tasks/{course_task}', [SubmissionTask::class, 'store']);
 
     Route::resources([
-        'course-tasks' => CourseTaskController::class,
+        'module-tasks' => ModuleTaskController::class,
         'submission-tasks' => SubmissionTaskController::class,
         'course-vouchers' => CourseVoucherController::class,
     ], [

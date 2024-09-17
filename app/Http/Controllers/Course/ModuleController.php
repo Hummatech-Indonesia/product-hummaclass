@@ -6,7 +6,7 @@ use App\Contracts\Interfaces\Course\ModuleInterface;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ModuleRequest;
-use App\Http\Resources\ModuleResource;
+use App\Http\Resources\Course\ModuleResource;
 use App\Models\Course;
 use App\Models\Module;
 use Illuminate\Http\JsonResponse;

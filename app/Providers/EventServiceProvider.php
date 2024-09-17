@@ -8,6 +8,7 @@ use App\Models\CourseVoucher;
 use App\Models\Modul;
 use App\Models\Module;
 use App\Models\ModuleQuestion;
+use App\Models\ModuleTask;
 use App\Models\Quiz;
 use App\Models\SubmissionTask;
 use App\Models\SubModule;
@@ -17,6 +18,7 @@ use App\Observers\CourseTaskObserver;
 use App\Observers\CourseVoucherObserver;
 use App\Observers\ModuleObserver;
 use App\Observers\ModuleQuestionObserver;
+use App\Observers\ModuleTaskObserver;
 use App\Observers\ModulObserver;
 use App\Observers\QuizObserver;
 use App\Observers\SubmissionTaskObserver;
@@ -51,7 +53,7 @@ class EventServiceProvider extends ServiceProvider
         SubModule::observe(SubModuleObserver::class);
         ModuleQuestion::observe(ModuleQuestionObserver::class);
         Quiz::observe(QuizObserver::class);
-        CourseTask::observe(CourseTaskObserver::class);
+        ModuleTask::observe(ModuleTaskObserver::class);
         SubmissionTask::observe(SubmissionTaskObserver::class);
         CourseVoucher::observe(CourseVoucherObserver::class);
     }
