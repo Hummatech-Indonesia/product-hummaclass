@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Course;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CourseResource extends JsonResource
+class DetailCourseResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -25,6 +25,7 @@ class CourseResource extends JsonResource
             'is_premium' => $this->is_premium,
             'price' => $this->price,
             'photo' => asset('storage/' . $this->photo),
+            'modules' => ModuleResource::collection($this->modules),
             'modules_count' => $this->modules->count(),
             'user_courses_count' => $this->userCourses->count(),
             'created' => $this->created_at->format('d/m/Y'),
