@@ -139,7 +139,7 @@ Route::middleware('enable.cors')->group(function () {
     Route::patch('modules-forward/{module}', [ModuleController::class, 'forward']);
     Route::patch('modules-backward/{module}', [ModuleController::class, 'backward']);
 
-    Route::get('sub-modules/{subModule}', [SubModuleController::class, 'show']);
+    Route::get('sub-modules/{slug}', [SubModuleController::class, 'show']);
 
     Route::middleware('role:admin')->group(function () {
         Route::post('sub-modules/{module}', [SubModuleController::class, 'store']);
