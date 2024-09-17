@@ -25,11 +25,10 @@ class CourseResource extends JsonResource
             'is_premium' => $this->is_premium,
             'price' => $this->price,
             'photo' => asset('storage/' . $this->photo),
-            'modules' => $this->modules,
+            'modules' => ModuleResource::collection($this->modules),
             'modules_count' => $this->modules->count(),
             'user_courses_count' => $this->userCourses->count(),
             'created' => $this->created_at->format('d/m/Y'),
-            'modul' => ModuleResource::collection($this->modules),
         ];
     }
 }
