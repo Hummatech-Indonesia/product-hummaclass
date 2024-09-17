@@ -149,7 +149,7 @@ Route::middleware('enable.cors')->group(function () {
     });
 
     Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-        return $request->user();
+        return \App\Models\User::with('roles')->find($request->user()->id);
     });
 
     Route::get('login', function () {
