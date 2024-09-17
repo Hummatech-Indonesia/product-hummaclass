@@ -106,7 +106,7 @@ Route::middleware('enable.cors')->group(function () {
         'course-vouchers' => CourseVoucherController::class,
         'courses' => CourseController::class,
     ], [
-        'only' => ['update', 'destroy']
+        'only' => ['index','update', 'destroy', 'show']
     ]);
 
     Route::resources([
