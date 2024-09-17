@@ -22,6 +22,7 @@ use App\Services\TripayService;
 use App\Http\Controllers\Course\CourseTaskController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\VerificationController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\Course\SubCategoryController;
 use App\Http\Controllers\Course\CourseReviewController;
 use App\Http\Controllers\Course\CourseVoucherController;
@@ -145,6 +146,8 @@ Route::middleware('enable.cors')->group(function () {
     Route::get('payment-channels', [TripayController::class, 'getPaymentChannels']);
     Route::get('payment-instructions', [TripayController::class, 'getPaymentInstructions']);
 
+    Route::get('contact', [ContactController::class, 'index']);
+    Route::patch('contact/{contact}', [ContactController::class, 'update']);
 
 
     Route::post('/forgot-password', [ResetPasswordController::class, 'sendEmail'])->middleware('guest')->name('password.email');

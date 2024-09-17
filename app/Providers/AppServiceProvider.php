@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Contracts\Interfaces\Auth\ProfileInterface;
 use App\Contracts\Interfaces\Auth\UserInterface;
+use App\Contracts\Interfaces\Configuration\ContactInterface;
 use App\Contracts\Interfaces\Course\CategoryInterface;
 use App\Contracts\Interfaces\Course\CourseInterface;
 use App\Contracts\Interfaces\Course\CourseReviewInterface;
@@ -19,6 +20,7 @@ use App\Contracts\Interfaces\Course\UserCourseInterface;
 use App\Contracts\Interfaces\RegisterInterface;
 use App\Contracts\Repositories\Auth\ProfileRepository;
 use App\Contracts\Repositories\Auth\UserRepository;
+use App\Contracts\Repositories\Configuration\ContactRepository;
 use App\Contracts\Repositories\Course\CategoryRepository;
 use App\Contracts\Repositories\Course\CourseRepository;
 use App\Contracts\Repositories\Course\CourseReviewRepository;
@@ -53,6 +55,7 @@ class AppServiceProvider extends ServiceProvider
         SubmissionTaskInterface::class => SubmissionTaskRepository::class,
         UserCourseInterface::class => UserCourseRepository::class,
         CourseVoucherInterface::class => CourseVoucherRepository::class,
+        ContactInterface::class => ContactRepository::class,
     ];
 
     /**
