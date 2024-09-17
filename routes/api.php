@@ -80,43 +80,61 @@ Route::middleware('enable.cors')->group(function () {
         return response()->json(['message' => 'Email verified successfully']);
     })->middleware(['auth:sanctum', 'signed'])->name('verification.verify');
 
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::middleware('role:admin')->group(function () {
+
+            Route::resources([
+                'modules' => ModuleController::class,
+                'quizzes' => QuizController::class,
+                'module-questions' => ModuleQuestionController::class,
+                'module-tasks' => ModuleTaskController::class,
+                'submission-tasks' => SubmissionTaskController::class,
+                'course-vouchers' => CourseVoucherController::class,
+            ], [
+                'except' => ['create', 'edit', 'store']
+            ]);
+
+            Route::resources([
+                'courses' => CourseController::class,
+                'sub-modules' => SubModuleController::class,
+                'sub-categories' => SubCategoryController::class,
+            ], [
+                'only' => ['update', 'destroy']
+            ]);
+            Route::post('sub-categories/{category}', [SubCategoryController::class, 'store']);
+
+            Route::post('sub-modules/{module}', [SubModuleController::class, 'store']);
+
+            Route::patch('contact/{contact}', [ContactController::class, 'update']);
+
+            Route::get('course-vouchers/{course}', [CourseVoucherController::class, 'index']);
+            Route::post('course-vouchers/{course}', [CourseVoucherController::class, 'store']);
+
+            Route::post('module-tasks/{module}', [ModuleTaskController::class, 'store']);
+
+            Route::post('module-questions/{module}', [ModuleQuestionController::class, 'store']);
+
+            Route::post('quizzes/{module}', [QuizController::class, 'store']);
+
+            Route::post('submission-tasks/{course_task}', [SubmissionTask::class, 'store']);
+
+            Route::patch('modules-forward/{module}', [ModuleController::class, 'forward']);
+            Route::patch('modules-backward/{module}', [ModuleController::class, 'backward']);
+        });
+    });
 
     Route::get('course-reviews', [CourseReviewController::class, 'index']);
     Route::post('course-reviews/{course}', [CourseReviewController::class, 'store']);
-    Route::get('course-reviews/course_review', [CourseReviewController::class, 'show']);
+    Route::get('course-reviews/{course_review}', [CourseReviewController::class, 'show']);
     Route::patch('course-reviews/{course_review}', [CourseReviewController::class, 'update']);
 
-    Route::get('course-vouchers/{course}', [CourseVoucherController::class, 'index']);
-    Route::post('course-vouchers/{course}', [CourseVoucherController::class, 'store']);
 
     Route::post('course-voucher-users', [CourseVoucherUserController::class, 'store']);
 
-    Route::post('module-questions/{module}', [ModuleQuestionController::class, 'store']);
-    Route::post('quizzes/{module}', [QuizController::class, 'store']);
 
     Route::get('module-tasks/{module}', [ModuleTaskController::class, 'index']);
-    Route::post('module-tasks/{module}', [ModuleTaskController::class, 'store']);
 
     Route::get('submission-tasks/{course_task}', [SubmissionTask::class, 'index']);
-    Route::post('submission-tasks/{course_task}', [SubmissionTask::class, 'store']);
-
-    Route::resources([
-        'module-tasks' => ModuleTaskController::class,
-        'submission-tasks' => SubmissionTaskController::class,
-        'course-vouchers' => CourseVoucherController::class,
-        'courses' => CourseController::class,
-    ], [
-        'only' => ['index','update', 'destroy', 'show']
-    ]);
-
-    Route::resources([
-        'quizzes' => QuizController::class,
-        'module-questions' => ModuleQuestionController::class,
-    ], [
-        'except' => ['create', 'edit', 'store']
-    ]);
-
-
 
     Route::resources([
         'categories' => CategoryController::class,
@@ -126,38 +144,21 @@ Route::middleware('enable.cors')->group(function () {
 
     Route::get('user-courses/{course}', [UserCourseController::class, 'index']);
 
-    Route::get('courses/{slug}', [CourseController::class, 'index']);
-    Route::get('courses-show/{slug}', [CourseController::class, 'show']);
+    Route::get('courses', [CourseController::class, 'index']);
+    Route::get('courses/{slug}', [CourseController::class, 'show']);
 
     Route::get('modules/{course}', [ModuleController::class, 'index']);
     Route::get('list-module/{slug}', [ModuleController::class, 'listModule']);
 
     Route::post('modules/{course}', [ModuleController::class, 'store']);
     Route::get('modules/detail/{module}', [ModuleController::class, 'show']);
-    Route::put('modules/{module}', [ModuleController::class, 'update']);
-    Route::delete('modules/{module}', [ModuleController::class, 'destroy']);
-    Route::patch('modules-forward/{module}', [ModuleController::class, 'forward']);
-    Route::patch('modules-backward/{module}', [ModuleController::class, 'backward']);
 
-    Route::get('sub-modules/{slug}', [SubModuleController::class, 'show']);
-
-    Route::middleware('role:admin')->group(function () {
-        Route::post('sub-modules/{module}', [SubModuleController::class, 'store']);
-        Route::put('sub-modules/{subModule}', [SubModuleController::class, 'update']);
-        Route::delete('sub-modules/{subModule}', [SubModuleController::class, 'destroy']);
-    });
-
-    Route::post('sub-categories/{category}', [SubCategoryController::class, 'store']);
-    Route::put('sub-categories/{subCategory}', [SubCategoryController::class, 'update']);
-    Route::delete('sub-categories/{subCategory}', [SubCategoryController::class, 'destroy']);
+    Route::get('sub-modules/{subModule}', [SubModuleController::class, 'show']);
 
     Route::get('sub-categories/category/{category}', [SubCategoryController::class, 'getByCategory']);
-
     Route::get('payment-channels', [TripayController::class, 'getPaymentChannels']);
     Route::get('payment-instructions', [TripayController::class, 'getPaymentInstructions']);
-
     Route::get('contact', [ContactController::class, 'index']);
-    Route::patch('contact/{contact}', [ContactController::class, 'update']);
 
 
     Route::post('/forgot-password', [ResetPasswordController::class, 'sendEmail'])->middleware('guest')->name('password.email');
