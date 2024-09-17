@@ -19,6 +19,8 @@ class SubModuleController extends Controller
     {
         $this->subModule = $subModule;
     }
+
+
     /**
      * Method store
      *
@@ -37,7 +39,18 @@ class SubModuleController extends Controller
             $data['step'] = 1;
         }
         $subModule = $this->subModule->store($data);
-        return ResponseHelper::success(SubModuleResource::make($subModule), trans('alert.add_success'));
+        return ResponseHelper::success(null, trans('alert.add_success'));
+    }
+
+    /**
+     * show
+     *
+     * @param  mixed $subModule
+     * @return void
+     */
+    public function show(SubModule $subModule)
+    {
+        return ResponseHelper::success(SubModuleResource::make($subModule));
     }
     /**
      * Method update
@@ -50,8 +63,9 @@ class SubModuleController extends Controller
     public function update(SubModuleRequest $request, SubModule $subModule): JsonResponse
     {
         $this->subModule->update($subModule->id, $request->validated());
-        return ResponseHelper::success(true, trans('alert.update_success'));
+        return ResponseHelper::success(null, trans('alert.update_success'));
     }
+
     /**
      * Method destroy
      *

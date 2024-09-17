@@ -134,9 +134,13 @@ Route::middleware('enable.cors')->group(function () {
     Route::patch('modules-forward/{module}', [ModuleController::class, 'forward']);
     Route::patch('modules-backward/{module}', [ModuleController::class, 'backward']);
 
-    Route::post('sub-modules/{module}', [SubModuleController::class, 'store']);
-    Route::put('sub-modules/{subModule}', [SubModuleController::class, 'update']);
-    Route::delete('sub-modules/{subModule}', [SubModuleController::class, 'destroy']);
+    Route::get('sub-modules/{subModule}', [SubModuleController::class, 'show']);
+
+    Route::middleware('role:admin')->group(function () {
+        Route::post('sub-modules/{module}', [SubModuleController::class, 'store']);
+        Route::put('sub-modules/{subModule}', [SubModuleController::class, 'update']);
+        Route::delete('sub-modules/{subModule}', [SubModuleController::class, 'destroy']);
+    });
 
     Route::post('sub-categories/{category}', [SubCategoryController::class, 'store']);
     Route::put('sub-categories/{subCategory}', [SubCategoryController::class, 'update']);
