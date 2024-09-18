@@ -31,6 +31,7 @@ use App\Http\Controllers\Course\SubmissionTaskController;
 use App\Http\Controllers\Course\CourseVoucherUserController;
 use App\Http\Controllers\Course\ModuleTaskController;
 use App\Http\Controllers\Course\UserCourseController;
+use App\Http\Controllers\EventController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 
@@ -81,6 +82,7 @@ Route::middleware('enable.cors')->group(function () {
     })->middleware(['auth:sanctum', 'signed'])->name('verification.verify');
 
     Route::middleware('auth:sanctum')->group(function () {
+        Route::resource('event', EventController::class);
         Route::middleware('role:admin')->group(function () {
 
             Route::resources([

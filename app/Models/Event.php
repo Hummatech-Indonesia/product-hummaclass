@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use App\Base\Interfaces\HasEventDetails;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Event extends Model
+class Event extends Model implements HasEventDetails
 {
     use HasFactory;
     public $incrementing = false;
@@ -23,4 +25,13 @@ class Event extends Model
         'has_certificate',
         'is_online',
     ];
+    /**
+     * Get all of the eventDetails for the Event
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function eventDetails(): HasMany
+    {
+        return $this->hasMany(EventDetail::class);
+    }
 }
