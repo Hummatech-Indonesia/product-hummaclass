@@ -25,7 +25,7 @@ class UserResource extends JsonResource
             'total_courses' => $this->userCourses->count(),
             'address' => $this->address,
             'gender' => $this->gender,
-            'created_at' => Carbon::parse($this->created_at)->format('d F Y'),
+            'created' => Carbon::parse($this->created_at)->format('d F Y'),
         ];
     }
 }

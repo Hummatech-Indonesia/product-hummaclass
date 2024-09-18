@@ -18,22 +18,49 @@ class EventController extends Controller
     {
         $this->event = $event;
         $this->service = $service;
-    }
-    public function index(): JsonResponse
+    }    
+    /**
+     * Method index
+     *
+     * @return JsonResponse
+     */
+    public function index(Request $request): JsonResponse
     {
-        $events = $this->event->get();
+        $events = $this->event->customPaginate($request);
         return ResponseHelper::success($events, trans('alert.fetch_success'));
-    }
+    }    
+    /**
+     * Method store
+     *
+     * @param EventRequest $request [explicite description]
+     *
+     * @return JsonResponse
+     */
     public function store(EventRequest $request): JsonResponse
     {
         $this->service->store($request);
         return ResponseHelper::success(true, trans('alert.add_success'));
-    }
+    }    
+    /**
+     * Method update
+     *
+     * @param EventRequest $request [explicite description]
+     * @param Event $event [explicite description]
+     *
+     * @return JsonResponse
+     */
     public function update(EventRequest $request, Event $event): JsonResponse
     {
         $this->service->update($request, $event);
         return ResponseHelper::success(true, trans('alert.update_success'));
-    }
+    }    
+    /**
+     * Method delete
+     *
+     * @param Event $event [explicite description]
+     *
+     * @return JsonResponse
+     */
     public function delete(Event $event): JsonResponse
     {
         $this->service->delete($event);

@@ -6,4 +6,5 @@ enum UploadDiskEnum: string
 {
     case USERS = 'users';
     case COURSES = 'courses';
+    case EVENTS = 'events';
 }

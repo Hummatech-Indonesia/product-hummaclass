@@ -2,32 +2,43 @@
 
 namespace App\Contracts\Repositories;
 
+use App\Contracts\Interfaces\EventDetailInterface;
 use App\Contracts\Interfaces\EventInterface;
 use App\Contracts\Interfaces\RegisterInterface;
 use App\Contracts\Interfaces\UserInterface;
 use App\Enums\UserRoleEnum;
 use App\Helpers\UserHelper;
 use App\Models\Event;
+use App\Models\EventDetail;
 use App\Models\User;
 use App\Traits\Datatables\UserDatatable;
 use Illuminate\Http\Request;
 
-class EventRepository extends BaseRepository implements EventInterface
+class EventDetailRepository extends BaseRepository implements EventDetailInterface
 {
-    public function __construct(Event $event)
+    public function __construct(EventDetail $eventDetail)
     {
-        $this->model = $event;
+        $this->model = $eventDetail;
     }
-    public function customPaginate(Request $request, int $pagination = 10): \Illuminate\Pagination\LengthAwarePaginator
+    /**
+     * Method get
+     *
+     * @return mixed
+     */
+    public function get(): mixed
     {
-        return $this->model->query()
-            ->when($request->search, function ($query) use ($request) {
-                $query->whereLike('title', $request->search);
-            })
-            ->when($request->filter, function ($query) use ($request) {
-                $query->latest('start_date');
-            })
-            ->fastPaginate($pagination);
+        return $this->model->query()->get();
+    }    
+    /**
+     * Method getWhere
+     *
+     * @param array $data [explicite description]
+     *
+     * @return mixed
+     */
+    public function getWhere(array $data): mixed
+    {
+        return $this->modle->query()->where($data)->get();
     }
     /**
      * Method store

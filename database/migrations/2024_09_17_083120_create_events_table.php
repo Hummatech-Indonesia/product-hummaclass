@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('events', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->text('image');
+            $table->text('image')->nullable();
             $table->string('title');
             $table->text('description');
             $table->text('location');
