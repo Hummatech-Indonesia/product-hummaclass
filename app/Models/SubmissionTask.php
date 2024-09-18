@@ -11,10 +11,10 @@ class SubmissionTask extends Model
     use HasFactory;
     public $keyType = 'char';
     public $incrementing = false;
-    protected $table = 'course_tasks';
+    protected $table = 'submission_tasks';
     protected $primaryKey = 'id';
     protected $fillable = [
-        'course_task_id',
+        'module_task_id',
         'user_id',
         'answer'
     ];

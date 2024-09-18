@@ -18,6 +18,7 @@ use App\Contracts\Interfaces\Course\SubCategoryInterface;
 use App\Contracts\Interfaces\Course\SubmissionTaskInterface;
 use App\Contracts\Interfaces\Course\SubModuleInterface;
 use App\Contracts\Interfaces\Course\UserCourseInterface;
+use App\Contracts\Interfaces\EventInterface;
 use App\Contracts\Interfaces\RegisterInterface;
 use App\Contracts\Repositories\Auth\ProfileRepository;
 use App\Contracts\Repositories\Auth\UserRepository;
@@ -35,6 +36,7 @@ use App\Contracts\Repositories\Course\SubCategoryRepository;
 use App\Contracts\Repositories\Course\SubmissionTaskRepository;
 use App\Contracts\Repositories\Course\SubModuleRepository;
 use App\Contracts\Repositories\Course\UserCourseRepository;
+use App\Contracts\Repositories\EventRepository;
 use App\Contracts\Repositories\RegisterRepository;
 use Illuminate\Support\ServiceProvider;
 
@@ -58,6 +60,7 @@ class AppServiceProvider extends ServiceProvider
         UserCourseInterface::class => UserCourseRepository::class,
         CourseVoucherInterface::class => CourseVoucherRepository::class,
         ContactInterface::class => ContactRepository::class,
+        EventInterface::class => EventRepository::class,
     ];
 
     /**

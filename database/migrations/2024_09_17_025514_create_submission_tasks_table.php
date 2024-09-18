@@ -13,7 +13,7 @@ return new class extends Migration {
         Schema::create('submission_tasks', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('user_id')->constrained();
-            $table->foreignUuid('course_task_id')->constrained();
+            $table->foreignUuid('module_task_id')->constrained();
             $table->string('answer');
             $table->timestamps();
         });
