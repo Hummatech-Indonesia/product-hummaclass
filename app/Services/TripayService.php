@@ -11,50 +11,32 @@ class TripayService
 {
     public function handlePaymentChannels()
     {
-        $apiKey = config('tripay.api_key');
-        $curl = curl_init();
+        $res = Http::withToken(config('tripay.api_key'))
+            ->get(config('tripay.api_url') . "merchant/payment-channel")
+            ->json();
 
-        curl_setopt_array($curl, array(
-            CURLOPT_FRESH_CONNECT => true,
-            CURLOPT_URL => 'https://tripay.co.id/api-sandbox/merchant/payment-channel',
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_HEADER => false,
-            CURLOPT_HTTPHEADER => ['Authorization: Bearer ' . $apiKey],
-            CURLOPT_FAILONERROR => false,
-            CURLOPT_IPRESOLVE => CURL_IPRESOLVE_V4
-        ));
-
-        $response = curl_exec($curl);
-        $error = curl_error($curl);
-
-        curl_close($curl);
-
-        return $response ? json_decode($response) : $error;
+        return collect($res['data'])->groupBy('group');
     }
-    public function handlePaymentInstructions()
+    public function handlePaymentInstructions($code)
     {
-        $apiKey = config('tripay.api_key');
+        $res = Http::withToken(config('tripay.api_key'))
+            ->get(config('tripay.api_url') . "payment/instruction", ['code' => $code])
+            ->json();
 
-        $payload = ['code' => 'BRIVA'];
+        return collect($res);
+    }
 
-        $curl = curl_init();
+    public function handleGenerateSignature(Request $request): string
+    {
+        $privateKey = config('tripay.private_key');
 
-        curl_setopt_array($curl, [
-            CURLOPT_FRESH_CONNECT => true,
-            CURLOPT_URL => 'https://tripay.co.id/api-sandbox/payment/instruction?' . http_build_query($payload),
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_HEADER => false,
-            CURLOPT_HTTPHEADER => ['Authorization: Bearer ' . $apiKey],
-            CURLOPT_FAILONERROR => false,
-            CURLOPT_IPRESOLVE => CURL_IPRESOLVE_V4
-        ]);
+        // ambil data json callback notifikasi
+        $json = file_get_contents('php://input');
+        $signature = hash_hmac('sha256', $json, $privateKey);
+        // $signature = hash_hmac('sha256', $merchantCode . $merchantRef . $amount, $privateKey);
 
-        $response = curl_exec($curl);
-        $error = curl_error($curl);
-
-        curl_close($curl);
-
-        return $response ? json_decode($response) : $error;
-
+        // result
+        // 9f167eba844d1fcb369404e2bda53702e2f78f7aa12e91da6715414e65b8c86a
+        return $signature;
     }
 }

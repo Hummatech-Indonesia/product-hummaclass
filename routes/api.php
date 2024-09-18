@@ -156,8 +156,8 @@ Route::middleware('enable.cors')->group(function () {
     Route::get('sub-modules/{subModule}', [SubModuleController::class, 'show']);
 
     Route::get('sub-categories/category/{category}', [SubCategoryController::class, 'getByCategory']);
-    Route::get('payment-channels', [TripayController::class, 'getPaymentChannels']);
-    Route::get('payment-instructions', [TripayController::class, 'getPaymentInstructions']);
+
+
     Route::get('contact', [ContactController::class, 'index']);
 
 
@@ -177,3 +177,5 @@ Route::middleware('enable.cors')->group(function () {
         return ResponseHelper::error(null, 'Unauthenticated');
     })->name('login');
 });
+
+require_once('api/tripay.php');
