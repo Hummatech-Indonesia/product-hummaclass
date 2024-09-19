@@ -17,8 +17,8 @@ class DetailCourseResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'sub_category' => $this->subCategory->name,
-            'category' => $this->subCategory->category->name,
+            'sub_category' => $this->subCategory,
+            'category' => $this->subCategory->category,
             'title' => $this->title,
             'sub_title' => $this->sub_title,
             'description' => $this->description,

@@ -83,7 +83,7 @@ Route::middleware('enable.cors')->group(function () {
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::resource('event', EventController::class);
-        Route::middleware('role:admin')->group(function () {
+        // Route::middleware('role:admin')->group(function () {
 
             Route::resources([
                 'modules' => ModuleController::class,
@@ -101,7 +101,7 @@ Route::middleware('enable.cors')->group(function () {
                 'sub-modules' => SubModuleController::class,
                 'sub-categories' => SubCategoryController::class,
             ], [
-                'only' => ['store', 'update', 'destroy']
+                'only' => ['store', 'update', 'destroy', 'show']
             ]);
             Route::post('sub-categories/{category}', [SubCategoryController::class, 'store']);
 
@@ -122,7 +122,7 @@ Route::middleware('enable.cors')->group(function () {
 
             Route::patch('modules-forward/{module}', [ModuleController::class, 'forward']);
             Route::patch('modules-backward/{module}', [ModuleController::class, 'backward']);
-        });
+        // });
     });
 
     Route::get('course-reviews', [CourseReviewController::class, 'index']);
