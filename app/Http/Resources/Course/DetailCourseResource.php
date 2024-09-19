@@ -27,6 +27,7 @@ class DetailCourseResource extends JsonResource
             'price' => $this->price,
             'ratings' => $this->courseReviews->groupBy('rating')->map(fn($group) => $group->count()),
             'photo' => asset('storage/' . $this->photo),
+            'modules' => ModuleResource::collection($this->modules),
             'modules_count' => $this->modules->count(),
             'rating' => $this->courseReviews->avg('rating'),
             'course_reviews' => CourseReviewResource::collection($this->courseReviews),
