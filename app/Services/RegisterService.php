@@ -41,6 +41,7 @@ class RegisterService
             'email' => $data['email'],
             'password' => $password,
         ]);
+        $user->assignRole('guest');
         auth()->attempt(['email' => $user['email'], 'password' => $data['password']]);
 
         $data['token'] =  auth()->user()->createToken('auth_token')->plainTextToken;

@@ -101,7 +101,7 @@ Route::middleware('enable.cors')->group(function () {
                 'sub-modules' => SubModuleController::class,
                 'sub-categories' => SubCategoryController::class,
             ], [
-                'only' => ['update', 'destroy']
+                'only' => ['store', 'update', 'destroy']
             ]);
             Route::post('sub-categories/{category}', [SubCategoryController::class, 'store']);
 
