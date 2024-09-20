@@ -92,18 +92,17 @@ Route::middleware('enable.cors')->group(function () {
             'only' => ['update', 'destroy']
         ]);
 
-            Route::resources([
-                'courses' => CourseController::class,
-                'sub-modules' => SubModuleController::class,
-                'sub-categories' => SubCategoryController::class,
-            ], [
-                'only' => ['store', 'update', 'destroy', 'show']
-            ]);
-            Route::post('sub-categories/{category}', [SubCategoryController::class, 'store']);
+        Route::resources([
+            'courses' => CourseController::class,
+            'sub-categories' => SubCategoryController::class,
+        ], [
+            'only' => ['store', 'update', 'destroy', 'show']
+        ]);
+        Route::post('sub-categories/{category}', [SubCategoryController::class, 'store']);
 
         Route::post('sub-categories/{category}', [SubCategoryController::class, 'store']);
 
-        Route::get('sub-modules/detail/{subModule}', [SubModuleController::class, 'show']);
+        Route::get('sub-modules/detail/{slug}', [SubModuleController::class, 'show']);
         Route::post('sub-modules/{module}', [SubModuleController::class, 'store']);
 
         Route::patch('contact/{contact}', [ContactController::class, 'update']);
