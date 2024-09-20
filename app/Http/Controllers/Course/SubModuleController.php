@@ -19,12 +19,12 @@ class SubModuleController extends Controller
     {
         $this->subModule = $subModule;
     }
-    public function index(Request $request, string $slug): JsonResponse
-    {
-        $request->merge(['slug' => $slug]);
-        $subModules = $this->subModule->customPaginate($request);
-        return ResponseHelper::success(SubModuleResource::collection($subModules), trans('alert.fetch_success'));
-    }
+    // public function index(Request $request, Module $module): JsonResponse
+    // {
+    //     $request->merge(['module_id' => $module->id]);
+    //     $subModules = $this->subModule->customPaginate($request);
+    //     return ResponseHelper::success(SubModuleResource::collection($subModules), trans('alert.fetch_success'));
+    // }
     /**
      * Method store
      *

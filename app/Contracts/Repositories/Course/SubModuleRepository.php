@@ -36,7 +36,9 @@ class SubModuleRepository extends BaseRepository implements SubModuleInterface
         return $this->model->query()
             ->when($request->search, function ($query) use ($request) {
                 $query->whereLike('title', $request->search);
-            })->where('module_id', $request->module_id)
+            })->when($request->module_id, function ($query) use ($request) {
+                $query->where('module_id', $request->module_id);
+            })
             ->fastPaginate($pagination);
     }
     /**

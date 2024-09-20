@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Course;
 
+use App\Http\Resources\ModuleTaskResource;
 use App\Http\Resources\SubModuleResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -23,7 +24,7 @@ class ModuleResource extends JsonResource
             'sub_title' => $this->sub_title,
             'sub_modules' => SubModuleResource::collection($this->subModules),
             'sub_module_count' => $this->subModules->count(),
-            'module_tasks' => $this->moduleTasks,
+            'module_tasks' => ModuleTaskResource::collection($this->moduleTasks),
             'module_task_count' => $this->moduleTasks->count(),
         ];
     }

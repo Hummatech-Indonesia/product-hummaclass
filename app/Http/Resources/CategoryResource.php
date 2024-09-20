@@ -14,10 +14,15 @@ class CategoryResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $course_item_count = 0;
+        foreach ($this->subCategories as $subCategories) {
+            $course_item_count += $subCategories->courses->count();
+        }
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'sub_category' => SubCategoryResource::collection($this->subCategories)
+            'sub_category' => SubCategoryResource::collection($this->subCategories),
+            'course_item_count' => $course_item_count
         ];
     }
 }

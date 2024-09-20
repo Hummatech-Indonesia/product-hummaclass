@@ -85,16 +85,12 @@ Route::middleware('enable.cors')->group(function () {
         Route::resource('event', EventController::class);
         // Route::middleware('role:admin')->group(function () {
 
-            Route::resources([
-                'modules' => ModuleController::class,
-                'quizzes' => QuizController::class,
-                'module-questions' => ModuleQuestionController::class,
-                'module-tasks' => ModuleTaskController::class,
-                'submission-tasks' => SubmissionTaskController::class,
-                'course-vouchers' => CourseVoucherController::class,
-            ], [
-                'except' => ['create', 'edit', 'store']
-            ]);
+        Route::resources([
+            'sub-modules' => SubModuleController::class,
+            'sub-categories' => SubCategoryController::class,
+        ], [
+            'only' => ['update', 'destroy']
+        ]);
 
             Route::resources([
                 'courses' => CourseController::class,
@@ -105,23 +101,26 @@ Route::middleware('enable.cors')->group(function () {
             ]);
             Route::post('sub-categories/{category}', [SubCategoryController::class, 'store']);
 
-            Route::post('sub-modules/{module}', [SubModuleController::class, 'store']);
+        Route::post('sub-categories/{category}', [SubCategoryController::class, 'store']);
 
-            Route::patch('contact/{contact}', [ContactController::class, 'update']);
+        Route::get('sub-modules/detail/{subModule}', [SubModuleController::class, 'show']);
+        Route::post('sub-modules/{module}', [SubModuleController::class, 'store']);
 
-            Route::get('course-vouchers/{course}', [CourseVoucherController::class, 'index']);
-            Route::post('course-vouchers/{course}', [CourseVoucherController::class, 'store']);
+        Route::patch('contact/{contact}', [ContactController::class, 'update']);
 
-            Route::post('module-tasks/{module}', [ModuleTaskController::class, 'store']);
+        Route::get('course-vouchers/{course}', [CourseVoucherController::class, 'index']);
+        Route::post('course-vouchers/{course}', [CourseVoucherController::class, 'store']);
 
-            Route::post('module-questions/{module}', [ModuleQuestionController::class, 'store']);
+        Route::post('module-tasks/{module}', [ModuleTaskController::class, 'store']);
 
-            Route::post('quizzes/{module}', [QuizController::class, 'store']);
+        Route::post('module-questions/{module}', [ModuleQuestionController::class, 'store']);
 
-            Route::post('submission-tasks/{course_task}', [SubmissionTask::class, 'store']);
+        Route::post('quizzes/{module}', [QuizController::class, 'store']);
 
-            Route::patch('modules-forward/{module}', [ModuleController::class, 'forward']);
-            Route::patch('modules-backward/{module}', [ModuleController::class, 'backward']);
+        Route::post('submission-tasks/{course_task}', [SubmissionTask::class, 'store']);
+
+        Route::patch('modules-forward/{module}', [ModuleController::class, 'forward']);
+        Route::patch('modules-backward/{module}', [ModuleController::class, 'backward']);
         // });
     });
 
@@ -149,13 +148,12 @@ Route::middleware('enable.cors')->group(function () {
     Route::get('courses', [CourseController::class, 'index']);
     Route::get('courses/{slug}', [CourseController::class, 'show']);
 
-    Route::get('modules/{course}', [ModuleController::class, 'index']);
+    Route::get('modules/{slug}', [ModuleController::class, 'index']);
     Route::get('list-module/{slug}', [ModuleController::class, 'listModule']);
 
-    Route::post('modules/{course}', [ModuleController::class, 'store']);
+    Route::post('modules/{slug}', [ModuleController::class, 'store']);
     Route::get('modules/detail/{module}', [ModuleController::class, 'show']);
 
-    Route::get('sub-modules/{subModule}', [SubModuleController::class, 'show']);
 
     Route::get('sub-categories/category/{category}', [SubCategoryController::class, 'getByCategory']);
 

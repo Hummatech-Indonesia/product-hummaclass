@@ -17,6 +17,7 @@ class SubModuleResource extends JsonResource
         return [
             'id' => $this->id,
             'module' => $this->module->title,
+            'step' => $this->step,
             'module_id' => $this->module->id,
             'title' => $this->title,
             'slug' => $this->slug,

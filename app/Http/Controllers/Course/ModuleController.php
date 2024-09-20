@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Course;
 
+use App\Contracts\Interfaces\Course\CourseInterface;
 use App\Contracts\Interfaces\Course\ModuleInterface;
 use App\Contracts\Interfaces\Course\SubModuleInterface;
 use App\Helpers\ResponseHelper;
@@ -16,6 +17,7 @@ use Illuminate\Http\Request;
 class ModuleController extends Controller
 {
     private ModuleInterface $module;
+    private CourseInterface $course;
     private SubModuleInterface $subModule;
     /**
      * Method __construct
@@ -24,9 +26,10 @@ class ModuleController extends Controller
      *
      * @return void
      */
-    public function __construct(ModuleInterface $module, SubModuleInterface $subModule)
+    public function __construct(ModuleInterface $module, SubModuleInterface $subModule, CourseInterface $course)
     {
         $this->module = $module;
+        $this->course = $course;
         $this->subModule = $subModule;
     }
     /**
@@ -34,10 +37,11 @@ class ModuleController extends Controller
      *
      * @return JsonResponse
      */
-    public function index(Course $course, Request $request): JsonResponse
+    public function index(string $slug, Request $request): JsonResponse
     {
+        $course = $this->course->showWithSlug($slug);
         $request->merge(['course_id' => $course->id]);
-        $modules = $this->module->customPaginate($request);
+        $modules = $this->module->search($request);
         return ResponseHelper::success(ModuleResource::collection($modules), trans('alert.fetch_success'));
     }
     /**
@@ -47,8 +51,9 @@ class ModuleController extends Controller
      *
      * @return JsonResponse
      */
-    public function store(Course $course, ModuleRequest $request): JsonResponse
+    public function store(string $slug, ModuleRequest $request): JsonResponse
     {
+        $course = $this->course->showWithSlug($slug);
         $data = $request->validated();
         $data['course_id'] = $course->id;
 
