@@ -10,6 +10,7 @@ use App\Models\ModuleTask;
 use App\Models\Quiz;
 use App\Models\SubmissionTask;
 use App\Models\SubModule;
+use App\Models\User;
 use Faker\Provider\Uuid;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -22,8 +23,10 @@ class CourseSeeder extends Seeder
      */
     public function run(): void
     {
+        $user = User::query()->firstOrFail();
         $course = Course::create([
             'id' => Uuid::uuid(),
+            'user_id' => $user->id,
             'sub_category_id' => 1,
             'title' => 'lorem ipsum',
             'slug' => Str::slug('lorem ipsum'),
@@ -50,7 +53,7 @@ class CourseSeeder extends Seeder
             'sub_title' => 'lorem ipsum dolor sit amet'
         ]);
         SubModule::create([
-            'id' => Uuid::uuid(),   
+            'id' => Uuid::uuid(),
             'module_id' => $module->id,
             'step' => 1,
             'title' => 'lorem ipsum',

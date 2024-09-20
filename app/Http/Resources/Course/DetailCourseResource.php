@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Course;
 
 use App\Http\Resources\CourseReviewResource;
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -17,6 +18,7 @@ class DetailCourseResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'user' => new UserResource($this->user),
             'sub_category' => $this->subCategory,
             'category' => $this->subCategory->category,
             'title' => $this->title,

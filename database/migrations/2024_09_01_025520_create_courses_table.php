@@ -13,6 +13,7 @@ return new class extends Migration {
         Schema::create('courses', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignId('sub_category_id')->constrained()->restrictOnUpdate()->restrictOnDelete();
+            $table->foreignUuid('user_id')->constrained();
             $table->string('title')->unique();
             $table->string('sub_title');
             $table->string('photo')->nullable();
