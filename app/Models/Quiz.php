@@ -16,9 +16,9 @@ class Quiz extends Model implements HasModule
     protected $primaryKey = 'id';
     protected $fillable = [
         'module_id',
-        'title',
-        'slug',
         'total_question',
+        'duration',
+        'is_submited',
     ];
     /**
      * Get the module that owns the Quiz

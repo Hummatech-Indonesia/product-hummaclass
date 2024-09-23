@@ -74,13 +74,7 @@ class CourseSeeder extends Seeder
             'option_e' => 'lorem ipsum',
             'answer' => 'lorem ipsum is simply dummy text',
         ]);
-        Quiz::create([
-            'id' => Uuid::uuid(),
-            'module_id' => $module->id,
-            'title' => 'lorem ipsum dolor sit amet',
-            'slug' => Str::slug('lorem ipsum dolor sit amet'),
-            'total_question' => 10
-        ]);
+
         $moduleTask = ModuleTask::create([
             'id' => Uuid::uuid(),
             'module_id' => $module->id,

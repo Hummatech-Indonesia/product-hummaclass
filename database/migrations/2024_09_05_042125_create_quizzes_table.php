@@ -13,9 +13,9 @@ return new class extends Migration {
         Schema::create('quizzes', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('module_id')->constrained();
-            $table->string('title');
-            $table->string('slug');
             $table->integer('total_question');
+            $table->integer('duration');
+            $table->boolean('is_submited')->default(0);
             $table->timestamps();
         });
     }

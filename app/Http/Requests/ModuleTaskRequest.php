@@ -23,20 +23,24 @@ class ModuleTaskRequest extends ApiRequest
     public function rules(): array
     {
         return [
-            'number_of' => [
-                'required',
-                'integer',
-                Rule::unique('module_tasks')->ignore($this->route('module_task')),
-            ],
             'question' => 'required|string|max:500',
+            'point' => 'required|integer',
+            'description' => 'required'
         ];
     }
+
+    /**
+     * messages
+     *
+     * @return array
+     */
     public function messages(): array
     {
         return [
-            'number_of.required' => 'nomor wajib diisi',
-            'number_of.unique' => 'nomor sudah digunakan',
-            'question.required' => 'pertanyaan wajib diisi'
+            'question.required' => 'pertanyaan wajib diisi',
+            'point.required' => 'Point wajib diisi',
+            'point.integer' => 'Point harus angka',
+            'description.required' => 'Deskripsi wajib diisi'
         ];
     }
 }

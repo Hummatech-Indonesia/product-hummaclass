@@ -13,8 +13,9 @@ return new class extends Migration {
         Schema::create('module_tasks', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('module_id')->constrained();
-            $table->integer('number_of');
+            $table->integer('point');
             $table->text('question');
+            $table->longText('description');
             $table->timestamps();
         });
     }
