@@ -12,7 +12,7 @@ use App\Contracts\Interfaces\Eloquent\ShowInterface;
 use App\Contracts\Interfaces\Eloquent\StoreInterface;
 use App\Contracts\Interfaces\Eloquent\UpdateInterface;
 
-interface EventDetailInterface extends GetInterface,StoreInterface,ShowInterface,UpdateInterface,DeleteInterface,GetWhereInterface
+interface EventDetailInterface extends GetInterface,StoreInterface,ShowInterface,DeleteInterface,GetWhereInterface
 {
 
 }
