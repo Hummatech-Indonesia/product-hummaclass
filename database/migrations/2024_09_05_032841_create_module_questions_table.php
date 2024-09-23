@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\AnswerEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -19,7 +20,7 @@ return new class extends Migration {
             $table->string('option_c');
             $table->string('option_d');
             $table->string('option_e');
-            $table->string('answer');
+            $table->enum('answer', [AnswerEnum::OPTION_A->value, AnswerEnum::OPTION_B->value, AnswerEnum::OPTION_C->value, AnswerEnum::OPTION_D->value, AnswerEnum::OPTION_E->value]);
             $table->timestamps();
         });
     }
