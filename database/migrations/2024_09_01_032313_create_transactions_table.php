@@ -24,7 +24,7 @@ return new class extends Migration {
             // $table->timestamp('paid_at');
             $table->string('payment_channel');
             $table->string('payment_method');
-            $table->enum('invoice_status', [InvoiceStatusEnum::PENDING->value, InvoiceStatusEnum::PAID->value, InvoiceStatusEnum::FAILED->value, InvoiceStatusEnum::EXPIRED->value]);
+            $table->enum('invoice_status', [InvoiceStatusEnum::PENDING->value, InvoiceStatusEnum::PAID->value, InvoiceStatusEnum::FAILED->value, InvoiceStatusEnum::EXPIRED->value, InvoiceStatusEnum::UNPAID->value])->default(InvoiceStatusEnum::PENDING->value);
             $table->timestamps();
         });
     }

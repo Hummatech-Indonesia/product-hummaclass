@@ -17,7 +17,7 @@ use App\Http\Controllers\Course\ModuleController;
 use App\Http\Controllers\Auth\SocialiteController;
 use App\Http\Controllers\Course\CategoryController;
 use App\Http\Controllers\Course\SubModuleController;
-use App\Http\Controllers\Payment\TripayController;
+use App\Http\Controllers\Payment\TransactionController;
 use App\Services\TripayService;
 use App\Http\Controllers\Course\CourseTaskController;
 use App\Http\Controllers\Auth\ResetPasswordController;

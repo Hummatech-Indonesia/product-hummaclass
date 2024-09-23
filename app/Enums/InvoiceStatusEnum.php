@@ -8,4 +8,5 @@ enum InvoiceStatusEnum: string
     case PENDING = 'pending';
     case EXPIRED = 'expired';
     case FAILED = 'failed';
+    case UNPAID = 'unpaid';
 }
