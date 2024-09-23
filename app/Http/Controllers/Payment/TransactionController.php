@@ -34,11 +34,6 @@ class TransactionController extends Controller
         // return ResponseHelper::success($paymentInstructions, trans('alert.fetch_success'));
     }
 
-    public function generateSignature(Request $request): string
-    {
-        return $this->service->handleGenerateSignature($request);
-    }
-
     public function show(mixed $id): mixed
     {
         $transaction = $this->transaction->show($id);
@@ -73,7 +68,17 @@ class TransactionController extends Controller
 
     public function callback(Request $request)
     {
-        dd($request);
+        $data = [
+            'id' => $request->reference,
+            'invoice_id' => $request->merchant_ref,
+            'fee_amount' => $request->fee_merchant,
+            'paid_amount' => $request->total_amount,
+            'payment_channel' => $request->payment_method,
+            'payment_method' => $request->payment_method_code,
+            'invoice_status' => $request->status
+        ];
+
+        return $this->transaction->update($request->reference, $data);
     }
     public function returnCallback(Request $request)
     {
