@@ -55,7 +55,7 @@ class SubModuleController extends Controller
     public function show(string $slug): JsonResponse
     {
         $subModule = $this->subModule->showWithSlug($slug);
-        return ResponseHelper::success($subModule, trans('alert.fetch_success'));
+        return ResponseHelper::success(SubModuleResource::make($subModule), trans('alert.fetch_success'));
     }
     /**
      * Method update
