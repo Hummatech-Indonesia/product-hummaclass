@@ -27,18 +27,11 @@ class TripayService
         return collect($res);
     }
 
-    public function handleGenerateSignature(Request $request): string
+    public static function handleGenerateCallbackSignature(Request $request): string
     {
         $privateKey = config('tripay.private_key');
 
-        // ambil data json callback notifikasi
-        $json = file_get_contents('php://input');
-        $signature = hash_hmac('sha256', $json, $privateKey);
-        // $signature = hash_hmac('sha256', $merchantCode . $merchantRef . $amount, $privateKey);
-
-        // result
-        // 9f167eba844d1fcb369404e2bda53702e2f78f7aa12e91da6715414e65b8c86a
-        return $signature;
+        return hash_hmac('sha256', $request->getContent(), $privateKey);
     }
     public function handelCreateTransaction(Course $course): mixed
     {
