@@ -23,12 +23,18 @@ class CourseRequest extends ApiRequest
                 Rule::unique('courses')->ignore($this->route('course')),
             ],
             'sub_title' => 'required|string|max:255',
-            'description' => 'required|string|max:500',
+            'description' => 'required|string',
             'is_premium' => 'required|boolean',
-            'price' => 'required|integer|min:0',
+            'price' => [
+                'nullable',
+                'integer',
+                'min:0',
+                Rule::requiredIf($this->input('is_premium') === true),
+            ],
             'photo' => 'nullable|mimes:png,jpg,jpeg|max:2048'
         ];
     }
+
 
     public function messages(): array
     {
@@ -41,7 +47,6 @@ class CourseRequest extends ApiRequest
             'title.unique' => 'Judul sudah digunakan.',
             'sub_title.required' => 'Sub-judul wajib diisi.',
             'description.required' => 'Deskripsi wajib diisi.',
-            'description.max' => 'Deskripsi maksimal :max karakter.',
             'is_premium.required' => 'Status premium wajib diisi.',
             'is_premium.boolean' => 'Status premium harus berupa true atau false.',
             'price.required' => 'Harga wajib diisi.',

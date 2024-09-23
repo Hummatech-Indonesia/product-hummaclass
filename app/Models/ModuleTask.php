@@ -16,8 +16,9 @@ class ModuleTask extends Model implements HasModule
     protected $primaryKey = 'id';
     protected $fillable = [
         'module_id',
-        'number_of',
         'question',
+        'point',
+        'description'
     ];
 
     /**

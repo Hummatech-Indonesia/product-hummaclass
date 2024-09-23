@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Contracts\Interfaces\EventInterface;
 use App\Helpers\ResponseHelper;
 use App\Http\Requests\EventRequest;
+use App\Http\Resources\EventResource;
 use App\Models\Event;
 use App\Services\EventService;
 use Illuminate\Http\JsonResponse;
@@ -18,7 +19,7 @@ class EventController extends Controller
     {
         $this->event = $event;
         $this->service = $service;
-    }    
+    }
     /**
      * Method index
      *
@@ -27,8 +28,8 @@ class EventController extends Controller
     public function index(Request $request): JsonResponse
     {
         $events = $this->event->customPaginate($request);
-        return ResponseHelper::success($events, trans('alert.fetch_success'));
-    }    
+        return ResponseHelper::success(EventResource::collection($events), trans('alert.fetch_success'));
+    }
     /**
      * Method store
      *
@@ -40,7 +41,7 @@ class EventController extends Controller
     {
         $this->service->store($request);
         return ResponseHelper::success(true, trans('alert.add_success'));
-    }    
+    }
     /**
      * Method update
      *
@@ -53,15 +54,15 @@ class EventController extends Controller
     {
         $this->service->update($request, $event);
         return ResponseHelper::success(true, trans('alert.update_success'));
-    }    
+    }
     /**
-     * Method delete
+     * Method destroy
      *
      * @param Event $event [explicite description]
      *
      * @return JsonResponse
      */
-    public function delete(Event $event): JsonResponse
+    public function destroy(Event $event): JsonResponse
     {
         $this->service->delete($event);
         return ResponseHelper::success(true, trans('alert.delete_success'));

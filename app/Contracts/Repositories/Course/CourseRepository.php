@@ -41,9 +41,10 @@ class CourseRepository extends BaseRepository implements CourseInterface
             ->when($request->search, function ($query) use ($request) {
                 $query->whereLike('name', $request->search);
             })
-            ->when($request->order == "best seller", function ($query) use ($request) {
+            ->when($request->order == "best seller", function ($query) {
                 $query->orderBy('user_courses_count', 'desc');
             })
+            ->orderBy('created_at', 'desc')
             ->fastPaginate($pagination);
     }
 

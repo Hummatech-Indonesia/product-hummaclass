@@ -42,16 +42,17 @@ class EventService implements ShouldHandleFileUpload
         }
 
         $event = $this->event->store($data);
-
-        foreach ($data['start'] as $index => $start) {
-            $detailData = [
-                'event_id' => $event->id,
-                'start' => $start,
-                'end' => $data['end'][$index],
-                'session' => $data['session'][$index],
-                'user_id' => $data['user_id'][$index],
-            ];
-            $this->eventDetail->store($detailData);
+        if ($request->has('start')) {
+            foreach ($data['start'] as $index => $start) {
+                $detailData = [
+                    'user_id' => $event->user_id,
+                    'event_id' => $event->id,
+                    'start' => $start,
+                    'end' => $data['end'][$index],
+                    'session' => $data['session'][$index],
+                ];
+                $this->eventDetail->store($detailData);
+            }
         }
         return true;
     }
@@ -74,19 +75,19 @@ class EventService implements ShouldHandleFileUpload
             $data['image'] = $this->upload(UploadDiskEnum::EVENTS->value, $request->file('image'));
         }
 
-        $event = $this->event->update($event->id, $data);
-
-        $this->eventDetail->getWhere(['event_id' => $event->id])->delete();
-
-        foreach ($data['start'] as $index => $start) {
-            $detailData = [
-                'event_id' => $event->id,
-                'start' => $start,
-                'end' => $data['end'][$index],
-                'session' => $data['session'][$index],
-                'user_id' => $data['user_id'][$index],
-            ];
-            $this->eventDetail->store($detailData);
+        $this->event->update($event->id, $data);
+        EventDetail::query()->where('event_id', $event->id)->delete();
+        if ($request->has('start')) {
+            foreach ($data['start'] as $index => $start) {
+                $detailData = [
+                    'event_id' => $event->id,
+                    'start' => $start,
+                    'end' => $data['end'][$index],
+                    'session' => $data['session'][$index],
+                    'user_id' => $data['user_id'][$index],
+                ];
+                $this->eventDetail->store($detailData);
+            }
         }
         return true;
     }
@@ -103,8 +104,6 @@ class EventService implements ShouldHandleFileUpload
             $this->remove($event->image);
         }
 
-        $this->eventDetail->getWhere(['event_id' => $event->id])->delete();
-
-        return true;
+        return $this->event->delete($event->id);
     }
 }

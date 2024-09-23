@@ -38,7 +38,7 @@ class EventDetailRepository extends BaseRepository implements EventDetailInterfa
      */
     public function getWhere(array $data): mixed
     {
-        return $this->modle->query()->where($data)->get();
+        return $this->model->query()->where($data)->get();
     }
     /**
      * Method store
@@ -61,18 +61,6 @@ class EventDetailRepository extends BaseRepository implements EventDetailInterfa
     public function show(mixed $id): mixed
     {
         return $this->model->query()->findOrFail($id);
-    }
-    /**
-     * Method update
-     *
-     * @param mixed $id [explicite description]
-     * @param array $data [explicite description]
-     *
-     * @return mixed
-     */
-    public function update(mixed $id, array $data): mixed
-    {
-        return $this->show($id)->update($data);
     }
     /**
      * Method delete

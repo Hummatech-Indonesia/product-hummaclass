@@ -49,7 +49,7 @@ class CourseController extends Controller
     public function store(CourseRequest $request): JsonResponse
     {
         $this->course->store($this->service->store($request));
-        
+
         return ResponseHelper::success(true, trans('alert.add_success'));
     }
     /**
@@ -74,7 +74,7 @@ class CourseController extends Controller
      * @return JsonResponse
      */
     public function update(CourseRequest $request, Course $course): JsonResponse
-    {         
+    {
         $this->course->update($course->id, $request->validated());
         return ResponseHelper::success(true, trans('alert.update_success'));
     }
@@ -91,7 +91,7 @@ class CourseController extends Controller
             $this->course->delete($course->id);
             return ResponseHelper::success(true, trans('alert.delete_success'));
         } catch (\Throwable $e) {
-            return ResponseHelper::success(true, trans('alert.delete_constrained'));
+            return ResponseHelper::error(true, trans('alert.delete_constrained'));
         }
     }
 }

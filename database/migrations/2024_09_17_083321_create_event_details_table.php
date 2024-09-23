@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('event_details', function (Blueprint $table) {
             $table->id();
-            $table->foreignUuid('event_id')->constrained();
+            $table->foreignUuid('event_id')->constrained()->cascadeOnDelete();
             $table->foreignUuid('user_id')->constrained();
             $table->time('start');
             $table->time('end');

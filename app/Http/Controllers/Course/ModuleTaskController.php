@@ -5,14 +5,12 @@ namespace App\Http\Controllers\Course;
 use App\Contracts\Interfaces\Course\ModuleTaskInterface;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CourseTaskRequest;
 use App\Http\Requests\ModuleTaskRequest;
 use App\Http\Resources\ModuleTaskResource;
 use App\Models\Course;
 use App\Models\Module;
 use App\Models\ModuleTask;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class ModuleTaskController extends Controller
 {
@@ -39,7 +37,7 @@ class ModuleTaskController extends Controller
     {
         $moduleTasks = $this->moduleTask->getWhere(['module_id' => $module->id]);
         return ResponseHelper::success(ModuleTaskResource::collection($moduleTasks), trans('alert.fetch_success'));
-    }    
+    }
     /**
      * Method store
      *
@@ -54,7 +52,7 @@ class ModuleTaskController extends Controller
         $data['module_id'] = $module->id;
         $this->moduleTask->store($data);
         return ResponseHelper::success(true, trans('alert.add_success'));
-    }    
+    }
     /**
      * Method update
      *

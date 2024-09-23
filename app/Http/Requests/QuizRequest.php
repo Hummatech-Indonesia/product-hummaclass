@@ -23,17 +23,12 @@ class QuizRequest extends ApiRequest
     public function rules(): array
     {
         return [
-            'title' => 'required',
+            'duration' => 'required',
             'total_question' => [
                 'required',
                 'integer',
-                function ($attribute, $value, $fail) {
-                    $moduleQuestionCount = ModuleQuestion::count();
-                    if ($value > $moduleQuestionCount) {
-                        $fail("Jumlah pertanyaan tidak boleh lebih dari {$moduleQuestionCount}");
-                    }
-                }
-            ]
+            ],
+            'is_submited' => 'nullable'
         ];
     }
     /**
@@ -44,7 +39,7 @@ class QuizRequest extends ApiRequest
     public function messages(): array
     {
         return [
-            'title.required' => 'Judul wajib diisi',
+            'duration.required' => 'Durasi wajib diisi',
             'total_question.required' => 'Total pertanyaan wajib diisi',
             'total_question.integer' => 'Total pertanyaan wajib berupa angka'
         ];

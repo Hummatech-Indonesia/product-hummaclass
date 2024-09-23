@@ -81,8 +81,8 @@ Route::middleware('enable.cors')->group(function () {
         return response()->json(['message' => 'Email verified successfully']);
     })->middleware(['auth:sanctum', 'signed'])->name('verification.verify');
 
+    Route::resource('events', EventController::class);
     Route::middleware('auth:sanctum')->group(function () {
-        Route::resource('event', EventController::class);
         // Route::middleware('role:admin')->group(function () {
 
         Route::resources([
@@ -114,6 +114,7 @@ Route::middleware('enable.cors')->group(function () {
 
         Route::post('module-questions/{module}', [ModuleQuestionController::class, 'store']);
 
+        Route::get('quizzes/{module}', [QuizController::class, 'index']);
         Route::post('quizzes/{module}', [QuizController::class, 'store']);
 
         Route::post('submission-tasks/{course_task}', [SubmissionTask::class, 'store']);

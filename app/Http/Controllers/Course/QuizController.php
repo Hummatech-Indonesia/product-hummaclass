@@ -24,11 +24,11 @@ class QuizController extends Controller
      *
      * @return JsonResponse
      */
-    public function index(): JsonResponse
+    public function index(Module $module): JsonResponse
     {
-        $quizzes = $this->quiz->get();
-        return ResponseHelper::success(QuizResource::collection($quizzes), trans('alert.fetch_success'));
-    }    
+        $quizzes = $this->quiz->show($module->id);
+        return ResponseHelper::success(QuizResource::make($quizzes), trans('alert.fetch_success'));
+    }
     /**
      * Method store
      *
@@ -43,30 +43,5 @@ class QuizController extends Controller
         $data['module_id'] = $module->id;
         $this->quiz->store($data);
         return ResponseHelper::success(true, trans('alert.add_success'));
-    }
-    /**
-     * Method update
-     *
-     * @param QuizRequest $request [explicite description]
-     * @param Quiz $quiz [explicite description]
-     *
-     * @return JsonResponse
-     */
-    public function update(QuizRequest $request, Quiz $quiz): JsonResponse
-    {
-        $this->quiz->update($quiz->id, $request->validated());
-        return ResponseHelper::success(true, trans('alert.update_success'));
-    }
-    /**
-     * Method destroy
-     *
-     * @param Quiz $quiz [explicite description]
-     *
-     * @return JsonResponse
-     */
-    public function destroy(Quiz $quiz): JsonResponse
-    {
-        $this->quiz->delete($quiz->id);
-        return ResponseHelper::success(true, trans('alert.delete_success'));
     }
 }
