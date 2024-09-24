@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\AnswerEnum;
 use App\Models\Course;
 use App\Models\CourseTask;
 use App\Models\Module;
@@ -64,7 +65,7 @@ class CourseSeeder extends Seeder
             'option_c' => 'lorem ipsum',
             'option_d' => 'lorem ipsum',
             'option_e' => 'lorem ipsum',
-            'answer' => 'lorem ipsum is simply dummy text',
+            'answer' => AnswerEnum::OPTION_A->value,
         ]);
 
         $moduleTask = ModuleTask::create([
