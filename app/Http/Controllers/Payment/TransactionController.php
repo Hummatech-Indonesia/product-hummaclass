@@ -51,10 +51,10 @@ class TransactionController extends Controller
                 'course_id' => $course->id,
                 'invoice_id' => $transaction['data']['merchant_ref'],
                 'fee_amount' => $transaction['data']['fee_merchant'],
-                'amount' => 1,
+                'amount' => $course->price,
                 'invoice_url' => $transaction['data']['checkout_url'],
                 'expiry_date' => Carbon::createFromTimestamp($transaction['data']['expired_time'])->toDateTimeString(),
-                'paid_amount' => 1,
+                'paid_amount' => 0,
                 // 'paid_at' => '',
                 'payment_channel' => $transaction['data']['payment_name'],
                 'payment_method' => $transaction['data']['payment_method']
