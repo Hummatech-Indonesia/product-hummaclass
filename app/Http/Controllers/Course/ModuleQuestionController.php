@@ -28,7 +28,7 @@ class ModuleQuestionController extends Controller
     {
         $moduleQuestions = $this->moduleQuestion->get();
         return ResponseHelper::success(ModuleQuestionResource::collection($moduleQuestions), trans('alert.fetch_success'));
-    }    
+    }
     /**
      * Method store
      *
@@ -44,18 +44,7 @@ class ModuleQuestionController extends Controller
         $this->moduleQuestion->store($data);
         return ResponseHelper::success(true, trans('alert.add_success'));
     }
-    /**
-     * Method show
-     *
-     * @param ModuleQuestion $moduleQuestion [explicite description]
-     *
-     * @return JsonResponse
-     */
-    public function show(ModuleQuestion $moduleQuestion): JsonResponse
-    {
-        $moduleQuestion = $this->moduleQuestion->show($moduleQuestion->id);
-        return ResponseHelper::success(new ModuleQuestionResource($moduleQuestion));
-    }
+
     /**
      * Method update
      *
