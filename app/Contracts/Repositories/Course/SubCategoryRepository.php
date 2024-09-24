@@ -21,20 +21,15 @@ class SubCategoryRepository extends BaseRepository implements SubCategoryInterfa
     public function __construct(SubCategory $subCategory)
     {
         $this->model = $subCategory;
-    }
+    }    
     /**
-     * Method customPaginate
+     * Method get
      *
-     * @param Request $request [explicite description]
-     * @param int $pagination [explicite description]
-     *
-     * @return LengthAwarePaginator
+     * @return mixed
      */
-    public function customPaginate(Request $request, int $pagination = 10): LengthAwarePaginator
+    public function get(): mixed
     {
-        return $this->model->query()->when($request->search, function ($query) use ($request) {
-            $query->whereLike('name', $request->search);
-        })->fastPaginate($pagination);
+        return $this->model->query()->get();
     }
     /**
      * Method store

@@ -117,6 +117,7 @@ Route::middleware('enable.cors')->group(function () {
 
         Route::post('module-tasks/{module}', [ModuleTaskController::class, 'store']);
 
+        Route::get('module-questions', [ModuleQuestionController::class, 'index']);
         Route::post('module-questions/{module}', [ModuleQuestionController::class, 'store']);
 
         Route::get('quizzes/{module}', [QuizController::class, 'index']);
@@ -162,7 +163,7 @@ Route::middleware('enable.cors')->group(function () {
     Route::post('modules/{slug}', [ModuleController::class, 'store']);
     Route::get('modules/detail/{module}', [ModuleController::class, 'show']);
 
-
+    Route::get('sub-categories', [SubCategoryController::class, 'index']);
     Route::get('sub-categories/category/{category}', [SubCategoryController::class, 'getByCategory']);
 
 

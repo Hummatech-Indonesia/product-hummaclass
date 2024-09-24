@@ -29,7 +29,16 @@ class SubCategoryController extends Controller
     }
 
 
-
+    /**
+     * Method index
+     *
+     * @return JsonResponse
+     */
+    public function index(): JsonResponse
+    {
+        $subCategories = $this->subCategory->get();
+        return ResponseHelper::success(SubCategoryResource::collection($subCategories), trans('alert.fetch_success'));
+    }
     /**
      * Method store
      *
@@ -42,7 +51,7 @@ class SubCategoryController extends Controller
         $data = $request->validated();
         $data['category_id'] = $category->id;
         $this->subCategory->store($data);
-        return ResponseHelper::success(trans('alert.add_success'));
+        return ResponseHelper::success(true, trans('alert.add_success'));
     }
 
     /**
@@ -56,7 +65,7 @@ class SubCategoryController extends Controller
     public function update(SubCategoryRequest $request, SubCategory $subCategory): JsonResponse
     {
         $this->subCategory->update($subCategory->id, $request->validated());
-        return ResponseHelper::success(trans('alert.update_success'));
+        return ResponseHelper::success(true, trans('alert.update_success'));
     }
 
     /**
@@ -70,9 +79,9 @@ class SubCategoryController extends Controller
     {
         try {
             $this->subCategory->delete($subCategory->id);
-            return ResponseHelper::success(trans('alert.delete_success'));
+            return ResponseHelper::success(true, trans('alert.delete_success'));
         } catch (\Throwable $e) {
-            return ResponseHelper::success(trans('alert.delete_constrained'));
+            return ResponseHelper::success(true, trans('alert.delete_constrained'));
         }
     }
 
