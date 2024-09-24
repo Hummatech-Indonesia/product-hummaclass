@@ -44,14 +44,6 @@ class CourseSeeder extends Seeder
             'slug' => Str::slug('lorem ipsum'),
             'sub_title' => 'lorem ipsum dolor sit amet'
         ]);
-        $module = Module::create([
-            'id' => Uuid::uuid(),
-            'course_id' => $course->id,
-            'step' => 2,
-            'title' => 'lorem ipsum second',
-            'slug' => Str::slug('lorem ipsum second'),
-            'sub_title' => 'lorem ipsum dolor sit amet'
-        ]);
         SubModule::create([
             'id' => Uuid::uuid(),
             'module_id' => $module->id,
@@ -78,7 +70,8 @@ class CourseSeeder extends Seeder
         $moduleTask = ModuleTask::create([
             'id' => Uuid::uuid(),
             'module_id' => $module->id,
-            'number_of' => 1,
+            'point' => 1,
+            'description' => 'lorem ipsum dolor sit amet lorem rebum magna diam stet',
             'question' => 'lorem ipsum dolor sit amet'
         ]);
     }

@@ -82,15 +82,17 @@ Route::middleware('enable.cors')->group(function () {
     })->middleware(['auth:sanctum', 'signed'])->name('verification.verify');
 
     Route::resource('events', EventController::class);
+
+    Route::resources([
+        'modules' => ModuleController::class,
+        'sub-modules' => SubModuleController::class,
+        'sub-categories' => SubCategoryController::class,
+    ], [
+        'only' => ['update', 'destroy']
+    ]);
+
     Route::middleware('auth:sanctum')->group(function () {
         // Route::middleware('role:admin')->group(function () {
-
-        Route::resources([
-            'sub-modules' => SubModuleController::class,
-            'sub-categories' => SubCategoryController::class,
-        ], [
-            'only' => ['update', 'destroy']
-        ]);
 
         Route::resources([
             'courses' => CourseController::class,

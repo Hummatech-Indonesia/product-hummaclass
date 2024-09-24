@@ -22,6 +22,7 @@ class ModuleResource extends JsonResource
             'step' => $this->step,
             'slug' => $this->slug,
             'sub_title' => $this->sub_title,
+            'course' => $this->course,
             'sub_modules' => SubModuleResource::collection($this->subModules),
             'sub_module_count' => $this->subModules->count(),
             'module_tasks' => ModuleTaskResource::collection($this->moduleTasks),

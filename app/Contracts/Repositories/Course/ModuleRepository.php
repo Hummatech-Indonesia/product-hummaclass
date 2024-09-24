@@ -121,6 +121,19 @@ class ModuleRepository extends BaseRepository implements ModuleInterface
     {
         return $this->model->query()->where('step', '<', $mixed)->first();
     }
+    /**
+     * Method getWhere
+     *
+     * @param string $column [explicite description]
+     * @param string $operator [explicite description]
+     * @param $value $value [explicite description]
+     *
+     * @return mixed
+     */
+    public function getWhere(string $column, string $operator, $value): mixed
+    {
+        return $this->model->query()->where($column, $operator, $value)->get();
+    }
 
     /**
      * search

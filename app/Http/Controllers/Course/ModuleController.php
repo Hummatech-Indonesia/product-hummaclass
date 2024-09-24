@@ -11,12 +11,14 @@ use App\Http\Requests\ModuleRequest;
 use App\Http\Resources\Course\ModuleResource;
 use App\Models\Course;
 use App\Models\Module;
+use App\Services\Course\ModuleService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class ModuleController extends Controller
 {
     private ModuleInterface $module;
+    private ModuleService $service;
     private CourseInterface $course;
     private SubModuleInterface $subModule;
     /**
@@ -26,9 +28,10 @@ class ModuleController extends Controller
      *
      * @return void
      */
-    public function __construct(ModuleInterface $module, SubModuleInterface $subModule, CourseInterface $course)
+    public function __construct(ModuleInterface $module, SubModuleInterface $subModule, CourseInterface $course, ModuleService $service)
     {
         $this->module = $module;
+        $this->service = $service;
         $this->course = $course;
         $this->subModule = $subModule;
     }
@@ -103,7 +106,7 @@ class ModuleController extends Controller
     public function destroy(Module $module): JsonResponse
     {
         try {
-            $this->module->delete($module->id);
+            $this->service->delete($module);
             return ResponseHelper::success(true, trans('alert.delete_success'));
         } catch (\Throwable $e) {
             return ResponseHelper::error(false, trans('alert.delete_constrained'));

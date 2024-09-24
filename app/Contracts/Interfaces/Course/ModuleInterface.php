@@ -5,6 +5,7 @@ namespace App\Contracts\Interfaces\Course;
 use App\Contracts\Interfaces\Eloquent\BaseInterface;
 use App\Contracts\Interfaces\Eloquent\CustomPaginationInterface;
 use App\Contracts\Interfaces\Eloquent\DeleteInterface;
+use App\Contracts\Interfaces\Eloquent\GetWhereInterface;
 use App\Contracts\Interfaces\Eloquent\SearchInterface;
 use App\Contracts\Interfaces\Eloquent\ShowInterface;
 use App\Contracts\Interfaces\Eloquent\StoreInterface;
@@ -36,4 +37,15 @@ interface ModuleInterface extends CustomPaginationInterface, StoreInterface, Sho
      * @return mixed
      */
     public function getBackward(mixed $mixed): mixed;
+    /**
+     * Method getWhere
+     *
+     * @param string $column [explicite description]
+     * @param string $operator [explicite description]
+     * @param $value $value [explicite description]
+     *
+     * @return mixed
+     */
+    public function getWhere(string $column, string $operator, $value): mixed;
+
 }
