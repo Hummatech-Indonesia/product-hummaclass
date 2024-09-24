@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Base\Interfaces\HasBlogs;
 use App\Base\Interfaces\HasCategory;
 use App\Base\Interfaces\HasCourses;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -9,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class SubCategory extends Model implements HasCategory, HasCourses
+class SubCategory extends Model implements HasCategory, HasCourses, HasBlogs
 {
     use HasFactory;
 
@@ -33,5 +34,14 @@ class SubCategory extends Model implements HasCategory, HasCourses
     public function courses(): HasMany
     {
         return $this->hasMany(Course::class);
+    }
+    /**
+     * Get all of the blogs for the SubCategory
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function blogs(): HasMany
+    {
+        return $this->hasMany(Blog::class);
     }
 }

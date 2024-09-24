@@ -22,6 +22,7 @@ use App\Services\TripayService;
 use App\Http\Controllers\Course\CourseTaskController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\VerificationController;
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\Course\SubCategoryController;
 use App\Http\Controllers\Course\CourseReviewController;
@@ -94,6 +95,8 @@ Route::middleware('enable.cors')->group(function () {
     Route::middleware('auth:sanctum')->group(function () {
         // Route::middleware('role:admin')->group(function () {
 
+        Route::resource('blogs', BlogController::class)->only(['store', 'update', 'destroy']);
+
         Route::resources([
             'courses' => CourseController::class,
             'sub-categories' => SubCategoryController::class,
@@ -125,6 +128,9 @@ Route::middleware('enable.cors')->group(function () {
         Route::patch('modules-backward/{module}', [ModuleController::class, 'backward']);
         // });
     });
+
+    Route::get('blogs/{blog}', [BlogController::class, 'show']);
+    Route::get('blogs', [BlogController::class, 'index']);
 
     Route::get('course-reviews', [CourseReviewController::class, 'index']);
     Route::post('course-reviews/{course}', [CourseReviewController::class, 'store']);

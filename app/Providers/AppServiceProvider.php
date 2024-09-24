@@ -12,6 +12,7 @@ use App\Contracts\Interfaces\EventDetailInterface;
 use App\Contracts\Interfaces\TransactionInterface;
 use App\Contracts\Repositories\RegisterRepository;
 use App\Contracts\Interfaces\Auth\ProfileInterface;
+use App\Contracts\Interfaces\BlogInterface;
 use App\Contracts\Repositories\Auth\UserRepository;
 use App\Contracts\Interfaces\Course\CourseInterface;
 use App\Contracts\Interfaces\Course\ModuleInterface;
@@ -37,6 +38,7 @@ use App\Contracts\Repositories\Course\UserCourseRepository;
 use App\Contracts\Interfaces\Configuration\ContactInterface;
 use App\Contracts\Interfaces\Course\ModuleQuestionInterface;
 use App\Contracts\Interfaces\Course\SubmissionTaskInterface;
+use App\Contracts\Repositories\BlogRepository;
 use App\Contracts\Repositories\Course\SubCategoryRepository;
 use App\Contracts\Repositories\Course\CourseReviewRepository;
 use App\Contracts\Repositories\Course\CourseVoucherRepository;
@@ -67,6 +69,7 @@ class AppServiceProvider extends ServiceProvider
         EventInterface::class => EventRepository::class,
         EventDetailInterface::class => EventDetailRepository::class,
         TransactionInterface::class => TransactionRepository::class,
+        BlogInterface::class => BlogRepository::class
     ];
 
     /**
