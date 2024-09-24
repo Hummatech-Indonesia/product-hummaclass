@@ -25,7 +25,7 @@ class TransactionRepository extends BaseRepository implements TransactionInterfa
     }
     public function update($id, array $data): mixed
     {
-        return $this->transaction->update($data);
+        return $this->show($id)->update($data);
     }
     public function delete(mixed $id): mixed
     {
