@@ -20,7 +20,7 @@ class TransactionController extends Controller
     private TransactionInterface $transaction;
     private TripayService $service;
     private TransactionService $transactionService;
-    public function __construct(TransactionInterface $transaction, TransactionInterface $transactionService, TripayService $service)
+    public function __construct(TransactionInterface $transaction, TransactionService $transactionService, TripayService $service)
     {
         $this->transaction = $transaction;
         $this->transactionService = $transactionService;
@@ -71,7 +71,7 @@ class TransactionController extends Controller
 
     public function callback(Request $request)
     {
-        $this->transactionService->handlePaymentCallback($request);  
+        return $this->transactionService->handlePaymentCallback($request);  
     }
     public function returnCallback(Request $request)
     {

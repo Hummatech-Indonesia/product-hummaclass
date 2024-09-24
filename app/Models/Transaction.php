@@ -20,6 +20,7 @@ class Transaction extends Model
         'expiry_date',
         'paid_amount',
         'payment_channel',
-        'payment_method'
+        'payment_method',
+        'invoice_status'
     ];
 }

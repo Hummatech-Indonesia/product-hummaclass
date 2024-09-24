@@ -9,6 +9,7 @@ use App\Contracts\Interfaces\Eloquent\ShowInterface;
 use App\Contracts\Interfaces\Eloquent\StoreInterface;
 use App\Contracts\Interfaces\Eloquent\UpdateInterface;
 
-interface UserCourseInterface extends CustomPaginationInterface
+interface UserCourseInterface extends CustomPaginationInterface, StoreInterface, DeleteInterface, ShowInterface
 {
+    public function showByUserCourse($userId, $courseId): mixed;
 }

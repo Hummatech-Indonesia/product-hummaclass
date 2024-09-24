@@ -33,7 +33,7 @@ class TripayService
 
         return hash_hmac('sha256', $request->getContent(), $privateKey);
     }
-    public function handelCreateTransaction(Course $course): mixed
+    public function handelCreateTransaction(Request $request, Course $course): mixed
     {
         $apiKey       = config('tripay.api_key');
         $privateKey   = config('tripay.private_key');
