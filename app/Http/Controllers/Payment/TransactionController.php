@@ -10,6 +10,7 @@ use App\Helpers\ResponseHelper;
 use App\Services\TripayService;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use App\Services\TransactionService;
 use Illuminate\Support\Facades\Http;
 use App\Http\Resources\PaymentChannelResource;
 use App\Contracts\Interfaces\TransactionInterface;
@@ -18,9 +19,11 @@ class TransactionController extends Controller
 {
     private TransactionInterface $transaction;
     private TripayService $service;
-    public function __construct(TransactionInterface $transaction, TripayService $service)
+    private TransactionService $transactionService;
+    public function __construct(TransactionInterface $transaction, TransactionInterface $transactionService, TripayService $service)
     {
         $this->transaction = $transaction;
+        $this->transactionService = $transactionService;
         $this->service = $service;
     }
     public function getPaymentChannels(): JsonResponse
@@ -68,17 +71,7 @@ class TransactionController extends Controller
 
     public function callback(Request $request)
     {
-        $data = [
-            'id' => $request->reference,
-            'invoice_id' => $request->merchant_ref,
-            'fee_amount' => $request->fee_merchant,
-            'paid_amount' => $request->total_amount,
-            'payment_channel' => $request->payment_method,
-            'payment_method' => $request->payment_method_code,
-            'invoice_status' => $request->status
-        ];
-
-        return $this->transaction->update($request->reference, $data);
+        $this->transactionService->handlePaymentCallback($request);  
     }
     public function returnCallback(Request $request)
     {
