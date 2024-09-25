@@ -42,4 +42,5 @@ return [
     'invalid_callback_signature' => 'Invalid Callback Signature! request blocked.',
     'invalid_callback_event' => 'Unrecognized Callback Event! request blocked.',
     'callback_success' => 'Callback berhasil',
+    'view_success' => 'berhasil menambah view',
 ];

@@ -131,6 +131,7 @@ Route::middleware('enable.cors')->group(function () {
     });
 
     Route::get('blogs/{blog}', [BlogController::class, 'show']);
+    Route::get('blog-detail/{slug}', [BlogController::class, 'showLanding']);
     Route::get('blogs', [BlogController::class, 'index']);
 
     Route::get('course-reviews', [CourseReviewController::class, 'index']);

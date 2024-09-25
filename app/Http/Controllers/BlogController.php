@@ -45,6 +45,21 @@ class BlogController extends Controller
         return ResponseHelper::success(true, trans('alert.add_success'));
     }
     /**
+     * Method showAndCountView
+     *
+     * @param Request $request [explicite description]
+     * @param string $slug [explicite description]
+     *
+     * @return JsonResponse
+     */
+    public function showLanding(Request $request, string $slug): JsonResponse
+    {
+        // return response()->json('berhasil');
+        $this->service->handleCreateBlogView($request, $slug);
+        $blog = $this->blog->showWithSlug($slug);
+        return ResponseHelper::success(BlogResource::make($blog), trans('alert.view_success'));
+    }
+    /**
      * Method show
      *
      * @param Blog $blog [explicite description]

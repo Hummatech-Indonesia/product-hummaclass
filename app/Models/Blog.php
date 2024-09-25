@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use App\Base\Interfaces\HasBlogViews;
 use App\Base\Interfaces\HasSubCategory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Blog extends Model implements HasSubCategory
+class Blog extends Model implements HasSubCategory, HasBlogViews
 {
     use HasFactory;
     public $incrementing = false;
@@ -19,7 +21,6 @@ class Blog extends Model implements HasSubCategory
         'thumbnail',
         'description',
         'sub_category_id',
-        'views',
     ];
 
     /**
@@ -30,5 +31,14 @@ class Blog extends Model implements HasSubCategory
     public function subCategory(): BelongsTo
     {
         return $this->belongsTo(SubCategory::class);
+    }
+    /**
+     * Get all of the blogViews for the Blog
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function blogViews(): HasMany
+    {
+        return $this->hasMany(BlogView::class);
     }
 }

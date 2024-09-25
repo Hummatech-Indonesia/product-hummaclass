@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Base\Interfaces\uploads\ShouldHandleFileUpload;
 use App\Contracts\Interfaces\BlogInterface;
+use App\Contracts\Interfaces\BlogViewInterface;
 use App\Contracts\Interfaces\EventDetailInterface;
 use App\Contracts\Interfaces\EventInterface;
 use App\Enums\UploadDiskEnum;
@@ -16,11 +17,17 @@ use App\Models\Event;
 use App\Models\EventDetail;
 use App\Models\User;
 use App\Traits\UploadTrait;
+use Illuminate\Http\Request;
 
 class BlogService implements ShouldHandleFileUpload
 {
 
     use UploadTrait;
+    private BlogViewInterface $blogView;
+    public function __construct(BlogViewInterface $blogView)
+    {
+        $this->blogView = $blogView;
+    }
 
     /**
      * Method store
@@ -72,5 +79,10 @@ class BlogService implements ShouldHandleFileUpload
         }
 
         return $blog->id;
+    }
+    public function handleCreateBlogView(Request $request, string $slug)
+    {
+        $ipAddress = $request->ip();
+        dd($ipAddress);
     }
 }

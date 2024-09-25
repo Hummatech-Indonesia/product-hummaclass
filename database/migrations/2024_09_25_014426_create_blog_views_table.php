@@ -10,13 +10,10 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('blogs', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->text('thumbnail')->nullable();
-            $table->string('title')->unique();
-            $table->string('slug');
-            $table->longText('description');
-            $table->foreignId('sub_category_id')->constrained();
+        Schema::create('blog_views', function (Blueprint $table) {
+            $table->id();
+            $table->foreignUuid('blog_id')->constrained();
+            $table->integer('view')->default(0);
             $table->timestamps();
         });
     }
@@ -26,6 +23,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('blogs');
+        Schema::dropIfExists('blog_views');
     }
 };

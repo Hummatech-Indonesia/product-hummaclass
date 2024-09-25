@@ -17,10 +17,12 @@ class BlogResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
+            'slug' => $this->slug,
             'category' => $this->subCategory,
             'description' => $this->description,
             'thumbnail' => asset('storage/' . $this->thumbnail),
             'created' => $this->created_at->translatedFormat('d F Y'),
+            'view_count' => $this->blogViews->count(),
         ];
     }
 }
