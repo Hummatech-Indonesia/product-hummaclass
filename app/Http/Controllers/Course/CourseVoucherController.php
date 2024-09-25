@@ -78,4 +78,10 @@ class CourseVoucherController extends Controller
         $this->courseVoucher->delete($courseVoucher->id);
         return ResponseHelper::success(true, trans('alert.delete_success'));
     }
+
+    public function checkCode(Request $request) : JsonResponse {
+        $voucher = $this->courseVoucher->getWhere(['code', $request->voucher_code]);
+        if($voucher) return ResponseHelper::success($voucher, 'Berhasil menggunakan voucher');
+        return ResponseHelper::error(null, "Voucher tidak valid");
+    }
 }

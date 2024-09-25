@@ -34,6 +34,7 @@ class CourseSeeder extends Seeder
             'sub_title' => 'lorem ipsum dolor sit amet',
             'description' => 'lorem ipsum dolor sit amet lorem rebum magna diam stet',
             'price' => 100000,
+            'photo' => 'course/course_thumb04.jpg',
             'is_premium' => true,
         ]);
 

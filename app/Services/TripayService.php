@@ -16,7 +16,14 @@ class TripayService
             ->get(config('tripay.api_url') . "merchant/payment-channel")
             ->json();
 
-        return collect($res['data'])->groupBy('group');
+        $channels = collect($res['data'])->groupBy('group');
+        $formattedCollection = $channels->mapWithKeys(function ($item, $key) {
+            $newKey = strtolower(str_replace(' ', '_', $key));
+            $newKey = strtolower(str_replace('-', '_', $newKey));
+            return [$newKey => $item];
+        });
+
+        return $formattedCollection;
     }
     public function handlePaymentInstructions($code)
     {
