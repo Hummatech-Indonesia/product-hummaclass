@@ -47,10 +47,8 @@ class TransactionController extends Controller
     }
     public function store(Request $request, Course $course): mixed
     {
-        dd($request, $course);
         $voucher = $this->courseVoucher->getByCode($request->voucher_code);
         $transaction = json_decode($this->service->handelCreateTransaction($request, $course, $voucher), 1);
-        // return $transaction;
         if ($transaction['success']) {
             $data = [
                 'id' => $transaction['data']['reference'],
@@ -67,7 +65,7 @@ class TransactionController extends Controller
                 'payment_method' => $transaction['data']['payment_method']
             ];
             $created = $this->transaction->store($data);
-            return ResponseHelper::success(null, 'Transaksi berhasil');
+            return ResponseHelper::success(['transaction' => $transaction, 'voucher' => $voucher], 'Transaksi berhasil');
         } else {
             ResponseHelper::error('Transaksi Gagal');
         }
