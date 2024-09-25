@@ -13,7 +13,7 @@ return new class extends Migration {
         Schema::create('blog_views', function (Blueprint $table) {
             $table->id();
             $table->foreignUuid('blog_id')->constrained();
-            $table->text('ip_address')->unique();
+            $table->string('ip_address')->unique();
             $table->timestamps();
         });
     }
