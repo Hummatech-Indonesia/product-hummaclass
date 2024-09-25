@@ -43,6 +43,19 @@ class EventController extends Controller
         return ResponseHelper::success(true, trans('alert.add_success'));
     }
     /**
+     * Method show
+     *
+     * @param Event $event [explicite description]
+     *
+     * @return JsonResponse
+     */
+    public function show(string $slug): JsonResponse
+    {
+        $event = $this->event->showWithSlug($slug);
+        // dd($event);
+        return ResponseHelper::success(EventResource::make($event), trans('alert.fetch_success'));
+    }
+    /**
      * Method update
      *
      * @param EventRequest $request [explicite description]

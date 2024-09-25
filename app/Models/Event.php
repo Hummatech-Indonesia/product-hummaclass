@@ -17,6 +17,7 @@ class Event extends Model implements HasEventDetails
     protected $fillable = [
         'image',
         'title',
+        'slug',
         'description',
         'location',
         'capacity',

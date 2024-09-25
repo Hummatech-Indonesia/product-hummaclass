@@ -82,8 +82,8 @@ Route::middleware('enable.cors')->group(function () {
         return response()->json(['message' => 'Email verified successfully']);
     })->middleware(['auth:sanctum', 'signed'])->name('verification.verify');
 
-    Route::resource('events', EventController::class);
-
+    Route::resource('events', EventController::class)->except('show');
+    Route::get('events/{slug}', [EventController::class, 'show']);
     Route::resources([
         'modules' => ModuleController::class,
         'sub-modules' => SubModuleController::class,

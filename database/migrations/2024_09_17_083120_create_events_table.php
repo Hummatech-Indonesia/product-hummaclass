@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->uuid('id')->primary();
             $table->text('image')->nullable();
             $table->string('title');
+            $table->string('slug');
             $table->text('description');
             $table->text('location');
             $table->integer('capacity');
