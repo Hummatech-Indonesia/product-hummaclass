@@ -80,7 +80,7 @@ class CourseVoucherController extends Controller
     }
 
     public function checkCode(Request $request) : JsonResponse {
-        $voucher = $this->courseVoucher->getWhere(['code', $request->voucher_code]);
+        $voucher = $this->courseVoucher->getWhere(['code' => $request->voucher_code]);
         if($voucher) return ResponseHelper::success($voucher, 'Berhasil menggunakan voucher');
         return ResponseHelper::error(null, "Voucher tidak valid");
     }
