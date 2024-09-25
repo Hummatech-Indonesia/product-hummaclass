@@ -25,16 +25,7 @@ class BlogViewRepository extends BaseRepository implements BlogViewInterface
     {
         $this->model = $blogView;
     }
-    /**
-     * Method update
-     *
-     * @param mixed $id [explicite description]
-     * @param array $data [explicite description]
-     *
-     * @return mixed
-     */
-    public function update(mixed $id, array $data): mixed
-    {
-        return $this->model->query()->findOrFail($id)->update($data);
+    public function store(array $data):mixed{
+        return $this->model->query()->create($data);
     }
 }
