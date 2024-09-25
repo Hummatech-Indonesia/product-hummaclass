@@ -11,7 +11,7 @@ use App\Contracts\Interfaces\Eloquent\ShowInterface;
 use App\Contracts\Interfaces\Eloquent\StoreInterface;
 use App\Contracts\Interfaces\Eloquent\UpdateInterface;
 
-interface BlogViewInterface extends UpdateInterface
+interface BlogViewInterface extends StoreInterface
 {
 
 }

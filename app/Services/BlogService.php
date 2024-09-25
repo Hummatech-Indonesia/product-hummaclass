@@ -80,9 +80,10 @@ class BlogService implements ShouldHandleFileUpload
 
         return $blog->id;
     }
-    public function handleCreateBlogView(Request $request, string $slug)
+    public function handleCreateBlogView(Request $request, Blog $blog): bool
     {
         $ipAddress = $request->ip();
-        dd($ipAddress);
+        $this->blogView->store(['blog_id' => $blog->id, "ip_address" => $ipAddress]);
+        return true;
     }
 }

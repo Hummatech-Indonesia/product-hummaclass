@@ -55,9 +55,13 @@ class BlogController extends Controller
     public function showLanding(Request $request, string $slug): JsonResponse
     {
         // return response()->json('berhasil');
-        $this->service->handleCreateBlogView($request, $slug);
         $blog = $this->blog->showWithSlug($slug);
-        return ResponseHelper::success(BlogResource::make($blog), trans('alert.view_success'));
+        try {
+            $this->service->handleCreateBlogView($request, $blog);
+        } catch (\Throwable $e) {
+
+        }
+        return ResponseHelper::success(BlogResource::make($blog), trans('alert.fetch_success'));
     }
     /**
      * Method show

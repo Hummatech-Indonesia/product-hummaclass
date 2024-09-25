@@ -13,7 +13,7 @@ class BlogView extends Model implements HasBlog
 
     protected $fillable = [
         'blog_id',
-        'view'
+        'ip_address'
     ];
     /**
      * Get the blog that owns the BlogView
