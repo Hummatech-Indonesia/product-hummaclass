@@ -79,9 +79,15 @@ class CourseVoucherController extends Controller
         return ResponseHelper::success(true, trans('alert.delete_success'));
     }
 
-    public function checkCode(Request $request) : JsonResponse {
-        $voucher = $this->courseVoucher->getWhere(['code' => $request->voucher_code]);
-        if($voucher) return ResponseHelper::success($voucher, 'Berhasil menggunakan voucher');
-        return ResponseHelper::error(null, "Voucher tidak valid");
+    public function checkCode(Request $request)
+    {
+        $voucher = $this->courseVoucher->getByCode($request->voucher_code);
+        // return is_null($voucher);
+        if (!is_null($voucher)) {
+            return ResponseHelper::success($voucher, 'Berhasil menggunakan voucher');
+        } else {
+            // return 'sdfsfdsdsfsf';
+            return ResponseHelper::error(null, "Voucher tidak valid", 404);
+        }
     }
 }

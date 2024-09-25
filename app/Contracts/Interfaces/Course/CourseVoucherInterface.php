@@ -13,4 +13,5 @@ use App\Contracts\Interfaces\Eloquent\UpdateInterface;
 
 interface CourseVoucherInterface extends GetWhereInterface, StoreInterface, UpdateInterface, ShowInterface, DeleteInterface
 {
+    public function getByCode(string $code): mixed;
 }

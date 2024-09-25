@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Helpers\ResponseHelper;
 use App\Models\Course;
+use App\Models\CourseVoucher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
@@ -40,16 +41,16 @@ class TripayService
 
         return hash_hmac('sha256', $request->getContent(), $privateKey);
     }
-    public function handelCreateTransaction(Request $request, Course $course): mixed
+    public function handelCreateTransaction(Request $request, Course $course, CourseVoucher $courseVoucher): mixed
     {
         $apiKey       = config('tripay.api_key');
         $privateKey   = config('tripay.private_key');
         $merchantCode = config('tripay.merchant_code');
         $merchantRef  = "HMCLS" . substr(time(), 6);
-        $amount       = $course->price;
+        $amount       = $courseVoucher? $course->price - ($course->price * ($courseVoucher->discount / 100)) : $course->price;
 
         $data = [
-            'method'         => 'BRIVA',
+            'method'         => $request->payment_method,
             'merchant_ref'   => $merchantRef,
             'amount'         => $amount,
             'customer_name'  => auth()->user()->name,

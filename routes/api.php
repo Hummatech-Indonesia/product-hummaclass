@@ -92,13 +92,14 @@ Route::middleware('enable.cors')->group(function () {
         'only' => ['update', 'destroy']
     ]);
 
+    Route::resource('courses', CourseController::class)->only(['index', 'show']);
     Route::middleware('auth:sanctum')->group(function () {
         // Route::middleware('role:admin')->group(function () {
 
         Route::resource('blogs', BlogController::class)->only(['store', 'update', 'destroy']);
 
+        Route::resource('courses', CourseController::class)->except(['index', 'show']);
         Route::resources([
-            'courses' => CourseController::class,
             'sub-categories' => SubCategoryController::class,
         ], [
             'only' => ['store', 'update', 'destroy', 'show']

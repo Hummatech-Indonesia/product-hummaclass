@@ -37,6 +37,11 @@ class CourseVoucherRepository extends BaseRepository implements CourseVoucherInt
     {
         return $this->model->query()->where($data)->get();
     }
+
+    public function getByCode($code): mixed
+    {
+        return $this->model->query()->where('code', $code)->first();
+    }
     /**
      * Method store
      *

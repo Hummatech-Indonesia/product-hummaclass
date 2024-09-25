@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Payment;
 
+use App\Contracts\Interfaces\Course\CourseVoucherInterface;
 use Carbon\Carbon;
 use App\Models\Course;
 use App\Models\Transaction;
@@ -18,11 +19,13 @@ use App\Contracts\Interfaces\TransactionInterface;
 class TransactionController extends Controller
 {
     private TransactionInterface $transaction;
+    private CourseVoucherInterface $courseVoucher;
     private TripayService $service;
     private TransactionService $transactionService;
-    public function __construct(TransactionInterface $transaction, TransactionService $transactionService, TripayService $service)
+    public function __construct(TransactionInterface $transaction, CourseVoucherInterface $courseVoucher,TransactionService $transactionService, TripayService $service)
     {
         $this->transaction = $transaction;
+        $this->courseVoucher = $courseVoucher;
         $this->transactionService = $transactionService;
         $this->service = $service;
     }
@@ -44,8 +47,9 @@ class TransactionController extends Controller
     }
     public function store(Request $request, Course $course): mixed
     {
-        $transaction = json_decode($this->service->handelCreateTransaction($course), 1);
-
+        dd($request, $course);
+        $voucher = $this->courseVoucher->getByCode($request->voucher_code);
+        $transaction = json_decode($this->service->handelCreateTransaction($request, $course, $voucher), 1);
         // return $transaction;
         if ($transaction['success']) {
             $data = [
