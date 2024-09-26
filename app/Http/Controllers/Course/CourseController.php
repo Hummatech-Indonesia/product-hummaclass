@@ -10,14 +10,15 @@ use App\Http\Resources\Course\DetailCourseResource;
 use App\Http\Resources\CourseResource;
 use App\Models\Course;
 use App\Services\Course\CourseService;
+use App\Traits\PaginationTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class CourseController extends Controller
 {
+    use PaginationTrait;
     private CourseInterface $course;
     private CourseService $service;
-
 
 
     /**
@@ -35,7 +36,14 @@ class CourseController extends Controller
 
     public function index(Request $request): JsonResponse
     {
-        $courses = $this->course->customPaginate($request);
+        if ($request->has('page')) {
+            $courses = $this->course->customPaginate($request);
+            $data['paginate'] = $this->customPaginate($courses->currentPage(), $courses->lastPage());
+            $data['data'] = CourseResource::collection($courses);
+        } else {
+            $courses = $this->course->search($request);
+            $data['data'] = CourseResource::collection($courses);
+        }
         return ResponseHelper::success(CourseResource::collection($courses), trans('alert.fetch_success'));
     }
 

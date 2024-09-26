@@ -92,7 +92,9 @@ Route::middleware('enable.cors')->group(function () {
         'only' => ['update', 'destroy']
     ]);
 
-    Route::resource('courses', CourseController::class)->only(['index', 'show']);
+    Route::get('courses', [CourseController::class, 'index']);
+    Route::get('courses/{slug}', [CourseController::class, 'show']);
+
     Route::middleware('auth:sanctum')->group(function () {
         // Route::middleware('role:admin')->group(function () {
 
@@ -157,8 +159,7 @@ Route::middleware('enable.cors')->group(function () {
 
     Route::get('user-courses/{course}', [UserCourseController::class, 'index']);
 
-    Route::get('courses', [CourseController::class, 'index']);
-    Route::get('courses/{slug}', [CourseController::class, 'show']);
+
 
     Route::get('modules/{slug}', [ModuleController::class, 'index']);
     Route::get('list-module/{slug}', [ModuleController::class, 'listModule']);
