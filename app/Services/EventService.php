@@ -45,9 +45,9 @@ class EventService implements ShouldHandleFileUpload
         if ($request->has('start')) {
             foreach ($data['start'] as $index => $start) {
                 $detailData = [
-                    'user_id' => $event->user_id,
                     'event_id' => $event->id,
                     'start' => $start,
+                    'user_id' => $data['user_id'][$index],
                     'end' => $data['end'][$index],
                     'session' => $data['session'][$index],
                 ];
