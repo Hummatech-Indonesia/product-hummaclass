@@ -12,7 +12,7 @@ class EventDetail extends Model implements HasEvent
     use HasFactory;
     protected $fillable = [
         'event_id',
-        'user_id',
+        'user',
         'start',
         'end',
         'session',

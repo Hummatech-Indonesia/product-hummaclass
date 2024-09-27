@@ -31,10 +31,10 @@ class EventRequest extends ApiRequest
             'start_date' => 'required|date',
             'has_certificate' => 'required',
             'is_online' => 'required',
-            'user_id.*' => 'nullable',
-            'start.*' => 'nullable',
-            'end.*' => 'nullable',
-            'session.*' => 'nullable',
+            'user.*' => 'required',
+            'start.*' => 'required',
+            'end.*' => 'required',
+            'session.*' => 'required',
         ];
     }
     public function messages(): array
@@ -61,10 +61,10 @@ class EventRequest extends ApiRequest
             'start_date.date' => 'Tanggal mulai harus berupa tanggal yang valid.',
             'has_certificate.required' => 'Status sertifikat harus diisi.',
             'is_online.required' => 'Status online harus diisi.',
-            // 'user_id.*.required' => 'Speaker wajib diisi',
-            // 'start.*.required' => 'Waktu mulai wajib diisi',
-            // 'end.*.required' => 'Waktu berakhir wajib diisi',
-            // 'session.*.required' => 'Sesi wajib diisi',
+            'user.*.required' => 'Pembawa acara wajib diisi',
+            'start.*.required' => 'Waktu mulai wajib diisi',
+            'end.*.required' => 'Waktu berakhir wajib diisi',
+            'session.*.required' => 'Sesi wajib diisi',
         ];
     }
 

@@ -32,6 +32,7 @@ use App\Http\Controllers\Course\SubmissionTaskController;
 use App\Http\Controllers\Course\CourseVoucherUserController;
 use App\Http\Controllers\Course\ModuleTaskController;
 use App\Http\Controllers\Course\UserCourseController;
+use App\Http\Controllers\Course\UserQuizController;
 use App\Http\Controllers\EventController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
@@ -95,6 +96,8 @@ Route::middleware('enable.cors')->group(function () {
     Route::get('courses', [CourseController::class, 'index']);
     Route::get('courses/{slug}', [CourseController::class, 'show']);
 
+    Route::get('quizzes-get', [QuizController::class, 'get']);
+
     Route::middleware('auth:sanctum')->group(function () {
 
         Route::resource('blogs', BlogController::class)->only(['store', 'update', 'destroy', 'show']);
@@ -124,6 +127,8 @@ Route::middleware('enable.cors')->group(function () {
         Route::post('module-questions/{module}', [ModuleQuestionController::class, 'store']);
 
         Route::get('quizzes/{module}', [QuizController::class, 'index']);
+        Route::get('quizzes', [QuizController::class, 'get']);
+        Route::get('quiz-start/{quiz}', [QuizController::class, 'show']);
         Route::post('quizzes/{module}', [QuizController::class, 'store']);
 
         Route::post('submission-tasks/{course_task}', [SubmissionTask::class, 'store']);

@@ -3,11 +3,13 @@
 namespace App\Models;
 
 use App\Base\Interfaces\HasModule;
+use App\Base\Interfaces\HasUserQuizzes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Quiz extends Model implements HasModule
+class Quiz extends Model implements HasModule, HasUserQuizzes
 {
     use HasFactory;
     public $keyType = 'char';
@@ -28,5 +30,14 @@ class Quiz extends Model implements HasModule
     public function module(): BelongsTo
     {
         return $this->belongsTo(Module::class);
+    }
+    /**
+     * Get all of the userQuizzes for the Quiz
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function userQuizzes(): HasMany
+    {
+        return $this->hasMany(UserQuiz::class);
     }
 }

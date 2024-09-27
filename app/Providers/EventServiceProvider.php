@@ -15,6 +15,7 @@ use App\Models\Quiz;
 use App\Models\SubmissionTask;
 use App\Models\SubModule;
 use App\Models\User;
+use App\Models\UserQuiz;
 use App\Observers\BlogObserver;
 use App\Observers\CourseObserver;
 use App\Observers\CourseTaskObserver;
@@ -28,6 +29,7 @@ use App\Observers\QuizObserver;
 use App\Observers\SubmissionTaskObserver;
 use App\Observers\SubModuleObserver;
 use App\Observers\UserObserver;
+use App\Observers\UserQuizObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -62,6 +64,7 @@ class EventServiceProvider extends ServiceProvider
         CourseVoucher::observe(CourseVoucherObserver::class);
         ModelsEvent::observe(EventObserver::class);
         Blog::observe(BlogObserver::class);
+        UserQuiz::observe(UserQuizObserver::class);
     }
 
     /**

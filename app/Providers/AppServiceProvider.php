@@ -39,6 +39,7 @@ use App\Contracts\Repositories\Course\UserCourseRepository;
 use App\Contracts\Interfaces\Configuration\ContactInterface;
 use App\Contracts\Interfaces\Course\ModuleQuestionInterface;
 use App\Contracts\Interfaces\Course\SubmissionTaskInterface;
+use App\Contracts\Interfaces\UserQuizInterface;
 use App\Contracts\Repositories\BlogRepository;
 use App\Contracts\Repositories\BlogViewRepository;
 use App\Contracts\Repositories\Course\SubCategoryRepository;
@@ -47,6 +48,7 @@ use App\Contracts\Repositories\Course\CourseVoucherRepository;
 use App\Contracts\Repositories\Configuration\ContactRepository;
 use App\Contracts\Repositories\Course\ModuleQuestionRepository;
 use App\Contracts\Repositories\Course\SubmissionTaskRepository;
+use App\Contracts\Repositories\UserQuizRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -73,6 +75,7 @@ class AppServiceProvider extends ServiceProvider
         TransactionInterface::class => TransactionRepository::class,
         BlogInterface::class => BlogRepository::class,
         BlogViewInterface::class => BlogViewRepository::class,
+        UserQuizInterface::class=>UserQuizRepository::class
     ];
 
     /**

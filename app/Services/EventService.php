@@ -35,7 +35,7 @@ class EventService implements ShouldHandleFileUpload
      */
     public function store(EventRequest $request): array|bool
     {
-        dd($request);
+        // dd($request);
         $data = $request->validated();
 
         if ($request->hasFile('image')) {
@@ -48,7 +48,7 @@ class EventService implements ShouldHandleFileUpload
                 $detailData = [
                     'event_id' => $event->id,
                     'start' => $start,
-                    'user_id' => $data['user_id'][$index],
+                    'user' => $data['user'][$index],
                     'end' => $data['end'][$index],
                     'session' => $data['session'][$index],
                 ];
@@ -85,7 +85,7 @@ class EventService implements ShouldHandleFileUpload
                     'start' => $start,
                     'end' => $data['end'][$index],
                     'session' => $data['session'][$index],
-                    'user_id' => $data['user_id'][$index],
+                    'user' => $data['user'][$index],
                 ];
                 $this->eventDetail->store($detailData);
             }

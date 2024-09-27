@@ -27,6 +27,15 @@ class QuizRepository extends BaseRepository implements QuizInterface
     {
         $this->model = $quiz;
     }
+    /**
+     * Method get
+     *
+     * @return mixed
+     */
+    public function get(): mixed
+    {
+        return $this->model->query()->get();
+    }
 
     /**
      * Method store
