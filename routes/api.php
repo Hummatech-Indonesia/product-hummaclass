@@ -96,9 +96,8 @@ Route::middleware('enable.cors')->group(function () {
     Route::get('courses/{slug}', [CourseController::class, 'show']);
 
     Route::middleware('auth:sanctum')->group(function () {
-        // Route::middleware('role:admin')->group(function () {
 
-        Route::resource('blogs', BlogController::class)->only(['store', 'update', 'destroy']);
+        Route::resource('blogs', BlogController::class)->only(['store', 'update', 'destroy', 'show']);
 
         Route::resource('courses', CourseController::class)->except(['index', 'show']);
         Route::resources([
@@ -134,7 +133,6 @@ Route::middleware('enable.cors')->group(function () {
         // });
     });
 
-    Route::get('blogs/{blog}', [BlogController::class, 'show']);
     Route::get('blog-detail/{slug}', [BlogController::class, 'showLanding']);
     Route::get('blogs', [BlogController::class, 'index']);
 

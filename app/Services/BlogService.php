@@ -41,7 +41,7 @@ class BlogService implements ShouldHandleFileUpload
         $data = $request->validated();
 
         if ($request->hasFile('thumbnail')) {
-            $data['thumbnail'] = $this->upload(UploadDiskEnum::EVENTS->value, $request->file('thumbnail'));
+            $data['thumbnail'] = $this->upload(UploadDiskEnum::BLOGS->value, $request->file('thumbnail'));
         }
         return $data;
     }
@@ -61,7 +61,7 @@ class BlogService implements ShouldHandleFileUpload
             if ($thumbnail) {
                 $this->remove($thumbnail);
             }
-            $data['thumbnail'] = $this->upload(UploadDiskEnum::EVENTS->value, $request->file('thumbnail'));
+            $data['thumbnail'] = $this->upload(UploadDiskEnum::BLOGS->value, $request->file('thumbnail'));
         }
         return $data;
     }
