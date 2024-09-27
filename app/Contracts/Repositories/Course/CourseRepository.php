@@ -31,7 +31,7 @@ class CourseRepository extends BaseRepository implements CourseInterface
      *
      * @return LengthAwarePaginator
      */
-    public function customPaginate(Request $request, int $pagination = 10): LengthAwarePaginator
+    public function customPaginate(Request $request, int $pagination = 9): LengthAwarePaginator
     {
         return $this->model->query()
             ->with('modules')
@@ -41,6 +41,9 @@ class CourseRepository extends BaseRepository implements CourseInterface
             })
             ->when($request->order == "best seller", function ($query) {
                 $query->orderBy('user_courses_count', 'desc');
+            })
+            ->when($request->maksimum && $request->minimum, function ($query) use ($request) {
+                $query->where('price', '>=', $request->minimum)->where('price', '<=', $request->maksimum);
             })
             ->orderBy('created_at', 'desc')
             ->fastPaginate($pagination);

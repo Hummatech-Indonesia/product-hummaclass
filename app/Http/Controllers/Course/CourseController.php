@@ -44,7 +44,7 @@ class CourseController extends Controller
             $courses = $this->course->search($request);
             $data['data'] = CourseResource::collection($courses);
         }
-        return ResponseHelper::success(CourseResource::collection($courses), trans('alert.fetch_success'));
+        return ResponseHelper::success($data, trans('alert.fetch_success'));
     }
 
     /**
