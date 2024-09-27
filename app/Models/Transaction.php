@@ -21,6 +21,7 @@ class Transaction extends Model
         'paid_amount',
         'payment_channel',
         'payment_method',
-        'invoice_status'
+        'invoice_status',
+        'course_voucher_id'
     ];
 }

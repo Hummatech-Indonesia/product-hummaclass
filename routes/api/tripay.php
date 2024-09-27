@@ -13,7 +13,7 @@ Route::middleware('enable.cors')->group(function () {
         Route::get('transaction-create/{course}', [TransactionController::class, 'store']);
 
         Route::get('return-callback', [TransactionController::class, 'returnCallback']);
-        Route::get('check-status', [TransactionController::class, 'checkStatus']);
+        Route::get('check-status/{reference}', [TransactionController::class, 'checkStatus']);
     });
     Route::post('callback', [TransactionController::class, 'callback'])->middleware('tripay.signature');
 });

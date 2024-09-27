@@ -35,6 +35,7 @@ class EventService implements ShouldHandleFileUpload
      */
     public function store(EventRequest $request): array|bool
     {
+        dd($request);
         $data = $request->validated();
 
         if ($request->hasFile('image')) {

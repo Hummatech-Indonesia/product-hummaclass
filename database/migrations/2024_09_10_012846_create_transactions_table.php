@@ -21,11 +21,10 @@ return new class extends Migration {
             $table->string('invoice_url');
             $table->timestamp('expiry_date');
             $table->integer('paid_amount');
-            // $table->timestamp('paid_at');
             $table->string('payment_channel');
             $table->string('payment_method');
-            
-            $table->enum('invoice_status', [InvoiceStatusEnum::PENDING->value, InvoiceStatusEnum::PAID->value, InvoiceStatusEnum::FAILED->value, InvoiceStatusEnum::EXPIRED->value, InvoiceStatusEnum::UNPAID->value])->default(InvoiceStatusEnum::PENDING->value);
+            $table->enum('invoice_status', [InvoiceStatusEnum::PENDING->value, InvoiceStatusEnum::PAID->value, InvoiceStatusEnum::FAILED->value, InvoiceStatusEnum::EXPIRED->value, InvoiceStatusEnum::UNPAID->value])->default(InvoiceStatusEnum::PENDING->value);;
+            $table->foreignUuid('course_voucher_id')->nullable()->constrained()->restrictOnDelete()->restrictOnDelete()->default(null);
             $table->timestamps();
         });
     }

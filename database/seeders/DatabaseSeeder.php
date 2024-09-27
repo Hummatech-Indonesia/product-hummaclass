@@ -22,7 +22,8 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             CategorySeeder::class,
             CourseSeeder::class,
-            ContactSeeder::class
+            ContactSeeder::class,
+            VoucherSeeder::class
         ]);
     }
 }

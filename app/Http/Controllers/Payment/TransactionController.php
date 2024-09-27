@@ -22,7 +22,7 @@ class TransactionController extends Controller
     private CourseVoucherInterface $courseVoucher;
     private TripayService $service;
     private TransactionService $transactionService;
-    public function __construct(TransactionInterface $transaction, CourseVoucherInterface $courseVoucher,TransactionService $transactionService, TripayService $service)
+    public function __construct(TransactionInterface $transaction, CourseVoucherInterface $courseVoucher, TransactionService $transactionService, TripayService $service)
     {
         $this->transaction = $transaction;
         $this->courseVoucher = $courseVoucher;
@@ -62,7 +62,8 @@ class TransactionController extends Controller
                 'paid_amount' => 0,
                 // 'paid_at' => '',
                 'payment_channel' => $transaction['data']['payment_name'],
-                'payment_method' => $transaction['data']['payment_method']
+                'payment_method' => $transaction['data']['payment_method'],
+                'course_voucher_id' => $voucher->id ?? null
             ];
             $created = $this->transaction->store($data);
             return ResponseHelper::success(['transaction' => $transaction, 'voucher' => $voucher], 'Transaksi berhasil');
@@ -73,7 +74,7 @@ class TransactionController extends Controller
 
     public function callback(Request $request)
     {
-        return $this->transactionService->handlePaymentCallback($request);  
+        return $this->transactionService->handlePaymentCallback($request);
     }
     public function returnCallback(Request $request)
     {
@@ -84,9 +85,7 @@ class TransactionController extends Controller
     {
         // return $request->referense;
         // return config('tripay.api_url');
-        $response = Http::withToken(config('tripay.api_key'))->get(config('tripay.api_url') . 'transaction/check-status', [
-            'reference' => $request->referense
-        ]);
+        $response = Http::withToken(config('tripay.api_key'))->get(config('tripay.api_url') . 'transaction/detail' . $request->reference);
 
         return $response;
     }
