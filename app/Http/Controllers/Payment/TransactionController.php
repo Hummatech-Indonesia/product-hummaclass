@@ -81,12 +81,11 @@ class TransactionController extends Controller
         return 'return callback';
     }
 
-    public function checkStatus(Request $request)
+    public function checkStatus(Request $request, $reference)
     {
-        // return $request->referense;
-        // return config('tripay.api_url');
-        $response = Http::withToken(config('tripay.api_key'))->get(config('tripay.api_url') . 'transaction/detail' . $request->reference);
+        $response = Http::withToken(config('tripay.api_key'))->get(config('tripay.api_url') . 'transaction/detail?reference=' . $reference);
 
+        // dd($response->getStatusCode());
         return $response;
     }
 

@@ -15,7 +15,8 @@ return new class extends Migration {
             $table->uuid('id')->primary();
             $table->foreignUuid('user_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignUuid('course_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
-            $table->string('invoice_id')->unique();
+            $table->string('invoice
+            _id')->unique();
             $table->integer('fee_amount');
             $table->integer('amount');
             $table->string('invoice_url');

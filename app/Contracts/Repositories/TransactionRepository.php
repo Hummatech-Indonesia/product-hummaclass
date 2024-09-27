@@ -17,7 +17,7 @@ class TransactionRepository extends BaseRepository implements TransactionInterfa
 
     public function show(mixed $id): mixed
     {
-        return $this->transaction->findOrFail($id);
+        return $this->transaction->with(['voucher', 'user', 'course'])->findOrFail($id);
     }
     public function store(array $data): mixed
     {
