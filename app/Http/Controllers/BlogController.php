@@ -8,11 +8,13 @@ use App\Http\Requests\BlogRequest;
 use App\Http\Resources\BlogResource;
 use App\Models\Blog;
 use App\Services\BlogService;
+use App\Traits\PaginationTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class BlogController extends Controller
 {
+    use PaginationTrait;
     private BlogInterface $blog;
     private BlogService $service;
     public function __construct(BlogInterface $blog, BlogService $service)
@@ -30,7 +32,9 @@ class BlogController extends Controller
     public function index(Request $request): JsonResponse
     {
         $blogs = $this->blog->customPaginate($request);
-        return ResponseHelper::success(BlogResource::collection($blogs), trans('alert.fetch_success'));
+        $data['paginate'] = $this->customPaginate($blogs->currentPage(), $blogs->lastPage());
+        $data['data'] = BlogResource::collection($blogs);
+        return ResponseHelper::success($data, trans('alert.fetch_success'));
     }
     /**
      * Method store
@@ -54,12 +58,10 @@ class BlogController extends Controller
      */
     public function showLanding(Request $request, string $slug): JsonResponse
     {
-        // return response()->json('berhasil');
         $blog = $this->blog->showWithSlug($slug);
         try {
             $this->service->handleCreateBlogView($request, $blog);
         } catch (\Throwable $e) {
-
         }
         return ResponseHelper::success(BlogResource::make($blog), trans('alert.fetch_success'));
     }

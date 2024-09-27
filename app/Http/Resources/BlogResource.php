@@ -18,9 +18,10 @@ class BlogResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'slug' => $this->slug,
-            'sub_category' => SubCategoryResource::make($this->subCategory),
+            'sub_category' => $this->subCategory->name,
+            'category_id' => $this->subCategory->category->id,
             'description' => $this->description,
-            'thumbnail' => asset('storage/' . $this->thumbnail),
+            'thumbnail' => (url('storage/' . $this->thumbnail)),
             'created' => $this->created_at->translatedFormat('d F Y'),
             'view_count' => $this->blogViews->count(),
         ];
