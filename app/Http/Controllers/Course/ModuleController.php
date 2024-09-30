@@ -122,7 +122,7 @@ class ModuleController extends Controller
     public function forward(Module $module): JsonResponse
     {
         try {
-            $forwardModule = $this->module->getForward($module->step);
+            $forwardModule = $this->module->getForward($module->step, $module->course->id);
             $forwardModule->decrement('step');
             $module->increment('step');
             return ResponseHelper::success([$module, $forwardModule], trans('alert.update_success'));
@@ -140,7 +140,7 @@ class ModuleController extends Controller
     public function backward(Module $module): JsonResponse
     {
         try {
-            $forwardModule = $this->module->getBackward($module->step);
+            $forwardModule = $this->module->getBackward($module->step, $module->course->id);
             $forwardModule->increment('step');
             $module->decrement('step');
             return ResponseHelper::success([$module, $forwardModule], trans('alert.update_success'));

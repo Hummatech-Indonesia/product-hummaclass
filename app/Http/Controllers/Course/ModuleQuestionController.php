@@ -24,9 +24,9 @@ class ModuleQuestionController extends Controller
      *
      * @return JsonResponse
      */
-    public function index(): JsonResponse
+    public function index(Module $module): JsonResponse
     {
-        $moduleQuestions = $this->moduleQuestion->get();
+        $moduleQuestions = $this->moduleQuestion->getByModule($module->id);
         return ResponseHelper::success(ModuleQuestionResource::collection($moduleQuestions), trans('alert.fetch_success'));
     }
     /**

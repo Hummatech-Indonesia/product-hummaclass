@@ -22,7 +22,7 @@ class BlogResource extends JsonResource
             'sub_category_id' => $this->subCategory->id,
             'category_id' => $this->subCategory->category->id,
             'description' => $this->description,
-            'thumbnail' => (url('storage/' . $this->thumbnail)),
+            'thumbnail' => url('storage/' . $this->thumbnail),
             'created' => $this->created_at->translatedFormat('d F Y'),
             'view_count' => $this->blogViews->count(),
         ];

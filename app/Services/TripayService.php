@@ -41,15 +41,23 @@ class TripayService
 
         return hash_hmac('sha256', $request->getContent(), $privateKey);
     }
+
+    /**
+     * handelCreateTransaction
+     *
+     * @param  mixed $request
+     * @param  mixed $course
+     * @param  mixed $courseVoucher
+     * @return mixed
+     */
     public function handelCreateTransaction(Request $request, Course $course, CourseVoucher | null $courseVoucher): mixed
     {
         $apiKey       = config('tripay.api_key');
         $privateKey   = config('tripay.private_key');
         $merchantCode = config('tripay.merchant_code');
         $merchantRef  = "HMCLS" . substr(time(), 6);
-        $amount       = $courseVoucher? $course->price - ($course->price * ($courseVoucher->discount / 100)) : $course->price;
+        $amount       = $courseVoucher ? $course->price - ($course->price * ($courseVoucher->discount / 100)) : $course->price;
         // $amount       = $course->price;
-
         $data = [
             'method'         => $request->payment_method,
             'merchant_ref'   => $merchantRef,
@@ -63,7 +71,7 @@ class TripayService
                     'name'        => $course->title,
                     'price'       => $amount,
                     'quantity'    => 1,
-                    'product_url' => "env('API_URL)./courses/courses/$course->slug",
+                    'product_url' => env('API_URL') . "/courses/courses/$course->slug",
                     'image_url'   => $course->photo ?? null,
                 ],
             ],

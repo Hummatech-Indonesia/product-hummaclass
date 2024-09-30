@@ -106,9 +106,9 @@ class ModuleRepository extends BaseRepository implements ModuleInterface
      *
      * @return mixed
      */
-    public function getForward(mixed $mixed): mixed
+    public function getForward(mixed $mixed, string $id): mixed
     {
-        return $this->model->query()->where('step', '>', $mixed)->first();
+        return $this->model->query()->where('course_id', $id)->where('step', '>', $mixed)->first();
     }
     /**
      * Method getOneStepBackward
@@ -117,9 +117,9 @@ class ModuleRepository extends BaseRepository implements ModuleInterface
      *
      * @return mixed
      */
-    public function getBackward(mixed $mixed): mixed
+    public function getBackward(mixed $mixed, string $id): mixed
     {
-        return $this->model->query()->where('step', '<', $mixed)->first();
+        return $this->model->query()->where('course_id', $id)->where('step', '<', $mixed)->first();
     }
     /**
      * Method getWhere

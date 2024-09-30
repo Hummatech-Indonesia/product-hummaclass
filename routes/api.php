@@ -123,7 +123,7 @@ Route::middleware('enable.cors')->group(function () {
 
         Route::post('module-tasks/{module}', [ModuleTaskController::class, 'store']);
 
-        Route::get('module-questions', [ModuleQuestionController::class, 'index']);
+        Route::get('module-questions/detail/{module}', [ModuleQuestionController::class, 'index']);
         Route::post('module-questions/{module}', [ModuleQuestionController::class, 'store']);
 
         Route::get('quizzes/{module}', [QuizController::class, 'index']);
