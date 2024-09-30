@@ -2,19 +2,21 @@
 
 namespace App\Http\Controllers\Course;
 
-use App\Contracts\Interfaces\Course\CourseVoucherInterface;
+use App\Models\Course;
+use Illuminate\Http\Request;
+use App\Models\CourseVoucher;
 use App\Helpers\ResponseHelper;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CourseVoucherRequest;
 use App\Http\Resources\CourseVoucherResource;
-use App\Models\Course;
-use App\Models\CourseVoucher;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
+use App\Contracts\Interfaces\Course\CourseInterface;
+use App\Contracts\Interfaces\Course\CourseVoucherInterface;
 
 class CourseVoucherController extends Controller
 {
     private CourseVoucherInterface $courseVoucher;
+    private CourseInterface $course;
     /**
      * Method __construct
      *
@@ -22,9 +24,10 @@ class CourseVoucherController extends Controller
      *
      * @return void
      */
-    public function __construct(CourseVoucherInterface $courseVoucher)
+    public function __construct(CourseVoucherInterface $courseVoucher, CourseInterface $course)
     {
         $this->courseVoucher = $courseVoucher;
+        $this->course = $course;
     }
     /**
      * Method index
@@ -33,8 +36,9 @@ class CourseVoucherController extends Controller
      *
      * @return JsonResponse
      */
-    public function index(Course $course): JsonResponse
+    public function index(string $courseSlug)
     {
+        $course = $this->course->showWithSlug($courseSlug);
         $courseVouchers = $this->courseVoucher->getWhere(['course_id' => $course->id]);
         return ResponseHelper::success(CourseVoucherResource::collection($courseVouchers), trans('alert.fetch_success'));
     }
@@ -46,8 +50,9 @@ class CourseVoucherController extends Controller
      *
      * @return JsonResponse
      */
-    public function store(CourseVoucherRequest $request, Course $course): JsonResponse
+    public function store(CourseVoucherRequest $request, string $courseSlug): JsonResponse
     {
+        $course = $this->course->showWithSlug($courseSlug);
         $data = $request->validated();
         $data['course_id'] = $course->id;
         $this->courseVoucher->store($data);

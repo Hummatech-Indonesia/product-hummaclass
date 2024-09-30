@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Base\Interfaces\HasCourse;
 use App\Base\Interfaces\HasCourseVoucherUsers;
 use App\Base\Interfaces\HasUsers;
+use App\Enums\InvoiceStatusEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -40,5 +41,15 @@ class CourseVoucher extends Model implements HasCourse,HasCourseVoucherUsers
     public function courseVoucherUsers(): HasMany
     {
         return $this->hasMany(CourseVoucherUser::class);
+    }
+
+    /**
+     * Get all of the transaction for the CourseVoucher
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function transactions(): HasMany
+    {
+        return $this->hasMany(Transaction::class);
     }
 }

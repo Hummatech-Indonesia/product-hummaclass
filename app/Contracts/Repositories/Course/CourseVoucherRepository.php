@@ -35,12 +35,12 @@ class CourseVoucherRepository extends BaseRepository implements CourseVoucherInt
      */
     public function getWhere(array $data): mixed
     {
-        return $this->model->query()->where($data)->get();
+        return $this->model->query()->withCount('transactions')->where($data)->get();
     }
 
     public function getByCode($code): mixed
     {
-        return $this->model->query()->where('code', $code)->first();
+        return $this->model->query()->withCount('transactions')->where('code', $code)->first();
     }
     /**
      * Method store
@@ -62,7 +62,7 @@ class CourseVoucherRepository extends BaseRepository implements CourseVoucherInt
      */
     public function show(mixed $id): mixed
     {
-        return $this->model->query()->findOrFail($id);
+        return $this->model->query()->with('transactions')->findOrFail($id);
     }
     /**
      * Method update
