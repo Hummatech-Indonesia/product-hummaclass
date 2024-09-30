@@ -12,4 +12,11 @@ use App\Contracts\Interfaces\Eloquent\UpdateInterface;
 
 interface ModuleQuestionInterface extends GetInterface, StoreInterface, UpdateInterface, ShowInterface, DeleteInterface
 {
+    /**
+     * Handle the Get all data event from models.
+     *
+     * @return mixed
+     */
+
+    public function getByModule(string $id): mixed;
 }

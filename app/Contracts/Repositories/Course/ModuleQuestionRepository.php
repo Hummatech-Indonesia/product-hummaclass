@@ -34,6 +34,17 @@ class ModuleQuestionRepository extends BaseRepository implements ModuleQuestionI
     {
         return $this->model->query()->get();
     }
+
+    /**
+     * getByModule
+     *
+     * @param  mixed $id
+     * @return mixed
+     */
+    public function getByModule(string $id): mixed
+    {
+        return $this->model->query()->where('module_id', $id)->get();
+    }
     /**
      * Method store
      *

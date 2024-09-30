@@ -45,6 +45,14 @@ class TransactionController extends Controller
         $transaction = $this->transaction->show($id);
         return ResponseHelper::success($transaction);
     }
+
+    /**
+     * store
+     *
+     * @param  mixed $request
+     * @param  mixed $course
+     * @return mixed
+     */
     public function store(Request $request, Course $course): mixed
     {
         $voucher = $this->courseVoucher->getByCode($request->voucher_code);
@@ -60,15 +68,14 @@ class TransactionController extends Controller
                 'invoice_url' => $transaction['data']['checkout_url'],
                 'expiry_date' => Carbon::createFromTimestamp($transaction['data']['expired_time'])->toDateTimeString(),
                 'paid_amount' => 0,
-                // 'paid_at' => '',
                 'payment_channel' => $transaction['data']['payment_name'],
                 'payment_method' => $transaction['data']['payment_method'],
                 'course_voucher_id' => $voucher->id ?? null
             ];
-            $created = $this->transaction->store($data);
+            $this->transaction->store($data);
             return ResponseHelper::success(['transaction' => $transaction, 'voucher' => $voucher], 'Transaksi berhasil');
         } else {
-            ResponseHelper::error('Transaksi Gagal');
+            return ResponseHelper::error($transaction);
         }
     }
 
