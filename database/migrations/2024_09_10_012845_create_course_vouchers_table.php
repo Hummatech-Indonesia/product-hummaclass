@@ -16,6 +16,8 @@ return new class extends Migration {
             $table->integer('usage_limit');
             $table->string('code')->unique();
             $table->integer('discount');
+            $table->timestamp('start')->nullable()->default(null);
+            $table->timestamp('end')->nullable()->default(null);
             $table->timestamps();
         });
     }

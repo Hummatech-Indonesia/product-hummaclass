@@ -117,9 +117,9 @@ Route::middleware('enable.cors')->group(function () {
 
         Route::patch('contact/{contact}', [ContactController::class, 'update']);
 
-        Route::get('course-vouchers/{course}', [CourseVoucherController::class, 'index']);
-        Route::get('course-vouchers/{course}/check', [CourseVoucherController::class, 'checkCode']);
-        Route::post('course-vouchers/{course}', [CourseVoucherController::class, 'store']);
+        Route::get('course-vouchers/{courseSlug}', [CourseVoucherController::class, 'index']);
+        Route::get('course-vouchers/{courseSlug}/check', [CourseVoucherController::class, 'checkCode']);
+        Route::post('course-vouchers/{courseSlug}', [CourseVoucherController::class, 'store']);
 
         Route::post('module-tasks/{module}', [ModuleTaskController::class, 'store']);
 
