@@ -79,7 +79,7 @@ class CourseVoucherController extends Controller
      * @return JsonResponse
      */
     public function destroy(CourseVoucher $courseVoucher): JsonResponse
-    {
+    {   
         $this->courseVoucher->delete($courseVoucher->id);
         return ResponseHelper::success(true, trans('alert.delete_success'));
     }
