@@ -31,7 +31,11 @@ class EventRequest extends ApiRequest
             'start_date' => 'required|date',
             'has_certificate' => 'required',
             'is_online' => 'required',
-            'user.*' => 'required',
+            'user_id' => 'array',
+            'start' => 'array',
+            'end' => 'array',
+            'session' => 'array',
+            'user_id.*' => 'required',
             'start.*' => 'required',
             'end.*' => 'required',
             'session.*' => 'required',
@@ -67,5 +71,4 @@ class EventRequest extends ApiRequest
             'session.*.required' => 'Sesi wajib diisi',
         ];
     }
-
 }

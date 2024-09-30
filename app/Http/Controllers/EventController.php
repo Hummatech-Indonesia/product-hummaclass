@@ -8,11 +8,13 @@ use App\Http\Requests\EventRequest;
 use App\Http\Resources\EventResource;
 use App\Models\Event;
 use App\Services\EventService;
+use App\Traits\PaginationTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class EventController extends Controller
 {
+    use PaginationTrait;
     private EventInterface $event;
     private EventService $service;
     public function __construct(EventInterface $event, EventService $service)
@@ -28,7 +30,9 @@ class EventController extends Controller
     public function index(Request $request): JsonResponse
     {
         $events = $this->event->customPaginate($request);
-        return ResponseHelper::success(EventResource::collection($events), trans('alert.fetch_success'));
+        $data['paginate'] = $this->customPaginate($events->currentPage(), $events->lastPage());
+        $data['data'] = EventResource::collection($events);
+        return ResponseHelper::success($data, trans('alert.fetch_success'));
     }
     /**
      * Method store
