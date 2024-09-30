@@ -43,7 +43,7 @@ class Module extends Model implements HasCourse, HasSubModules, HasModuleQuestio
      */
     public function subModules(): HasMany
     {
-        return $this->hasMany(SubModule::class);
+        return $this->hasMany(SubModule::class)->orderBy('step', 'asc');
     }
     /**
      * Method moduleQuestions
@@ -72,5 +72,4 @@ class Module extends Model implements HasCourse, HasSubModules, HasModuleQuestio
     {
         return $this->hasMany(ModuleTask::class);
     }
-
 }
