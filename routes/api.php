@@ -121,6 +121,7 @@ Route::middleware('enable.cors')->group(function () {
         Route::get('course-vouchers/{courseSlug}', [CourseVoucherController::class, 'index']);
         Route::get('course-vouchers/{courseSlug}/check', [CourseVoucherController::class, 'checkCode']);
         Route::post('course-vouchers/{courseSlug}', [CourseVoucherController::class, 'store']);
+        Route::delete('course-vouchers/{courseVoucher}', [CourseVoucherController::class, 'destroy']);
 
         Route::post('module-tasks/{module}', [ModuleTaskController::class, 'store']);
 
