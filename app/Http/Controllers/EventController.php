@@ -56,7 +56,6 @@ class EventController extends Controller
     public function show(string $slug): JsonResponse
     {
         $event = $this->event->showWithSlug($slug);
-        // dd($event);
         return ResponseHelper::success(EventResource::make($event), trans('alert.fetch_success'));
     }
     /**
@@ -67,8 +66,9 @@ class EventController extends Controller
      *
      * @return JsonResponse
      */
-    public function update(EventRequest $request, Event $event): JsonResponse
+    public function update(EventRequest $request, string $slug): JsonResponse
     {
+        $event = $this->event->showWithSlug($slug);
         $this->service->update($request, $event);
         return ResponseHelper::success(true, trans('alert.update_success'));
     }

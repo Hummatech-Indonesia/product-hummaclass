@@ -96,6 +96,7 @@ Route::middleware('enable.cors')->group(function () {
     Route::get('courses', [CourseController::class, 'index']);
     Route::get('courses/{slug}', [CourseController::class, 'show']);
 
+
     Route::get('quizzes-get', [QuizController::class, 'get']);
 
     Route::middleware('auth:sanctum')->group(function () {
@@ -161,7 +162,6 @@ Route::middleware('enable.cors')->group(function () {
     ]);
 
     Route::get('user-courses/{course}', [UserCourseController::class, 'index']);
-
 
 
     Route::get('modules/{slug}', [ModuleController::class, 'index']);

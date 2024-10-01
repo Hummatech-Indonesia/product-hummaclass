@@ -25,7 +25,7 @@ class EventResource extends JsonResource
             'has_certificate' => $this->has_certificate,
             'is_online' => $this->is_online,
             'start_date' => $this->start_date,
-            'image' => asset('storage/' . $this->image),
+            'image' => url('storage/' . $this->image),
             'event_details' => $this->eventDetails,
         ];
     }

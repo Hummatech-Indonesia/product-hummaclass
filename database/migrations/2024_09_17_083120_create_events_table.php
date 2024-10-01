@@ -16,9 +16,9 @@ return new class extends Migration {
             $table->string('title');
             $table->string('slug');
             $table->text('description');
-            $table->text('location');
+            $table->text('location')->nullable();
             $table->integer('capacity');
-            $table->integer('price');
+            $table->integer('price')->default(0);
             $table->date('start_date');
             $table->boolean('has_certificate')->default(true);
             $table->boolean('is_online')->default(true);
