@@ -113,4 +113,14 @@ class SubModuleRepository extends BaseRepository implements SubModuleInterface
         return $this->model->query()
             ->where('slug', $slug)->firstOrFail();
     }
+
+    /**
+     * nextSubModule
+     *
+     * @return mixed
+     */
+    public function nextSubModule(mixed $step, mixed $module_id): mixed
+    {
+        return $this->model->query()->where('module_id', $module_id)->where('step', '>', $step)->first();
+    }
 }

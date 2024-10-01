@@ -150,4 +150,16 @@ class ModuleRepository extends BaseRepository implements ModuleInterface
             ->orderBy('step', 'asc')
             ->get();
     }
+
+    /**
+     * moduleNextStep
+     *
+     * @param  mixed $step
+     * @return mixed
+     */
+    public function moduleNextStep(int $step): mixed
+    {
+        return $this->model->query()
+            ->where('step', '>', $step)->first();
+    }
 }

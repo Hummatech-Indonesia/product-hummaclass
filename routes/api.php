@@ -93,6 +93,8 @@ Route::middleware('enable.cors')->group(function () {
         'only' => ['update', 'destroy']
     ]);
 
+    Route::get('sub-modules/next/{slug}', [SubModuleController::class, 'next']);
+
     Route::get('courses', [CourseController::class, 'index']);
     Route::get('courses/{slug}', [CourseController::class, 'show']);
 

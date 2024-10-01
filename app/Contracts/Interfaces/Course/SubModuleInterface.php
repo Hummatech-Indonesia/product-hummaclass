@@ -10,7 +10,7 @@ use App\Contracts\Interfaces\Eloquent\ShowSlugInterface;
 use App\Contracts\Interfaces\Eloquent\StoreInterface;
 use App\Contracts\Interfaces\Eloquent\UpdateInterface;
 
-interface SubModuleInterface extends CustomPaginationInterface, StoreInterface, UpdateInterface, ShowInterface, DeleteInterface,ShowSlugInterface
+interface SubModuleInterface extends CustomPaginationInterface, StoreInterface, UpdateInterface, ShowInterface, DeleteInterface, ShowSlugInterface
 {
     /**
      * getOneByModul
@@ -19,4 +19,11 @@ interface SubModuleInterface extends CustomPaginationInterface, StoreInterface, 
      * @return mixed
      */
     public function getOneByModul(string $id): mixed;
+
+    /**
+     * nextSubModule
+     *
+     * @return void
+     */
+    public function nextSubModule(mixed $step, mixed $module_id): mixed;
 }

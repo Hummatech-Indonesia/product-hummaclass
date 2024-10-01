@@ -47,4 +47,11 @@ interface ModuleInterface extends CustomPaginationInterface, StoreInterface, Sho
      * @return mixed
      */
     public function getWhere(string $column, string $operator, $value): mixed;
+
+    /**
+     * moduleNextStep
+     *
+     * @return mixed
+     */
+    public function moduleNextStep(int $step): mixed;
 }

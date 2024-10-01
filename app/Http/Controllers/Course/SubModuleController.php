@@ -9,22 +9,20 @@ use App\Http\Requests\SubModuleRequest;
 use App\Http\Resources\SubModuleResource;
 use App\Models\Module;
 use App\Models\SubModule;
+use App\Services\SubModuleService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class SubModuleController extends Controller
 {
     private SubModuleInterface $subModule;
-    public function __construct(SubModuleInterface $subModule)
+    private SubModuleService $service;
+    public function __construct(SubModuleInterface $subModule, SubModuleService $service)
     {
         $this->subModule = $subModule;
+        $this->service = $service;
     }
-    // public function index(Request $request, Module $module): JsonResponse
-    // {
-    //     $request->merge(['module_id' => $module->id]);
-    //     $subModules = $this->subModule->customPaginate($request);
-    //     return ResponseHelper::success(SubModuleResource::collection($subModules), trans('alert.fetch_success'));
-    // }
+
     /**
      * Method store
      *
@@ -45,6 +43,24 @@ class SubModuleController extends Controller
         $subModule = $this->subModule->store($data);
         return ResponseHelper::success(SubModuleResource::make($subModule), trans('alert.add_success'));
     }
+
+    /**
+     * next
+     *
+     * @param  mixed $slug
+     * @return void
+     */
+    public function next(string $slug)
+    {
+        $subModule = $this->subModule->showWithSlug($slug);
+        $service = $this->service->next($subModule);
+        if ($service) {
+            return ResponseHelper::success($service);
+        } else {
+            return ResponseHelper::error(null, 'Anda sudah pada halaman terakhir');
+        }
+    }
+
     /**
      * Method show
      *
