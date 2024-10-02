@@ -15,6 +15,7 @@ use App\Services\TransactionService;
 use Illuminate\Support\Facades\Http;
 use App\Http\Resources\PaymentChannelResource;
 use App\Contracts\Interfaces\TransactionInterface;
+use App\Http\Resources\TransactionResource;
 
 class TransactionController extends Controller
 {
@@ -38,6 +39,11 @@ class TransactionController extends Controller
     {
         return response()->json($paymentInstructions = $this->service->handlePaymentInstructions($request->code));
         // return ResponseHelper::success($paymentInstructions, trans('alert.fetch_success'));
+    }
+    public function index(): JsonResponse
+    {
+        $transactions=$this->transaction->get();
+        return ResponseHelper::success(TransactionResource::collection($transactions), trans('alert.fetch_success'));
     }
 
     public function show(mixed $id): mixed
