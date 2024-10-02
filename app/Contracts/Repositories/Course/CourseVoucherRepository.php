@@ -7,6 +7,7 @@ use App\Contracts\Interfaces\Course\CourseInterface;
 use App\Contracts\Interfaces\Course\CourseVoucherInterface;
 use App\Contracts\Interfaces\Eloquent\BaseInterface;
 use App\Contracts\Repositories\BaseRepository;
+use App\Enums\InvoiceStatusEnum;
 use App\Models\Category;
 use App\Models\Course;
 use App\Models\CourseVoucher;
@@ -35,12 +36,21 @@ class CourseVoucherRepository extends BaseRepository implements CourseVoucherInt
      */
     public function getWhere(array $data): mixed
     {
-        return $this->model->query()->withCount('transactions')->where($data)->get();
+        return $this->model->query()->withCount(['transactions' => function ($query) {
+            $query->where('invoice_status', InvoiceStatusEnum::PAID);
+        }])
+        ->where($data)
+        ->get();
     }
 
     public function getByCode($code): mixed
     {
-        return $this->model->query()->withCount('transactions')->where('code', $code)->first();
+        return $this->model->query()
+            ->withCount(['transactions' => function ($query) {
+                $query->where('invoice_status', InvoiceStatusEnum::PAID);
+            }])
+            ->where('code', $code)
+            ->first();
     }
     /**
      * Method store

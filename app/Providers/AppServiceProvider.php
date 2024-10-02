@@ -2,18 +2,23 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
+use App\Contracts\Interfaces\BlogInterface;
 use App\Contracts\Interfaces\EventInterface;
+use App\Contracts\Repositories\BlogRepository;
+use App\Contracts\Interfaces\BlogViewInterface;
 use App\Contracts\Interfaces\RegisterInterface;
+use App\Contracts\Interfaces\UserQuizInterface;
 use App\Contracts\Repositories\EventRepository;
 use App\Contracts\Interfaces\Auth\UserInterface;
 use App\Contracts\Interfaces\Course\QuizInterface;
 use App\Contracts\Interfaces\EventDetailInterface;
 use App\Contracts\Interfaces\TransactionInterface;
+use App\Contracts\Repositories\BlogViewRepository;
 use App\Contracts\Repositories\RegisterRepository;
+use App\Contracts\Repositories\UserQuizRepository;
 use App\Contracts\Interfaces\Auth\ProfileInterface;
-use App\Contracts\Interfaces\BlogInterface;
-use App\Contracts\Interfaces\BlogViewInterface;
 use App\Contracts\Repositories\Auth\UserRepository;
 use App\Contracts\Interfaces\Course\CourseInterface;
 use App\Contracts\Interfaces\Course\ModuleInterface;
@@ -39,16 +44,12 @@ use App\Contracts\Repositories\Course\UserCourseRepository;
 use App\Contracts\Interfaces\Configuration\ContactInterface;
 use App\Contracts\Interfaces\Course\ModuleQuestionInterface;
 use App\Contracts\Interfaces\Course\SubmissionTaskInterface;
-use App\Contracts\Interfaces\UserQuizInterface;
-use App\Contracts\Repositories\BlogRepository;
-use App\Contracts\Repositories\BlogViewRepository;
 use App\Contracts\Repositories\Course\SubCategoryRepository;
 use App\Contracts\Repositories\Course\CourseReviewRepository;
 use App\Contracts\Repositories\Course\CourseVoucherRepository;
 use App\Contracts\Repositories\Configuration\ContactRepository;
 use App\Contracts\Repositories\Course\ModuleQuestionRepository;
 use App\Contracts\Repositories\Course\SubmissionTaskRepository;
-use App\Contracts\Repositories\UserQuizRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -75,7 +76,7 @@ class AppServiceProvider extends ServiceProvider
         TransactionInterface::class => TransactionRepository::class,
         BlogInterface::class => BlogRepository::class,
         BlogViewInterface::class => BlogViewRepository::class,
-        UserQuizInterface::class=>UserQuizRepository::class
+        UserQuizInterface::class => UserQuizRepository::class
     ];
 
     /**

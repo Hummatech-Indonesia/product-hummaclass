@@ -122,6 +122,8 @@ Route::middleware('enable.cors')->group(function () {
 
         Route::get('course-vouchers/{courseSlug}', [CourseVoucherController::class, 'index']);
         Route::get('course-vouchers/{courseSlug}/check', [CourseVoucherController::class, 'checkCode']);
+        Route::put('course-vouchers/{code}', [CourseVoucherController::class, 'update']);
+        // Route::put('course-vouchers/{code}', [CourseVoucherController::class, 'update']);
         Route::post('course-vouchers/{courseSlug}', [CourseVoucherController::class, 'store']);
         Route::delete('course-vouchers/{courseVoucher}', [CourseVoucherController::class, 'destroy']);
 

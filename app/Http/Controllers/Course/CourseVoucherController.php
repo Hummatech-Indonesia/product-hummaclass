@@ -79,7 +79,7 @@ class CourseVoucherController extends Controller
      * @return JsonResponse
      */
     public function destroy(CourseVoucher $courseVoucher): JsonResponse
-    {   
+    {
         $this->courseVoucher->delete($courseVoucher->id);
         return ResponseHelper::success(true, trans('alert.delete_success'));
     }
@@ -87,12 +87,13 @@ class CourseVoucherController extends Controller
     public function checkCode(Request $request)
     {
         $voucher = $this->courseVoucher->getByCode($request->voucher_code);
-        // return is_null($voucher);
         if (!is_null($voucher)) {
-            return ResponseHelper::success($voucher, 'Berhasil menggunakan voucher');
+            if ($voucher->transactions_count >= $voucher->usage_limit) {
+                return ResponseHelper::error($voucher, trans('alert.voucher_limit'));
+            }
+            return ResponseHelper::success($voucher, trans('alert.voucher_valid'));
         } else {
-            // return 'sdfsfdsdsfsf';
-            return ResponseHelper::error(null, "Voucher tidak valid", 404);
+            return ResponseHelper::error(null, trans('alert.voucher_invalid'), 404);
         }
     }
 }
