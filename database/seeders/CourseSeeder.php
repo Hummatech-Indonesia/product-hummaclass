@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Enums\AnswerEnum;
 use App\Models\Course;
 use App\Models\CourseTask;
+use App\Models\CourseTest;
 use App\Models\Module;
 use App\Models\ModuleQuestion;
 use App\Models\ModuleTask;
@@ -73,6 +74,12 @@ class CourseSeeder extends Seeder
         $quiz = Quiz::create([
             'id' => Uuid::uuid(),
             'module_id' => $module->id,
+            'total_question' => '5',
+            'duration' => 60,
+        ]);
+        $courseTest = CourseTest::create([
+            'id' => Uuid::uuid(),
+            'course_id' => $course->id,
             'total_question' => '5',
             'duration' => 60,
         ]);

@@ -54,4 +54,12 @@ interface ModuleInterface extends CustomPaginationInterface, StoreInterface, Sho
      * @return mixed
      */
     public function moduleNextStep(int $step): mixed;
+    /**
+     * Method modulePrevStep
+     *
+     * @param int $step [explicite description]
+     *
+     * @return mixed
+     */
+    public function modulePrevStep(int $step): mixed;
 }

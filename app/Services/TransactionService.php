@@ -28,6 +28,12 @@ class TransactionService
         return collect($res['data'])->groupBy('group');
     }
 
+    /**
+     * handlePaymentCallback
+     *
+     * @param  mixed $request
+     * @return mixed
+     */
     public function handlePaymentCallback($request): mixed
     {
         $transaction = $this->transaction->show($request->reference);
@@ -56,6 +62,11 @@ class TransactionService
                     'payment_method' => $request->payment_method_code,
                     'invoice_status' => $request->status
                 ];
+
+                $userCourse = $this->userCourse->store([
+                    'user_id' => $transaction->user_id,
+                    'course_id' => $transaction->course_id
+                ]);
                 return $this->transaction->update($request->reference, $data);
                 break;
             case 'EXPIRED':

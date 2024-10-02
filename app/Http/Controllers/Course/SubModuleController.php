@@ -60,6 +60,16 @@ class SubModuleController extends Controller
             return ResponseHelper::error(null, 'Anda sudah pada halaman terakhir');
         }
     }
+    public function prev(string $slug): JsonResponse
+    {
+        $subModule = $this->subModule->showWithSlug($slug);
+        $service = $this->service->prev($subModule);
+        if ($service) {
+            return ResponseHelper::success($service);
+        } else {
+            return ResponseHelper::error(null, 'Anda sudah pada halaman pertama');
+        }
+    }
 
     /**
      * Method show

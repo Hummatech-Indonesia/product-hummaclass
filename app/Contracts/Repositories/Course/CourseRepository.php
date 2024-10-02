@@ -132,4 +132,17 @@ class CourseRepository extends BaseRepository implements CourseInterface
     {
         return $this->show($id)->delete();
     }
+
+    /**
+     * getWhere
+     *
+     * @param  mixed $data
+     * @return mixed
+     */
+    public function get(): mixed
+    {
+        return $this->model->query()->whereHas('userCourses', function ($query) {
+            $query->where('user_id', auth()->user()->id);
+        })->fastPaginate(9);
+    }
 }

@@ -1,90 +1,142 @@
 <?php
 
-use App\Helpers\ResponseHelper;
 use Illuminate\Http\Request;
-use App\Models\SubmissionTask;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Password;
-use App\Http\Controllers\Auth\UserController;
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Course\QuizController;
-use App\Http\Controllers\Auth\ProfileController;
-use App\Http\Controllers\Course\ModulController;
-use Illuminate\Auth\Notifications\ResetPassword;
-use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\Course\CourseController;
-use App\Http\Controllers\Course\ModuleController;
-use App\Http\Controllers\Auth\SocialiteController;
-use App\Http\Controllers\Course\CategoryController;
-use App\Http\Controllers\Course\SubModuleController;
-use App\Http\Controllers\Payment\TransactionController;
-use App\Services\TripayService;
-use App\Http\Controllers\Course\CourseTaskController;
-use App\Http\Controllers\Auth\ResetPasswordController;
-use App\Http\Controllers\Auth\VerificationController;
-use App\Http\Controllers\BlogController;
-use App\Http\Controllers\ContactController;
-use App\Http\Controllers\Course\SubCategoryController;
-use App\Http\Controllers\Course\CourseReviewController;
-use App\Http\Controllers\Course\CourseVoucherController;
-use App\Http\Controllers\Course\ModuleQuestionController;
-use App\Http\Controllers\Course\SubmissionTaskController;
-use App\Http\Controllers\Course\CourseVoucherUserController;
-use App\Http\Controllers\Course\ModuleTaskController;
-use App\Http\Controllers\Course\UserCourseController;
-use App\Http\Controllers\Course\UserQuizController;
-use App\Http\Controllers\EventController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
-
+use App\Http\Controllers\Auth\{
+    LoginController,
+    RegisterController,
+    UserController,
+    ProfileController,
+    SocialiteController,
+    ResetPasswordController,
+    VerificationController
+};
+use App\Http\Controllers\Course\{
+    QuizController,
+    ModuleController,
+    CourseController,
+    CategoryController,
+    SubCategoryController,
+    SubModuleController,
+    CourseReviewController,
+    CourseTestController,
+    CourseVoucherController,
+    CourseVoucherUserController,
+    ModuleQuestionController,
+    ModuleTaskController,
+    CourseTaskController,
+    UserCourseController
+};
+use App\Http\Controllers\{
+    BlogController,
+    ContactController,
+    EventController,
+    Payment\TransactionController
+};
+use App\Models\SubmissionTask;
+use App\Helpers\ResponseHelper;
 
 /*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
-|
+|-------------------------------------------------------------------------- 
+| API Routes 
+|-------------------------------------------------------------------------- 
+| 
+| Here is where you can register API routes for your application. These 
+| routes are loaded by the RouteServiceProvider and all of them will 
+| be assigned to the "api" middleware group. Make something great! 
+| 
 */
 
 Route::middleware('enable.cors')->group(function () {
 
     /**
-     * socialite auth
+     * Socialite Authentication
      */
     Route::middleware(['web'])->group(function () {
         Route::get('/auth/{provider}', [SocialiteController::class, 'redirectToProvider']);
         Route::get('/auth/{provider}/callback', [SocialiteController::class, 'handleProvideCallback']);
     });
 
+    /**
+     * Authentication
+     */
     Route::post('login', [LoginController::class, 'showLoginForm']);
     Route::post('register', [RegisterController::class, 'register']);
 
+    /**
+     * Sanctum Authenticated Routes
+     */
+    Route::middleware('auth:sanctum')->group(function () {
+
+        Route::get('list-course', [CourseController::class, 'listCourse']);
+
+        /**
+         * User and Profile Management
+         */
+        Route::post('profile-update', [ProfileController::class, 'update']);
+        Route::get('/user', function (Request $request) {
+            return \App\Models\User::with('roles')->find($request->user()->id);
+        });
+
+        /**
+         * Email Verification
+         */
+        Route::post('/email/resend', function (Request $request) {
+            $request->user()->sendEmailVerificationNotification();
+            return response()->json(['message' => 'Verification link sent']);
+        });
+        Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+            $request->fulfill();
+            return response()->json(['message' => 'Email verified successfully']);
+        })->middleware('signed')->name('verification.verify');
+
+        /**
+         * Course Management
+         */
+        Route::resource('courses', CourseController::class)->except(['index', 'show']);
+        Route::post('course-vouchers/{courseSlug}', [CourseVoucherController::class, 'store']);
+        Route::delete('course-vouchers/{courseVoucher}', [CourseVoucherController::class, 'destroy']);
+        Route::post('course-voucher-users', [CourseVoucherUserController::class, 'store']);
+        Route::post('course-reviews/{course}', [CourseReviewController::class, 'store']);
+        Route::patch('course-reviews/{course_review}', [CourseReviewController::class, 'update']);
+
+        /**
+         * Blog Management
+         */
+        Route::resource('blogs', BlogController::class)->only(['store', 'update', 'destroy', 'show']);
+
+        /**
+         * Contact Management
+         */
+        Route::patch('contact/{contact}', [ContactController::class, 'update']);
+
+        /**
+         * Module and Task Management
+         */
+        Route::post('modules/{slug}', [ModuleController::class, 'store']);
+        Route::patch('modules-forward/{module}', [ModuleController::class, 'forward']);
+        Route::patch('modules-backward/{module}', [ModuleController::class, 'backward']);
+        Route::post('module-tasks/{module}', [ModuleTaskController::class, 'store']);
+        Route::post('module-questions/{module}', [ModuleQuestionController::class, 'store']);
+
+        /**
+         * Submission Task Management
+         */
+        Route::post('submission-tasks/{course_task}', [SubmissionTask::class, 'store']);
+    });
+
+    /**
+     * Publicly Accessible Routes
+     */
     Route::get('users', [UserController::class, 'index']);
     Route::get('users/{user}', [UserController::class, 'show']);
 
-    Route::middleware('auth:sanctum')->group(function () {
-        Route::post('profile-update', [ProfileController::class, 'update']);
-    });
-
-
-    // Mengirim ulang email verifikasi
-    Route::post('/email/resend', function (Request $request) {
-        $request->user()->sendEmailVerificationNotification();
-
-        return response()->json(['message' => 'Verification link sent']);
-    })->middleware('auth:sanctum');
-
-    // Verifikasi email
-    Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-        $request->fulfill();
-
-        return response()->json(['message' => 'Email verified successfully']);
-    })->middleware(['auth:sanctum', 'signed'])->name('verification.verify');
-
     Route::resource('events', EventController::class)->except('show');
     Route::get('events/{slug}', [EventController::class, 'show']);
+
+    Route::get('categories', [CategoryController::class, 'index']);
+
     Route::resources([
         'modules' => ModuleController::class,
         'sub-modules' => SubModuleController::class,
@@ -93,11 +145,22 @@ Route::middleware('enable.cors')->group(function () {
         'only' => ['update', 'destroy']
     ]);
 
+    Route::post('sub-modules/{module}', [SubModuleController::class, 'store']);
+
+    Route::get('sub-modules/detail/{slug}', [SubModuleController::class, 'show']);
     Route::get('sub-modules/next/{slug}', [SubModuleController::class, 'next']);
+    Route::get('sub-modules/prev/{slug}', [SubModuleController::class, 'prev']);
+
+    Route::get('sub-categories/category/{category}', [SubCategoryController::class, 'getByCategory']);
 
     Route::get('courses', [CourseController::class, 'index']);
     Route::get('courses/{slug}', [CourseController::class, 'show']);
 
+    Route::get('course-vouchers/{courseSlug}', [CourseVoucherController::class, 'index']);
+    Route::get('course-vouchers/{courseSlug}/check', [CourseVoucherController::class, 'checkCode']);
+
+    Route::get('course-reviews', [CourseReviewController::class, 'index']);
+    Route::get('course-reviews/{course_review}', [CourseReviewController::class, 'show']);
 
     Route::get('quizzes-get', [QuizController::class, 'get']);
 
@@ -137,63 +200,39 @@ Route::middleware('enable.cors')->group(function () {
         Route::get('quiz-start/{quiz}', [QuizController::class, 'show']);
         Route::post('quizzes/{module}', [QuizController::class, 'store']);
 
-        Route::post('submission-tasks/{course_task}', [SubmissionTask::class, 'store']);
+    Route::get('course-tests-get', [CourseTestController::class, 'get']);
+    Route::get('course-tests/{course}', [CourseTestController::class, 'index']);
+    Route::get('course-test-start/{course_test}', [CourseTestController::class, 'show']);
+    Route::post('course-tests/{course}', [CourseTestController::class, 'store']);
 
-        Route::patch('modules-forward/{module}', [ModuleController::class, 'forward']);
-        Route::patch('modules-backward/{module}', [ModuleController::class, 'backward']);
-        // });
-    });
-
-    Route::get('blog-detail/{slug}', [BlogController::class, 'showLanding']);
     Route::get('blogs', [BlogController::class, 'index']);
-
-    Route::get('course-reviews', [CourseReviewController::class, 'index']);
-    Route::post('course-reviews/{course}', [CourseReviewController::class, 'store']);
-    Route::get('course-reviews/{course_review}', [CourseReviewController::class, 'show']);
-    Route::patch('course-reviews/{course_review}', [CourseReviewController::class, 'update']);
-
-
-    Route::post('course-voucher-users', [CourseVoucherUserController::class, 'store']);
-
-
-    Route::get('module-tasks/{module}', [ModuleTaskController::class, 'index']);
-
-    Route::get('submission-tasks/{course_task}', [SubmissionTask::class, 'index']);
-
-    Route::resources([
-        'categories' => CategoryController::class,
-    ], [
-        'except' => ['create', 'edit']
-    ]);
-
-    Route::get('user-courses/{course}', [UserCourseController::class, 'index']);
-
-
-    Route::get('modules/{slug}', [ModuleController::class, 'index']);
-    Route::get('list-module/{slug}', [ModuleController::class, 'listModule']);
-
-    Route::post('modules/{slug}', [ModuleController::class, 'store']);
-    Route::get('modules/detail/{module}', [ModuleController::class, 'show']);
-
-    Route::get('sub-categories', [SubCategoryController::class, 'index']);
-    Route::get('sub-categories/category/{category}', [SubCategoryController::class, 'getByCategory']);
-
+    Route::get('blog-detail/{slug}', [BlogController::class, 'showLanding']);
 
     Route::get('contact', [ContactController::class, 'index']);
 
+    Route::get('modules/{slug}', [ModuleController::class, 'index']);
+    Route::get('list-module/{slug}', [ModuleController::class, 'listModule']);
+    Route::get('modules/detail/{module}', [ModuleController::class, 'show']);
 
+    Route::get('module-tasks/{module}', [ModuleTaskController::class, 'index']);
+    Route::get('module-questions/detail/{module}', [ModuleQuestionController::class, 'index']);
+
+    Route::get('submission-tasks/{course_task}', [SubmissionTask::class, 'index']);
+
+    Route::get('user-courses/{course}', [UserCourseController::class, 'index']);
+
+    /**
+     * Password Reset
+     */
     Route::post('/forgot-password', [ResetPasswordController::class, 'sendEmail'])->middleware('guest')->name('password.email');
-
-
     Route::middleware('throttle:10,1')->prefix('password')->group(function () {
         Route::get('reset/{token}', [ResetPasswordController::class, 'resetToken'])->name('password.reset');
         Route::post('reset', [ResetPasswordController::class, 'reset']);
     });
 
-    Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-        return \App\Models\User::with('roles')->find($request->user()->id);
-    });
-
+    /**
+     * Unauthenticated Error
+     */
     Route::get('login', function () {
         return ResponseHelper::error(null, 'Unauthenticated');
     })->name('login');

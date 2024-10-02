@@ -15,6 +15,8 @@ use App\Services\TransactionService;
 use Illuminate\Support\Facades\Http;
 use App\Http\Resources\PaymentChannelResource;
 use App\Contracts\Interfaces\TransactionInterface;
+use App\Http\Resources\TransactionResource;
+use App\Models\User;
 
 class TransactionController extends Controller
 {
@@ -38,6 +40,16 @@ class TransactionController extends Controller
     {
         return response()->json($paymentInstructions = $this->service->handlePaymentInstructions($request->code));
         // return ResponseHelper::success($paymentInstructions, trans('alert.fetch_success'));
+    }
+    public function index(): JsonResponse
+    {
+        $transactions = $this->transaction->get();
+        return ResponseHelper::success(TransactionResource::collection($transactions), trans('alert.fetch_success'));
+    }
+    public function getByUser(): JsonResponse
+    {
+        $transactions = $this->transaction->getWhere(['user_id' => auth()->user()->id]);
+        return ResponseHelper::success(TransactionResource::collection($transactions), trans('alert.fetch_success'));
     }
 
     public function show(mixed $id): mixed
@@ -79,10 +91,23 @@ class TransactionController extends Controller
         }
     }
 
+    /**
+     * callback
+     *
+     * @param  mixed $request
+     * @return void
+     */
     public function callback(Request $request)
     {
         return $this->transactionService->handlePaymentCallback($request);
     }
+
+    /**
+     * returnCallback
+     *
+     * @param  mixed $request
+     * @return void
+     */
     public function returnCallback(Request $request)
     {
         return 'return callback';
@@ -94,11 +119,6 @@ class TransactionController extends Controller
 
         // dd($response->getStatusCode());
         return $response;
-    }
-
-    public function update(mixed $id, array $data): mixed
-    {
-        return '';
     }
 
     public function delete(mixed $id): mixed

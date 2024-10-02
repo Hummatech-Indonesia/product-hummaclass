@@ -31,4 +31,18 @@ class SubModuleService
             return false;
         }
     }
+    public function prev(mixed $subModule): mixed
+    {
+        $subModulePrev = $this->subModule->prevSubModule($subModule->step, $subModule->module_id);
+        $firstModulePrev = $this->module->modulePrevStep($subModule->module->step);
+
+        $subModuleInPrevModule = $this->subModule->prevSubModule(1, $firstModulePrev);
+        if ($subModulePrev) {
+            return $subModulePrev;
+        } else if ($subModuleInPrevModule) {
+            return $subModuleInPrevModule;
+        } else {
+            return false;
+        }
+    }
 }
