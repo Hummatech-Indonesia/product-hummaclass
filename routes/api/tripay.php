@@ -6,6 +6,7 @@ use App\Http\Controllers\Payment\TransactionController;
 
 Route::middleware('enable.cors')->group(function () {
     Route::get('transactions', [TransactionController::class, 'index']);
+    Route::get('transactions-user', [TransactionController::class, 'getByUser'])->middleware('auth:sanctum');
     Route::get('payment-channels', [TransactionController::class, 'getPaymentChannels']);
     Route::get('payment-instructions', [TransactionController::class, 'getPaymentInstructions']);
 

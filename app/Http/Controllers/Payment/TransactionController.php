@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Http;
 use App\Http\Resources\PaymentChannelResource;
 use App\Contracts\Interfaces\TransactionInterface;
 use App\Http\Resources\TransactionResource;
+use App\Models\User;
 
 class TransactionController extends Controller
 {
@@ -42,7 +43,12 @@ class TransactionController extends Controller
     }
     public function index(): JsonResponse
     {
-        $transactions=$this->transaction->get();
+        $transactions = $this->transaction->get();
+        return ResponseHelper::success(TransactionResource::collection($transactions), trans('alert.fetch_success'));
+    }
+    public function getByUser(): JsonResponse
+    {
+        $transactions = $this->transaction->getWhere(['user_id' => auth()->user()->id]);
         return ResponseHelper::success(TransactionResource::collection($transactions), trans('alert.fetch_success'));
     }
 

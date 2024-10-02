@@ -23,6 +23,17 @@ class TransactionRepository extends BaseRepository implements TransactionInterfa
     {
         return $this->transaction->query()->get();
     }
+    /**
+     * Method getWhere
+     *
+     * @param array $data [explicite description]
+     *
+     * @return mixed
+     */
+    public function getWhere(array $data): mixed
+    {
+        return $this->transaction->where($data)->get();
+    }
 
     /**
      * Method show
