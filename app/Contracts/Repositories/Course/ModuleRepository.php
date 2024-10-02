@@ -162,4 +162,15 @@ class ModuleRepository extends BaseRepository implements ModuleInterface
         return $this->model->query()
             ->where('step', '>', $step)->first();
     }
+    /**
+     * Method modulePrevStep
+     *
+     * @param int $step [explicite description]
+     *
+     * @return mixed
+     */
+    public function modulePrevStep(int $step): mixed
+    {
+        return $this->model->query()->where('step', '<', $step)->first();
+    }
 }
