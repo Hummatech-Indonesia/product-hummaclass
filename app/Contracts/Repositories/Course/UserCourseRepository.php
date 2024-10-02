@@ -31,18 +31,55 @@ class UserCourseRepository extends BaseRepository implements UserCourseInterface
         return $this->model->query()->where('course_id', $request->course_id)->fastPaginate($pagination);
     }
 
+    /**
+     * store
+     *
+     * @param  mixed $data
+     * @return mixed
+     */
     public function store(array $data): mixed
     {
         return $this->model->query()->create($data);
     }
+    /**
+     * delete
+     *
+     * @param  mixed $id
+     * @return mixed
+     */
     public function delete(mixed $id): mixed
     {
         return $this->model->show($id)->delete();
     }
+    /**
+     * show
+     *
+     * @param  mixed $id
+     * @return mixed
+     */
     public function show(mixed $id): mixed
     {
         return $this->model->query()->findOrFail($id);
     }
+
+    /**
+     * update
+     *
+     * @param  mixed $id
+     * @param  mixed $data
+     * @return mixed
+     */
+    public function update(mixed $id, array $data): mixed
+    {
+        return $this->model->query()->where('user_id', auth()->user()->id)->where('course_id', $id)->firstOrFail()->update($data);
+    }
+    /**
+     * showByUserCourse
+     *
+     * @param  mixed $userId
+     * @param  mixed $courseId
+     * @return mixed
+     */
     public function showByUserCourse($userId, $courseId): mixed
     {
         // return [$userId, $courseId];

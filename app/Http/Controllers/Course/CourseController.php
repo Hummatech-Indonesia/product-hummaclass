@@ -102,4 +102,17 @@ class CourseController extends Controller
             return ResponseHelper::error(true, trans('alert.delete_constrained'));
         }
     }
+
+    /**
+     * listCourse
+     *
+     * @return JsonResponse
+     */
+    public function listCourse(): JsonResponse
+    {
+        $courses = $this->course->get();
+        $data['paginate'] = $this->customPaginate($courses->currentPage(), $courses->lastPage());
+        $data['data'] = CourseResource::collection($courses);
+        return ResponseHelper::success($data);
+    }
 }

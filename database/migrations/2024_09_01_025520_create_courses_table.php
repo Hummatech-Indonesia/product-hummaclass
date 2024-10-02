@@ -20,7 +20,7 @@ return new class extends Migration {
             $table->string('slug')->unique();
             $table->text('description');
             $table->boolean('is_premium');
-            $table->integer('price')->default(0);
+            $table->integer('price')->default(0)->nullable();
             $table->timestamps();
         });
     }

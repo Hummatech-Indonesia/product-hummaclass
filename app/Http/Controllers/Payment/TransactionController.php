@@ -79,10 +79,23 @@ class TransactionController extends Controller
         }
     }
 
+    /**
+     * callback
+     *
+     * @param  mixed $request
+     * @return void
+     */
     public function callback(Request $request)
     {
         return $this->transactionService->handlePaymentCallback($request);
     }
+
+    /**
+     * returnCallback
+     *
+     * @param  mixed $request
+     * @return void
+     */
     public function returnCallback(Request $request)
     {
         return 'return callback';
@@ -94,11 +107,6 @@ class TransactionController extends Controller
 
         // dd($response->getStatusCode());
         return $response;
-    }
-
-    public function update(mixed $id, array $data): mixed
-    {
-        return '';
     }
 
     public function delete(mixed $id): mixed

@@ -16,7 +16,7 @@ class UserCourseResource extends JsonResource
     {
         return [
             'user' => $this->user,
-            'course' => $this->course
+            'course' => CourseResource::make($this->course)
         ];
     }
 }
