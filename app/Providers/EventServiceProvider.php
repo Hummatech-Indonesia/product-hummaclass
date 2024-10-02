@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\Blog;
 use App\Models\Course;
 use App\Models\CourseTask;
+use App\Models\CourseTest;
 use App\Models\CourseVoucher;
 use App\Models\Event as ModelsEvent;
 use App\Models\Modul;
@@ -15,10 +16,12 @@ use App\Models\Quiz;
 use App\Models\SubmissionTask;
 use App\Models\SubModule;
 use App\Models\User;
+use App\Models\UserCourseTest;
 use App\Models\UserQuiz;
 use App\Observers\BlogObserver;
 use App\Observers\CourseObserver;
 use App\Observers\CourseTaskObserver;
+use App\Observers\CourseTestObserver;
 use App\Observers\CourseVoucherObserver;
 use App\Observers\EventObserver;
 use App\Observers\ModuleObserver;
@@ -28,6 +31,7 @@ use App\Observers\ModulObserver;
 use App\Observers\QuizObserver;
 use App\Observers\SubmissionTaskObserver;
 use App\Observers\SubModuleObserver;
+use App\Observers\UserCourseTestObserver;
 use App\Observers\UserObserver;
 use App\Observers\UserQuizObserver;
 use Illuminate\Auth\Events\Registered;
@@ -65,6 +69,8 @@ class EventServiceProvider extends ServiceProvider
         ModelsEvent::observe(EventObserver::class);
         Blog::observe(BlogObserver::class);
         UserQuiz::observe(UserQuizObserver::class);
+        CourseTest::observe(CourseTestObserver::class);
+        UserCourseTest::observe(UserCourseTestObserver::class);
     }
 
     /**
