@@ -115,4 +115,16 @@ class CourseController extends Controller
         $data['data'] = CourseResource::collection($courses);
         return ResponseHelper::success($data);
     }
+    /**
+     * Method share
+     *
+     * @param string $slug [explicite description]
+     *
+     * @return JsonResponse
+     */
+    public function share(string $slug): JsonResponse
+    {
+        $course = $this->course->showWithSlug($slug);
+        return ResponseHelper::success(CourseResource::make($course), trans('alert.fetch_success'));
+    }
 }

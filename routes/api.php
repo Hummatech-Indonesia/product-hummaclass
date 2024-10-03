@@ -32,6 +32,7 @@ use App\Http\Controllers\{
     BlogController,
     ContactController,
     EventController,
+    FaqController,
     Payment\TransactionController
 };
 use App\Models\SubmissionTask;
@@ -74,7 +75,8 @@ Route::middleware('enable.cors')->group(function () {
 
         Route::get('list-course', [CourseController::class, 'listCourse']);
 
-        Route::get('list-module/{slug}', [ModuleController::class, 'listModule']);
+        Route::get('list-module/{slug}', [ModuleController::class, 'listModuleWithSubModul']);
+        Route::get('list-module/detail/{slug}', [ModuleController::class, 'listModule']);
 
         /**
          * User and Profile Management
@@ -119,10 +121,13 @@ Route::middleware('enable.cors')->group(function () {
         /**
          * Module and Task Management
          */
+        Route::get('modules/{slug}', [ModuleController::class, 'index']);
+        Route::get('modules/detail/{module}', [ModuleController::class, 'show']);
         Route::post('modules/{slug}', [ModuleController::class, 'store']);
         Route::patch('modules-forward/{module}', [ModuleController::class, 'forward']);
         Route::patch('modules-backward/{module}', [ModuleController::class, 'backward']);
         Route::post('module-tasks/{module}', [ModuleTaskController::class, 'store']);
+        Route::get('module-questions/detail/{module}', [ModuleQuestionController::class, 'index']);
         Route::post('module-questions/{module}', [ModuleQuestionController::class, 'store']);
 
         /**
@@ -131,9 +136,12 @@ Route::middleware('enable.cors')->group(function () {
         Route::post('submission-tasks/{course_task}', [SubmissionTask::class, 'store']);
 
         // Quiz Management
-        Route::get('quizzes/{quiz}', [QuizController::class, 'show']);
+        Route::get('quizzes/working/{quiz}', [QuizController::class, 'show']);
         Route::post('quizzes', [QuizController::class, 'store']);
         Route::post('quizzes-submit/{user_quiz}', [QuizController::class, 'submit']);
+
+        // faq configuration
+        Route::resource('faqs', FaqController::class)->only(['store', 'update', 'destroy']);
     });
 
     /**
@@ -141,6 +149,9 @@ Route::middleware('enable.cors')->group(function () {
      */
     Route::get('users', [UserController::class, 'index']);
     Route::get('users/{user}', [UserController::class, 'show']);
+
+    Route::get('faqs', [FaqController::class, 'index']);
+    Route::get('faqs/{faq}', [FaqController::class, 'show']);
 
     Route::resource('events', EventController::class)->except('show');
     Route::get('events/{slug}', [EventController::class, 'show']);
@@ -163,6 +174,7 @@ Route::middleware('enable.cors')->group(function () {
 
     Route::get('courses', [CourseController::class, 'index']);
     Route::get('courses/{slug}', [CourseController::class, 'show']);
+    Route::get('courses/{slug}/share', [CourseController::class, 'share']);
 
     Route::get('course-vouchers/{courseSlug}', [CourseVoucherController::class, 'index']);
     Route::get('course-vouchers/{courseSlug}/check', [CourseVoucherController::class, 'checkCode']);
@@ -171,6 +183,7 @@ Route::middleware('enable.cors')->group(function () {
     Route::get('course-reviews/{course_review}', [CourseReviewController::class, 'show']);
 
     Route::get('quizzes-get', [QuizController::class, 'get']);
+    Route::get('quizzes/{slug}', [QuizController::class, 'index']);
 
     Route::middleware('auth:sanctum')->group(function () {
 

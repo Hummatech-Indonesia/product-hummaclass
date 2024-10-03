@@ -173,4 +173,15 @@ class ModuleRepository extends BaseRepository implements ModuleInterface
     {
         return $this->model->query()->where('step', '<', $step)->first();
     }
+
+    /**
+     * showWithSlug
+     *
+     * @param  mixed $slug
+     * @return mixed
+     */
+    public function showWithSlug(string $slug): mixed
+    {
+        return $this->model->query()->where('slug', $slug)->firstOrFail();
+    }
 }

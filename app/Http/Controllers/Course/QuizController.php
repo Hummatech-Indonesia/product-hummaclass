@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Course;
 
+use App\Contracts\Interfaces\Course\ModuleInterface;
 use App\Contracts\Interfaces\Course\QuizInterface;
 use App\Contracts\Interfaces\UserQuizInterface;
 use App\Helpers\ResponseHelper;
@@ -22,12 +23,14 @@ class QuizController extends Controller
 {
     use PaginationTrait;
     private QuizInterface $quiz;
+    private ModuleInterface $module;
     private UserQuizInterface $userQuiz;
 
     private QuizService $service;
-    public function __construct(QuizInterface $quiz, QuizService $service, UserQuizInterface $userQuiz)
+    public function __construct(QuizInterface $quiz, QuizService $service, UserQuizInterface $userQuiz, ModuleInterface $module)
     {
         $this->quiz = $quiz;
+        $this->module = $module;
         $this->userQuiz = $userQuiz;
         $this->service = $service;
     }
@@ -36,11 +39,20 @@ class QuizController extends Controller
      *
      * @return JsonResponse
      */
-    public function index(Module $module): JsonResponse
+    public function index(string $slug): JsonResponse
     {
-        $quiz = $this->quiz->show($module->id);
+        $module = $this->module->showWithSlug($slug);
+        $quiz = $module->quizzes->first();
         return ResponseHelper::success(QuizResource::make($quiz), trans('alert.fetch_success'));
     }
+
+    /**
+     * show
+     *
+     * @param  mixed $request
+     * @param  mixed $quiz
+     * @return JsonResponse
+     */
     public function show(Request $request, Quiz $quiz): JsonResponse
     {
         $this->service->store($quiz);
@@ -56,6 +68,12 @@ class QuizController extends Controller
         $this->service->submit($request, $userQuiz);
         return ResponseHelper::success($userQuiz->score, trans('alert.fetch_success'));
     }
+
+    /**
+     * get
+     *
+     * @return JsonResponse
+     */
     public function get(): JsonResponse
     {
         $quizzes = $this->quiz->get();

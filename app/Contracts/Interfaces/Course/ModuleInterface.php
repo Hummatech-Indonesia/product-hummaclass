@@ -8,10 +8,11 @@ use App\Contracts\Interfaces\Eloquent\DeleteInterface;
 use App\Contracts\Interfaces\Eloquent\GetWhereInterface;
 use App\Contracts\Interfaces\Eloquent\SearchInterface;
 use App\Contracts\Interfaces\Eloquent\ShowInterface;
+use App\Contracts\Interfaces\Eloquent\ShowSlugInterface;
 use App\Contracts\Interfaces\Eloquent\StoreInterface;
 use App\Contracts\Interfaces\Eloquent\UpdateInterface;
 
-interface ModuleInterface extends CustomPaginationInterface, StoreInterface, ShowInterface, UpdateInterface, DeleteInterface, SearchInterface
+interface ModuleInterface extends CustomPaginationInterface, StoreInterface, ShowInterface, UpdateInterface, DeleteInterface, SearchInterface, ShowSlugInterface
 {
     /**
      * getOneByCourse

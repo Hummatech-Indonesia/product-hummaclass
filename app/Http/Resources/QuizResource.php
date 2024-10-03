@@ -18,6 +18,7 @@ class QuizResource extends JsonResource
             'id' => $this->id,
             'module_id' => $this->module_id,
             'rules' => $this->rules,
+            'module_slug' => $this->module->slug,
             'total_question' => $this->total_question,
             'duration' => $this->duration,
             'user_quizzes' => $this->userQuizzes,

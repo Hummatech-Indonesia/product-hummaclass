@@ -50,12 +50,14 @@ use App\Contracts\Repositories\Course\UserCourseRepository;
 use App\Contracts\Interfaces\Configuration\ContactInterface;
 use App\Contracts\Interfaces\Course\ModuleQuestionInterface;
 use App\Contracts\Interfaces\Course\SubmissionTaskInterface;
+use App\Contracts\Interfaces\FaqInterface;
 use App\Contracts\Repositories\Course\SubCategoryRepository;
 use App\Contracts\Repositories\Course\CourseReviewRepository;
 use App\Contracts\Repositories\Course\CourseVoucherRepository;
 use App\Contracts\Repositories\Configuration\ContactRepository;
 use App\Contracts\Repositories\Course\ModuleQuestionRepository;
 use App\Contracts\Repositories\Course\SubmissionTaskRepository;
+use App\Contracts\Repositories\FaqRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -84,8 +86,9 @@ class AppServiceProvider extends ServiceProvider
         BlogViewInterface::class => BlogViewRepository::class,
         UserQuizInterface::class => UserQuizRepository::class,
         CourseTestInterface::class => CourseTestRepository::class,
-        UserCourseTestInterface::class=>UserCourseTestRepository::class,
-        UserEventInterface::class=>UserEventRepository::class
+        UserCourseTestInterface::class => UserCourseTestRepository::class,
+        UserEventInterface::class=>UserEventRepository::class,
+        FaqInterface::class => FaqRepository::class
     ];
 
     /**
