@@ -164,6 +164,7 @@ Route::middleware('enable.cors')->group(function () {
     Route::get('course-reviews/{course_review}', [CourseReviewController::class, 'show']);
 
     Route::get('quizzes-get', [QuizController::class, 'get']);
+    Route::post('quizzes-submit', [QuizController::class, 'submit']);
 
     /**
      * Password Reset

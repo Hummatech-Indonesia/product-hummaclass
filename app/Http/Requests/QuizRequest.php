@@ -28,7 +28,6 @@ class QuizRequest extends ApiRequest
                 'required',
                 'integer',
             ],
-            'is_submited' => 'nullable'
         ];
     }
     /**

@@ -22,7 +22,7 @@ class UserQuizRequest extends ApiRequest
     public function rules(): array
     {
         return [
-            //
+            'answer' => 'required|array',
         ];
     }
 }

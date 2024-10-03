@@ -11,6 +11,7 @@ use App\Http\Resources\QuizResource;
 use App\Http\Resources\UserQuizResource;
 use App\Models\Module;
 use App\Models\Quiz;
+use App\Models\UserQuiz;
 use App\Services\QuizService;
 use App\Traits\PaginationTrait;
 use Illuminate\Http\JsonResponse;
@@ -48,6 +49,11 @@ class QuizController extends Controller
         $data['paginate'] = $this->customPaginate($userQuizzes->currentPage(), $userQuizzes->lastPage());
         $data['data'] = UserQuizResource::collection($userQuizzes);
         return responsehelper::success($data, trans('alert.fetch_success'));
+    }
+    public function submit(Request $request, UserQuiz $userQuiz): JsonResponse
+    {
+        $this->service->submit($request, $userQuiz);
+        return ResponseHelper::success(true, trans('alert.fetch_success'));
     }
     public function get(): JsonResponse
     {

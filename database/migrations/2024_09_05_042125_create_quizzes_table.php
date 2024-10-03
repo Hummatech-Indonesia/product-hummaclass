@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->foreignUuid('module_id')->constrained();
             $table->integer('total_question');
             $table->integer('duration');
-            $table->boolean('is_submited')->default(0);
+            $table->boolean('is_submitted')->default(0);
             $table->timestamps();
         });
     }

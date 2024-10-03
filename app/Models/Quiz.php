@@ -20,7 +20,7 @@ class Quiz extends Model implements HasModule, HasUserQuizzes
         'module_id',
         'total_question',
         'duration',
-        'is_submited',
+        'is_submitted',
     ];
     /**
      * Get the module that owns the Quiz

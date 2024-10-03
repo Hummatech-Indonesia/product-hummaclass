@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Base\Interfaces\uploads\ShouldHandleFileUpload;
 use App\Contracts\Interfaces\BlogInterface;
 use App\Contracts\Interfaces\BlogViewInterface;
+use App\Contracts\Interfaces\Course\QuizInterface;
 use App\Contracts\Interfaces\EventDetailInterface;
 use App\Contracts\Interfaces\EventInterface;
 use App\Contracts\Interfaces\UserQuizInterface;
@@ -20,6 +21,7 @@ use App\Models\EventDetail;
 use App\Models\ModuleQuestion;
 use App\Models\Quiz;
 use App\Models\User;
+use App\Models\UserQuiz;
 use App\Traits\UploadTrait;
 use Illuminate\Http\Request;
 
@@ -28,8 +30,10 @@ class QuizService implements ShouldHandleFileUpload
 
     use UploadTrait;
     private UserQuizInterface $userQuiz;
-    public function __construct(UserQuizInterface $userQuiz)
+    private QuizInterface $quiz;
+    public function __construct(UserQuizInterface $userQuiz, QuizInterface $quiz)
     {
+        $this->quiz = $quiz;
         $this->userQuiz = $userQuiz;
     }
     public function store(Quiz $quiz)
@@ -41,5 +45,13 @@ class QuizService implements ShouldHandleFileUpload
         $data['user_id'] = auth()->user()->id;
         $data['quiz_id'] = $quiz->id;
         $this->userQuiz->store($data);
+    }
+    public function submit(Request $request, UserQuiz $userQuiz): void
+    {
+        dd($userQuiz->quiz);
+        $quiz = $userQuiz->quiz;
+        $data = ['is_submitted' => true];
+        $this->quiz->update($quiz->id, $data);
+        
     }
 }

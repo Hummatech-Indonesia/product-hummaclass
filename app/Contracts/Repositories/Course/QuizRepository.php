@@ -52,6 +52,18 @@ class QuizRepository extends BaseRepository implements QuizInterface
         );
     }
     /**
+     * Method update
+     *
+     * @param mixed $id [explicite description]
+     * @param array $data [explicite description]
+     *
+     * @return mixed
+     */
+    public function update(mixed $id, array $data): mixed
+    {
+        return $this->model->query()->findOrFail($id)->update($data);
+    }
+    /**
      * Method show
      *
      * @param mixed $id [explicite description]
