@@ -75,7 +75,8 @@ Route::middleware('enable.cors')->group(function () {
 
         Route::get('list-course', [CourseController::class, 'listCourse']);
 
-        Route::get('list-module/{slug}', [ModuleController::class, 'listModule']);
+        Route::get('list-module/{slug}', [ModuleController::class, 'listModuleWithSubModul']);
+        Route::get('list-module/detail/{slug}', [ModuleController::class, 'listModule']);
 
         /**
          * User and Profile Management
@@ -120,10 +121,13 @@ Route::middleware('enable.cors')->group(function () {
         /**
          * Module and Task Management
          */
+        Route::get('modules/{slug}', [ModuleController::class, 'index']);
+        Route::get('modules/detail/{module}', [ModuleController::class, 'show']);
         Route::post('modules/{slug}', [ModuleController::class, 'store']);
         Route::patch('modules-forward/{module}', [ModuleController::class, 'forward']);
         Route::patch('modules-backward/{module}', [ModuleController::class, 'backward']);
         Route::post('module-tasks/{module}', [ModuleTaskController::class, 'store']);
+        Route::get('module-questions/detail/{module}', [ModuleQuestionController::class, 'index']);
         Route::post('module-questions/{module}', [ModuleQuestionController::class, 'store']);
 
         /**
@@ -178,6 +182,7 @@ Route::middleware('enable.cors')->group(function () {
     Route::get('course-reviews/{course_review}', [CourseReviewController::class, 'show']);
 
     Route::get('quizzes-get', [QuizController::class, 'get']);
+    Route::get('quizzes/{slug}', [QuizController::class, 'index']);
 
     /**
      * Password Reset

@@ -155,10 +155,23 @@ class ModuleController extends Controller
      * @param  mixed $slug
      * @return void
      */
-    public function listModule(string $slug, Request $request)
+    public function listModuleWithSubModul(string $slug, Request $request)
     {
         $subModule = $this->subModule->showWithSlug($slug);
         $request->merge(['course_id' => $subModule->module->course_id]);
+        $modules = $this->module->search($request);
+        return ResponseHelper::success(ModuleResource::collection($modules));
+    }
+
+    /**
+     * listModule
+     *
+     * @return JsonResponse
+     */
+    public function listModule(string $slug, Request $request): JsonResponse
+    {
+        $module = $this->module->showWithSlug($slug);
+        $request->merge(['course_id' => $module->course_id]);
         $modules = $this->module->search($request);
         return ResponseHelper::success(ModuleResource::collection($modules));
     }
