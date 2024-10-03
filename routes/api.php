@@ -32,6 +32,7 @@ use App\Http\Controllers\{
     BlogController,
     ContactController,
     EventController,
+    FaqController,
     Payment\TransactionController
 };
 use App\Models\SubmissionTask;
@@ -134,6 +135,9 @@ Route::middleware('enable.cors')->group(function () {
         Route::get('quizzes/{quiz}', [QuizController::class, 'show']);
         Route::post('quizzes', [QuizController::class, 'store']);
         Route::post('quizzes-submit/{user_quiz}', [QuizController::class, 'submit']);
+
+        // faq configuration
+        Route::resource('faqs', FaqController::class)->only(['store', 'update', 'destroy']);
     });
 
     /**
@@ -141,6 +145,9 @@ Route::middleware('enable.cors')->group(function () {
      */
     Route::get('users', [UserController::class, 'index']);
     Route::get('users/{user}', [UserController::class, 'show']);
+
+    Route::get('faqs', [FaqController::class, 'index']);
+    Route::get('faqs/{faq}', [FaqController::class, 'show']);
 
     Route::resource('events', EventController::class)->except('show');
     Route::get('events/{slug}', [EventController::class, 'show']);
