@@ -93,6 +93,7 @@ class QuizService implements ShouldHandleFileUpload
         $userQuizData = [
             'score' => $score,
             'answer' => $stringAnswer,
+            'has_submitted' => true,
         ];
         $quizData = [
             'is_submitted' => true,
