@@ -50,7 +50,7 @@ class EventRepository extends BaseRepository implements EventInterface
      */
     public function show(mixed $id): mixed
     {
-        return $this->model->query()->findOrFail($id);
+        return $this->model->query()->find($id);
     }
     /**
      * Method showWithSlug

@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers\Payment;
 
+use App\Contracts\Interfaces\Course\CourseInterface;
 use App\Contracts\Interfaces\Course\CourseVoucherInterface;
+use App\Contracts\Interfaces\Course\UserCourseInterface;
+use App\Contracts\Interfaces\Course\UserEventInterface;
+use App\Contracts\Interfaces\EventInterface;
 use Carbon\Carbon;
 use App\Models\Course;
 use App\Models\Transaction;
@@ -17,17 +21,25 @@ use App\Http\Resources\PaymentChannelResource;
 use App\Contracts\Interfaces\TransactionInterface;
 use App\Http\Resources\TransactionResource;
 use App\Models\User;
+use App\Models\UserEvent;
 
 class TransactionController extends Controller
 {
     private TransactionInterface $transaction;
+    private UserCourseInterface $userCourse;
+    private UserEventInterface $userEvent;
     private CourseVoucherInterface $courseVoucher;
     private TripayService $service;
     private TransactionService $transactionService;
-    public function __construct(TransactionInterface $transaction, CourseVoucherInterface $courseVoucher, TransactionService $transactionService, TripayService $service)
+    private EventInterface $event;
+    private CourseInterface $course;
+    public function __construct(TransactionInterface $transaction, CourseVoucherInterface $courseVoucher, EventInterface $event, UserEventInterface $userEvent, CourseInterface $course, UserCourseInterface $userCourse, TransactionService $transactionService, TripayService $service)
     {
         $this->transaction = $transaction;
         $this->courseVoucher = $courseVoucher;
+        $this->userEvent = $userEvent;
+        $this->event = $event;
+        $this->course = $course;
         $this->transactionService = $transactionService;
         $this->service = $service;
     }
@@ -65,18 +77,27 @@ class TransactionController extends Controller
      * @param  mixed $course
      * @return mixed
      */
-    public function store(Request $request, Course $course): mixed
+    public function store(Request $request, $productType, string $id): mixed
     {
         $voucher = $this->courseVoucher->getByCode($request->voucher_code);
-        $transaction = json_decode($this->service->handelCreateTransaction($request, $course, $voucher), 1);
+
+        if ($productType == 'course') {
+            $course = $this->course->show($id);
+            $transaction = json_decode($this->service->handelCreateTransaction($request, $course, $voucher), 1);
+        } else if ($productType == 'event') {
+            $event = $this->event->show($id);
+            $transaction = json_decode($this->service->handelCreateTransaction($request, $event, $voucher), 1);
+        }
+
         if ($transaction['success']) {
             $data = [
                 'id' => $transaction['data']['reference'],
                 'user_id' => auth()->user()->id,
-                'course_id' => $course->id,
+                'course_id' => $course->id ?? null,
+                'event_id' => $event->id ?? null,
                 'invoice_id' => $transaction['data']['merchant_ref'],
                 'fee_amount' => $transaction['data']['fee_merchant'],
-                'amount' => $course->price,
+                'amount' => $course->price ?? $event->price,
                 'invoice_url' => $transaction['data']['checkout_url'],
                 'expiry_date' => Carbon::createFromTimestamp($transaction['data']['expired_time'])->toDateTimeString(),
                 'paid_amount' => 0,
@@ -84,7 +105,18 @@ class TransactionController extends Controller
                 'payment_method' => $transaction['data']['payment_method'],
                 'course_voucher_id' => $voucher->id ?? null
             ];
-            $this->transaction->store($data);
+            $transaction = $this->transaction->store($data);
+            if ($productType == 'course') {
+                $this->userCourse->store([
+                    'user_id' => $transaction->user_id,
+                    'course_id' => $transaction->course_id
+                ]);
+            } else {
+                $this->userEvent->store([
+                    'user_id' => $transaction->user_id,
+                    'event_id' => $transaction->event_id
+                ]);
+            }
             return ResponseHelper::success(['transaction' => $transaction, 'voucher' => $voucher], 'Transaksi berhasil');
         } else {
             return ResponseHelper::error($transaction);

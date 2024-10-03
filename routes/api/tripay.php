@@ -12,7 +12,7 @@ Route::middleware('enable.cors')->group(function () {
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::get('transaction-signature', [TransactionController::class, 'generateSignature']);
-        Route::get('transaction-create/{course}', [TransactionController::class, 'store']);
+        Route::get('transaction-create/{productType}/{course}', [TransactionController::class, 'store']);
 
         Route::get('return-callback', [TransactionController::class, 'returnCallback']);
         Route::get('check-status/{reference}', [TransactionController::class, 'checkStatus']);

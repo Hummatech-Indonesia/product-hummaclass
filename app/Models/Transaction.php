@@ -18,6 +18,7 @@ class Transaction extends Model
         'id',
         'user_id',
         'course_id',
+        'event_id',
         'invoice_id',
         'fee_amount',
         'amount',
@@ -48,6 +49,16 @@ class Transaction extends Model
     public function course(): BelongsTo
     {
         return $this->belongsTo(Course::class);
+    }
+
+    /**
+     * Get the event that owns the Transaction
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function event(): BelongsTo
+    {
+        return $this->belongsTo(Event::class);
     }
 
     /**

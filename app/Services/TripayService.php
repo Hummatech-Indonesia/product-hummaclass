@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Helpers\ResponseHelper;
 use App\Models\Course;
 use App\Models\CourseVoucher;
+use App\Models\Event;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
@@ -50,14 +51,14 @@ class TripayService
      * @param  mixed $courseVoucher
      * @return mixed
      */
-    public function handelCreateTransaction(Request $request, Course $course, CourseVoucher | null $courseVoucher): mixed
+    public function handelCreateTransaction(Request $request, Course | Event $product, CourseVoucher | null $courseVoucher): mixed
     {
         $apiKey       = config('tripay.api_key');
         $privateKey   = config('tripay.private_key');
         $merchantCode = config('tripay.merchant_code');
         $merchantRef  = "HMCLS" . substr(time(), 6);
-        $amount       = $courseVoucher ? $course->price - ($course->price * ($courseVoucher->discount / 100)) : $course->price;
-        // $amount       = $course->price;
+        $amount       = $courseVoucher ? $product->price - ($product->price * ($courseVoucher->discount / 100)) : $product->price;
+        // $amount       = $product->price;
         $data = [
             'method'         => $request->payment_method,
             'merchant_ref'   => $merchantRef,
@@ -67,12 +68,12 @@ class TripayService
             'customer_phone' => auth()->user()->phone_number,
             'order_items'    => [
                 [
-                    'sku'         => $course->slug,
-                    'name'        => $course->title,
+                    'sku'         => $product->slug,
+                    'name'        => $product->title,
                     'price'       => $amount,
                     'quantity'    => 1,
-                    'product_url' => env('API_URL') . "/courses/courses/$course->slug",
-                    'image_url'   => $course->photo ?? null,
+                    'product_url' => env('API_URL') . "/courses/courses/$product->slug",
+                    'image_url'   => $product->photo ?? null,
                 ],
             ],
             'return_url'   => 'http://127.0.0.1:8000/api/callback',
