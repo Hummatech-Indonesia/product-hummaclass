@@ -68,6 +68,8 @@ Route::middleware('enable.cors')->group(function () {
     Route::get('contact', [ContactController::class, 'index']);
     Route::get('blogs', [BlogController::class, 'index']);
 
+    Route::get('categories', [CategoryController::class, 'index']);
+
     /**
      * Sanctum Authenticated Routes
      */
@@ -156,7 +158,8 @@ Route::middleware('enable.cors')->group(function () {
     Route::resource('events', EventController::class)->except('show');
     Route::get('events/{slug}', [EventController::class, 'show']);
 
-    Route::get('categories', [CategoryController::class, 'index']);
+
+    Route::resource('categories', CategoryController::class)->except('index');
 
     Route::resources([
         'modules' => ModuleController::class,
@@ -239,14 +242,14 @@ Route::middleware('enable.cors')->group(function () {
 
         Route::get('user-courses/{course}', [UserCourseController::class, 'index']);
 
-    /**
-     * Password Reset
-     */
-    Route::post('/forgot-password', [ResetPasswordController::class, 'sendEmail'])->middleware('guest')->name('password.email');
-    Route::middleware('throttle:10,1')->prefix('password')->group(function () {
-        Route::get('reset/{token}', [ResetPasswordController::class, 'resetToken'])->name('password.reset');
-        Route::post('reset', [ResetPasswordController::class, 'reset']);
-    });
+        /**
+         * Password Reset
+         */
+        Route::post('/forgot-password', [ResetPasswordController::class, 'sendEmail'])->middleware('guest')->name('password.email');
+        Route::middleware('throttle:10,1')->prefix('password')->group(function () {
+            Route::get('reset/{token}', [ResetPasswordController::class, 'resetToken'])->name('password.reset');
+            Route::post('reset', [ResetPasswordController::class, 'reset']);
+        });
 
         /**
          * Unauthenticated Error
