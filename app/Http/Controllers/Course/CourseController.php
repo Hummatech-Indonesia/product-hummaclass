@@ -57,8 +57,7 @@ class CourseController extends Controller
     public function store(CourseRequest $request): JsonResponse
     {
         $this->course->store($this->service->store($request));
-
-        return ResponseHelper::success(data: true, trans('alert.add_success'));
+        return ResponseHelper::success(true, trans('alert.add_success'));
     }
     /**
      * Method show
