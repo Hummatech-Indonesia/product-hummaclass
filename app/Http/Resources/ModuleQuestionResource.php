@@ -14,6 +14,14 @@ class ModuleQuestionResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'module_id' => $this->module_id,
+            'question' => $this->question,
+            'option_a' => $this->option_a,
+            'option_b' => $this->option_b,
+            'option_c' => $this->option_c,
+            'option_d' => $this->option_d,
+            'option_e' => $this->option_e,
+        ];
     }
 }

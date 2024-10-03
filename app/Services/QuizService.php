@@ -39,13 +39,18 @@ class QuizService implements ShouldHandleFileUpload
     }
     public function store(Quiz $quiz)
     {
-        $data = [];
-        $questions = ModuleQuestion::query()->inRandomOrder()->limit($quiz->total_question)->get();
-        $moduleIds = $questions->pluck('id')->toArray();
-        $data['module_question_id'] = implode(',', $moduleIds);
-        $data['user_id'] = auth()->user()->id;
-        $data['quiz_id'] = $quiz->id;
-        $this->userQuiz->store($data);
+        if ($quiz->is_submitted) {
+            $moduleIds = explode(',', $quiz->module_question_id);
+            $questions = ModuleQuestion::query()->whereIn('id', $moduleIds)->get();
+        } else {
+            $data = [];
+            $questions = ModuleQuestion::query()->inRandomOrder()->limit($quiz->total_question)->get();
+            $moduleIds = $questions->pluck('id')->toArray();
+            $data['module_question_id'] = implode(',', $moduleIds);
+            $data['user_id'] = auth()->user()->id;
+            $data['quiz_id'] = $quiz->id;
+            $this->userQuiz->store($data);
+        }
         return $questions;
     }
     public function submit(UserQuizRequest $request, UserQuiz $userQuiz): void

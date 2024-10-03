@@ -57,8 +57,6 @@ class QuizController extends Controller
 
         $request->merge(['id' => $moduleIds->pluck('id')]);
 
-        // dd($moduleIds); // Uncomment for debugging purposes
-
         $moduleQuestions = $this->moduleQuestion->customPaginate($request);
         $data['paginate'] = $this->customPaginate($moduleQuestions->currentPage(), $moduleQuestions->lastPage());
         $data['data'] = ModuleQuestionResource::collection($moduleQuestions);
