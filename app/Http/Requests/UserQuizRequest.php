@@ -22,7 +22,18 @@ class UserQuizRequest extends ApiRequest
     public function rules(): array
     {
         return [
-            'answer' => 'required|array',
+            'answer.*' => 'nullable',
+        ];
+    }
+    /**
+     * Method messages
+     *
+     * @return array
+     */
+    public function messages(): array
+    {
+        return [
+            // 'answer.*.nullable' => "Semua jawaban harus terisi"
         ];
     }
 }

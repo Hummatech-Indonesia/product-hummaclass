@@ -34,6 +34,26 @@ class UserQuizRepository extends BaseRepository implements UserQuizInterface
     {
         return $this->model->query()->get();
     }
+    /**
+     * Method update
+     *
+     * @param mixed $id [explicite description]
+     * @param array $data [explicite description]
+     *
+     * @return mixed
+     */
+    public function update(mixed $id, array $data): mixed
+    {
+        return $this->model->query()->findOrFail($id)->update($data);
+    }
+    /**
+     * Method customPaginate
+     *
+     * @param Request $request [explicite description]
+     * @param int $pagination [explicite description]
+     *
+     * @return LengthAwarePaginator
+     */
     public function customPaginate(Request $request, int $pagination = 1): LengthAwarePaginator
     {
         return $this->model->query()->where(['quiz_id' => $request->quiz_id])->fastPaginate($pagination);

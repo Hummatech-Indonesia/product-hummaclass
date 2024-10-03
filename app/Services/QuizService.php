@@ -24,6 +24,7 @@ use App\Models\User;
 use App\Models\UserQuiz;
 use App\Traits\UploadTrait;
 use Illuminate\Http\Request;
+use Spatie\ErrorSolutions\SolutionProviders\Laravel\MissingAppKeySolutionProvider;
 
 class QuizService implements ShouldHandleFileUpload
 {
@@ -46,12 +47,41 @@ class QuizService implements ShouldHandleFileUpload
         $data['quiz_id'] = $quiz->id;
         $this->userQuiz->store($data);
     }
-    public function submit(Request $request, UserQuiz $userQuiz): void
+    public function submit(UserQuizRequest $request, UserQuiz $userQuiz): void
     {
-        dd($userQuiz->quiz);
-        $quiz = $userQuiz->quiz;
-        $data = ['is_submitted' => true];
-        $this->quiz->update($quiz->id, $data);
+        $data = $request->validated();
+        // $answers = $data['answer'];
+        $answers = array_map(function ($answer) {
+            return $answer == "" ? 'null' : $answer;
+        }, $data['answer']);
+        $questions = explode(',', $userQuiz->module_question_id);
 
+        $correctCount = 0;
+
+        foreach ($questions as $index => $questionId) {
+            $moduleQuestion = ModuleQuestion::find($questionId);
+            if (isset($answers[$index]) && $answers[$index] == $moduleQuestion->answer) {
+                $correctCount++;
+            }
+        }
+
+
+
+        $quiz = $userQuiz->quiz;
+        $score = count(value: $questions) > 0 ? ($correctCount / count($questions)) * 100 : 0;
+        $stringAnswer = implode(',', $answers);
+        $userQuizData = [
+            'score' => $score,
+            'answer' => $stringAnswer,
+        ];
+        $quizData = [
+            'is_submitted' => true,
+            'retry_delay' => 60,
+            'minimum_score' => 60,
+        ];
+        $this->userQuiz->update($userQuiz->id, $userQuizData);
+        $this->quiz->update($quiz->id, $quizData);
     }
+
+
 }

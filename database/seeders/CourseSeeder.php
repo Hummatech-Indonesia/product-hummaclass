@@ -76,6 +76,8 @@ class CourseSeeder extends Seeder
             'module_id' => $module->id,
             'rules' => 'lorem ipsum dolor sit amet',
             'total_question' => '5',
+            'retry_delay' => 60,
+            'minimum_score' => 60,
             'duration' => 60,
         ]);
         $courseTest = CourseTest::create([

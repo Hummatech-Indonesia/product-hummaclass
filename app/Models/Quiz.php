@@ -19,6 +19,9 @@ class Quiz extends Model implements HasModule, HasUserQuizzes
     protected $fillable = [
         'module_id',
         'rules',
+        'retry_delay',
+        'minimum_score',
+        'rules',
         'total_question',
         'duration',
         'is_submitted',
