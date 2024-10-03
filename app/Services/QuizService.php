@@ -52,6 +52,6 @@ class QuizService implements ShouldHandleFileUpload
         $quiz = $userQuiz->quiz;
         $data = ['is_submitted' => true];
         $this->quiz->update($quiz->id, $data);
-        
+
     }
 }

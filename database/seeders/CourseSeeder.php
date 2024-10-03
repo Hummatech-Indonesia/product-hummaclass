@@ -74,6 +74,7 @@ class CourseSeeder extends Seeder
         $quiz = Quiz::create([
             'id' => Uuid::uuid(),
             'module_id' => $module->id,
+            'rules' => 'lorem ipsum dolor sit amet',
             'total_question' => '5',
             'duration' => 60,
         ]);

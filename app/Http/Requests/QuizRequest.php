@@ -24,6 +24,7 @@ class QuizRequest extends ApiRequest
     {
         return [
             'duration' => 'required',
+            'rules' => 'required',
             'total_question' => [
                 'required',
                 'integer',
@@ -39,6 +40,7 @@ class QuizRequest extends ApiRequest
     {
         return [
             'duration.required' => 'Durasi wajib diisi',
+            'rules.required' => 'Peraturan wajib diisi',
             'total_question.required' => 'Total pertanyaan wajib diisi',
             'total_question.integer' => 'Total pertanyaan wajib berupa angka'
         ];

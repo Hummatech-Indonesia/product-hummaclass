@@ -129,6 +129,11 @@ Route::middleware('enable.cors')->group(function () {
          * Submission Task Management
          */
         Route::post('submission-tasks/{course_task}', [SubmissionTask::class, 'store']);
+
+        // Quiz Management
+        Route::get('quizzes/{quiz}', [QuizController::class, 'show']);
+        Route::post('quizzes', [QuizController::class, 'store']);
+        Route::post('quizzes-submit', [QuizController::class, 'submit']);
     });
 
     /**
@@ -166,7 +171,6 @@ Route::middleware('enable.cors')->group(function () {
     Route::get('course-reviews/{course_review}', [CourseReviewController::class, 'show']);
 
     Route::get('quizzes-get', [QuizController::class, 'get']);
-    Route::post('quizzes-submit', [QuizController::class, 'submit']);
 
     /**
      * Password Reset
