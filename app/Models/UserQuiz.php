@@ -22,6 +22,7 @@ class UserQuiz extends Model implements HasQuiz, HasUser
         'module_question_id',
         'answer',
         'score',
+        'has_submitted',
     ];
     /**
      * Get the user that owns the UserQuiz

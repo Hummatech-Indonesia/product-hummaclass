@@ -17,6 +17,7 @@ return new class extends Migration {
             $table->text('module_question_id');
             $table->text('answer')->nullable();
             $table->double('score')->default(0);
+            $table->boolean('has_submitted')->default(false);
             $table->timestamps();
         });
     }
