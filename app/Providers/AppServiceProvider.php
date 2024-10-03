@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Contracts\Interfaces\UserCourseTestInterface;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use App\Contracts\Interfaces\BlogInterface;
@@ -52,6 +53,7 @@ use App\Contracts\Repositories\Configuration\ContactRepository;
 use App\Contracts\Repositories\Course\CourseTestRepository;
 use App\Contracts\Repositories\Course\ModuleQuestionRepository;
 use App\Contracts\Repositories\Course\SubmissionTaskRepository;
+use App\Contracts\Repositories\UserCourseTestRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -78,7 +80,9 @@ class AppServiceProvider extends ServiceProvider
         TransactionInterface::class => TransactionRepository::class,
         BlogInterface::class => BlogRepository::class,
         BlogViewInterface::class => BlogViewRepository::class,
-        UserQuizInterface::class => UserQuizRepository::class
+        UserQuizInterface::class => UserQuizRepository::class,
+        CourseTestInterface::class => CourseTestRepository::class,
+        UserCourseTestInterface::class=>UserCourseTestRepository::class
     ];
 
     /**
