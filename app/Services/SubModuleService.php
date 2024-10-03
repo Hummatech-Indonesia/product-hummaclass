@@ -21,7 +21,6 @@ class SubModuleService
     {
         $subModuleNext = $this->subModule->nextSubModule($subModule->step, $subModule->module_id);
         $firstModuleNext = $this->module->moduleNextStep($subModule->module->step);
-
         $subModuleInNextModule = $this->subModule->nextSubModule(1, $firstModuleNext);
         if ($subModuleNext) {
             return $subModuleNext;
@@ -35,7 +34,6 @@ class SubModuleService
     {
         $subModulePrev = $this->subModule->prevSubModule($subModule->step, $subModule->module_id);
         $firstModulePrev = $this->module->modulePrevStep($subModule->module->step);
-
         $subModuleInPrevModule = $this->subModule->prevSubModule(1, $firstModulePrev);
         if ($subModulePrev) {
             return $subModulePrev;

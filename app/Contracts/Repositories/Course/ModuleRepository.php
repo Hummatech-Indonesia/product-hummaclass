@@ -160,7 +160,7 @@ class ModuleRepository extends BaseRepository implements ModuleInterface
     public function moduleNextStep(int $step): mixed
     {
         return $this->model->query()
-            ->where('step', '>', $step)->first();
+            ->where('step', $step + 1)->first();
     }
     /**
      * Method modulePrevStep
@@ -171,7 +171,7 @@ class ModuleRepository extends BaseRepository implements ModuleInterface
      */
     public function modulePrevStep(int $step): mixed
     {
-        return $this->model->query()->where('step', '<', $step)->first();
+        return $this->model->query()->where('step', $step - 1)->first();
     }
 
     /**

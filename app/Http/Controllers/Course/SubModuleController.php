@@ -55,7 +55,7 @@ class SubModuleController extends Controller
         $subModule = $this->subModule->showWithSlug($slug);
         $service = $this->service->next($subModule);
         if ($service) {
-            return ResponseHelper::success(SubModuleResource::make($service));
+            return ResponseHelper::success($service, trans('alert.fetch_success'));
         } else {
             return ResponseHelper::error(null, 'Anda sudah pada halaman terakhir');
         }
@@ -66,7 +66,7 @@ class SubModuleController extends Controller
         $subModule = $this->subModule->showWithSlug($slug);
         $service = $this->service->prev($subModule);
         if ($service) {
-            return ResponseHelper::success($service);
+            return ResponseHelper::success($service, trans('alert.fetch_success'));
         } else {
             return ResponseHelper::error(null, 'Anda sudah pada halaman pertama');
         }
