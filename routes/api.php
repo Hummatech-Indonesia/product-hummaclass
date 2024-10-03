@@ -74,6 +74,8 @@ Route::middleware('enable.cors')->group(function () {
 
         Route::get('list-course', [CourseController::class, 'listCourse']);
 
+        Route::get('list-module/{slug}', [ModuleController::class, 'listModule']);
+
         /**
          * User and Profile Management
          */
