@@ -17,12 +17,13 @@ class QuizResource extends JsonResource
         return [
             'id' => $this->id,
             'module_id' => $this->module_id,
+            'module_title' => $this->module->title,
             'rules' => $this->rules,
             'module_slug' => $this->module->slug,
             'total_question' => $this->total_question,
             'duration' => $this->duration,
             'user_quizzes' => $this->userQuizzes,
-            'is_submited' => $this->is_submited
+            'is_submited' => $this->is_submited,
         ];
     }
 }
