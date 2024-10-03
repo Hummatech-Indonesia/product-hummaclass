@@ -14,7 +14,8 @@ return new class extends Migration {
         Schema::create('transactions', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('user_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignUuid('course_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignUuid('course_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate()->nulable();
+            $table->foreignUuid('event_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate()->nullable();
             $table->string('invoice_id')->unique();
             $table->integer('fee_amount');
             $table->integer('amount');

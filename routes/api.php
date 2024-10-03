@@ -200,42 +200,43 @@ Route::middleware('enable.cors')->group(function () {
         Route::get('quiz-start/{quiz}', [QuizController::class, 'show']);
         Route::post('quizzes/{module}', [QuizController::class, 'store']);
 
-    Route::get('course-tests-get', [CourseTestController::class, 'get']);
-    Route::get('course-tests/{course}', [CourseTestController::class, 'index']);
-    Route::get('course-test-start/{course_test}', [CourseTestController::class, 'show']);
-    Route::post('course-tests/{course}', [CourseTestController::class, 'store']);
+        Route::get('course-tests-get', [CourseTestController::class, 'get']);
+        Route::get('course-tests/{course}', [CourseTestController::class, 'index']);
+        Route::get('course-test-start/{course_test}', [CourseTestController::class, 'show']);
+        Route::post('course-tests/{course}', [CourseTestController::class, 'store']);
 
-    Route::get('blogs', [BlogController::class, 'index']);
-    Route::get('blog-detail/{slug}', [BlogController::class, 'showLanding']);
+        Route::get('blogs', [BlogController::class, 'index']);
+        Route::get('blog-detail/{slug}', [BlogController::class, 'showLanding']);
 
-    Route::get('contact', [ContactController::class, 'index']);
+        Route::get('contact', [ContactController::class, 'index']);
 
-    Route::get('modules/{slug}', [ModuleController::class, 'index']);
-    Route::get('list-module/{slug}', [ModuleController::class, 'listModule']);
-    Route::get('modules/detail/{module}', [ModuleController::class, 'show']);
+        Route::get('modules/{slug}', [ModuleController::class, 'index']);
+        Route::get('list-module/{slug}', [ModuleController::class, 'listModule']);
+        Route::get('modules/detail/{module}', [ModuleController::class, 'show']);
 
-    Route::get('module-tasks/{module}', [ModuleTaskController::class, 'index']);
-    Route::get('module-questions/detail/{module}', [ModuleQuestionController::class, 'index']);
+        Route::get('module-tasks/{module}', [ModuleTaskController::class, 'index']);
+        Route::get('module-questions/detail/{module}', [ModuleQuestionController::class, 'index']);
 
-    Route::get('submission-tasks/{course_task}', [SubmissionTask::class, 'index']);
+        Route::get('submission-tasks/{course_task}', [SubmissionTask::class, 'index']);
 
-    Route::get('user-courses/{course}', [UserCourseController::class, 'index']);
+        Route::get('user-courses/{course}', [UserCourseController::class, 'index']);
 
-    /**
-     * Password Reset
-     */
-    Route::post('/forgot-password', [ResetPasswordController::class, 'sendEmail'])->middleware('guest')->name('password.email');
-    Route::middleware('throttle:10,1')->prefix('password')->group(function () {
-        Route::get('reset/{token}', [ResetPasswordController::class, 'resetToken'])->name('password.reset');
-        Route::post('reset', [ResetPasswordController::class, 'reset']);
+        /**
+         * Password Reset
+         */
+        Route::post('/forgot-password', [ResetPasswordController::class, 'sendEmail'])->middleware('guest')->name('password.email');
+        Route::middleware('throttle:10,1')->prefix('password')->group(function () {
+            Route::get('reset/{token}', [ResetPasswordController::class, 'resetToken'])->name('password.reset');
+            Route::post('reset', [ResetPasswordController::class, 'reset']);
+        });
+
+        /**
+         * Unauthenticated Error
+         */
+        Route::get('login', function () {
+            return ResponseHelper::error(null, 'Unauthenticated');
+        })->name('login');
     });
-
-    /**
-     * Unauthenticated Error
-     */
-    Route::get('login', function () {
-        return ResponseHelper::error(null, 'Unauthenticated');
-    })->name('login');
 });
 
 require_once('api/tripay.php');
