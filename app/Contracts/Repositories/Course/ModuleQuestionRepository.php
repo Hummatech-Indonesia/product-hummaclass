@@ -25,6 +25,10 @@ class ModuleQuestionRepository extends BaseRepository implements ModuleQuestionI
     {
         $this->model = $moduleQuestion;
     }
+    public function customPaginate(Request $request, int $pagination = 1): LengthAwarePaginator
+    {
+        return $this->model->query()->whereIn('id', $request->id)->fastPaginate($pagination);
+    }
     /**
      * Method get
      *

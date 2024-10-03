@@ -58,7 +58,7 @@ class CourseController extends Controller
     {
         $this->course->store($this->service->store($request));
 
-        return ResponseHelper::success(true, trans('alert.add_success'));
+        return ResponseHelper::success(data: true, trans('alert.add_success'));
     }
     /**
      * Method show

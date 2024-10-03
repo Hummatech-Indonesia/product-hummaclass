@@ -46,6 +46,7 @@ class QuizService implements ShouldHandleFileUpload
         $data['user_id'] = auth()->user()->id;
         $data['quiz_id'] = $quiz->id;
         $this->userQuiz->store($data);
+        return $questions;
     }
     public function submit(UserQuizRequest $request, UserQuiz $userQuiz): void
     {

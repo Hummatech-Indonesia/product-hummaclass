@@ -3,15 +3,18 @@
 namespace App\Http\Controllers\Course;
 
 use App\Contracts\Interfaces\Course\ModuleInterface;
+use App\Contracts\Interfaces\Course\ModuleQuestionInterface;
 use App\Contracts\Interfaces\Course\QuizInterface;
 use App\Contracts\Interfaces\UserQuizInterface;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\QuizRequest;
 use App\Http\Requests\UserQuizRequest;
+use App\Http\Resources\ModuleQuestionResource;
 use App\Http\Resources\QuizResource;
 use App\Http\Resources\UserQuizResource;
 use App\Models\Module;
+use App\Models\ModuleQuestion;
 use App\Models\Quiz;
 use App\Models\UserQuiz;
 use App\Services\QuizService;
@@ -25,13 +28,15 @@ class QuizController extends Controller
     private QuizInterface $quiz;
     private ModuleInterface $module;
     private UserQuizInterface $userQuiz;
+    private ModuleQuestionInterface $moduleQuestion;
 
     private QuizService $service;
-    public function __construct(QuizInterface $quiz, QuizService $service, UserQuizInterface $userQuiz, ModuleInterface $module)
+    public function __construct(QuizInterface $quiz, ModuleQuestionInterface $moduleQuestion, QuizService $service, UserQuizInterface $userQuiz, ModuleInterface $module)
     {
         $this->quiz = $quiz;
         $this->module = $module;
         $this->userQuiz = $userQuiz;
+        $this->moduleQuestion = $moduleQuestion;
         $this->service = $service;
     }
     /**
@@ -46,21 +51,18 @@ class QuizController extends Controller
         return ResponseHelper::success(QuizResource::make($quiz), trans('alert.fetch_success'));
     }
 
-    /**
-     * show
-     *
-     * @param  mixed $request
-     * @param  mixed $quiz
-     * @return JsonResponse
-     */
     public function show(Request $request, Quiz $quiz): JsonResponse
     {
-        $this->service->store($quiz);
-        $request->merge(['quiz_id' => $quiz->id]);
-        $userQuizzes = $this->userQuiz->customPaginate($request);
-        // dd($userQuizzes);   
-        $data['paginate'] = $this->customPaginate($userQuizzes->currentPage(), $userQuizzes->lastPage());
-        $data['data'] = UserQuizResource::collection($userQuizzes);
+        $moduleIds = $this->service->store($quiz);
+
+        $request->merge(['id' => $moduleIds->pluck('id')]);
+
+        // dd($moduleIds); // Uncomment for debugging purposes
+
+        $moduleQuestions = $this->moduleQuestion->customPaginate($request);
+        $data['paginate'] = $this->customPaginate($moduleQuestions->currentPage(), $moduleQuestions->lastPage());
+        $data['data'] = ModuleQuestionResource::collection($moduleQuestions);
+
         return responsehelper::success($data, trans('alert.fetch_success'));
     }
     public function submit(UserQuizRequest $request, UserQuiz $userQuiz): JsonResponse

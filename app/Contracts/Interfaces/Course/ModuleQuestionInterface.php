@@ -10,7 +10,7 @@ use App\Contracts\Interfaces\Eloquent\ShowInterface;
 use App\Contracts\Interfaces\Eloquent\StoreInterface;
 use App\Contracts\Interfaces\Eloquent\UpdateInterface;
 
-interface ModuleQuestionInterface extends GetInterface, StoreInterface, UpdateInterface, ShowInterface, DeleteInterface
+interface ModuleQuestionInterface extends CustomPaginationInterface,GetInterface, StoreInterface, UpdateInterface, ShowInterface, DeleteInterface
 {
     /**
      * Handle the Get all data event from models.

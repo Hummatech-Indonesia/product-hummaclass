@@ -56,7 +56,7 @@ class UserQuizRepository extends BaseRepository implements UserQuizInterface
      */
     public function customPaginate(Request $request, int $pagination = 1): LengthAwarePaginator
     {
-        return $this->model->query()->where(['quiz_id' => $request->quiz_id])->fastPaginate($pagination);
+        return $this->model->query()->fastPaginate($pagination);
     }
     /**
      * Method store
