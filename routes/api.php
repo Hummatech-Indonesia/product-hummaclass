@@ -174,6 +174,7 @@ Route::middleware('enable.cors')->group(function () {
 
     Route::get('courses', [CourseController::class, 'index']);
     Route::get('courses/{slug}', [CourseController::class, 'show']);
+    Route::get('courses/{slug}/share', [CourseController::class, 'share']);
 
     Route::get('course-vouchers/{courseSlug}', [CourseVoucherController::class, 'index']);
     Route::get('course-vouchers/{courseSlug}/check', [CourseVoucherController::class, 'checkCode']);
