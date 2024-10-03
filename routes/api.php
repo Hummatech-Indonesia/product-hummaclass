@@ -136,7 +136,7 @@ Route::middleware('enable.cors')->group(function () {
         Route::post('submission-tasks/{course_task}', [SubmissionTask::class, 'store']);
 
         // Quiz Management
-        Route::get('quizzes/{quiz}', [QuizController::class, 'show']);
+        Route::get('quizzes/working/{quiz}', [QuizController::class, 'show']);
         Route::post('quizzes', [QuizController::class, 'store']);
         Route::post('quizzes-submit/{user_quiz}', [QuizController::class, 'submit']);
 
