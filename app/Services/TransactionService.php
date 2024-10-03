@@ -37,20 +37,13 @@ class TransactionService
     public function handlePaymentCallback($request): mixed
     {
         $transaction = $this->transaction->show($request->reference);
+        $product = $transaction->course ?? $transaction->event;
+        $data = null;
         switch ($request->status) {
             case 'UNPAID':
-                $userCourse = $this->userCourse->store([
-                    'user_id' => $transaction->user_id,
-                    'course_id' => $transaction->course_id
-                ]);
-
-                if ($userCourse) {
-                    $data = [
-                        'invoice_status' => 'unpaid'
-                    ];
-                    return $this->transaction->update($request->reference, $data);
-                }
-                return 'callback failed';
+                $data = [
+                    'invoice_status' => 'unpaid'
+                ];
                 break;
             case 'PAID':
                 $data = [
@@ -62,31 +55,29 @@ class TransactionService
                     'payment_method' => $request->payment_method_code,
                     'invoice_status' => $request->status
                 ];
-
-                $userCourse = $this->userCourse->store([
-                    'user_id' => $transaction->user_id,
-                    'course_id' => $transaction->course_id
-                ]);
-                return $this->transaction->update($request->reference, $data);
                 break;
             case 'EXPIRED':
-                $userCourse = $this->userCourse->showByUserCourse($transaction->user_id, $transaction->course_id)->delete();
                 $data = [
                     'invoice_status' => 'expired'
                 ];
-                return $this->transaction->update($request->reference, $data);
+                $product->delete();
                 break;
             case 'FAILED':
-                $userCourse = $this->userCourse->showByUserCourse($transaction->user_id, $transaction->course)->delete();
                 $data = [
                     'invoice_status' => 'failed'
                 ];
-                return $this->transaction->update($request->reference, $data);
+                $product->delete();
                 break;
 
             default:
                 return $request;
                 break;
+        }
+        $updated =  $this->transaction->update($request->reference, $data);
+        if($updated) {
+            return ResponseHelper::success(null, "Callback success");
+        } else {
+            return ResponseHelper::error(null, "Callback gagal");
         }
     }
 }

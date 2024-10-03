@@ -172,6 +172,60 @@ Route::middleware('enable.cors')->group(function () {
 
     Route::get('quizzes-get', [QuizController::class, 'get']);
 
+    Route::middleware('auth:sanctum')->group(function () {
+
+        Route::resource('blogs', BlogController::class)->only(['store', 'update', 'destroy', 'show']);
+
+        Route::resource('courses', CourseController::class)->except(['index', 'show']);
+        Route::resources([
+            'sub-categories' => SubCategoryController::class,
+        ], [
+            'only' => ['store', 'update', 'destroy', 'show']
+        ]);
+        Route::post('sub-categories/{category}', [SubCategoryController::class, 'store']);
+
+        Route::post('sub-categories/{category}', [SubCategoryController::class, 'store']);
+
+        Route::get('sub-modules/detail/{slug}', [SubModuleController::class, 'show']);
+        Route::post('sub-modules/{module}', [SubModuleController::class, 'store']);
+
+        Route::patch('contact/{contact}', [ContactController::class, 'update']);
+
+        Route::get('course-vouchers/{courseSlug}', [CourseVoucherController::class, 'index']);
+        Route::get('course-vouchers/{courseSlug}/check', [CourseVoucherController::class, 'checkCode']);
+        Route::put('course-vouchers/{code}', [CourseVoucherController::class, 'update']);
+        // Route::put('course-vouchers/{code}', [CourseVoucherController::class, 'update']);
+        Route::post('course-vouchers/{courseSlug}', [CourseVoucherController::class, 'store']);
+        Route::delete('course-vouchers/{courseVoucher}', [CourseVoucherController::class, 'destroy']);
+
+        Route::post('module-tasks/{module}', [ModuleTaskController::class, 'store']);
+
+        Route::get('module-questions/detail/{module}', [ModuleQuestionController::class, 'index']);
+        Route::post('module-questions/{module}', [ModuleQuestionController::class, 'store']);
+
+        Route::get('quizzes/{module}', [QuizController::class, 'index']);
+        Route::get('quizzes', [QuizController::class, 'get']);
+        Route::get('quiz-start/{quiz}', [QuizController::class, 'show']);
+        Route::post('quizzes/{module}', [QuizController::class, 'store']);
+
+        Route::get('course-tests-get', [CourseTestController::class, 'get']);
+        Route::get('course-tests/{course}', [CourseTestController::class, 'index']);
+        Route::get('course-test-start/{course_test}', [CourseTestController::class, 'show']);
+        Route::post('course-tests/{course}', [CourseTestController::class, 'store']);
+
+        Route::get('blog-detail/{slug}', [BlogController::class, 'showLanding']);
+
+        Route::get('modules/{slug}', [ModuleController::class, 'index']);
+        Route::get('list-module/{slug}', [ModuleController::class, 'listModule']);
+        Route::get('modules/detail/{module}', [ModuleController::class, 'show']);
+
+        Route::get('module-tasks/{module}', [ModuleTaskController::class, 'index']);
+        Route::get('module-questions/detail/{module}', [ModuleQuestionController::class, 'index']);
+
+        Route::get('submission-tasks/{course_task}', [SubmissionTask::class, 'index']);
+
+        Route::get('user-courses/{course}', [UserCourseController::class, 'index']);
+
     /**
      * Password Reset
      */
@@ -181,12 +235,13 @@ Route::middleware('enable.cors')->group(function () {
         Route::post('reset', [ResetPasswordController::class, 'reset']);
     });
 
-    /**
-     * Unauthenticated Error
-     */
-    Route::get('login', function () {
-        return ResponseHelper::error(null, 'Unauthenticated');
-    })->name('login');
+        /**
+         * Unauthenticated Error
+         */
+        Route::get('login', function () {
+            return ResponseHelper::error(null, 'Unauthenticated');
+        })->name('login');
+    });
 });
 
 require_once('api/tripay.php');

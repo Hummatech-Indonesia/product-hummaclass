@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Contracts\Interfaces\UserCourseTestInterface;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use App\Contracts\Interfaces\BlogInterface;
@@ -21,39 +20,42 @@ use App\Contracts\Repositories\RegisterRepository;
 use App\Contracts\Repositories\UserQuizRepository;
 use App\Contracts\Interfaces\Auth\ProfileInterface;
 use App\Contracts\Repositories\Auth\UserRepository;
+use App\Contracts\Repositories\UserEventRepository;
 use App\Contracts\Interfaces\Course\CourseInterface;
 use App\Contracts\Interfaces\Course\ModuleInterface;
+use App\Contracts\Interfaces\UserCourseTestInterface;
 use App\Contracts\Repositories\Course\QuizRepository;
 use App\Contracts\Repositories\EventDetailRepository;
 use App\Contracts\Repositories\TransactionRepository;
 use App\Contracts\Interfaces\Course\CategoryInterface;
 use App\Contracts\Repositories\Auth\ProfileRepository;
 use App\Contracts\Interfaces\Course\SubModuleInterface;
+use App\Contracts\Interfaces\Course\UserEventInterface;
 use App\Contracts\Repositories\Course\CourseRepository;
 use App\Contracts\Repositories\Course\ModuleRepository;
 use App\Contracts\Interfaces\Course\CourseTaskInterface;
+use App\Contracts\Interfaces\Course\CourseTestInterface;
 use App\Contracts\Interfaces\Course\ModuleTaskInterface;
 use App\Contracts\Interfaces\Course\UserCourseInterface;
+use App\Contracts\Repositories\UserCourseTestRepository;
 use App\Contracts\Interfaces\Course\SubCategoryInterface;
 use App\Contracts\Repositories\Course\CategoryRepository;
 use App\Contracts\Interfaces\Course\CourseReviewInterface;
 use App\Contracts\Repositories\Course\SubModuleRepository;
 use App\Contracts\Interfaces\Course\CourseVoucherInterface;
 use App\Contracts\Repositories\Course\CourseTaskRepository;
+use App\Contracts\Repositories\Course\CourseTestRepository;
 use App\Contracts\Repositories\Course\ModuleTaskRepository;
 use App\Contracts\Repositories\Course\UserCourseRepository;
 use App\Contracts\Interfaces\Configuration\ContactInterface;
-use App\Contracts\Interfaces\Course\CourseTestInterface;
 use App\Contracts\Interfaces\Course\ModuleQuestionInterface;
 use App\Contracts\Interfaces\Course\SubmissionTaskInterface;
 use App\Contracts\Repositories\Course\SubCategoryRepository;
 use App\Contracts\Repositories\Course\CourseReviewRepository;
 use App\Contracts\Repositories\Course\CourseVoucherRepository;
 use App\Contracts\Repositories\Configuration\ContactRepository;
-use App\Contracts\Repositories\Course\CourseTestRepository;
 use App\Contracts\Repositories\Course\ModuleQuestionRepository;
 use App\Contracts\Repositories\Course\SubmissionTaskRepository;
-use App\Contracts\Repositories\UserCourseTestRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -82,7 +84,8 @@ class AppServiceProvider extends ServiceProvider
         BlogViewInterface::class => BlogViewRepository::class,
         UserQuizInterface::class => UserQuizRepository::class,
         CourseTestInterface::class => CourseTestRepository::class,
-        UserCourseTestInterface::class=>UserCourseTestRepository::class
+        UserCourseTestInterface::class=>UserCourseTestRepository::class,
+        UserEventInterface::class=>UserEventRepository::class
     ];
 
     /**
