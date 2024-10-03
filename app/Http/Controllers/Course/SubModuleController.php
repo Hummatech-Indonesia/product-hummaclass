@@ -55,11 +55,12 @@ class SubModuleController extends Controller
         $subModule = $this->subModule->showWithSlug($slug);
         $service = $this->service->next($subModule);
         if ($service) {
-            return ResponseHelper::success($service);
+            return ResponseHelper::success(SubModuleResource::make($service));
         } else {
             return ResponseHelper::error(null, 'Anda sudah pada halaman terakhir');
         }
     }
+
     public function prev(string $slug): JsonResponse
     {
         $subModule = $this->subModule->showWithSlug($slug);
