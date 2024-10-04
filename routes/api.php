@@ -224,7 +224,6 @@ Route::middleware('enable.cors')->group(function () {
         Route::get('module-questions/detail/{module}', [ModuleQuestionController::class, 'index']);
         Route::post('module-questions/{module}', [ModuleQuestionController::class, 'store']);
 
-        Route::get('quizzes/{module}', [QuizController::class, 'index']);
         Route::get('quizzes', [QuizController::class, 'get']);
         Route::get('quiz-start/{quiz}', [QuizController::class, 'show']);
         Route::post('quizzes/{module}', [QuizController::class, 'store']);
