@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('user_courses', function (Blueprint $table) {
-            $table->foreignUuid('sub_module_id')->constrained()->nullable();
+            $table->foreignUuid('sub_module_id')->nullable()->constrained();
         });
     }
 

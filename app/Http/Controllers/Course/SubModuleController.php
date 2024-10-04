@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Course;
 
 use App\Contracts\Interfaces\Course\SubModuleInterface;
+use App\Enums\UploadDiskEnum;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SubModuleRequest;
@@ -10,11 +11,13 @@ use App\Http\Resources\SubModuleResource;
 use App\Models\Module;
 use App\Models\SubModule;
 use App\Services\SubModuleService;
+use App\Traits\UploadTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class SubModuleController extends Controller
 {
+    use UploadTrait;
     private SubModuleInterface $subModule;
     private SubModuleService $service;
     public function __construct(SubModuleInterface $subModule, SubModuleService $service)
@@ -113,5 +116,26 @@ class SubModuleController extends Controller
         } catch (\Throwable $e) {
             return ResponseHelper::error(false, trans('alert.delete_constrained'));
         }
+    }
+
+    /**
+     * uploadImage
+     *
+     * @param  mixed $request
+     * @return void
+     */
+    public function uploadImage(Request $request)
+    {
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        if ($request->file('image')) {
+            $url = $this->upload(UploadDiskEnum::IMAGE->value, $request->file('image'));
+
+            return response()->json(['success' => 1, 'file' => ['url' =>  url('storage/' . $url)]]);
+        }
+
+        return response()->json(['success' => 0, 'message' => 'File upload failed.']);
     }
 }
