@@ -42,8 +42,14 @@ class CourseRepository extends BaseRepository implements CourseInterface
             ->when($request->order == "best seller", function ($query) {
                 $query->orderBy('user_courses_count', 'desc');
             })
-            ->when($request->maksimum && $request->minimum, function ($query) use ($request) {
-                $query->where('price', '>=', $request->minimum)->where('price', '<=', $request->maksimum);
+            ->when($request->categories, function ($query) use ($request) {
+                $query->whereIn('sub_category_id', $request->categories);
+            })
+            ->when($request->maximum, function ($query) use ($request) {
+                $query->where('price', '<=', $request->maximum);
+            })
+            ->when($request->minimum, function ($query) use ($request) {
+                $query->where('price', '>=', $request->minimum);
             })
             ->orderBy('created_at', 'desc')
             ->fastPaginate($pagination);
