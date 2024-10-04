@@ -59,6 +59,8 @@ Route::middleware('enable.cors')->group(function () {
         Route::get('/auth/{provider}/callback', [SocialiteController::class, 'handleProvideCallback']);
     });
 
+    Route::post('upload-image', [SubModuleController::class, 'uploadImage']);
+
     /**
      * Authentication
      */
