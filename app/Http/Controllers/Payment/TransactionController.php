@@ -38,6 +38,7 @@ class TransactionController extends Controller
         $this->transaction = $transaction;
         $this->courseVoucher = $courseVoucher;
         $this->userEvent = $userEvent;
+        $this->userCourse = $userCourse;
         $this->event = $event;
         $this->course = $course;
         $this->transactionService = $transactionService;
