@@ -191,7 +191,7 @@ Route::middleware('enable.cors')->group(function () {
     Route::get('course-reviews/{course_review}', [CourseReviewController::class, 'show']);
 
     Route::get('quizzes-get', [QuizController::class, 'get']);
-    Route::get('quizzes/{slug}', [QuizController::class, 'index']);
+    // Route::get('quizzes/{slug}', [QuizController::class, 'index']);
 
     Route::middleware('auth:sanctum')->group(function () {
 

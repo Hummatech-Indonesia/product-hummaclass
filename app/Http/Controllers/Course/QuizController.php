@@ -44,11 +44,26 @@ class QuizController extends Controller
      *
      * @return JsonResponse
      */
-    public function index(string $slug): JsonResponse
+    public function slug(string $slug): JsonResponse
     {
         $module = $this->module->showWithSlug($slug);
         $quiz = $module->quizzes->first();
         return ResponseHelper::success(QuizResource::make($quiz), trans('alert.fetch_success'));
+    }
+    /**
+     * index
+     *
+     * @param  mixed $slug
+     * @return JsonResponse
+     */
+    public function index(Module $module): JsonResponse
+    {
+        if ($module->quizzes->first()) {
+            $quiz = $module->quizzes->first();
+            return ResponseHelper::success(QuizResource::make($quiz), trans('alert.fetch_success'));
+        } else {
+            return ResponseHelper::error(null, 'Quiz belum ada');
+        }
     }
 
     public function show(Request $request, Quiz $quiz): JsonResponse
