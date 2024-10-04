@@ -232,7 +232,6 @@ Route::middleware('enable.cors')->group(function () {
         Route::get('blog-detail/{slug}', [BlogController::class, 'showLanding']);
 
         Route::get('modules/{slug}', [ModuleController::class, 'index']);
-        Route::get('list-module/{slug}', [ModuleController::class, 'listModule']);
         Route::get('modules/detail/{module}', [ModuleController::class, 'show']);
 
         Route::get('module-tasks/{module}', [ModuleTaskController::class, 'index']);
