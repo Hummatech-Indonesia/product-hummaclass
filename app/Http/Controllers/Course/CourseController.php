@@ -126,4 +126,10 @@ class CourseController extends Controller
         $course = $this->course->showWithSlug($slug);
         return ResponseHelper::success(CourseResource::make($course), trans('alert.fetch_success'));
     }
+
+
+    public function count(): JsonResponse {
+        $course_count = $this->course->count();
+        return ResponseHelper::success(['course_count' => $course_count], trans('alert.fetch_success'));
+    }
 }

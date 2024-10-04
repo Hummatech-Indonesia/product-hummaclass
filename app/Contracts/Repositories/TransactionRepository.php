@@ -5,14 +5,14 @@ namespace App\Contracts\Repositories;
 use App\Contracts\Interfaces\EventInterface;
 use App\Contracts\Interfaces\TransactionInterface;
 use App\Contracts\Repositories\BaseRepository;
+use App\Enums\InvoiceStatusEnum;
 use App\Models\Transaction;
 
 class TransactionRepository extends BaseRepository implements TransactionInterface
 {
-    private $transaction;
     public function __construct(Transaction $transaction)
     {
-        $this->transaction = $transaction;
+        $this->model = $transaction;
     }
     /**
      * Method get
@@ -21,7 +21,7 @@ class TransactionRepository extends BaseRepository implements TransactionInterfa
      */
     public function get(): mixed
     {
-        return $this->transaction->query()->get();
+        return $this->model->query()->get();
     }
     /**
      * Method getWhere
@@ -32,7 +32,7 @@ class TransactionRepository extends BaseRepository implements TransactionInterfa
      */
     public function getWhere(array $data): mixed
     {
-        return $this->transaction->where($data)->get();
+        return $this->model->where($data)->get();
     }
 
     /**
@@ -44,7 +44,7 @@ class TransactionRepository extends BaseRepository implements TransactionInterfa
      */
     public function show(mixed $id): mixed
     {
-        return $this->transaction->with(['voucher', 'user', 'course', 'event'])->findOrFail($id);
+        return $this->model->with(['voucher', 'user', 'course', 'event'])->findOrFail($id);
     }
     /**
      * Method store
@@ -55,7 +55,7 @@ class TransactionRepository extends BaseRepository implements TransactionInterfa
      */
     public function store(array $data): mixed
     {
-        return $this->transaction->create($data);
+        return $this->model->create($data);
     }
     /**
      * Method update
@@ -79,5 +79,12 @@ class TransactionRepository extends BaseRepository implements TransactionInterfa
     public function delete(mixed $id): mixed
     {
         return $this->show($id)->destroy();
+    }
+
+    public function countByMonth() : mixed {
+        return $this->model->query()
+        ->where('invoice_status', InvoiceStatusEnum::PAID)
+        ->groupBy('created_at')
+        ->get();
     }
 }

@@ -14,4 +14,5 @@ use App\Contracts\Interfaces\Eloquent\UpdateInterface;
 
 interface TransactionInterface extends GetInterface, GetWhereInterface,StoreInterface, UpdateInterface, DeleteInterface, ShowInterface
 {
+    public function countByMonth() : mixed;
 }

@@ -78,8 +78,15 @@ class CourseRepository extends BaseRepository implements CourseInterface
             ->when($request->maksimum && $request->minimum, function ($query) use ($request) {
                 $query->where('price', '>=', $request->minimum)->where('price', '<=', $request->maksimum);
             })
+            ->when($request->limit, function ($query) use ($request) {
+                $query->limit($request->limit);
+            })
             ->orderBy('created_at', 'desc')
             ->get();
+    }
+
+    public function count() : mixed {
+        return $this->model->query()->count();
     }
 
     /**

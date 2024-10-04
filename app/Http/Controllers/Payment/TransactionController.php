@@ -106,19 +106,20 @@ class TransactionController extends Controller
                 'payment_method' => $transaction['data']['payment_method'],
                 'course_voucher_id' => $voucher->id ?? null
             ];
-            $transaction = $this->transaction->store($data);
+            $transactionResult = $this->transaction->store($data);
+            $transactionResult->reference = $transaction['data']['reference'];
             if ($productType == 'course') {
                 $this->userCourse->store([
-                    'user_id' => $transaction->user_id,
-                    'course_id' => $transaction->course_id
+                    'user_id' => $transactionResult->user_id,
+                    'course_id' => $transactionResult->course_id
                 ]);
             } else {
                 $this->userEvent->store([
-                    'user_id' => $transaction->user_id,
-                    'event_id' => $transaction->event_id
+                    'user_id' => $transactionResult->user_id,
+                    'event_id' => $transactionResult->event_id
                 ]);
             }
-            return ResponseHelper::success(['transaction' => $transaction, 'voucher' => $voucher], 'Transaksi berhasil');
+            return ResponseHelper::success(['transaction' => $transactionResult, 'voucher' => $voucher], 'Transaksi berhasil');
         } else {
             return ResponseHelper::error($transaction);
         }
@@ -157,5 +158,16 @@ class TransactionController extends Controller
     public function delete(mixed $id): mixed
     {
         return $this->delete($id);
+    }
+
+    public function groupByMonth(): JsonResponse
+    {
+        $transactions = $this->transaction->countByMonth();
+        $moths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "July", "Aug", "Sept", "Oct", "Nov"];
+        return [
+            $transactions,
+            $moths
+        ];
+        // return ResponseHelper::success($transactions, trans('alert.fetch_success'));
     }
 }

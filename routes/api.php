@@ -109,6 +109,9 @@ Route::middleware('enable.cors')->group(function () {
         Route::post('course-voucher-users', [CourseVoucherUserController::class, 'store']);
         Route::post('course-reviews/{course}', [CourseReviewController::class, 'store']);
         Route::patch('course-reviews/{course_review}', [CourseReviewController::class, 'update']);
+        
+        // count courses
+        Route::get('courses/count', [CourseController::class, 'count']);
 
         /**
          * Blog Management
@@ -240,6 +243,8 @@ Route::middleware('enable.cors')->group(function () {
         Route::get('submission-tasks/{course_task}', [SubmissionTask::class, 'index']);
 
         Route::get('user-courses/{course}', [UserCourseController::class, 'index']);
+
+        Route::get('transaction/statistic', [TransactionController::class, 'groupByMonth']);
 
         /**
          * Password Reset
