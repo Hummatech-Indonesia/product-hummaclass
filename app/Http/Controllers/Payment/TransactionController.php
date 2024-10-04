@@ -163,11 +163,10 @@ class TransactionController extends Controller
     public function groupByMonth(): JsonResponse
     {
         $transactions = $this->transaction->countByMonth();
-        $moths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "July", "Aug", "Sept", "Oct", "Nov"];
-        return [
-            $transactions,
-            $moths
-        ];
-        // return ResponseHelper::success($transactions, trans('alert.fetch_success'));
+        return ResponseHelper::success([
+            'transaction' => $transactions['data'],
+            'months' => $transactions['months'],
+            'thisMountIncome' => $transactions['thisMountIncome']
+        ]);
     }
 }
