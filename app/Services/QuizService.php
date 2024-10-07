@@ -57,16 +57,18 @@ class QuizService implements ShouldHandleFileUpload
             ];
             $this->userQuiz->store($userQuizData);
         }
-        // dd($questions);
-        return $questions;
 
+        return [
+            'questions' => $questions,
+            'userQuiz' => $userQuiz
+        ];
     }
 
     public function submit(UserQuizRequest $request, UserQuiz $userQuiz): void
     {
         $data = $request->validated();
         $answers = array_map(function ($answer) {
-            return $answer == "" ? null : $answer;
+            return $answer == "" ? 'null' : $answer;
         }, $data['answer']);
         $questions = explode(',', $userQuiz->module_question_id);
 
