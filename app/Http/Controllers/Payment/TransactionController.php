@@ -108,17 +108,6 @@ class TransactionController extends Controller
             ];
             $transactionResult = $this->transaction->store($data);
             $transactionResult->reference = $transaction['data']['reference'];
-            if ($productType == 'course') {
-                $this->userCourse->store([
-                    'user_id' => $transactionResult->user_id,
-                    'course_id' => $transactionResult->course_id
-                ]);
-            } else {
-                $this->userEvent->store([
-                    'user_id' => $transactionResult->user_id,
-                    'event_id' => $transactionResult->event_id
-                ]);
-            }
             return ResponseHelper::success(['transaction' => $transactionResult, 'voucher' => $voucher], 'Transaksi berhasil');
         } else {
             return ResponseHelper::error($transaction);
