@@ -85,7 +85,7 @@ Route::middleware('enable.cors')->group(function () {
         /**
          * User and Profile Management
          */
-        Route::post('profile-update', [ProfileController::class, 'update']);
+        Route::patch('profile-update', [ProfileController::class, 'update']);
         Route::get('/user', function (Request $request) {
             return \App\Models\User::with('roles')->find($request->user()->id);
         });
@@ -145,7 +145,7 @@ Route::middleware('enable.cors')->group(function () {
 
         // Quiz Management
         Route::get('quizzes/working/{quiz}', [QuizController::class, 'show']);
-
+        Route::get('quizzes-result', [QuizController::class, 'result']);
         Route::post('quizzes', [QuizController::class, 'store']);
         Route::post('quizzes-submit/{user_quiz}', [QuizController::class, 'submit']);
 

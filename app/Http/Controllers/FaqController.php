@@ -16,7 +16,7 @@ class FaqController extends Controller
     public function __construct(FaqInterface $faq)
     {
         $this->faq = $faq;
-    }    
+    }
     /**
      * Method index
      *
@@ -26,7 +26,7 @@ class FaqController extends Controller
     {
         $faqs = $this->faq->get();
         return ResponseHelper::success(FaqResource::collection($faqs), trans('alert.fetch_success'));
-    }    
+    }
     /**
      * Method store
      *
@@ -38,7 +38,7 @@ class FaqController extends Controller
     {
         $this->faq->store($request->validated());
         return ResponseHelper::success(true, trans('alert.add_success'));
-    }    
+    }
     /**
      * Method show
      *
@@ -50,7 +50,7 @@ class FaqController extends Controller
     {
         $faq = $this->faq->show($faq->id);
         return ResponseHelper::success(FaqResource::make($faq), trans('alert.fetch_success'));
-    }    
+    }
     /**
      * Method update
      *
@@ -63,7 +63,7 @@ class FaqController extends Controller
     {
         $this->faq->update($faq->id, $request->validated());
         return ResponseHelper::success(true, trans('alert.update_success'));
-    }    
+    }
     /**
      * Method destroy
      *
