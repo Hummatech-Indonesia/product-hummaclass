@@ -128,8 +128,14 @@ class CourseController extends Controller
     }
 
 
-    public function count(): JsonResponse {
+    public function count(): JsonResponse
+    {
         $course_count = $this->course->count();
         return ResponseHelper::success(['course_count' => $course_count], trans('alert.fetch_success'));
+    }
+
+    public function getBySubModule($subModule) {
+        // return ResponseHelper::success($subModule);
+        return ResponseHelper::success(Course::whereRelation('modules.subModules', 'slug', $subModule)->first());
     }
 }

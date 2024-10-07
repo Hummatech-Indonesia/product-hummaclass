@@ -10,6 +10,7 @@ use App\Http\Resources\UserCourseResource;
 use App\Models\Course;
 use App\Models\Module;
 use App\Models\SubModule;
+use App\Models\UserCourse;
 use App\Services\UserCourseService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -51,5 +52,11 @@ class UserCourseController extends Controller
         $course = $this->course->showWithSlug($slug);
         $this->service->userLastStep($course, $subModule);
         return ResponseHelper::success(null, 'Berhasil masuk materi');
+    }
+
+    public function checkPayment(Request $request)
+    {
+        $userCourse = UserCourse::where('user_id', auth()->user()->id)->whereRelation('course', 'slug', $request->course_slug)->exists();
+        return $userCourse ? ResponseHelper::success(['user_course' => $userCourse]) : ResponseHelper::error(['user_course' => $userCourse]);
     }
 }

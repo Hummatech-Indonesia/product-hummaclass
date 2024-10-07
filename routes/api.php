@@ -111,6 +111,7 @@ Route::middleware('enable.cors')->group(function () {
         Route::post('course-voucher-users', [CourseVoucherUserController::class, 'store']);
         Route::post('course-reviews/{course}', [CourseReviewController::class, 'store']);
         Route::patch('course-reviews/{course_review}', [CourseReviewController::class, 'update']);
+        Route::get('course-by-submodule/{subModule}', [CourseController::class, 'getBySubModule']);
 
         // count courses
         Route::get('courses/count', [CourseController::class, 'count']);
@@ -248,6 +249,7 @@ Route::middleware('enable.cors')->group(function () {
 
         Route::get('user-courses/{course}', [UserCourseController::class, 'index']);
         Route::put('user-courses/{slug}/{sub_module}', [UserCourseController::class, 'userLastStep']);
+        Route::post('user-courses-check', [UserCourseController::class, 'checkPayment']);
 
         Route::get('transaction/statistic', [TransactionController::class, 'groupByMonth']);
 
