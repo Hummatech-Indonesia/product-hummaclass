@@ -85,7 +85,7 @@ Route::middleware('enable.cors')->group(function () {
         /**
          * User and Profile Management
          */
-        Route::post('profile-update', [ProfileController::class, 'update']);
+        Route::patch('profile-update', [ProfileController::class, 'update']);
         Route::get('/user', function (Request $request) {
             return \App\Models\User::with('roles')->find($request->user()->id);
         });
