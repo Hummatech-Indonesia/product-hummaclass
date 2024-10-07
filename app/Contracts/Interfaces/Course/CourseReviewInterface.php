@@ -12,4 +12,5 @@ use App\Contracts\Interfaces\Eloquent\UpdateInterface;
 
 interface CourseReviewInterface extends GetInterface,StoreInterface,ShowInterface,UpdateInterface
 {
+    public function latest(int $limit): mixed;
 }

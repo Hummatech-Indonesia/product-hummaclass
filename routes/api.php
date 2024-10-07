@@ -189,6 +189,7 @@ Route::middleware('enable.cors')->group(function () {
 
     Route::get('course-reviews', [CourseReviewController::class, 'index']);
     Route::get('course-reviews/{course_review}', [CourseReviewController::class, 'show']);
+    Route::get('course-reviews-latest', [CourseReviewController::class, 'latest']);
 
     Route::get('quizzes-get', [QuizController::class, 'get']);
     // Route::get('quizzes/{slug}', [QuizController::class, 'index']);

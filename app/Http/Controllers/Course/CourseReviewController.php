@@ -80,4 +80,10 @@ class CourseReviewController extends Controller
         $this->courseReview->update($courseReview->id, $request->validated());
         return ResponseHelper::success(true, trans('alert.update_success'));
     }
+
+    public function latest(): JsonResponse
+    {
+        $courseReview = $this->courseReview->latest(3);
+        return ResponseHelper::success($courseReview, trans('alert.fetch_success'));
+    }
 }

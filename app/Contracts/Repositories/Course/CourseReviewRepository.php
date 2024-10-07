@@ -59,4 +59,9 @@ class CourseReviewRepository extends BaseRepository implements CourseReviewInter
     {
         return $this->model->show($id)->update($data);
     }
+
+    public function latest(int $limit): mixed
+    {
+        return $this->model->query()->latest()->with(['course.subCategory.category', 'user'])->limit($limit)->get();
+    }
 }
