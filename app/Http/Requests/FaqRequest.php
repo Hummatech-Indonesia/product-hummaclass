@@ -22,8 +22,8 @@ class FaqRequest extends ApiRequest
     public function rules(): array
     {
         return [
-            'question' => 'required|string|max:255',
-            'answer' => 'required'
+            'question' => 'nullable|string|max:255',
+            'answer' => 'nullable'
         ];
     }
     public function messages(): array

@@ -68,13 +68,12 @@ class TransactionService
                 ];
                 $product->delete();
                 break;
-
             default:
                 return $request;
                 break;
         }
         $updated =  $this->transaction->update($request->reference, $data);
-        if($updated) {
+        if ($updated) {
             return ResponseHelper::success(null, "Callback success");
         } else {
             return ResponseHelper::error(null, "Callback gagal");
