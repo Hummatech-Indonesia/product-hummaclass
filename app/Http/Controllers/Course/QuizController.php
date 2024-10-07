@@ -71,11 +71,12 @@ class QuizController extends Controller
     {
         $moduleIds = $this->service->store($quiz);
 
-        $request->merge(['id' => $moduleIds->pluck('id')]);
+        $request->merge(['id' => $moduleIds['questions']->pluck('id')]);
 
         $moduleQuestions = $this->moduleQuestion->customPaginate($request);
         $data['paginate'] = $this->customPaginate($moduleQuestions->currentPage(), $moduleQuestions->lastPage());
         $data['data'] = ModuleQuestionResource::collection($moduleQuestions);
+        $data['user_quiz'] = UserQuizResource::make($moduleIds['userQuiz']);
 
         return responsehelper::success($data, trans('alert.fetch_success'));
     }

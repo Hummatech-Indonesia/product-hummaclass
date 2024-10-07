@@ -68,7 +68,7 @@ class QuizService implements ShouldHandleFileUpload
     {
         $data = $request->validated();
         $answers = array_map(function ($answer) {
-            return $answer == "" ? null : $answer;
+            return $answer == "" ? 'null' : $answer;
         }, $data['answer']);
         $questions = explode(',', $userQuiz->module_question_id);
 

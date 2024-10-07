@@ -22,7 +22,7 @@ class UserQuizRequest extends ApiRequest
     public function rules(): array
     {
         return [
-            'answer.*' => 'nullable',
+            'answer' => 'required',
         ];
     }
     /**
@@ -33,7 +33,7 @@ class UserQuizRequest extends ApiRequest
     public function messages(): array
     {
         return [
-            // 'answer.*.nullable' => "Semua jawaban harus terisi"
+            'answer.required' => "Anda harus mengisi jawaban"
         ];
     }
 }
