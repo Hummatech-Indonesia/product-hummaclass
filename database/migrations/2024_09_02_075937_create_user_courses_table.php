@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignUuid('user_id')->constrained();
             $table->foreignUuid('course_id')->constrained();
+            $table->foreignUuid('sub_module_id')->nullable()->constrained();
             $table->timestamps();
         });
     }

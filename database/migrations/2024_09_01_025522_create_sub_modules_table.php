@@ -18,7 +18,6 @@ return new class extends Migration {
             $table->string('slug')->unique();
             $table->string('sub_title');
             $table->longText('content');
-            $table->string('url_youtube')->nullable();
             $table->timestamps();
         });
     }

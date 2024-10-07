@@ -72,17 +72,17 @@ class UserCourseRepository extends BaseRepository implements UserCourseInterface
     public function update(mixed $id, array $data): mixed
     {
         return $this->model->query()->where('user_id', auth()->user()->id)->where('course_id', $id)->firstOrFail()->update($data);
-    }
+    }    
     /**
-     * showByUserCourse
+     * Method showByUserCourse
      *
-     * @param  mixed $userId
-     * @param  mixed $courseId
+     * @param $courseId $courseId [explicite description]
+     *
      * @return mixed
      */
-    public function showByUserCourse($userId, $courseId): mixed
+    public function showByUserCourse($courseId): mixed
     {
         // return [$userId, $courseId];
-        return $this->model->query()->where('user_id', $userId)->where('course_id', $courseId)->firstOrFail();
+        return $this->model->query()->where('user_id', auth()->user()->id)->where('course_id', $courseId)->with('subModule')->firstOrFail();
     }
 }

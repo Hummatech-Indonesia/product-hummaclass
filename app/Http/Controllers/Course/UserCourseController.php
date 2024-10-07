@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Course;
 
+use App\Contracts\Interfaces\Course\CourseInterface;
 use App\Contracts\Interfaces\Course\UserCourseInterface;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
@@ -9,15 +10,20 @@ use App\Http\Resources\UserCourseResource;
 use App\Models\Course;
 use App\Models\Module;
 use App\Models\SubModule;
+use App\Services\UserCourseService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class UserCourseController extends Controller
 {
     private UserCourseInterface $userCourse;
-    public function __construct(UserCourseInterface $userCourse)
+    private CourseInterface $course;
+    private UserCourseService $service;
+    public function __construct(UserCourseInterface $userCourse, UserCourseService $service, CourseInterface $course)
     {
         $this->userCourse = $userCourse;
+        $this->course = $course;
+        $this->service = $service;
     }
 
     /**
@@ -40,9 +46,10 @@ class UserCourseController extends Controller
      *
      * @return JsonResponse
      */
-    public function updateLastStepUser(SubModule $subModule, Course $course): JsonResponse
+    public function userLastStep(string $slug, SubModule $subModule): JsonResponse
     {
-        $this->userCourse->update($course->id, ['sub_module_id' => $subModule->id]);
+        $course = $this->course->showWithSlug($slug);
+        $this->service->userLastStep($course, $subModule);
         return ResponseHelper::success(null, 'Berhasil masuk materi');
     }
 }

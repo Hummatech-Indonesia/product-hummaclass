@@ -3,11 +3,12 @@
 namespace App\Models;
 
 use App\Base\Interfaces\HasModule;
+use App\Base\Interfaces\HasUserCourse;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class SubModule extends Model implements HasModule
+class SubModule extends Model implements HasModule, HasUserCourse
 {
     use HasFactory;
     public $keyType = 'char';
@@ -20,7 +21,6 @@ class SubModule extends Model implements HasModule
         'step',
         'sub_title',
         'content',
-        'url_youtube'
     ];
     /**
      * Get the module that owns the SubModule
@@ -30,5 +30,14 @@ class SubModule extends Model implements HasModule
     public function module(): BelongsTo
     {
         return $this->belongsTo(Module::class);
+    }
+    /**
+     * Get the userCourse that owns the SubModule
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function userCourse(): BelongsTo
+    {
+        return $this->belongsTo(UserCourse::class);
     }
 }

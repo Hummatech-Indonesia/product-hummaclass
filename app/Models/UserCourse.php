@@ -3,16 +3,17 @@
 namespace App\Models;
 
 use App\Base\Interfaces\HasCourse;
+use App\Base\Interfaces\HasSubModule;
 use App\Base\Interfaces\HasUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class UserCourse extends Model implements HasUser, HasCourse
+class UserCourse extends Model implements HasUser, HasCourse, HasSubModule
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'course_id'];
+    protected $fillable = ['user_id', 'course_id', 'sub_module_id'];
 
     /**
      * Get the user that owns the UserCourse
@@ -31,6 +32,15 @@ class UserCourse extends Model implements HasUser, HasCourse
     public function course(): BelongsTo
     {
         return $this->belongsTo(Course::class);
+    }
+    /**
+     * Get the subModule that owns the UserCourse
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function subModule(): BelongsTo
+    {
+        return $this->belongsTo(SubModule::class);
     }
 
 }

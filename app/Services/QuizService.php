@@ -39,32 +39,27 @@ class QuizService implements ShouldHandleFileUpload
     }
     public function store(Quiz $quiz)
     {
-        // Cek apakah user sudah mengambil quiz sebelumnya
         $userQuiz = $quiz->userQuizzes->where('user_id', auth()->user()->id)->first();
 
-        // Jika userQuiz tidak ditemukan, buat instance baru (opsional, jika diperlukan)
-        if (!$userQuiz) {
-            $userQuiz = new UserQuiz();
-            $userQuiz->user_id = auth()->user()->id;
-            $userQuiz->quiz_id = $quiz->id;
-        }
-
-        // Jika sudah mengirimkan jawaban
-        if ($userQuiz->has_submitted === true) {
+        if ($userQuiz) {
             $moduleIds = explode(',', $quiz->module_question_id);
-            $questions = ModuleQuestion::query()->whereIn('id', $moduleIds)->get();
+            // $questions = ModuleQuestion::query()->whereIn('id', $moduleIds)->get();
+            $questions = ModuleQuestion::query()->inRandomOrder()->limit($quiz->total_question)->get();
         } else {
-            // Jika belum, tampilkan soal acak
             $questions = ModuleQuestion::query()->inRandomOrder()->limit($quiz->total_question)->get();
             $moduleIds = $questions->pluck('id')->toArray();
+            $module_question_id = implode(',', $moduleIds);
 
-            // Simpan data ke dalam userQuiz
-            $userQuiz->module_question_id = implode(',', $moduleIds);
-            $userQuiz->has_submitted = false; // Atur statusnya jika diperlukan
-            $userQuiz->save();
+            $userQuizData = [
+                'module_question_id' => $module_question_id,
+                'quiz_id' => $quiz->id,
+                'user_id' => auth()->user()->id
+            ];
+            $this->userQuiz->store($userQuizData);
         }
-
+        // dd($questions);
         return $questions;
+
     }
 
     public function submit(UserQuizRequest $request, UserQuiz $userQuiz): void

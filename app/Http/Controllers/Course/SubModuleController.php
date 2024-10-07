@@ -133,7 +133,7 @@ class SubModuleController extends Controller
         if ($request->file('image')) {
             $url = $this->upload(UploadDiskEnum::IMAGE->value, $request->file('image'));
 
-            return response()->json(['success' => 1, 'file' => ['url' =>  url('storage/' . $url)]]);
+            return response()->json(['success' => 1, 'file' => ['url' => url('storage/' . $url)]]);
         }
 
         return response()->json(['success' => 0, 'message' => 'File upload failed.']);

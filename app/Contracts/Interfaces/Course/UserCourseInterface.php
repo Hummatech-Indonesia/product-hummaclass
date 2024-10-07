@@ -13,12 +13,12 @@ use Illuminate\Http\Request;
 interface UserCourseInterface extends CustomPaginationInterface, StoreInterface, DeleteInterface, ShowInterface, UpdateInterface
 {
     /**
-     * showByUserCourse
+     * Method showByUserCourse
      *
-     * @param  mixed $userId
-     * @param  mixed $courseId
+     * @param $courseId $courseId [explicite description]
+     *
      * @return mixed
      */
-    public function showByUserCourse($userId, $courseId): mixed;
+    public function showByUserCourse($courseId): mixed;
 
 }

@@ -246,6 +246,7 @@ Route::middleware('enable.cors')->group(function () {
         Route::get('submission-tasks/{course_task}', [SubmissionTask::class, 'index']);
 
         Route::get('user-courses/{course}', [UserCourseController::class, 'index']);
+        Route::get('user-courses/{slug}/{sub_module}', [UserCourseController::class, 'userLastStep']);
 
         Route::get('transaction/statistic', [TransactionController::class, 'groupByMonth']);
 
