@@ -12,6 +12,7 @@ use App\Http\Requests\QuizRequest;
 use App\Http\Requests\UserQuizRequest;
 use App\Http\Resources\ModuleQuestionResource;
 use App\Http\Resources\QuizResource;
+use App\Http\Resources\ResultResource;
 use App\Http\Resources\UserQuizResource;
 use App\Models\Module;
 use App\Models\ModuleQuestion;
@@ -86,6 +87,16 @@ class QuizController extends Controller
         return ResponseHelper::success($userQuiz->score, trans('alert.fetch_success'));
     }
 
+    /**
+     * Method result
+     *
+     * @return JsonResponse
+     */
+    public function result(): JsonResponse
+    {
+        $result = $this->userQuiz->getLatestResult();
+        return ResponseHelper::success(ResultResource::make($result), trans('alert.fetch_success'));
+    }
     /**
      * get
      *
