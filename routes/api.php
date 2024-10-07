@@ -111,7 +111,7 @@ Route::middleware('enable.cors')->group(function () {
         Route::post('course-voucher-users', [CourseVoucherUserController::class, 'store']);
         Route::post('course-reviews/{course}', [CourseReviewController::class, 'store']);
         Route::patch('course-reviews/{course_review}', [CourseReviewController::class, 'update']);
-        
+
         // count courses
         Route::get('courses/count', [CourseController::class, 'count']);
 
@@ -224,7 +224,7 @@ Route::middleware('enable.cors')->group(function () {
         Route::get('module-questions/detail/{module}', [ModuleQuestionController::class, 'index']);
         Route::post('module-questions/{module}', [ModuleQuestionController::class, 'store']);
 
-        Route::get('quizzes/{module}', [QuizController::class, 'index']);
+        Route::get('quizzes/{slug}', [QuizController::class, 'index']);
         Route::get('quizzes', [QuizController::class, 'get']);
         Route::get('quiz-start/{quiz}', [QuizController::class, 'show']);
         Route::post('quizzes/{module}', [QuizController::class, 'store']);
