@@ -56,8 +56,9 @@ class QuizController extends Controller
      * @param  mixed $slug
      * @return JsonResponse
      */
-    public function index(Module $module): JsonResponse
+    public function index(string $slug): JsonResponse
     {
+        $module = $this->module->showWithSlug($slug);
         if ($module->quizzes->first()) {
             $quiz = $module->quizzes->first();
             return ResponseHelper::success(QuizResource::make($quiz), trans('alert.fetch_success'));
