@@ -38,7 +38,7 @@ class TransactionService
     {
         $transaction = $this->transaction->show($request->reference);
         $product = $transaction->course ?? $transaction->event;
-        dd(is_object($product));
+        // dd(is_object($product));
         $data = null;
         switch ($request->status) {
             case 'UNPAID':
