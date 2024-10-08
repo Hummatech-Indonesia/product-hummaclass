@@ -65,6 +65,8 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'enable.cors' => EnableCors::class,
-        'tripay.signature' => \App\Http\Middleware\CheckSignatureMiddleware::class
+        'tripay.signature' => \App\Http\Middleware\CheckSignatureMiddleware::class,
+        'is_admin' => \App\Http\Middleware\AdminMiddleware::class,
+        'is_guest' => \App\Http\Middleware\GuestMiddleware::class
     ];
 }
