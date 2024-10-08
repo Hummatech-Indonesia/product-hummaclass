@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Contracts\Interfaces\Course\UserCourseInterface;
+use App\Contracts\Interfaces\Course\UserEventInterface;
 use App\Contracts\Interfaces\TransactionInterface;
 use App\Helpers\ResponseHelper;
 use App\Models\Course;
@@ -14,10 +15,12 @@ class TransactionService
 {
     private TransactionInterface $transaction;
     private UserCourseInterface $userCourse;
-    public function __construct(TransactionInterface $transaction, UserCourseInterface $userCourse)
+    private UserEventInterface $userEvent;
+    public function __construct(TransactionInterface $transaction, UserCourseInterface $userCourse, UserEventInterface $userEvent)
     {
         $this->transaction = $transaction;
         $this->userCourse = $userCourse;
+        $this->userEvent = $userEvent;
     }
     public function handlePaymentChannels()
     {
@@ -38,7 +41,19 @@ class TransactionService
     {
         $transaction = $this->transaction->show($request->reference);
         $product = $transaction->course ?? $transaction->event;
-        // dd(is_object($product));
+
+        if (is_object($product) && get_class($product) == Course::class) {
+            $this->userCourse->store([
+                'user_id' => $transaction->user_id,
+                'course_id' => $transaction->course_id,
+                'sub_module_id' => $product->modules->first()->subModules->first()->id
+            ]);
+        } else {
+            $this->userEvent->store([
+                'user_id' => $transaction->user_id,
+                'event_id' => $transaction->event_id
+            ]);
+        }
         $data = null;
         switch ($request->status) {
             case 'UNPAID':

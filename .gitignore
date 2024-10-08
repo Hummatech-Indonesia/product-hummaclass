@@ -18,3 +18,4 @@ yarn-error.log
 /.vscode
 /bootstrap/cache/*
 /bootstrap/cache
+.env

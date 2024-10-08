@@ -81,7 +81,6 @@ class TransactionController extends Controller
     public function store(Request $request, $productType, string $id): mixed
     {
         $voucher = $this->courseVoucher->getByCode($request->voucher_code);
-
         if ($productType == 'course') {
             $course = $this->course->show($id);
             $transaction = json_decode($this->service->handelCreateTransaction($request, $course, $voucher), 1);
