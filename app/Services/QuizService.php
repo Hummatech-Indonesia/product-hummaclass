@@ -43,9 +43,15 @@ class QuizService implements ShouldHandleFileUpload
 
         if ($userQuiz) {
             $moduleIds = explode(',', $userQuiz->module_question_id);
-            $questions = ModuleQuestion::query()->whereIn('id', $moduleIds)->get();
+            $questions = ModuleQuestion::query()
+                ->where('module_id', $quiz->module_id)
+                ->whereIn('id', $moduleIds)
+                ->get()
+                ->sortBy(callback: fn($question) => array_search($question->id, $moduleIds))
+                ->values();
+            // $questions = 'halo';
         } else {
-            $questions = ModuleQuestion::query()->inRandomOrder()->limit($quiz->total_question)->get();
+            $questions = ModuleQuestion::query()->where('module_id', $quiz->module_id)->inRandomOrder()->limit($quiz->total_question)->get();
             $moduleIds = $questions->pluck('id')->toArray();
             $module_question_id = implode(',', $moduleIds);
 
@@ -58,9 +64,12 @@ class QuizService implements ShouldHandleFileUpload
             $this->userQuiz->store($userQuizData);
         }
 
-        // dd($questions);
-
-        return $questions;
+        dd($moduleIds, $questions);
+        return [
+            'questions' => $questions,
+            'userQuiz' => $userQuiz
+        ];
+        // return $questions;
     }
 
 
