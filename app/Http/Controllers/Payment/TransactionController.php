@@ -68,7 +68,7 @@ class TransactionController extends Controller
     public function show(mixed $id): mixed
     {
         $transaction = $this->transaction->show($id);
-        return ResponseHelper::success($transaction);
+        return ResponseHelper::success(TransactionResource::make($transaction));
     }
 
     /**
