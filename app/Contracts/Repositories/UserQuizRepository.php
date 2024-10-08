@@ -68,13 +68,13 @@ class UserQuizRepository extends BaseRepository implements UserQuizInterface
     public function store(array $data): mixed
     {
         return $this->model->query()->create($data);
-    }    
+    }
     /**
      * Method getLatestResult
      *
      * @return mixed
      */
-    public function getLatestResult(): mixed
+    public function show(mixed $id): mixed
     {
         return $this->model->query()->where('user_id', auth()->user()->id)->latest()->first();
     }
