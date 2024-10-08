@@ -25,6 +25,8 @@ class QuizRequest extends ApiRequest
         return [
             'duration' => 'required',
             'rules' => 'required',
+            'minimum_score',
+            'retry_delay',
             'total_question' => [
                 'required',
                 'integer',
@@ -42,7 +44,11 @@ class QuizRequest extends ApiRequest
             'duration.required' => 'Durasi wajib diisi',
             'rules.required' => 'Peraturan wajib diisi',
             'total_question.required' => 'Total pertanyaan wajib diisi',
-            'total_question.integer' => 'Total pertanyaan wajib berupa angka'
+            'total_question.integer' => 'Total pertanyaan wajib berupa angka',
+            'minimum_score.required' => 'Nilai minimal wajib diisi',
+            'retry_delay.required' => 'Waktu tunggu remidial harus diisi',
+            'minimum_score.integer' => 'Nilai minimal harus berupa angka',
+            'retry_delay.integer' => 'Waktu tunggu harus berupa angka',
         ];
     }
 }
