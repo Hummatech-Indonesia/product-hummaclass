@@ -31,6 +31,23 @@ class TransactionService
         return collect($res['data'])->groupBy('group');
     }
 
+
+    public function handleCerateUserCourse($product, $transaction): mixed
+    {
+        if (is_object($product) && get_class($product) == Course::class) {
+            return $this->userCourse->store([
+                'user_id' => $transaction->user_id,
+                'course_id' => $transaction->course_id,
+                'sub_module_id' => $product->modules->first()->subModules->first()->id
+            ]);
+        } else {
+            return $this->userEvent->store([
+                'user_id' => $transaction->user_id,
+                'event_id' => $transaction->event_id
+            ]);
+        }
+    }
+
     /**
      * handlePaymentCallback
      *
@@ -41,19 +58,7 @@ class TransactionService
     {
         $transaction = $this->transaction->show($request->reference);
         $product = $transaction->course ?? $transaction->event;
-
-        if (is_object($product) && get_class($product) == Course::class) {
-            $this->userCourse->store([
-                'user_id' => $transaction->user_id,
-                'course_id' => $transaction->course_id,
-                'sub_module_id' => $product->modules->first()->subModules->first()->id
-            ]);
-        } else {
-            $this->userEvent->store([
-                'user_id' => $transaction->user_id,
-                'event_id' => $transaction->event_id
-            ]);
-        }
+        $this->handleCerateUserCourse($product, $transaction);
         $data = null;
         switch ($request->status) {
             case 'UNPAID':

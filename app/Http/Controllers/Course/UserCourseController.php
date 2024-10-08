@@ -56,7 +56,7 @@ class UserCourseController extends Controller
 
     public function checkPayment(Request $request)
     {
-        $userCourse = UserCourse::where('user_id', auth()->user()->id)->whereRelation('course', 'slug', $request->course_slug)->exists();
+        $userCourse = UserCourse::with('subModule')->where('user_id', auth()->user()->id)->whereRelation('course', 'slug', $request->course_slug)->first();
         return $userCourse ? ResponseHelper::success(['user_course' => $userCourse]) : ResponseHelper::error(['user_course' => $userCourse]);
     }
 }
