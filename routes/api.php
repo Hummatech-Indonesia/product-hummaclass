@@ -31,6 +31,7 @@ use App\Http\Controllers\Course\{
 use App\Http\Controllers\{
     BlogController,
     ContactController,
+    DiscussionController,
     EventController,
     FaqController,
     Payment\TransactionController
@@ -148,8 +149,11 @@ Route::middleware('enable.cors')->group(function () {
         Route::post('quizzes', [QuizController::class, 'store'])->middleware('is_admin');
         Route::post('quizzes-submit/{user_quiz}', [QuizController::class, 'submit'])->middleware('is_guest');
 
-        // faq configuration
-        Route::resource('faqs', FaqController::class)->only(['store', 'update', 'destroy'])->middleware('is_admin');
+        // faq and discussion configuration
+        Route::resources([
+            'faqs' => FaqController::class,
+            'discussions' => DiscussionController::class
+        ], ['only', ['store', 'update', 'destroy']]);
     });
 
     /**
