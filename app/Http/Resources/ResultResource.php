@@ -23,7 +23,6 @@ class ResultResource extends JsonResource
             'status' => $this->score > $this->quiz->minimum_score ? 'Lulus' : 'Tidak lulus',
             'total_question' => $this->quiz->total_question,
             'questions' => $this->transformQuestions($questions, $userAnswers),
-            // 'answers' => $this->answer, // original answers
         ];
     }
 
@@ -47,5 +46,4 @@ class ResultResource extends JsonResource
             ];
         })->toArray();
     }
-
 }

@@ -92,9 +92,9 @@ class QuizController extends Controller
      *
      * @return JsonResponse
      */
-    public function result(): JsonResponse
+    public function result(UserQuiz $userQuiz): JsonResponse
     {
-        $result = $this->userQuiz->getLatestResult();
+        $result = $this->userQuiz->show($userQuiz->id);
         return ResponseHelper::success(ResultResource::make($result), trans('alert.fetch_success'));
     }
     /**

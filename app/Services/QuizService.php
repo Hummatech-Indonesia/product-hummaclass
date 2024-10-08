@@ -64,12 +64,12 @@ class QuizService implements ShouldHandleFileUpload
             $this->userQuiz->store($userQuizData);
         }
 
-        dd($moduleIds, $questions);
+        // dd($questions);
+
         return [
             'questions' => $questions,
             'userQuiz' => $userQuiz
         ];
-        // return $questions;
     }
 
 
