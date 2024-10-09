@@ -84,7 +84,7 @@ class QuizController extends Controller
     public function submit(UserQuizRequest $request, UserQuiz $userQuiz): JsonResponse
     {
         $this->service->submit($request, $userQuiz);
-        return ResponseHelper::success($userQuiz->score, trans('alert.fetch_success'));
+        return ResponseHelper::success(true, trans('alert.fetch_success'));
     }
 
     /**

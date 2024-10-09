@@ -147,6 +147,7 @@ Route::middleware('enable.cors')->group(function () {
         Route::get('quizzes/working/{quiz}', [QuizController::class, 'show']);
         Route::get('quizzes-result/{userQuiz}', [QuizController::class, 'result']);
         Route::post('quizzes', [QuizController::class, 'store'])->middleware('is_admin');
+        Route::post('quizzes-submit/{user_quiz}', [QuizController::class, 'submit'])->middleware('is_guest');
 
         // faq and discussion configuration
         Route::resources([
@@ -224,8 +225,9 @@ Route::middleware('enable.cors')->group(function () {
         Route::post('module-tasks/{module}', [ModuleTaskController::class, 'store'])->middleware('is_admin');
 
         Route::get('module-questions/detail/{module}', [ModuleQuestionController::class, 'index'])->middleware('is_admin');
-        Route::delete('module-questions/{module_question}', [ModuleQuestionController::class, 'destroy'])->middleware('is_admin');
         Route::post('module-questions/{module}', [ModuleQuestionController::class, 'store'])->middleware('is_admin');
+        Route::delete('module-questions/{module_question}', [ModuleQuestionController::class, 'destroy'])->middleware('is_admin');
+
 
         Route::get('quizzes/{slug}', [QuizController::class, 'index']);
         Route::get('quizzes', [QuizController::class, 'get']);

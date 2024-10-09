@@ -39,9 +39,23 @@ class QuizService implements ShouldHandleFileUpload
     }
     public function store(Quiz $quiz)
     {
-        $userQuiz = $quiz->userQuizzes->where('user_id', auth()->user()->id)->first();
 
+        $userQuiz = $quiz->userQuizzes()->where('user_id', auth()->user()->id)->latest()->first();
         if ($userQuiz) {
+            // dd('hola');
+            if (intval($userQuiz->score) < $quiz->minimum_score && $userQuiz->is_submitted === true) {
+                $questions = ModuleQuestion::query()->where('module_id', $quiz->module_id)->inRandomOrder()->limit($quiz->total_question)->get();
+                $moduleIds = $questions->pluck('id')->toArray();
+                $module_question_id = implode(',', $moduleIds);
+
+                $userQuizData = [
+                    'module_question_id' => $module_question_id,
+                    'quiz_id' => $quiz->id,
+                    'user_id' => auth()->user()->id
+                ];
+
+                $this->userQuiz->store($userQuizData);
+            }
             $moduleIds = explode(',', $userQuiz->module_question_id);
             $questions = ModuleQuestion::query()
                 ->where('module_id', $quiz->module_id)
@@ -49,22 +63,19 @@ class QuizService implements ShouldHandleFileUpload
                 ->get()
                 ->sortBy(callback: fn($question) => array_search($question->id, $moduleIds))
                 ->values();
-            // $questions = 'halo';
         } else {
             $questions = ModuleQuestion::query()->where('module_id', $quiz->module_id)->inRandomOrder()->limit($quiz->total_question)->get();
             $moduleIds = $questions->pluck('id')->toArray();
             $module_question_id = implode(',', $moduleIds);
-
             $userQuizData = [
                 'module_question_id' => $module_question_id,
                 'quiz_id' => $quiz->id,
                 'user_id' => auth()->user()->id
             ];
 
-            $this->userQuiz->store($userQuizData);
+            $userQuiz = $this->userQuiz->store($userQuizData);
         }
 
-        // dd($questions);
 
         return [
             'questions' => $questions,
