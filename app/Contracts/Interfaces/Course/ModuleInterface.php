@@ -29,7 +29,7 @@ interface ModuleInterface extends CustomPaginationInterface, StoreInterface, Sho
      *
      * @return mixed
      */
-    public function getForward(mixed $mixed, string $id): mixed;
+    public function getForward(mixed $step, string $id): mixed;
     /**
      * Method getOneStepBackward
      *
@@ -37,7 +37,7 @@ interface ModuleInterface extends CustomPaginationInterface, StoreInterface, Sho
      *
      * @return mixed
      */
-    public function getBackward(mixed $mixed, string $id): mixed;
+    public function getBackward(mixed $step, string $id): mixed;
     /**
      * Method getWhere
      *

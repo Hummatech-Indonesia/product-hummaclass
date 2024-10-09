@@ -39,14 +39,16 @@ class CourseSeeder extends Seeder
             'is_premium' => true,
         ]);
 
-        $module = Module::create([
-            'id' => Uuid::uuid(),
-            'course_id' => $course->id,
-            'step' => 1,
-            'title' => 'lorem ipsum',
-            'slug' => Str::slug('lorem ipsum'),
-            'sub_title' => 'lorem ipsum dolor sit amet'
-        ]);
+        foreach (AnswerEnum::cases() as $index => $option) {
+            $module = Module::create([
+                'id' => Uuid::uuid(),
+                'course_id' => $course->id,
+                'step' => $index + 1,
+                'title' => 'lorem ipsum ' . $option->value,
+                'slug' => Str::slug('lorem ipsum ') . $option->value,
+                'sub_title' => 'lorem ipsum dolor sit amet'
+            ]);
+        }
         foreach (AnswerEnum::cases() as $index => $option) {
             SubModule::create([
                 'id' => Uuid::uuid(),

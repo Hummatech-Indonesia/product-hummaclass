@@ -140,10 +140,10 @@ class ModuleController extends Controller
     public function backward(Module $module): JsonResponse
     {
         try {
-            $forwardModule = $this->module->getBackward($module->step, $module->course->id);
-            $forwardModule->increment('step');
+            $backwardModule = $this->module->getBackward($module->step, $module->course->id);
+            $backwardModule->increment('step');
             $module->decrement('step');
-            return ResponseHelper::success([$module, $forwardModule], trans('alert.update_success'));
+            return ResponseHelper::success([$module, $backwardModule], trans('alert.update_success'));
         } catch (\Throwable $e) {
             return ResponseHelper::error(trans('alert.update_failed'));
         }
