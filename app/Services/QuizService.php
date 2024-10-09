@@ -42,8 +42,7 @@ class QuizService implements ShouldHandleFileUpload
 
         $userQuiz = $quiz->userQuizzes()->where('user_id', auth()->user()->id)->latest()->first();
         if ($userQuiz) {
-            // dd('hola');
-            if (intval($userQuiz->score) < $quiz->minimum_score && $userQuiz->is_submitted === true) {
+            if (intval($userQuiz->score) < $quiz->minimum_score && $userQuiz->has_submitted) {
                 $questions = ModuleQuestion::query()->where('module_id', $quiz->module_id)->inRandomOrder()->limit($quiz->total_question)->get();
                 $moduleIds = $questions->pluck('id')->toArray();
                 $module_question_id = implode(',', $moduleIds);
