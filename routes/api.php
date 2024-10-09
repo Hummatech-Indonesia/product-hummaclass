@@ -111,7 +111,7 @@ Route::middleware('enable.cors')->group(function () {
         Route::post('course-voucher-users', [CourseVoucherUserController::class, 'store'])->middleware('is_guest');
         Route::post('course-reviews/{course}', [CourseReviewController::class, 'store'])->middleware('is_guest');
         Route::patch('course-reviews/{course_review}', [CourseReviewController::class, 'update'])->middleware('is_guest');
-        Route::get('course-by-submodule/{subModule}', [CourseController::class, 'getBySubModule'])->middleware('is_guest');
+        Route::get('course-by-submodule/{subModule}', [CourseController::class, 'getBySubModule']);
 
         // count courses
         Route::get('courses/count', [CourseController::class, 'count'])->middleware('is_admin');

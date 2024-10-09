@@ -22,7 +22,9 @@ class CourseVoucher extends Model implements HasCourse,HasCourseVoucherUsers
         'course_id',
         'usage_limit',
         'code',
-        'discount'
+        'discount',
+        'start',
+        'end',
     ];
     /**
      * Get the course that owns the CourseVoucher

@@ -20,6 +20,8 @@ class CourseVoucherResource extends JsonResource
             'usage_limit' => $this->usage_limit,
             'discount' => $this->discount,
             'code' => $this->code,
+            'start' => $this->start,
+            'end' => $this->end,
             'transactions_count' => $this->transactions_count,
         ];
     }
