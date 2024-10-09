@@ -76,7 +76,7 @@ class CourseSeeder extends Seeder
             'id' => Uuid::uuid(),
             'module_id' => $module->id,
             'rules' => 'lorem ipsum dolor sit amet',
-            'total_question' => '5',
+            'total_question' => 10,
             'retry_delay' => 60,
             'minimum_score' => 60,
             'duration' => 60,

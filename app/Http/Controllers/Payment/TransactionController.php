@@ -83,7 +83,12 @@ class TransactionController extends Controller
         $voucher = $this->courseVoucher->getByCode($request->voucher_code);
         if ($productType == 'course') {
             $course = $this->course->show($id);
-            $transaction = json_decode($this->service->handelCreateTransaction($request, $course, $voucher), 1);
+            if (!$course->is_premium) {
+                $userCourse = $this->transactionService->handleCerateUserCourse($course, (object) ['user_id' => auth()->user()->id, 'course_id' => $course->id]);
+                return ResponseHelper::success($userCourse, 'Berhasil');
+            } else {
+                $transaction = json_decode($this->service->handelCreateTransaction($request, $course, $voucher), 1);
+            }
         } else if ($productType == 'event') {
             $event = $this->event->show($id);
             $transaction = json_decode($this->service->handelCreateTransaction($request, $event, $voucher), 1);

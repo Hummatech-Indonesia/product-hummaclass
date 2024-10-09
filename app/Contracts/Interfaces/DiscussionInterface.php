@@ -12,7 +12,7 @@ use App\Contracts\Interfaces\Eloquent\ShowSlugInterface;
 use App\Contracts\Interfaces\Eloquent\StoreInterface;
 use App\Contracts\Interfaces\Eloquent\UpdateInterface;
 
-interface BlogInterface extends CustomPaginationInterface,StoreInterface,ShowSlugInterface,ShowInterface,UpdateInterface,DeleteInterface
+interface DiscussionInterface extends GetInterface, StoreInterface, ShowInterface, UpdateInterface, DeleteInterface
 {
 
 }

@@ -21,7 +21,9 @@ class QuizResource extends JsonResource
             'rules' => $this->rules,
             'module_slug' => $this->module->slug,
             'total_question' => $this->total_question,
+            'minimum_score' => $this->minimum_score,
             'duration' => $this->duration,
+            'retry_delay' => $this->retry_delay,
             'user_quizzes' => $this->userQuizzes,
             'is_submited' => $this->is_submited,
         ];
