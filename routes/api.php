@@ -252,23 +252,22 @@ Route::middleware('enable.cors')->group(function () {
         Route::post('user-courses-check', [UserCourseController::class, 'checkPayment']);
 
         Route::get('transaction/statistic', [TransactionController::class, 'groupByMonth'])->middleware('is_admin');
-
-        /**
-         * Password Reset
-         */
-        Route::post('/forgot-password', [ResetPasswordController::class, 'sendEmail'])->middleware('guest')->name('password.email');
-        Route::middleware('throttle:10,1')->prefix('password')->group(function () {
-            Route::get('reset/{token}', [ResetPasswordController::class, 'resetToken'])->name('password.reset');
-            Route::post('reset', [ResetPasswordController::class, 'reset']);
-        });
-
-        /**
-         * Unauthenticated Error
-         */
-        Route::get('login', function () {
-            return ResponseHelper::error(null, 'Unauthenticated');
-        })->name('login');
     });
+    /**
+     * Password Reset
+     */
+    Route::post('/forgot-password', [ResetPasswordController::class, 'sendEmail'])->middleware('guest')->name('password.email');
+    Route::middleware('throttle:10,1')->prefix('password')->group(function () {
+        Route::get('reset/{token}', [ResetPasswordController::class, 'resetToken'])->name('password.reset');
+        Route::post('reset', [ResetPasswordController::class, 'reset']);
+    });
+
+    /**
+     * Unauthenticated Error
+     */
+    Route::get('login', function () {
+        return ResponseHelper::error(null, 'Unauthenticated');
+    })->name('login');
 });
 
 require_once('api/tripay.php');
