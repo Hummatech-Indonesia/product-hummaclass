@@ -36,10 +36,10 @@ class CourseRepository extends BaseRepository implements CourseInterface
         return $this->model->query()
             ->with('modules')
             ->withCount('userCourses')
-            ->when($request->name, function ($query) use ($request) {
-                $query->where('name', 'like', '%' . $request->name . '%');
+            ->when($request->title, function ($query) use ($request) {
+                $query->where('title', 'like', '%' . $request->title . '%');
             })
-            
+
             ->when($request->order == "best seller", function ($query) {
                 $query->orderBy('user_courses_count', 'desc');
             })
@@ -86,7 +86,8 @@ class CourseRepository extends BaseRepository implements CourseInterface
             ->get();
     }
 
-    public function count() : mixed {
+    public function count(): mixed
+    {
         return $this->model->query()->count();
     }
 
