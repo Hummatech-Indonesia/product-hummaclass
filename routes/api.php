@@ -362,7 +362,7 @@ Route::middleware('enable.cors')->group(function () {
         Route::get('module-tasks/{module}', [ModuleTaskController::class, 'index']);
         Route::get('module-questions/detail/{module}', [ModuleQuestionController::class, 'index']);
 
-        Route::get('submission-tasks/{course_task}', [SubmissionTask::class, 'index']);
+        Route::get('submission-tasks/{course_task}', [SubmissionTaskController::class, 'index']);
 
         Route::get('user-courses/{course}', [UserCourseController::class, 'index']);
         Route::put('user-courses/{slug}/{sub_module}', [UserCourseController::class, 'userLastStep']);
