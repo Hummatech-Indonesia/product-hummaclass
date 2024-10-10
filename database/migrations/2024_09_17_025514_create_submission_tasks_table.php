@@ -14,7 +14,8 @@ return new class extends Migration {
             $table->uuid('id')->primary();
             $table->foreignUuid('user_id')->constrained();
             $table->foreignUuid('module_task_id')->constrained();
-            $table->string('answer');
+            $table->string('answer')->nullable();
+            $table->text('file')->nullable();
             $table->timestamps();
         });
     }

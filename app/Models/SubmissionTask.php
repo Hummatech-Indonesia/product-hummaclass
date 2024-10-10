@@ -16,6 +16,7 @@ class SubmissionTask extends Model
     protected $fillable = [
         'module_task_id',
         'user_id',
-        'answer'
+        'answer',
+        'file'
     ];
 }

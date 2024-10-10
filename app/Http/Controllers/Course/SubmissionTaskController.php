@@ -2,19 +2,22 @@
 
 namespace App\Http\Controllers\Course;
 
-use App\Contracts\Interfaces\Course\SubmissionTaskInterface;
+use App\Models\CourseTask;
+use App\Models\ModuleTask;
+use Illuminate\Http\Request;
+use App\Models\SubmissionTask;
 use App\Helpers\ResponseHelper;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use App\Services\SubmissionTaskService;
 use App\Http\Requests\CourseTaskRequest;
 use App\Http\Requests\SubmissionTaskRequest;
-use App\Models\CourseTask;
-use App\Models\SubmissionTask;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
+use App\Contracts\Interfaces\Course\SubmissionTaskInterface;
 
 class SubmissionTaskController extends Controller
 {
     private SubmissionTaskInterface $submissionTask;
+    private SubmissionTaskService $service;
     /**
      * Method __construct
      *
@@ -22,35 +25,41 @@ class SubmissionTaskController extends Controller
      *
      * @return void
      */
-    public function __construct(SubmissionTaskInterface $submissionTask)
+    public function __construct(SubmissionTaskInterface $submissionTask, SubmissionTaskService $service)
     {
         $this->submissionTask = $submissionTask;
+        $this->service = $service;
     }
     /**
      * Method index
      *
-     * @param CourseTask $courseTask [explicite description]
+     * @param ModuleTask $moduleTask [explicite description]
      *
      * @return JsonResponse
      */
-    public function index(CourseTask $courseTask): JsonResponse
+    public function index(ModuleTask $moduleTask): JsonResponse
     {
-        $submissionTasks = $this->submissionTask->getWhere(['course_task_id' => $courseTask->id]);
+        $submissionTasks = $this->submissionTask->getWhere(['course_task_id' => $moduleTask->id]);
         return ResponseHelper::success($submissionTasks, trans('alert.fetch_success'));
     }
     /**
      * Method store
      *
      * @param SubmissionTaskRequest $request [explicite description]
-     * @param CourseTask $courseTask [explicite description]
+     * @param ModuleTask $moduleTask [explicite description]
      *
      * @return JsonResponse
      */
-    public function store(SubmissionTaskRequest $request, CourseTask $courseTask): JsonResponse
+    public function store(SubmissionTaskRequest $request, ModuleTask $moduleTask): JsonResponse
     {
         $data = $request->validated();
-        $data['course_task_id'] = $courseTask->id;
-        $this->submissionTask->store($data);
+        $data['module_task_id'] = $moduleTask->id;
+        $data['user_id'] = auth()->user()->id;
+        $data['file'] = $this->service->handleStoreFile($request);
+        $stored = $this->submissionTask->store($data);
+        if(!$stored) {
+            $this->service->handleRemoveFile($data['file']);
+        }
         return ResponseHelper::success(true, trans('alert.add_success'));
     }
     /**

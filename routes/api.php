@@ -26,6 +26,7 @@ use App\Http\Controllers\Course\{
     ModuleQuestionController,
     ModuleTaskController,
     CourseTaskController,
+    SubmissionTaskController,
     UserCourseController
 };
 use App\Http\Controllers\{
@@ -39,7 +40,6 @@ use App\Http\Controllers\{
     Payment\TransactionController,
     TagController
 };
-use App\Models\SubmissionTask;
 use App\Helpers\ResponseHelper;
 
 /*
@@ -177,7 +177,7 @@ Route::middleware('enable.cors')->group(function () {
         Route::get('module-tasks/{module}', [ModuleTaskController::class, 'index']);
         Route::get('module-questions/detail/{module}', [ModuleQuestionController::class, 'index']);
 
-        Route::get('submission-tasks/{course_task}', [SubmissionTask::class, 'index']);
+        Route::get('submission-tasks/{course_task}', [SubmissionTaskController::class, 'index']);
 
         Route::get('user-courses/{course}', [UserCourseController::class, 'index']);
         Route::put('user-courses/{slug}/{sub_module}', [UserCourseController::class, 'userLastStep']);
@@ -255,7 +255,7 @@ Route::middleware('enable.cors')->group(function () {
         /**
          * Submission Task Management
          */
-        Route::post('submission-tasks/{course_task}', [SubmissionTask::class, 'store']);
+        Route::post('submission-tasks/{moduleTask}', [SubmissionTaskController::class, 'store']);
 
         // Quiz Management
         Route::get('quizzes/working/{quiz}', [QuizController::class, 'show']);

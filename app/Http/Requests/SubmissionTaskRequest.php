@@ -6,6 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class SubmissionTaskRequest extends ApiRequest
 {
+    private $mimes = 'png,jpg,jpeg,zip,rar';
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -22,7 +23,8 @@ class SubmissionTaskRequest extends ApiRequest
     public function rules(): array
     {
         return [
-            'answer' => 'required|string|max:255',
+            'answer' => 'nullable|string|max:255',
+            'file' => 'required|mimes:' . $this->mimes
         ];
     }
     /**
@@ -33,7 +35,9 @@ class SubmissionTaskRequest extends ApiRequest
     public function messages(): array
     {
         return [
-            'answer.required' => 'Jawaban wajib diisi',
+            'answer.string' => 'Jawaban harus berupa text',
+            'file.required' => 'File wajib diisi',
+            'file.mimes' => 'File harus berformat ' . $this->mimes,
         ];
     }
 }
