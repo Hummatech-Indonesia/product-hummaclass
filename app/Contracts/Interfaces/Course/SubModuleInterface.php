@@ -35,4 +35,14 @@ interface SubModuleInterface extends CustomPaginationInterface, StoreInterface, 
      * @return mixed
      */
     public function prevSubModule(mixed $step, mixed $module_id): mixed;
+
+
+    /**
+     * getAllPrevSubModule
+     *
+     * @param  mixed $step
+     * @param  mixed $module_id
+     * @return mixed
+     */
+    public function getAllPrevSubModule(mixed $step, mixed $module_id): mixed;
 }

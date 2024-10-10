@@ -26,7 +26,7 @@ class SubModuleResource extends JsonResource
             'url_youtube' => $this->url_youtube,
             'course_id' => $this->module->course_id,
             'course_title' => $this->module->course->title,
-            'course_clug' => $this->module->course->slug,
+            'course_slug' => $this->module->course->slug,
             'course_sub_title' => $this->module->course->sub_title,
             'course_sub_category' => $this->module->course->subCategory->category->name,
         ];

@@ -138,4 +138,5 @@ class SubModuleController extends Controller
 
         return response()->json(['success' => 0, 'message' => 'File upload failed.']);
     }
+    
 }
