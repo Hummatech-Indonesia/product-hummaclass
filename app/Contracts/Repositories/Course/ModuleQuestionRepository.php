@@ -9,6 +9,7 @@ use App\Contracts\Repositories\BaseRepository;
 use App\Models\Category;
 use App\Models\Course;
 use App\Models\ModuleQuestion;
+use Hammerstone\FastPaginate\FastPaginate;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -27,7 +28,11 @@ class ModuleQuestionRepository extends BaseRepository implements ModuleQuestionI
     }
     public function customPaginate(Request $request, int $pagination = 1): LengthAwarePaginator
     {
-        return $this->model->query()->whereIn('id', $request->id)->fastPaginate($pagination);
+        return $this->model
+            ->query()
+            ->whereIn('id', $request->id)
+            ->orderByRaw("FIELD(id, '" . implode("', '", $request->id->toArray()) . "')")
+            ->fastPaginate($pagination);
     }
     /**
      * Method get

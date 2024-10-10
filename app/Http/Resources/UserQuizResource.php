@@ -21,6 +21,7 @@ class UserQuizResource extends JsonResource
 
         $questions = ModuleQuestion::query()
             ->whereIn('id', $moduleQuestionIds)
+            ->orderByRaw("FIELD(id, '" . implode("', '", $moduleQuestionIds) . "')")
             ->get('question');
 
         return [
