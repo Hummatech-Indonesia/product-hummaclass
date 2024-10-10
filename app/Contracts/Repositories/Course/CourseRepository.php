@@ -36,9 +36,10 @@ class CourseRepository extends BaseRepository implements CourseInterface
         return $this->model->query()
             ->with('modules')
             ->withCount('userCourses')
-            ->when($request->search, function ($query) use ($request) {
-                $query->whereLike('name', $request->search);
+            ->when($request->name, function ($query) use ($request) {
+                $query->where('name', 'like', '%' . $request->name . '%');
             })
+            
             ->when($request->order == "best seller", function ($query) {
                 $query->orderBy('user_courses_count', 'desc');
             })
