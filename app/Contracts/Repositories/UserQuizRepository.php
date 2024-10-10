@@ -46,6 +46,7 @@ class UserQuizRepository extends BaseRepository implements UserQuizInterface
     {
         return $this->model->query()->findOrFail($id)->update($data);
     }
+
     /**
      * Method customPaginate
      *
@@ -58,6 +59,7 @@ class UserQuizRepository extends BaseRepository implements UserQuizInterface
     {
         return $this->model->query()->fastPaginate($pagination);
     }
+
     /**
      * Method store
      *
@@ -69,9 +71,11 @@ class UserQuizRepository extends BaseRepository implements UserQuizInterface
     {
         return $this->model->query()->create($data);
     }
+
     /**
-     * Method getLatestResult
+     * show
      *
+     * @param  mixed $id
      * @return mixed
      */
     public function show(mixed $id): mixed

@@ -191,6 +191,7 @@ Route::middleware('enable.cors')->group(function () {
      */
     Route::middleware('auth:sanctum')->group(function () {
 
+
         Route::get('list-course', [CourseController::class, 'listCourse']);
         Route::get('list-module/{slug}', [ModuleController::class, 'listModuleWithSubModul']);
         Route::get('list-module/detail/{slug}', [ModuleController::class, 'listModule']);
@@ -263,8 +264,112 @@ Route::middleware('enable.cors')->group(function () {
         Route::post('quizzes', [QuizController::class, 'store']);
         Route::post('quizzes-submit/{user_quiz}', [QuizController::class, 'submit']);
 
+        // faq and discussion configuration
+        Route::resources([
+            'faqs' => FaqController::class,
+            'discussions' => DiscussionController::class
+        ], ['only', ['store', 'update', 'destroy']]);
     });
 
+    /**
+     * Publicly Accessible Routes
+     */
+    Route::get('users', [UserController::class, 'index']);
+    Route::get('users/{user}', [UserController::class, 'show']);
+
+    Route::get('faqs', [FaqController::class, 'index']);
+    Route::get('faqs/{faq}', [FaqController::class, 'show']);
+
+    Route::resource('events', EventController::class)->except('show');
+    Route::get('events/{slug}', [EventController::class, 'show']);
+
+    Route::resource('categories', CategoryController::class)->except('index');
+
+    Route::resources([
+        'modules' => ModuleController::class,
+        'sub-modules' => SubModuleController::class,
+        'sub-categories' => SubCategoryController::class,
+    ], [
+        'only' => ['update', 'destroy'],
+        'middlware' => ['is_admin'],
+    ]);
+
+    Route::post('sub-modules/{module}', [SubModuleController::class, 'store']);
+    Route::get('sub-modules/detail/{slug}', [SubModuleController::class, 'show']);
+    Route::get('sub-modules/{subModule}/edit', [SubModuleController::class, 'edit']);
+    Route::get('sub-modules/next/{slug}', [SubModuleController::class, 'next']);
+    Route::get('sub-modules/prev/{slug}', [SubModuleController::class, 'prev']);
+    Route::get('sub-categories/category/{category}', [SubCategoryController::class, 'getByCategory']);
+
+    Route::get('courses', [CourseController::class, 'index']);
+    Route::get('courses/{slug}', [CourseController::class, 'show']);
+    Route::get('courses/{slug}/share', [CourseController::class, 'share']);
+
+    Route::get('course-vouchers/{courseSlug}', [CourseVoucherController::class, 'index']);
+    Route::get('course-vouchers/{courseSlug}/check', [CourseVoucherController::class, 'checkCode']);
+
+    Route::get('course-reviews', [CourseReviewController::class, 'index']);
+    Route::get('course-reviews/{course_review}', [CourseReviewController::class, 'show']);
+    Route::get('course-reviews-latest', [CourseReviewController::class, 'latest']);
+
+    Route::get('quizzes-get', [QuizController::class, 'get']);
+
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::resource('blogs', BlogController::class)->only(['store', 'update', 'destroy']);
+        Route::get('blog/{blog}', [BlogController::class, 'show']);
+
+        Route::resource('courses', CourseController::class)->except(['index', 'show']);
+        Route::resources([
+            'sub-categories' => SubCategoryController::class,
+        ], [
+            'only' => ['store', 'update', 'destroy', 'show'],
+            'middlware' => ['is_admin'],
+        ]);
+        Route::post('sub-categories/{category}', [SubCategoryController::class, 'store']);
+
+        Route::post('sub-modules/{module}', [SubModuleController::class, 'store']);
+
+        Route::patch('contact/{contact}', [ContactController::class, 'update']);
+
+        Route::get('course-vouchers/{courseSlug}', [CourseVoucherController::class, 'index']);
+        Route::get('course-vouchers/{courseSlug}/check', [CourseVoucherController::class, 'checkCode']);
+        Route::put('course-vouchers/{code}', [CourseVoucherController::class, 'update']);
+        Route::post('course-vouchers/{courseSlug}', [CourseVoucherController::class, 'store']);
+        Route::delete('course-vouchers/{courseVoucher}', [CourseVoucherController::class, 'destroy']);
+
+        Route::post('module-tasks/{module}', [ModuleTaskController::class, 'store']);
+
+        Route::get('module-questions/detail/{module}', [ModuleQuestionController::class, 'index']);
+        Route::post('module-questions/{module}', [ModuleQuestionController::class, 'store']);
+        Route::delete('module-questions/{module_question}', [ModuleQuestionController::class, 'destroy']);
+
+
+        Route::get('quizzes/{slug}', [QuizController::class, 'index']);
+        Route::get('quizzes', [QuizController::class, 'get']);
+        Route::get('quiz-start/{quiz}', [QuizController::class, 'show']);
+        Route::post('quizzes/{module}', [QuizController::class, 'store']);
+
+        Route::get('course-tests-get', [CourseTestController::class, 'get']);
+        Route::get('course-tests/{course}', [CourseTestController::class, 'index']);
+        Route::get('course-test-start/{course_test}', [CourseTestController::class, 'show']);
+        Route::post('course-tests/{course}', [CourseTestController::class, 'store']);
+
+        Route::get('blog-detail/{slug}', [BlogController::class, 'showLanding']);
+
+        Route::get('modules/{slug}', [ModuleController::class, 'index']);
+        Route::get('modules/detail/{module}', [ModuleController::class, 'show']);
+
+        Route::get('module-tasks/{module}', [ModuleTaskController::class, 'index']);
+        Route::get('module-questions/detail/{module}', [ModuleQuestionController::class, 'index']);
+
+        Route::get('submission-tasks/{course_task}', [SubmissionTask::class, 'index']);
+
+        Route::get('user-courses/{course}', [UserCourseController::class, 'index']);
+        Route::put('user-courses/{slug}/{sub_module}', [UserCourseController::class, 'userLastStep']);
+        Route::post('user-courses-check', [UserCourseController::class, 'checkPayment']);
+
+        Route::get('transaction/statistic', [TransactionController::class, 'groupByMonth']);
+    });
     /**
      * Password Reset
      */

@@ -25,8 +25,8 @@ class QuizRequest extends ApiRequest
         return [
             'duration' => 'required',
             'rules' => 'required',
-            'minimum_score',
-            'retry_delay',
+            'minimum_score' => 'required',
+            'retry_delay' => 'required',
             'total_question' => [
                 'required',
                 'integer',

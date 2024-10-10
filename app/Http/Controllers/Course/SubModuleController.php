@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Course;
 
 use App\Contracts\Interfaces\Course\SubModuleInterface;
+use App\Contracts\Interfaces\Course\UserCourseInterface;
+use App\Contracts\Interfaces\UserQuizInterface;
 use App\Enums\UploadDiskEnum;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
@@ -20,10 +22,12 @@ class SubModuleController extends Controller
     use UploadTrait;
     private SubModuleInterface $subModule;
     private SubModuleService $service;
-    public function __construct(SubModuleInterface $subModule, SubModuleService $service)
+    private UserCourseInterface $userCourse;
+    public function __construct(SubModuleInterface $subModule, SubModuleService $service, UserCourseInterface $userCourse)
     {
         $this->subModule = $subModule;
         $this->service = $service;
+        $this->userCourse = $userCourse;
     }
 
     /**
@@ -142,5 +146,18 @@ class SubModuleController extends Controller
         }
 
         return response()->json(['success' => 0, 'message' => 'File upload failed.']);
+    }
+
+    /**
+     * checkPrevSubModule
+     *
+     * @return JsonResponse
+     */
+    public function checkPrevSubModule(string $slug): JsonResponse
+    {
+        $subModule = $this->subModule->showWithSlug($slug);
+        $userCourse = $this->userCourse->showByUserCourse($subModule->module->course->id);
+        $this->subModule->getAllPrevSubModule($userCourse->subModule->id, $userCourse->subModule->module->id);
+        return ResponseHelper::success();
     }
 }

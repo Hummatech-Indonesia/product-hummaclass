@@ -72,7 +72,7 @@ class UserCourseRepository extends BaseRepository implements UserCourseInterface
     public function update(mixed $id, array $data): mixed
     {
         return $this->model->query()->where('user_id', auth()->user()->id)->where('course_id', $id)->firstOrFail()->update($data);
-    }    
+    }
     /**
      * Method showByUserCourse
      *
@@ -82,7 +82,6 @@ class UserCourseRepository extends BaseRepository implements UserCourseInterface
      */
     public function showByUserCourse($courseId): mixed
     {
-        // return [$userId, $courseId];
         return $this->model->query()->where('user_id', auth()->user()->id)->where('course_id', $courseId)->with('subModule')->firstOrFail();
     }
 }

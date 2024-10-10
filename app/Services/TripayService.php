@@ -35,7 +35,13 @@ class TripayService
 
         return collect($res);
     }
-
+    
+    /**
+     * handleGenerateCallbackSignature
+     *
+     * @param  mixed $request
+     * @return string
+     */
     public static function handleGenerateCallbackSignature(Request $request): string
     {
         $privateKey = config('tripay.private_key');
