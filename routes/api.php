@@ -181,7 +181,7 @@ Route::middleware('enable.cors')->group(function () {
 
     Route::post('sub-modules/{module}', [SubModuleController::class, 'store']);
     Route::get('sub-modules/detail/{slug}', [SubModuleController::class, 'show']);
-    Route::get('sub-modules/{subModule}/edit', [SubModuleController::class, 'show']);
+    Route::get('sub-modules/{subModule}/edit', [SubModuleController::class, 'edit']);
     Route::get('sub-modules/next/{slug}', [SubModuleController::class, 'next']);
     Route::get('sub-modules/prev/{slug}', [SubModuleController::class, 'prev']);
     Route::get('sub-categories/category/{category}', [SubCategoryController::class, 'getByCategory']);
