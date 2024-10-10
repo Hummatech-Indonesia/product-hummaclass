@@ -23,7 +23,6 @@ class SubModuleRequest extends ApiRequest
             ],
             'sub_title' => 'required|string|max:255',
             'content' => 'required|string',
-            'url_youtube' => 'nullable|url',
         ];
     }
 
@@ -37,8 +36,6 @@ class SubModuleRequest extends ApiRequest
             'sub_title.max' => 'Sub-judul maksimal :max karakter.',
             'content.required' => 'Konten wajib diisi.',
             'content.string' => 'Konten harus berupa teks.',
-            'url_youtube.required' => 'URL YouTube wajib diisi.',
-            'url_youtube.url' => 'URL YouTube tidak valid.',
         ];
     }
 }

@@ -12,7 +12,9 @@ return new class extends Migration {
     {
         Schema::create('discussion_answers', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('discussion_answer_id')->nullable()->constrained();
             $table->foreignId('discussion_id')->constrained();
+            $table->foreignUuid('user_id')->constrained();
             $table->text('answer');
             $table->timestamps();
         });

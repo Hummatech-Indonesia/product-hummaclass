@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class DiscussionRequest extends ApiRequest
+class DiscussionTagRequest extends ApiRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,11 +22,10 @@ class DiscussionRequest extends ApiRequest
     public function rules(): array
     {
         return [
-            'module_id' => 'required',
-            'discussion_title' => 'required',
-            'discussion_question' => 'required'
+            'name' => 'required',
+            'discussion_id' => 'required',
         ];
-    }
+    }    
     /**
      * Method messages
      *
@@ -35,9 +34,8 @@ class DiscussionRequest extends ApiRequest
     public function messages(): array
     {
         return [
-            'module_id.requried' => 'Modul wajib diisi',
-            'discussion_title.required' => 'Judul diskusi wajib diisi',
-            'discussion_question.required' => 'Pertanyaan diskusi wajib diisi'
+            'name.required' => 'Nama wajib diisi',
+            'discussion_id.required' => 'Pertanyaan wajib diisi'
         ];
     }
 }

@@ -50,16 +50,22 @@ use App\Contracts\Repositories\Course\UserCourseRepository;
 use App\Contracts\Interfaces\Configuration\ContactInterface;
 use App\Contracts\Interfaces\Course\ModuleQuestionInterface;
 use App\Contracts\Interfaces\Course\SubmissionTaskInterface;
+use App\Contracts\Interfaces\DiscussionAnswerInterface;
 use App\Contracts\Interfaces\DiscussionInterface;
+use App\Contracts\Interfaces\DiscussionTagInterface;
 use App\Contracts\Interfaces\FaqInterface;
+use App\Contracts\Interfaces\TagInterface;
 use App\Contracts\Repositories\Course\SubCategoryRepository;
 use App\Contracts\Repositories\Course\CourseReviewRepository;
 use App\Contracts\Repositories\Course\CourseVoucherRepository;
 use App\Contracts\Repositories\Configuration\ContactRepository;
 use App\Contracts\Repositories\Course\ModuleQuestionRepository;
 use App\Contracts\Repositories\Course\SubmissionTaskRepository;
+use App\Contracts\Repositories\DiscussionAnswerRepository;
 use App\Contracts\Repositories\DiscussionRepository;
+use App\Contracts\Repositories\DiscussionTagRepository;
 use App\Contracts\Repositories\FaqRepository;
+use App\Contracts\Repositories\TagRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -91,7 +97,10 @@ class AppServiceProvider extends ServiceProvider
         UserCourseTestInterface::class => UserCourseTestRepository::class,
         UserEventInterface::class => UserEventRepository::class,
         FaqInterface::class => FaqRepository::class,
-        DiscussionInterface::class => DiscussionRepository::class
+        DiscussionTagInterface::class => DiscussionTagRepository::class,
+        DiscussionInterface::class => DiscussionRepository::class,
+        DiscussionAnswerInterface::class => DiscussionAnswerRepository::class,
+        TagInterface::class => TagRepository::class
     ];
 
     /**

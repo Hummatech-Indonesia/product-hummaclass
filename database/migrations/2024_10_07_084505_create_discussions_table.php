@@ -14,10 +14,11 @@ return new class extends Migration {
             $table->id();
             $table->foreignUuid('module_id')->constrained();
             $table->foreignUuid('user_id')->constrained();
-            $table->text('question');
+            $table->string('discussion_title');
+            $table->text('discussion_question');
             $table->timestamps();
         });
-    }
+    }   
 
     /**
      * Reverse the migrations.

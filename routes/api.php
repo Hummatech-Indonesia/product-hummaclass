@@ -31,10 +31,13 @@ use App\Http\Controllers\Course\{
 use App\Http\Controllers\{
     BlogController,
     ContactController,
+    DiscussionAnswerController,
     DiscussionController,
+    DiscussionTagController,
     EventController,
     FaqController,
-    Payment\TransactionController
+    Payment\TransactionController,
+    TagController
 };
 use App\Models\SubmissionTask;
 use App\Helpers\ResponseHelper;
@@ -172,16 +175,16 @@ Route::middleware('enable.cors')->group(function () {
 
     Route::resources([
         'modules' => ModuleController::class,
-        'sub-modules' => SubModuleController::class,
         'sub-categories' => SubCategoryController::class,
     ], [
         'only' => ['update', 'destroy'],
         'middlware' => ['is_admin'],
     ]);
 
-    Route::post('sub-modules/{module}', [SubModuleController::class, 'store']);
     Route::get('sub-modules/detail/{slug}', [SubModuleController::class, 'show']);
     Route::get('sub-modules/{subModule}/edit', [SubModuleController::class, 'edit']);
+    Route::patch('sub-modules/{sub_module}', [SubModuleController::class, 'update']);
+    Route::delete('sub-modules/{sub_module}', [SubModuleController::class, 'destroy']);
     Route::get('sub-modules/next/{slug}', [SubModuleController::class, 'next']);
     Route::get('sub-modules/prev/{slug}', [SubModuleController::class, 'prev']);
     Route::get('sub-categories/category/{category}', [SubCategoryController::class, 'getByCategory']);
@@ -200,6 +203,23 @@ Route::middleware('enable.cors')->group(function () {
     Route::get('quizzes-get', [QuizController::class, 'get']);
 
     Route::middleware('auth:sanctum')->group(function () {
+
+        // discussion form
+        Route::resources([
+            'discussions' => DiscussionController::class,
+            'tags' => TagController::class,
+            'discussion-answers' => DiscussionAnswerController::class,
+        ], [
+            'only' => ['update', 'destroy']
+        ]);
+
+        Route::get('discussions', [DiscussionController::class, 'index']);
+        Route::get('tags', [TagController::class, 'index']);
+        Route::get('discussion-answers/{discussion}/{discussion_answer?}', [DiscussionAnswerController::class, 'index']);
+        Route::post('discussions', [DiscussionController::class, 'store']);
+        Route::post('tags', [TagController::class, 'store']);
+        Route::post('discussion-answers', [DiscussionAnswerController::class, 'store']);
+
         Route::resource('blogs', BlogController::class)->only(['store', 'update', 'destroy']);
         Route::get('blog/{blog}', [BlogController::class, 'show']);
 
