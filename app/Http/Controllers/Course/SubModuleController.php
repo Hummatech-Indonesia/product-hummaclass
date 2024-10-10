@@ -87,6 +87,11 @@ class SubModuleController extends Controller
         $subModule = $this->subModule->showWithSlug($slug);
         return ResponseHelper::success(SubModuleResource::make($subModule), trans('alert.fetch_success'));
     }
+
+    public function edit(SubModule $subModule): JsonResponse
+    {
+        return ResponseHelper::success(SubModuleResource::make($subModule));
+    }
     /**
      * Method update
      *
@@ -138,5 +143,4 @@ class SubModuleController extends Controller
 
         return response()->json(['success' => 0, 'message' => 'File upload failed.']);
     }
-    
 }
