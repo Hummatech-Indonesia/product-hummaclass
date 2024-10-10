@@ -106,48 +106,48 @@ Route::middleware('enable.cors')->group(function () {
          * Course Management
          */
         Route::resource('courses', CourseController::class)->except(['index', 'show']);
-        Route::post('course-vouchers/{courseSlug}', [CourseVoucherController::class, 'store'])->middleware('is_admin');
-        Route::delete('course-vouchers/{courseVoucher}', [CourseVoucherController::class, 'destroy'])->middleware('is_admin');
-        Route::post('course-voucher-users', [CourseVoucherUserController::class, 'store'])->middleware('is_guest');
-        Route::post('course-reviews/{course}', [CourseReviewController::class, 'store'])->middleware('is_guest');
-        Route::patch('course-reviews/{course_review}', [CourseReviewController::class, 'update'])->middleware('is_guest');
+        Route::post('course-vouchers/{courseSlug}', [CourseVoucherController::class, 'store']);
+        Route::delete('course-vouchers/{courseVoucher}', [CourseVoucherController::class, 'destroy']);
+        Route::post('course-voucher-users', [CourseVoucherUserController::class, 'store']);
+        Route::post('course-reviews/{course}', [CourseReviewController::class, 'store']);
+        Route::patch('course-reviews/{course_review}', [CourseReviewController::class, 'update']);
         Route::get('course-by-submodule/{subModule}', [CourseController::class, 'getBySubModule']);
 
         // count courses
-        Route::get('courses/count', [CourseController::class, 'count'])->middleware('is_admin');
+        Route::get('courses/count', [CourseController::class, 'count']);
 
         /**
          * Blog Management
          */
-        Route::resource('blogs', BlogController::class)->only(['store', 'update', 'destroy', 'show'])->middleware('is_admin');
+        Route::resource('blogs', BlogController::class)->only(['store', 'update', 'destroy', 'show']);
 
         /**
          * Contact Management
          */
-        Route::patch('contact/{contact}', [ContactController::class, 'update'])->middleware('is_admin');
+        Route::patch('contact/{contact}', [ContactController::class, 'update']);
 
         /**
          * Module and Task Management
          */
         Route::get('modules/{slug}', [ModuleController::class, 'index']);
         Route::get('modules/detail/{module}', [ModuleController::class, 'show']);
-        Route::post('modules/{slug}', [ModuleController::class, 'store'])->middleware('is_admin');
-        Route::patch('modules-forward/{module}', [ModuleController::class, 'forward'])->middleware('is_admin');
-        Route::patch('modules-backward/{module}', [ModuleController::class, 'backward'])->middleware('is_admin');
-        Route::post('module-tasks/{module}', [ModuleTaskController::class, 'store'])->middleware('is_admin');
+        Route::post('modules/{slug}', [ModuleController::class, 'store']);
+        Route::patch('modules-forward/{module}', [ModuleController::class, 'forward']);
+        Route::patch('modules-backward/{module}', [ModuleController::class, 'backward']);
+        Route::post('module-tasks/{module}', [ModuleTaskController::class, 'store']);
         Route::get('module-questions/detail/{module}', [ModuleQuestionController::class, 'index']);
-        Route::post('module-questions/{module}', [ModuleQuestionController::class, 'store'])->middleware('is_admin');
+        Route::post('module-questions/{module}', [ModuleQuestionController::class, 'store']);
 
         /**
          * Submission Task Management
          */
-        Route::post('submission-tasks/{course_task}', [SubmissionTask::class, 'store'])->middleware('is_admin');
+        Route::post('submission-tasks/{course_task}', [SubmissionTask::class, 'store']);
 
         // Quiz Management
         Route::get('quizzes/working/{quiz}', [QuizController::class, 'show']);
         Route::get('quizzes-result/{userQuiz}', [QuizController::class, 'result']);
-        Route::post('quizzes', [QuizController::class, 'store'])->middleware('is_admin');
-        Route::post('quizzes-submit/{user_quiz}', [QuizController::class, 'submit'])->middleware('is_guest');
+        Route::post('quizzes', [QuizController::class, 'store']);
+        Route::post('quizzes-submit/{user_quiz}', [QuizController::class, 'submit']);
 
         // faq and discussion configuration
         Route::resources([
@@ -179,27 +179,27 @@ Route::middleware('enable.cors')->group(function () {
         'middlware' => ['is_admin'],
     ]);
 
-    Route::post('sub-modules/{module}', [SubModuleController::class, 'store'])->middleware('is_admin');
+    Route::post('sub-modules/{module}', [SubModuleController::class, 'store']);
     Route::get('sub-modules/detail/{slug}', [SubModuleController::class, 'show']);
     Route::get('sub-modules/next/{slug}', [SubModuleController::class, 'next']);
-    Route::get('sub-modules/prev/{slug}', [SubModuleController::class, 'prev'])->middleware(['is_guest', 'is_admin']);
-    Route::get('sub-categories/category/{category}', [SubCategoryController::class, 'getByCategory'])->middleware('is_admin');
+    Route::get('sub-modules/prev/{slug}', [SubModuleController::class, 'prev']);
+    Route::get('sub-categories/category/{category}', [SubCategoryController::class, 'getByCategory']);
 
     Route::get('courses', [CourseController::class, 'index']);
     Route::get('courses/{slug}', [CourseController::class, 'show']);
     Route::get('courses/{slug}/share', [CourseController::class, 'share']);
 
     Route::get('course-vouchers/{courseSlug}', [CourseVoucherController::class, 'index']);
-    Route::get('course-vouchers/{courseSlug}/check', [CourseVoucherController::class, 'checkCode'])->middleware('is_guest');
+    Route::get('course-vouchers/{courseSlug}/check', [CourseVoucherController::class, 'checkCode']);
 
     Route::get('course-reviews', [CourseReviewController::class, 'index']);
     Route::get('course-reviews/{course_review}', [CourseReviewController::class, 'show']);
-    Route::get('course-reviews-latest', [CourseReviewController::class, 'latest'])->middleware('is_admin');
+    Route::get('course-reviews-latest', [CourseReviewController::class, 'latest']);
 
     Route::get('quizzes-get', [QuizController::class, 'get']);
 
     Route::middleware('auth:sanctum')->group(function () {
-        Route::resource('blogs', BlogController::class)->only(['store', 'update', 'destroy'])->middleware('is_admin');
+        Route::resource('blogs', BlogController::class)->only(['store', 'update', 'destroy']);
         Route::get('blog/{blog}', [BlogController::class, 'show']);
 
         Route::resource('courses', CourseController::class)->except(['index', 'show']);
@@ -209,40 +209,40 @@ Route::middleware('enable.cors')->group(function () {
             'only' => ['store', 'update', 'destroy', 'show'],
             'middlware' => ['is_admin'],
         ]);
-        Route::post('sub-categories/{category}', [SubCategoryController::class, 'store'])->middleware('is_admin');
+        Route::post('sub-categories/{category}', [SubCategoryController::class, 'store']);
 
         Route::get('sub-modules/detail/{slug}', [SubModuleController::class, 'show']);
-        Route::post('sub-modules/{module}', [SubModuleController::class, 'store'])->middleware('is_admin');
+        Route::post('sub-modules/{module}', [SubModuleController::class, 'store']);
 
-        Route::patch('contact/{contact}', [ContactController::class, 'update'])->middleware('is_admin');
+        Route::patch('contact/{contact}', [ContactController::class, 'update']);
 
-        Route::get('course-vouchers/{courseSlug}', [CourseVoucherController::class, 'index'])->middleware('is_admin');
-        Route::get('course-vouchers/{courseSlug}/check', [CourseVoucherController::class, 'checkCode'])->middleware('is_guest');
-        Route::put('course-vouchers/{code}', [CourseVoucherController::class, 'update'])->middleware('is_admin');
-        Route::post('course-vouchers/{courseSlug}', [CourseVoucherController::class, 'store'])->middleware('is_admin');
-        Route::delete('course-vouchers/{courseVoucher}', [CourseVoucherController::class, 'destroy'])->middleware('is_admin');
+        Route::get('course-vouchers/{courseSlug}', [CourseVoucherController::class, 'index']);
+        Route::get('course-vouchers/{courseSlug}/check', [CourseVoucherController::class, 'checkCode']);
+        Route::put('course-vouchers/{code}', [CourseVoucherController::class, 'update']);
+        Route::post('course-vouchers/{courseSlug}', [CourseVoucherController::class, 'store']);
+        Route::delete('course-vouchers/{courseVoucher}', [CourseVoucherController::class, 'destroy']);
 
-        Route::post('module-tasks/{module}', [ModuleTaskController::class, 'store'])->middleware('is_admin');
+        Route::post('module-tasks/{module}', [ModuleTaskController::class, 'store']);
 
-        Route::get('module-questions/detail/{module}', [ModuleQuestionController::class, 'index'])->middleware('is_admin');
-        Route::post('module-questions/{module}', [ModuleQuestionController::class, 'store'])->middleware('is_admin');
-        Route::delete('module-questions/{module_question}', [ModuleQuestionController::class, 'destroy'])->middleware('is_admin');
+        Route::get('module-questions/detail/{module}', [ModuleQuestionController::class, 'index']);
+        Route::post('module-questions/{module}', [ModuleQuestionController::class, 'store']);
+        Route::delete('module-questions/{module_question}', [ModuleQuestionController::class, 'destroy']);
 
 
         Route::get('quizzes/{slug}', [QuizController::class, 'index']);
         Route::get('quizzes', [QuizController::class, 'get']);
         Route::get('quiz-start/{quiz}', [QuizController::class, 'show']);
-        Route::post('quizzes/{module}', [QuizController::class, 'store'])->middleware('is_admin');
+        Route::post('quizzes/{module}', [QuizController::class, 'store']);
 
         Route::get('course-tests-get', [CourseTestController::class, 'get']);
         Route::get('course-tests/{course}', [CourseTestController::class, 'index']);
         Route::get('course-test-start/{course_test}', [CourseTestController::class, 'show']);
-        Route::post('course-tests/{course}', [CourseTestController::class, 'store'])->middleware('is_admin');
+        Route::post('course-tests/{course}', [CourseTestController::class, 'store']);
 
         Route::get('blog-detail/{slug}', [BlogController::class, 'showLanding']);
 
         Route::get('modules/{slug}', [ModuleController::class, 'index']);
-        Route::get('modules/detail/{module}', [ModuleController::class, 'show'])->middleware('is_admin');
+        Route::get('modules/detail/{module}', [ModuleController::class, 'show']);
 
         Route::get('module-tasks/{module}', [ModuleTaskController::class, 'index']);
         Route::get('module-questions/detail/{module}', [ModuleQuestionController::class, 'index']);
@@ -253,7 +253,7 @@ Route::middleware('enable.cors')->group(function () {
         Route::put('user-courses/{slug}/{sub_module}', [UserCourseController::class, 'userLastStep']);
         Route::post('user-courses-check', [UserCourseController::class, 'checkPayment']);
 
-        Route::get('transaction/statistic', [TransactionController::class, 'groupByMonth'])->middleware('is_admin');
+        Route::get('transaction/statistic', [TransactionController::class, 'groupByMonth']);
     });
     /**
      * Password Reset

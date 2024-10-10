@@ -36,6 +36,13 @@ class UserCourseService
     {
         $this->userCourse = $userCourse;
     }
+    /**
+     * userLastStep
+     *
+     * @param  mixed $course
+     * @param  mixed $subModule
+     * @return void
+     */
     public function userLastStep(Course $course, SubModule $subModule)
     {
         $current = $this->userCourse->showByUserCourse($course->id);

@@ -135,5 +135,4 @@ class SubModuleRepository extends BaseRepository implements SubModuleInterface
     {
         return $this->model->query()->where('module_id', $module_id)->where('step', $step - 1)->first();
     }
-
 }
