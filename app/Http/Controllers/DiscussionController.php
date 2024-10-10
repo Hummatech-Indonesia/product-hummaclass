@@ -7,16 +7,19 @@ use App\Helpers\ResponseHelper;
 use App\Http\Requests\DiscussionRequest;
 use App\Http\Resources\DiscussionResource;
 use App\Models\Discussion;
+use App\Services\DiscussionService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class DiscussionController extends Controller
 {
     private DiscussionInterface $discussion;
-    public function __construct(DiscussionInterface $discussion)
+    private DiscussionService $service;
+    public function __construct(DiscussionInterface $discussion, DiscussionService $service)
     {
         $this->discussion = $discussion;
-    }    
+        $this->service = $service;
+    }
     /**
      * Method index
      *
@@ -26,7 +29,7 @@ class DiscussionController extends Controller
     {
         $discussions = $this->discussion->get();
         return ResponseHelper::success(DiscussionResource::collection($discussions), trans('alert.fetch_success'));
-    }    
+    }
     /**
      * Method store
      *
@@ -36,9 +39,14 @@ class DiscussionController extends Controller
      */
     public function store(DiscussionRequest $request): JsonResponse
     {
-        $this->discussion->store($request->validated());
+        $this->service->store($request);
         return ResponseHelper::success(true, trans('alert.add_success'));
-    }    
+    }
+    public function show(Discussion $discussion): JsonResponse
+    {
+        $discussion = $this->discussion->show($discussion->id);
+        return ResponseHelper::success(DiscussionResource::make($discussion), trans('alert.fetch_success'));
+    }
     /**
      * Method update
      *
@@ -51,7 +59,7 @@ class DiscussionController extends Controller
     {
         $this->discussion->update($discussion->id, $request->validated());
         return ResponseHelper::success(true, trans('alert.update_success'));
-    }    
+    }
     /**
      * Method destroy
      *
