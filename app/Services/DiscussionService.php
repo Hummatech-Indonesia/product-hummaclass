@@ -34,16 +34,15 @@ class DiscussionService
     }
     public function store(DiscussionRequest $request)
     {
-        dd($request->validated());
         $data = $request->validated();
         $data['user_id'] = auth()->user()->id;
         $discussion = $this->discussion->store($data);
         
-        foreach ($data['tag'] as $index => $tag) {
-            $data['tag'] = $tag;
+        foreach ($data['tag_id'] as $index => $tag_id) {
+            $data['tag_id'] = $tag_id;
             $data['discussion_id'] = $discussion->id;
             $this->discussionTag->store($data);
         }
-
+        
     }
 }
