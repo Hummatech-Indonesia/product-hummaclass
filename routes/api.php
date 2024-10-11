@@ -97,7 +97,6 @@ Route::middleware('enable.cors')->group(function () {
         'middlware' => ['is_admin'],
     ]);
 
-    Route::get('sub-modules/detail/{slug}', [SubModuleController::class, 'show']);
     Route::get('sub-modules/{subModule}/edit', [SubModuleController::class, 'edit']);
     Route::patch('sub-modules/{sub_module}', [SubModuleController::class, 'update']);
     Route::delete('sub-modules/{sub_module}', [SubModuleController::class, 'destroy']);
@@ -191,6 +190,7 @@ Route::middleware('enable.cors')->group(function () {
      */
     Route::middleware('auth:sanctum')->group(function () {
 
+        Route::get('sub-modules/detail/{slug}', [SubModuleController::class, 'show'])->middleware('check_last_step_user');
 
         Route::get('list-course', [CourseController::class, 'listCourse']);
         Route::get('list-module/{slug}', [ModuleController::class, 'listModuleWithSubModul']);
@@ -295,7 +295,6 @@ Route::middleware('enable.cors')->group(function () {
     ]);
 
     Route::post('sub-modules/{module}', [SubModuleController::class, 'store']);
-    Route::get('sub-modules/detail/{slug}', [SubModuleController::class, 'show']);
     Route::get('sub-modules/{subModule}/edit', [SubModuleController::class, 'edit']);
     Route::get('sub-modules/next/{slug}', [SubModuleController::class, 'next']);
     Route::get('sub-modules/prev/{slug}', [SubModuleController::class, 'prev']);
