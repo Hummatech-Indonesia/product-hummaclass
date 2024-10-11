@@ -13,6 +13,7 @@ use App\Services\SubmissionTaskService;
 use App\Http\Requests\CourseTaskRequest;
 use App\Http\Requests\SubmissionTaskRequest;
 use App\Contracts\Interfaces\Course\SubmissionTaskInterface;
+use Illuminate\Support\Facades\Storage;
 
 class SubmissionTaskController extends Controller
 {
@@ -57,7 +58,7 @@ class SubmissionTaskController extends Controller
         $data['user_id'] = auth()->user()->id;
         $data['file'] = $this->service->handleStoreFile($request);
         $stored = $this->submissionTask->store($data);
-        if(!$stored) {
+        if (!$stored) {
             $this->service->handleRemoveFile($data['file']);
         }
         return ResponseHelper::success(true, trans('alert.add_success'));
@@ -86,5 +87,14 @@ class SubmissionTaskController extends Controller
     {
         $this->submissionTask->delete($submissionTask->id);
         return ResponseHelper::success(true, trans('alert.delete_success'));
+    }
+
+    public function download(SubmissionTask $submissionTask): mixed
+    {
+        $exist = $this->service->exist($submissionTask->file);
+        if ($exist) {
+            return response()->download(storage_path('app/public/' . $submissionTask->file));
+        }
+        return ResponseHelper::error(false, trans('alert.file_not_found'), 404);
     }
 }

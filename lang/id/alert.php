@@ -47,4 +47,6 @@ return [
     'voucher_limit' => 'Voucher telah habis',
     'voucher_invalid' => 'Kode voucher tidak valid',
     'voucher_valid' => 'Berhasil menggunakan voucher',
+
+    'file_not_found' => 'File tidak ditemukan'
 ];

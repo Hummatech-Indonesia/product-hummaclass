@@ -48,6 +48,7 @@ use App\Helpers\ResponseHelper;
 |----------------------------------------------------------------------
 */
 
+Route::get('submission-tasks/download/{submissionTask}', [SubmissionTaskController::class, 'download'])->middleware('auth:sanctum');
 Route::middleware('enable.cors')->group(function () {
 
     // Socialite Authentication
@@ -131,6 +132,7 @@ Route::middleware('enable.cors')->group(function () {
 
         // Submission Task Management
         Route::post('submission-tasks/{moduleTask}', [SubmissionTaskController::class, 'store']);
+        // Route::get('submission-tasks/download/{submissionTask}', [SubmissionTaskController::class, 'download']);
 
         // Other Routes
         Route::get('modules/{slug}', [ModuleController::class, 'index']);
