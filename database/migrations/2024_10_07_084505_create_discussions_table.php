@@ -12,13 +12,13 @@ return new class extends Migration {
     {
         Schema::create('discussions', function (Blueprint $table) {
             $table->id();
-            $table->foreignUuid('module_id')->constrained();
+            $table->foreignUuid('module_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignUuid('user_id')->constrained();
             $table->string('discussion_title');
             $table->text('discussion_question');
             $table->timestamps();
         });
-    }   
+    }
 
     /**
      * Reverse the migrations.
