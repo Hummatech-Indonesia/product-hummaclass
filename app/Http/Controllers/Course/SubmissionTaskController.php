@@ -38,10 +38,14 @@ class SubmissionTaskController extends Controller
      *
      * @return JsonResponse
      */
-    public function index(ModuleTask $moduleTask): JsonResponse
+    public function index(SubmissionTask $submissionTask): JsonResponse
     {
-        $submissionTasks = $this->submissionTask->getWhere(['course_task_id' => $moduleTask->id]);
+        $submissionTasks = $this->submissionTask->getWhere(['course_task_id' => $submissionTask->id]);
         return ResponseHelper::success($submissionTasks, trans('alert.fetch_success'));
+    }
+    public function show(SubmissionTask $submissionTask): JsonResponse
+    {
+        return ResponseHelper::success($submissionTask, trans('alert.fetch_success'));
     }
     /**
      * Method store
@@ -93,7 +97,8 @@ class SubmissionTaskController extends Controller
     {
         $exist = $this->service->exist($submissionTask->file);
         if ($exist) {
-            return response()->download(storage_path('app/public/' . $submissionTask->file));
+            return ResponseHelper::success(storage_path('app/public/' . $submissionTask->file), trans('alert.file_not_found'), 404);
+            // return response()->download(storage_path('app/public/' . $submissionTask->file));
         }
         return ResponseHelper::error(false, trans('alert.file_not_found'), 404);
     }

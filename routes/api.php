@@ -258,6 +258,7 @@ Route::middleware('enable.cors')->group(function () {
          * Submission Task Management
          */
         Route::post('submission-tasks/{moduleTask}', [SubmissionTaskController::class, 'store']);
+        Route::get('submission-tasks/detail/{submissionTask}', [SubmissionTaskController::class, 'show']);
         // Route::get('submission-tasks/download/{submissionTask}', [SubmissionTaskController::class, 'download']);
 
         // Quiz Management
