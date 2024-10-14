@@ -54,4 +54,29 @@ class CourseTestController extends Controller
         $this->courseTest->store($data);
         return ResponseHelper::success(true, trans('alert.add_success'));
     }
+    /**
+     * Method update
+     *
+     * @param CourseTestRequest $request [explicite description]
+     * @param CourseTest $courseTest [explicite description]
+     *
+     * @return JsonResponse
+     */
+    public function update(CourseTestRequest $request, CourseTest $courseTest): JsonResponse
+    {
+        $this->courseTest->update($courseTest->id, $request->validated());
+        return ResponseHelper::success(true, trans('alert.update_success'));
+    }
+    /**
+     * Method destroy
+     *
+     * @param CourseTest $courseTest [explicite description]
+     *
+     * @return JsonResponse
+     */
+    public function destroy(CourseTest $courseTest): JsonResponse
+    {
+        $this->courseTest->delete($courseTest->id);
+        return ResponseHelper::success(true, trans('alert.delete_success'));
+    }
 }

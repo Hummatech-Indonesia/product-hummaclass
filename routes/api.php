@@ -171,7 +171,7 @@ Route::middleware('enable.cors')->group(function () {
         Route::get('course-tests/{course}', [CourseTestController::class, 'index']);
         Route::get('course-test-start/{course_test}', [CourseTestController::class, 'show']);
         Route::post('course-tests/{course}', [CourseTestController::class, 'store']);
-
+        Route::resource('course-tests', CourseTestController::class)->only(['update', 'destroy']);
         Route::get('blog-detail/{slug}', [BlogController::class, 'showLanding']);
 
         Route::get('modules/{slug}', [ModuleController::class, 'index']);
