@@ -77,6 +77,6 @@ class CourseTestRepository extends BaseRepository implements CourseTestInterface
      */
     public function delete(mixed $id): mixed
     {
-        return $this->show($id)->delete();
+        return $this->model->query()->findOrFail($id)->delete();
     }
 }
