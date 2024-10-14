@@ -45,10 +45,11 @@ class UserCourseService
      */
     public function userLastStep(Course $course, SubModule $subModule)
     {
-        $current = $this->userCourse->showByUserCourse($course->id);
-        $currentStep = $current->subModule->step;
+        $userCourse = $this->userCourse->showByUserCourse($course->id);
+        $currentStep = $userCourse->subModule->step;
+        $currentStepModule = $userCourse->subModule->module->step;
 
-        if ($subModule->step > $currentStep) {
+        if ($currentStepModule < $subModule->module->step || $subModule->step > $currentStep) {
             $this->userCourse->update($course->id, ['sub_module_id' => $subModule->id]);
         }
     }
