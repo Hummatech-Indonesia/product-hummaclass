@@ -73,6 +73,17 @@ class CourseSeeder extends Seeder
                 'answer' => $option->value,
             ]);
         }
+        ModuleQuestion::create([
+            'id' => Uuid::uuid(),
+            'module_id' => $module->id,
+            'question' => 'lorem ipsum dolor sit amet jawabannya adalah:option_a',
+            'option_a' => 'lorem ipsum',
+            'option_b' => 'lorem ipsum',
+            'option_c' => 'lorem ipsum',
+            'option_d' => 'lorem ipsum',
+            'option_e' => 'lorem ipsum',
+            'answer' => 'option_a',
+        ]);
 
         $quiz = Quiz::create([
             'id' => Uuid::uuid(),
