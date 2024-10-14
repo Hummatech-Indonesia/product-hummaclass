@@ -22,7 +22,7 @@ class Course extends Model implements HasSubCategory, HasModules, HasUserCourses
     public $keyType = 'char';
     protected $table = 'courses';
     protected $primaryKey = 'id';
-    protected $fillable = ['sub_category_id', 'title', 'sub_title', 'description', 'is_premium', 'price', 'photo', 'user_id'];
+    protected $fillable = ['sub_category_id', 'title', 'sub_title', 'description', 'is_premium', 'price', 'photo', 'user_id', 'is_ready'];
 
     /**
      * Method subCategory

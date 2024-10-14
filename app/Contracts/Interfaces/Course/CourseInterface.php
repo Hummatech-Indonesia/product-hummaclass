@@ -16,5 +16,5 @@ use App\Contracts\Interfaces\Eloquent\CustomPaginationInterface;
 
 interface CourseInterface extends CustomPaginationInterface, StoreInterface, UpdateInterface, ShowInterface, DeleteInterface, ShowSlugInterface, SearchInterface, GetInterface
 {
-    public function count(): mixed;
+    public function count(): mixed;    
 }

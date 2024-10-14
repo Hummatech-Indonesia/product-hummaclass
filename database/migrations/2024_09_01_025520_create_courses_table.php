@@ -21,6 +21,7 @@ return new class extends Migration {
             $table->text('description');
             $table->boolean('is_premium');
             $table->integer('price')->default(0)->nullable();
+            $table->boolean('is_ready')->default(0);
             $table->timestamps();
         });
     }

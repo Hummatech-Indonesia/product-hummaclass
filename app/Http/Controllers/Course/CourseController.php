@@ -101,18 +101,40 @@ class CourseController extends Controller
             return ResponseHelper::error(true, trans('alert.delete_constrained'));
         }
     }
-
     /**
-     * listCourse
+     * Method readyToUse
+     *
+     * @param Course $course [explicite description]
      *
      * @return JsonResponse
      */
-    public function listCourse(): JsonResponse
+    public function readyToUse(Course $course): JsonResponse
     {
-        $courses = $this->course->get();
-        $data['paginate'] = $this->customPaginate($courses->currentPage(), $courses->lastPage());
-        $data['data'] = CourseResource::collection($courses);
-        return ResponseHelper::success($data);
+        $data = [
+            'is_ready' => true
+        ];
+        $course = $this->course->update($course->id, $data);
+        return ResponseHelper::success($course, trans('alert.update_success'));
+    }
+    /**
+     * Method listCourse
+     *
+     * @param Request $request [explicite description]
+     *
+     * @return JsonResponse
+     */
+    public function listCourse(Request $request): JsonResponse
+    {
+        $request->merge(['is_ready' => true]);
+        if ($request->has('page')) {
+            $courses = $this->course->customPaginate($request);
+            $data['paginate'] = $this->customPaginate($courses->currentPage(), $courses->lastPage());
+            $data['data'] = CourseResource::collection($courses);
+        } else {
+            $courses = $this->course->search($request);
+            $data['data'] = CourseResource::collection($courses);
+        }
+        return ResponseHelper::success($data, trans('alert.fetch_success'));
     }
     /**
      * Method share
@@ -134,7 +156,8 @@ class CourseController extends Controller
         return ResponseHelper::success(['course_count' => $course_count], trans('alert.fetch_success'));
     }
 
-    public function getBySubModule($subModule) {
+    public function getBySubModule($subModule)
+    {
         // return ResponseHelper::success($subModule);
         return ResponseHelper::success(Course::whereRelation('modules.subModules', 'slug', $subModule)->first());
     }

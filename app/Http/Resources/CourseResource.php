@@ -32,6 +32,7 @@ class CourseResource extends JsonResource
             'course_review_count' => $this->courseReviews->count(),
             'user_courses_count' => $this->userCourses->count(),
             'created' => $this->created_at->format('d/m/Y'),
+            'is_ready'=>$this->is_ready
         ];
     }
 }

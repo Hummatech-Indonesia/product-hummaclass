@@ -37,6 +37,7 @@ class CourseSeeder extends Seeder
             'price' => 100000,
             'photo' => 'course/course_thumb04.jpg',
             'is_premium' => true,
+            'is_ready' => false
         ]);
 
         foreach (AnswerEnum::cases() as $index => $option) {
