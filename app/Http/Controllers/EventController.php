@@ -43,6 +43,7 @@ class EventController extends Controller
      */
     public function store(EventRequest $request): JsonResponse
     {
+        // dd($request->validated());
         $this->service->store($request);
         return ResponseHelper::success(true, trans('alert.add_success'));
     }

@@ -14,6 +14,11 @@ class DiscussionAnswerResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'answer' => $this->answer,
+            'discussion_answer' => $this->discussionAnswer,
+            'discussion' => $this->discussion,
+            'user' => UserResource::make($this->user),
+        ];
     }
 }

@@ -12,6 +12,7 @@ return new class extends Migration {
     {
         Schema::create('discussions', function (Blueprint $table) {
             $table->id();
+            $table->foreignUuid('course_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignUuid('module_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignUuid('user_id')->constrained();
             $table->string('discussion_title');

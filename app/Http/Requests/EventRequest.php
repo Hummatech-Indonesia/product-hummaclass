@@ -27,7 +27,7 @@ class EventRequest extends ApiRequest
             'description' => 'required|string|max:500',
             'location' => 'nullable|string|max:500',
             'capacity' => 'required|integer|min:1',
-            'price' => 'nullable|integer|min:1',
+            'price' => 'nullable|integer|min:0',
             'start_date' => 'required|date',
             'has_certificate' => 'required',
             'is_online' => 'required',

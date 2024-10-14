@@ -19,6 +19,7 @@ class DiscussionResource extends JsonResource
             'discussion_title' => $this->discussion_title,
             'discussion_question' => $this->discussion_question,
             'module' => $this->module,
+            'discussion_answers' => DiscussionAnswerResource::collection($this->discussionAnswer),
             'discussion_tags' => DiscussionTagResource::collection($this->discussionTags)
         ];
     }

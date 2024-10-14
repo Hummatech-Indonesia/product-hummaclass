@@ -126,9 +126,12 @@ Route::middleware('enable.cors')->group(function () {
     ]);
 
     Route::middleware('auth:sanctum')->group(function () {
-        Route::resource('discussions', DiscussionController::class);
+        Route::resource('discussions', DiscussionController::class)->except('index');
+        Route::get('discussions/{slug}', [DiscussionController::class, 'index']);
+        Route::get('discussion-answers/{discussion}', [DiscussionAnswerController::class, 'index']);
+        Route::post('discussion-answers/{discussion}/{discussion_answer?}', [DiscussionAnswerController::class, 'store']);
+        Route::resource('discussion-answers', DiscussionAnswerController::class)->only(['update', 'destroy']);
 
-        Route::post('discussion-answers', [DiscussionAnswerController::class, 'store']);
 
         Route::resource('blogs', BlogController::class)->only(['store', 'update', 'destroy']);
         Route::get('blog/{blog}', [BlogController::class, 'show']);
@@ -270,7 +273,6 @@ Route::middleware('enable.cors')->group(function () {
         // faq and discussion configuration
         Route::resources([
             'faqs' => FaqController::class,
-            'discussions' => DiscussionController::class
         ], ['only', ['store', 'update', 'destroy']]);
     });
 

@@ -25,7 +25,7 @@ class DiscussionController extends Controller
      *
      * @return JsonResponse
      */
-    public function index(): JsonResponse
+    public function index(string $slug): JsonResponse
     {
         $discussions = $this->discussion->get();
         return ResponseHelper::success(DiscussionResource::collection($discussions), trans('alert.fetch_success'));

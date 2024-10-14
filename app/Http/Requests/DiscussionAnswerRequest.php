@@ -22,7 +22,7 @@ class DiscussionAnswerRequest extends ApiRequest
     public function rules(): array
     {
         return [
-            'answer'=>'required',
+            'answer' => 'required',
         ];
     }
 }

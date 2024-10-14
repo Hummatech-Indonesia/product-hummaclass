@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             CourseSeeder::class,
             ContactSeeder::class,
+            DiscussionSeeder::class,
             VoucherSeeder::class
         ]);
     }

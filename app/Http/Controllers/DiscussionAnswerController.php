@@ -18,27 +18,58 @@ class DiscussionAnswerController extends Controller
     {
         $this->discussionAnswer = $discussionAnswer;
     }
-    public function index(): JsonResponse
+    /**
+     * Method index
+     *
+     * @param Discussion $discussion [explicite description]
+     *
+     * @return JsonResponse
+     */
+    public function index(Discussion $discussion): JsonResponse
     {
-        $discussionAnswers = $this->discussionAnswer->get();
+        $discussionAnswers = $this->discussionAnswer->getWhere($discussion->id);
         return ResponseHelper::success(DiscussionAnswerResource::collection($discussionAnswers), trans('alert.fetch_success'));
     }
+    /**
+     * Method store
+     *
+     * @param DiscussionAnswerRequest $request [explicite description]
+     * @param Discussion $discussion [explicite description]
+     * @param DiscussionAnswer $discussionAnswer [explicite description]
+     *
+     * @return JsonResponse
+     */
     public function store(DiscussionAnswerRequest $request, Discussion $discussion, DiscussionAnswer $discussionAnswer = null): JsonResponse
     {
         $data = $request->validated();
+        $data['discussion_id'] = $discussion->id;
+        $data['user_id'] = auth()->user()->id;
         if ($discussionAnswer) {
             $data['discussion_answer_id'] = $discussionAnswer->id;
-            $data['discussion_id'] = $discussion->id;
-            $data['user_id'] = auth()->user()->id;
         }
         $this->discussionAnswer->store($data);
         return ResponseHelper::success(true, trans('alert.add_success'));
     }
+    /**
+     * Method update
+     *
+     * @param DiscussionAnswerRequest $request [explicite description]
+     * @param DiscussionAnswer $discussionAnswer [explicite description]
+     *
+     * @return JsonResponse
+     */
     public function update(DiscussionAnswerRequest $request, DiscussionAnswer $discussionAnswer): JsonResponse
     {
         $this->discussionAnswer->update($discussionAnswer->id, $request->validated());
         return ResponseHelper::success(true, trans('alert.update_success'));
     }
+    /**
+     * Method destroy
+     *
+     * @param DiscussionAnswer $discussionAnswer [explicite description]
+     *
+     * @return JsonResponse
+     */
     public function destroy(DiscussionAnswer $discussionAnswer): JsonResponse
     {
         $this->discussionAnswer->delete($discussionAnswer->id);
