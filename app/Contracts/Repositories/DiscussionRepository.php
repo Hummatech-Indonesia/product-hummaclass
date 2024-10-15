@@ -35,6 +35,17 @@ class DiscussionRepository extends BaseRepository implements DiscussionInterface
         return $this->model->query()->get();
     }
     /**
+     * Method getWhere
+     *
+     * @param array $data [explicite description]
+     *
+     * @return mixed
+     */
+    public function getWhere(array $data): mixed    
+    {
+        return $this->model->query()->where($data)->get();
+    }
+    /**
      * Method store
      *
      * @param array $data [explicite description]

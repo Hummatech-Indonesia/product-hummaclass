@@ -14,13 +14,14 @@ class DiscussionResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        // return ['woi','halo'];
         return [
             'id' => $this->id,
             'discussion_title' => $this->discussion_title,
             'discussion_question' => $this->discussion_question,
             'module' => $this->module,
-            'discussion_answers' => DiscussionAnswerResource::collection($this->discussionAnswer),
-            'discussion_tags' => DiscussionTagResource::collection($this->discussionTags)
+            'discussion_answers' => $this->discussionAnswer ? DiscussionAnswerResource::collection($this->discussionAnswer) : null,
+            'discussion_tags' => $this->discussionTags ? DiscussionTagResource::collection($this->discussionTags) : null
         ];
     }
 }

@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\Interfaces\Course\CourseInterface;
 use App\Contracts\Interfaces\DiscussionInterface;
 use App\Helpers\ResponseHelper;
 use App\Http\Requests\DiscussionRequest;
 use App\Http\Resources\DiscussionResource;
+use App\Models\Course;
 use App\Models\Discussion;
 use App\Services\DiscussionService;
 use Illuminate\Http\JsonResponse;
@@ -15,9 +17,11 @@ class DiscussionController extends Controller
 {
     private DiscussionInterface $discussion;
     private DiscussionService $service;
-    public function __construct(DiscussionInterface $discussion, DiscussionService $service)
+    private CourseInterface $course;
+    public function __construct(DiscussionInterface $discussion, DiscussionService $service, CourseInterface $course)
     {
         $this->discussion = $discussion;
+        $this->course = $course;
         $this->service = $service;
     }
     /**
@@ -27,9 +31,13 @@ class DiscussionController extends Controller
      */
     public function index(string $slug): JsonResponse
     {
-        $discussions = $this->discussion->get();
+        $course = $this->course->showWithSlug($slug);
+        // dd($course);
+        $discussions = $this->discussion->getWhere(['course_id' => $course->id]);
+        // dd($discussions);
         return ResponseHelper::success(DiscussionResource::collection($discussions), trans('alert.fetch_success'));
     }
+
     /**
      * Method store
      *
@@ -37,9 +45,9 @@ class DiscussionController extends Controller
      *
      * @return JsonResponse
      */
-    public function store(DiscussionRequest $request): JsonResponse
+    public function store(DiscussionRequest $request,Course $course): JsonResponse
     {
-        $this->service->store($request);
+        $this->service->store($request,$course);
         return ResponseHelper::success(true, trans('alert.add_success'));
     }
     public function show(Discussion $discussion): JsonResponse

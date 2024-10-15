@@ -16,6 +16,7 @@ class Discussion extends Model implements HasUser, HasDiscussionTags, HasDiscuss
 {
     use HasFactory;
     protected $fillable = [
+        'course_id',
         'user_id',
         'module_id',
         'discussion_title',
