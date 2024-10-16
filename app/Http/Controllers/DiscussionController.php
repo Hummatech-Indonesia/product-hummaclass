@@ -45,9 +45,11 @@ class DiscussionController extends Controller
      *
      * @return JsonResponse
      */
-    public function store(DiscussionRequest $request,Course $course): JsonResponse
+    public function store(DiscussionRequest $request, string $slug): JsonResponse
     {
-        $this->service->store($request,$course);
+        $course = $this->course->showWithSlug($slug);
+
+        $this->service->store($request, $course);
         return ResponseHelper::success(true, trans('alert.add_success'));
     }
     public function show(Discussion $discussion): JsonResponse
@@ -80,5 +82,4 @@ class DiscussionController extends Controller
         $this->discussion->delete($discussion->id);
         return ResponseHelper::success(true, trans('alert.delete_success'));
     }
-
 }
