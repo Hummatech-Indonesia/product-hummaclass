@@ -28,23 +28,6 @@ class ModuleQuestionRepository extends BaseRepository implements ModuleQuestionI
     }
     public function customPaginate(Request $request, int $pagination = 1): LengthAwarePaginator
     {
-        return $this->model
-            ->query()
-            ->whereIn('id', $request->id)
-            ->orderByRaw("FIELD(id, '" . implode("', '", $request->id->toArray()) . "')")
-            ->fastPaginate($pagination);
-    }
-    /**
-     * Method paginate
-     *
-     * @param Request $request [explicite description]
-     * @param int $pagination [explicite description]
-     *
-     * @return LengthAwarePaginator
-     */
-    public function paginate(Request $request, int $pagination = 1): LengthAwarePaginator
-    {
-        // dd($request->id);
         $questionIds = implode("', '", $request->id);
         return $this->model
             ->query()
@@ -64,13 +47,17 @@ class ModuleQuestionRepository extends BaseRepository implements ModuleQuestionI
     {
         return $this->model
             ->query()
-            ->whereHas('module', function ($query) use ($id) {
-                $query->where('course_id', $id);
+            ->where(function ($query) use ($id) {
+                $query->whereHas('module', function ($query) use ($id) {
+                    $query->where('course_id', $id);
+                })
+                    ->orWhere('module_id', $id);
             })
             ->inRandomOrder()
             ->limit($total)
             ->get();
     }
+
     /**
      * Method get
      *

@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Base\Interfaces\uploads\ShouldHandleFileUpload;
 use App\Contracts\Interfaces\BlogInterface;
 use App\Contracts\Interfaces\BlogViewInterface;
+use App\Contracts\Interfaces\Course\ModuleQuestionInterface;
 use App\Contracts\Interfaces\Course\QuizInterface;
 use App\Contracts\Interfaces\EventDetailInterface;
 use App\Contracts\Interfaces\EventInterface;
@@ -32,9 +33,11 @@ class QuizService implements ShouldHandleFileUpload
     use UploadTrait;
     private UserQuizInterface $userQuiz;
     private QuizInterface $quiz;
-    public function __construct(UserQuizInterface $userQuiz, QuizInterface $quiz)
+    private ModuleQuestionInterface $moduleQuestion;
+    public function __construct(UserQuizInterface $userQuiz, QuizInterface $quiz, ModuleQuestionInterface $moduleQuestion)
     {
         $this->quiz = $quiz;
+        $this->moduleQuestion = $moduleQuestion;
         $this->userQuiz = $userQuiz;
     }
     public function store(Quiz $quiz)
@@ -80,6 +83,33 @@ class QuizService implements ShouldHandleFileUpload
             'questions' => $questions,
             'userQuiz' => $userQuiz
         ];
+    }
+    public function quiz(Quiz $quiz)
+    {
+        try {
+            $userQuiz = $quiz
+                ->userQuizzes()
+                ->where('user_id', auth()->user()->id)
+                ->whereNull('score')
+                ->latest()
+                ->firstOrFail();
+            return [
+                'userQuiz' => $userQuiz,
+                'questions' => explode(',', $userQuiz->module_question_id)
+            ];
+        } catch (\Throwable $e) {
+            $questions = $this->moduleQuestion->getQuestions($quiz->module_id, $quiz->total_question);
+            $module_question_id = implode(',', $questions->pluck('id')->toArray());
+            $data = [];\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+            $data['module_question_id'] = $module_question_id;
+            $data['user_id'] = auth()->user()->id;
+            $data['quiz_id'] = $quiz->id;
+            $userQuiz = $this->userQuiz->store($data);
+            return [
+                'userQuiz' => $userQuiz,
+                'questions' => explode(',', $userQuiz->module_question_id)
+            ];
+        }
     }
 
 

@@ -70,17 +70,24 @@ class QuizController extends Controller
 
     public function show(Request $request, Quiz $quiz): JsonResponse
     {
-        $moduleIds = $this->service->store($quiz);
-
-        $request->merge(['id' => $moduleIds['questions']->pluck('id')]);
+        $userQuiz = $this->service->quiz($quiz);
+        $request->merge(['id' => $userQuiz['questions']]);
 
         $moduleQuestions = $this->moduleQuestion->customPaginate($request);
         $data['paginate'] = $this->customPaginate($moduleQuestions->currentPage(), $moduleQuestions->lastPage());
         $data['data'] = ModuleQuestionResource::collection($moduleQuestions);
-        $data['user_quiz'] = UserQuizResource::make($moduleIds['userQuiz']);
+        $data['user_quiz'] = UserQuizResource::make($userQuiz['userQuiz']);
 
         return responsehelper::success($data, trans('alert.fetch_success'));
     }
+    /**
+     * Method submit
+     *
+     * @param UserQuizRequest $request [explicite description]
+     * @param UserQuiz $userQuiz [explicite description]
+     *
+     * @return JsonResponse
+     */
     public function submit(UserQuizRequest $request, UserQuiz $userQuiz): JsonResponse
     {
         $this->service->submit($request, $userQuiz);

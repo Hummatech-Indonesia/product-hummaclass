@@ -57,7 +57,7 @@ class CourseTestService implements ShouldHandleFileUpload
                 ->where('user_id', auth()->user()->id)
                 ->whereNull('pre_test_score')
                 ->latest()
-                ->first();
+                ->firstOrFail();
             return [
                 'preTest' => $preTest,
                 'questions' => explode(',', $preTest->module_question_id)
@@ -83,7 +83,7 @@ class CourseTestService implements ShouldHandleFileUpload
             ->where('user_id', auth()->user()->id)
             ->whereNotNull('pre_test_score')
             ->latest()
-            ->first();
+            ->firstOrFail();
         $postTest->post_test_score;
         return [
             'postTest' => $postTest,

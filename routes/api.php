@@ -27,7 +27,8 @@ use App\Http\Controllers\Course\{
     ModuleTaskController,
     CourseTaskController,
     SubmissionTaskController,
-    UserCourseController
+    UserCourseController,
+    UserQuizController
 };
 use App\Http\Controllers\{
     BlogController,
@@ -126,7 +127,7 @@ Route::middleware('enable.cors')->group(function () {
     ]);
 
     Route::middleware('auth:sanctum')->group(function () {
-        Route::resource('discussions', DiscussionController::class)->except(['index', 'create', 'edit','store']);
+        Route::resource('discussions', DiscussionController::class)->except(['index', 'create', 'edit', 'store']);
         Route::get('discussions/course/{slug}', [DiscussionController::class, 'index']);
         Route::post('discussions/{course}', [DiscussionController::class, 'store']);
         Route::get('discussion-answers/{discussion}', [DiscussionAnswerController::class, 'index']);
@@ -276,6 +277,8 @@ Route::middleware('enable.cors')->group(function () {
         Route::get('quizzes-result/{userQuiz}', [QuizController::class, 'result']);
         Route::post('quizzes', [QuizController::class, 'store']);
         Route::post('quizzes-submit/{user_quiz}', [QuizController::class, 'submit']);
+
+        Route::get('user-quizzes', [UserQuizController::class, 'getByUser']);
 
         // faq and discussion configuration
         Route::resources([

@@ -35,6 +35,17 @@ class UserQuizRepository extends BaseRepository implements UserQuizInterface
         return $this->model->query()->get();
     }
     /**
+     * Method getWhere
+     *
+     * @param array $data [explicite description]
+     *
+     * @return mixed
+     */
+    public function getWhere(array $data): mixed
+    {
+        return $this->model->query()->where($data)->whereNotNull('score')->get();
+    }
+    /**
      * Method update
      *
      * @param mixed $id [explicite description]

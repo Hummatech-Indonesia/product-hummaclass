@@ -30,13 +30,4 @@ interface ModuleQuestionInterface extends CustomPaginationInterface, GetInterfac
      * @return mixed
      */
     public function getQuestions(mixed $id, mixed $total): mixed;
-    /**
-     * Method paginate
-     *
-     * @param Request $request [explicite description]
-     * @param int $pagination [explicite description]
-     *
-     * @return LengthAwarePaginator
-     */
-    public function paginate(Request $request, int $pagination = 10): LengthAwarePaginator;
 }

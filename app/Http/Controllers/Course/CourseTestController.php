@@ -57,7 +57,7 @@ class CourseTestController extends Controller
     {
         $preTest = $this->service->preTest($courseTest);
         $request->merge(['id' => $preTest['questions']]);
-        $questions = $this->moduleQuestion->paginate($request);
+        $questions = $this->moduleQuestion->customPaginate($request);
         $data['paginate'] = $this->customPaginate($questions->currentPage(), $questions->lastPage());
         $data['data'] = ModuleQuestionResource::collection($questions);
         $data['user_quiz'] = UserCourseTestResource::make($preTest['preTest']);
@@ -68,7 +68,7 @@ class CourseTestController extends Controller
         try {
             $postTest = $this->service->postTest($courseTest);
             $request->merge(['id' => $postTest['questions']]);
-            $questions = $this->moduleQuestion->paginate($request);
+            $questions = $this->moduleQuestion->customPaginate($request);
             $data['paginate'] = $this->customPaginate($questions->currentPage(), $questions->lastPage());
             $data['data'] = ModuleQuestionResource::collection($questions);
             $data['user_quiz'] = UserCourseTestResource::make($postTest['postTest']);
