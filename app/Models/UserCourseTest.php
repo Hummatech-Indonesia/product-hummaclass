@@ -17,10 +17,12 @@ class UserCourseTest extends Model implements HasCourseTest, HasUser
     protected $primaryKey = 'id';
     protected $fillable = [
         'user_id',
-        'course_id',
+        'course_test_id',
         'module_question_id',
         'answer',
-        'score',
+        'pre_test_score',
+        'post_test_score',
+        'is_submitted',
     ];
     /**
      * Get the user that owns the UserCourseTest

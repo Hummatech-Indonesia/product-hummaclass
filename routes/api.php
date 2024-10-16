@@ -128,7 +128,7 @@ Route::middleware('enable.cors')->group(function () {
     Route::middleware('auth:sanctum')->group(function () {
         Route::resource('discussions', DiscussionController::class)->except(['index', 'create', 'edit','store']);
         Route::get('discussions/course/{slug}', [DiscussionController::class, 'index']);
-        Route::post('discussions/{course}',[DiscussionController::class,'store']);
+        Route::post('discussions/{course}', [DiscussionController::class, 'store']);
         Route::get('discussion-answers/{discussion}', [DiscussionAnswerController::class, 'index']);
         Route::post('discussion-answers/{discussion}/{discussion_answer?}', [DiscussionAnswerController::class, 'store']);
         Route::resource('discussion-answers', DiscussionAnswerController::class)->only(['update', 'destroy']);
@@ -169,6 +169,11 @@ Route::middleware('enable.cors')->group(function () {
         Route::post('quizzes/{module}', [QuizController::class, 'store']);
 
         Route::get('course-tests-get', [CourseTestController::class, 'get']);
+
+        Route::get('course-pre-test/{course_test}', [CourseTestController::class, 'preTest']);
+        Route::get('course-post-test/{course_test}', [CourseTestController::class, 'postTest']);
+        Route::post('course-submit-test/{user_course_test}', [CourseTestController::class, 'submit']);
+
         Route::get('course-tests/{course}', [CourseTestController::class, 'index']);
         Route::get('course-test-start/{course_test}', [CourseTestController::class, 'show']);
         Route::post('course-tests/{course}', [CourseTestController::class, 'store']);

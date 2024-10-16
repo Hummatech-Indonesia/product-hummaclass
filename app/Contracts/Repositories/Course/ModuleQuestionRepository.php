@@ -35,6 +35,43 @@ class ModuleQuestionRepository extends BaseRepository implements ModuleQuestionI
             ->fastPaginate($pagination);
     }
     /**
+     * Method paginate
+     *
+     * @param Request $request [explicite description]
+     * @param int $pagination [explicite description]
+     *
+     * @return LengthAwarePaginator
+     */
+    public function paginate(Request $request, int $pagination = 1): LengthAwarePaginator
+    {
+        // dd($request->id);
+        $questionIds = implode("', '", $request->id);
+        return $this->model
+            ->query()
+            ->whereIn('id', $request->id)
+            ->orderByRaw("FIELD(id, '$questionIds')")
+            ->fastPaginate($pagination);
+    }
+    /**
+     * Method getQuestions
+     *
+     * @param mixed $id [explicite description]
+     * @param mixed $total [explicite description]
+     *
+     * @return mixed
+     */
+    public function getQuestions(mixed $id, mixed $total): mixed
+    {
+        return $this->model
+            ->query()
+            ->whereHas('module', function ($query) use ($id) {
+                $query->where('course_id', $id);
+            })
+            ->inRandomOrder()
+            ->limit($total)
+            ->get();
+    }
+    /**
      * Method get
      *
      * @return mixed

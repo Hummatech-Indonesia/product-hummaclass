@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\ModuleQuestion;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -14,6 +15,18 @@ class UserCourseTestResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        $moduleQuestionIds = explode(',', $this->module_question_id);
+
+
+        $questions = ModuleQuestion::query()
+            ->whereIn('id', $moduleQuestionIds)
+            ->orderByRaw("FIELD(id, '" . implode("', '", $moduleQuestionIds) . "')")
+            ->get('question');
+
+        return [
+            'id' => $this->id,
+            'quiz_questions' => $questions->pluck('question'),
+            // 'quiz_answers' => $questions->pluck('nnanswer'),
+        ];
     }
 }

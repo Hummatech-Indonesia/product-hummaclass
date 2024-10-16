@@ -100,8 +100,6 @@ class QuizService implements ShouldHandleFileUpload
             }
         }
 
-
-
         $quiz = $userQuiz->quiz;
         $score = count(value: $questions) > 0 ? ($correctCount / count($questions)) * 100 : 0;
         $stringAnswer = implode(',', $answers);

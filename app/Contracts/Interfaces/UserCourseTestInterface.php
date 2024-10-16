@@ -12,7 +12,7 @@ use App\Contracts\Interfaces\Eloquent\ShowSlugInterface;
 use App\Contracts\Interfaces\Eloquent\StoreInterface;
 use App\Contracts\Interfaces\Eloquent\UpdateInterface;
 
-interface UserCourseTestInterface extends GetInterface, StoreInterface, CustomPaginationInterface
+interface UserCourseTestInterface extends GetInterface, StoreInterface, CustomPaginationInterface,UpdateInterface
 {
 
 }

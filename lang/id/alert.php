@@ -43,6 +43,7 @@ return [
     'invalid_callback_event' => 'Unrecognized Callback Event! request blocked.',
     'callback_success' => 'Callback berhasil',
     'view_success' => 'berhasil menambah view',
+    'not_pre_test_yet' => 'selesaikan pre-test terlebih dahulu',
 
     'voucher_limit' => 'Voucher telah habis',
     'voucher_invalid' => 'Kode voucher tidak valid',
