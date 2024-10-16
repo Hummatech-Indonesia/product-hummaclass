@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Http\Resources\Course\ModuleResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -19,8 +20,8 @@ class DiscussionResource extends JsonResource
             'id' => $this->id,
             'discussion_title' => $this->discussion_title,
             'discussion_question' => $this->discussion_question,
-            'module' => $this->module,
-            'discussion_answers' => $this->discussionAnswer ? DiscussionAnswerResource::collection($this->discussionAnswer) : null,
+            'module' => ModuleResource::make($this->module),
+            'discussion_answers_count' => $this->discussionAnswers->count(),
             'discussion_tags' => $this->discussionTags ? DiscussionTagResource::collection($this->discussionTags) : null
         ];
     }

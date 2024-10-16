@@ -127,7 +127,6 @@ Route::middleware('enable.cors')->group(function () {
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::resource('discussions', DiscussionController::class)->except(['index', 'create', 'edit','store']);
-        // Route::get('discussions/{course}', [DiscussionController::class, 'index']);
         Route::get('discussions/course/{slug}', [DiscussionController::class, 'index']);
         Route::post('discussions/{course}',[DiscussionController::class,'store']);
         Route::get('discussion-answers/{discussion}', [DiscussionAnswerController::class, 'index']);
