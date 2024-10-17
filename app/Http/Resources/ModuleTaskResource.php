@@ -14,6 +14,12 @@ class ModuleTaskResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'module' => $this->module,
+            'question' => $this->question,
+            'description' => $this->description,
+            'point' => $this->point
+        ];
     }
 }
