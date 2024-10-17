@@ -40,28 +40,29 @@ class CourseSeeder extends Seeder
             'is_ready' => false
         ]);
 
-        foreach (AnswerEnum::cases() as $index => $option) {
+        for ($a = 1; $a <= 3; $a++) {
             $module = Module::create([
                 'id' => Uuid::uuid(),
                 'course_id' => $course->id,
-                'step' => $index + 1,
-                'title' => 'lorem ipsum ' . $option->value,
-                'slug' => Str::slug('lorem ipsum ') . $option->value,
+                'step' => $a,
+                'title' => 'lorem ipsum ' . $a,
+                'slug' => Str::slug('lorem ipsum ' . $a),
                 'sub_title' => 'lorem ipsum dolor sit amet'
             ]);
         }
-        foreach (AnswerEnum::cases() as $index => $option) {
+        for ($a = 1; $a <= 3; $a++) {
+
             SubModule::create([
                 'id' => Uuid::uuid(),
                 'module_id' => $module->id,
-                'step' => $index + 1,
-                'title' => 'lorem ipsum ' . $option->value,
-                'slug' => Str::slug('lorem ipsum ' . $option->value),
+                'step' => $a,
+                'title' => 'lorem ipsum ' . $a,
+                'slug' => Str::slug('lorem ipsum ' . $a),
                 'sub_title' => 'lroem ipsum dolor sit amet',
                 'content' => "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).",
             ]);
         }
-        foreach (AnswerEnum::cases() as $option) {
+        foreach (AnswerEnum::cases() as $index => $option) {
             ModuleQuestion::create([
                 'id' => Uuid::uuid(),
                 'module_id' => $module->id,
@@ -74,17 +75,6 @@ class CourseSeeder extends Seeder
                 'answer' => $option->value,
             ]);
         }
-        ModuleQuestion::create([
-            'id' => Uuid::uuid(),
-            'module_id' => $module->id,
-            'question' => 'lorem ipsum dolor sit amet jawabannya adalah:option_a',
-            'option_a' => 'lorem ipsum',
-            'option_b' => 'lorem ipsum',
-            'option_c' => 'lorem ipsum',
-            'option_d' => 'lorem ipsum',
-            'option_e' => 'lorem ipsum',
-            'answer' => 'option_a',
-        ]);
 
         $quiz = Quiz::create([
             'id' => Uuid::uuid(),

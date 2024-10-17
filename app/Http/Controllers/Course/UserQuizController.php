@@ -32,7 +32,7 @@ class UserQuizController extends Controller
     public function getByUser(): JsonResponse
     {
         $userQuizzes = $this->userQuiz->getWhere(['user_id' => auth()->user()->id]);
-        return ResponseHelper::success(UserQuizResultResource::collection($userQuizzes), trans('alert.fetch_succes'));
+        return ResponseHelper::success(UserQuizResultResource::collection($userQuizzes), trans('alert.fetch_success'));
     }
     /**
      * Method store
