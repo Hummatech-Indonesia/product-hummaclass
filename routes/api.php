@@ -174,7 +174,7 @@ Route::middleware('enable.cors')->group(function () {
         Route::get('course-pre-test/{course_test}', [CourseTestController::class, 'preTest']);
         Route::get('course-post-test/{course_test}', [CourseTestController::class, 'postTest']);
         Route::post('course-submit-test/{user_course_test}', [CourseTestController::class, 'submit']);
-        Route::get('course-test-statistic/{user_course_test}',[CourseTestController::class,'statistic']);
+        Route::get('course-test-statistic/{user_course_test}', [CourseTestController::class, 'statistic']);
 
         Route::get('course-tests/{course}', [CourseTestController::class, 'index']);
         Route::get('course-test-start/{course_test}', [CourseTestController::class, 'show']);
@@ -263,7 +263,6 @@ Route::middleware('enable.cors')->group(function () {
         Route::post('modules/{slug}', [ModuleController::class, 'store']);
         Route::patch('modules-forward/{module}', [ModuleController::class, 'forward']);
         Route::patch('modules-backward/{module}', [ModuleController::class, 'backward']);
-        Route::post('module-tasks/{module}', [ModuleTaskController::class, 'store']);
         Route::get('module-questions/detail/{module}', [ModuleQuestionController::class, 'index']);
         Route::post('module-questions/{module}', [ModuleQuestionController::class, 'store']);
 
@@ -353,7 +352,9 @@ Route::middleware('enable.cors')->group(function () {
         Route::post('course-vouchers/{courseSlug}', [CourseVoucherController::class, 'store']);
         Route::delete('course-vouchers/{courseVoucher}', [CourseVoucherController::class, 'destroy']);
 
+        Route::get('module-tasks/{module}', [ModuleTaskController::class, 'index']);
         Route::post('module-tasks/{module}', [ModuleTaskController::class, 'store']);
+        Route::resource('module-tasks', moduletaskcontroller::class);
 
         Route::get('module-questions/detail/{module}', [ModuleQuestionController::class, 'index']);
         Route::post('module-questions/{module}', [ModuleQuestionController::class, 'store']);
@@ -375,7 +376,6 @@ Route::middleware('enable.cors')->group(function () {
         Route::get('modules/{slug}', [ModuleController::class, 'index']);
         Route::get('modules/detail/{module}', [ModuleController::class, 'show']);
 
-        Route::get('module-tasks/{module}', [ModuleTaskController::class, 'index']);
         Route::get('module-questions/detail/{module}', [ModuleQuestionController::class, 'index']);
 
         Route::get('submission-tasks/{course_task}', [SubmissionTaskController::class, 'index']);
