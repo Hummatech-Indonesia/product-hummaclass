@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CourseTestRequest;
 use App\Http\Requests\UserCourseTestRequest;
 use App\Http\Resources\CourseTestResource;
+use App\Http\Resources\CourseTestResultResource;
 use App\Http\Resources\ModuleQuestionResource;
 use App\Http\Resources\UserCourseTestResource;
 use App\Models\Course;
@@ -97,6 +98,11 @@ class CourseTestController extends Controller
     {
         $this->service->submit($request, $userCourseTest);
         return ResponseHelper::success(null, trans('alert.fetch_success'));
+    }
+    public function statistic(UserCourseTest $userCourseTest): JsonResponse
+    {
+        $statistic = $this->userCourseTest->show($userCourseTest->id);
+        return ResponseHelper::success(CourseTestResultResource::make($statistic), trans('alert.fetch_success'));
     }
     public function store(CourseTestRequest $request, Course $course): JsonResponse
     {

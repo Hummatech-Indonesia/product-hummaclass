@@ -52,6 +52,17 @@ class UserCourseTestRepository extends BaseRepository implements UserCourseTestI
         return $this->model->query()->create($data);
     }
     /**
+     * Method show
+     *
+     * @param mixed $id [explicite description]
+     *
+     * @return mixed
+     */
+    public function show(mixed $id): mixed
+    {
+        return $this->model->query()->findOrFail($id);
+    }
+    /**
      * Method update
      *
      * @param mixed $id [explicite description]

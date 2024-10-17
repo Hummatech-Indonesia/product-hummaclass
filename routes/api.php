@@ -174,6 +174,7 @@ Route::middleware('enable.cors')->group(function () {
         Route::get('course-pre-test/{course_test}', [CourseTestController::class, 'preTest']);
         Route::get('course-post-test/{course_test}', [CourseTestController::class, 'postTest']);
         Route::post('course-submit-test/{user_course_test}', [CourseTestController::class, 'submit']);
+        Route::get('course-test-statistic/{user_course_test}',[CourseTestController::class,'statistic']);
 
         Route::get('course-tests/{course}', [CourseTestController::class, 'index']);
         Route::get('course-test-start/{course_test}', [CourseTestController::class, 'show']);
