@@ -11,7 +11,7 @@ class CourseTestRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,18 @@ class CourseTestRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'total_question' => 'required',
+            'duration' => 'required',
+            'is_submitted' => 'required|boolean'
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'total_question.required' => 'Total Pertanyaan Wajib Diisi',
+            'duration.required' => 'Durasi Wajib Wajib Diisi',
+            'total_question.required' => 'Total Pertanyaan Wajib Diisi',
         ];
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Course;
 
+use App\Contracts\Interfaces\Course\CourseInterface;
 use App\Contracts\Interfaces\Course\CourseTestInterface;
 use App\Contracts\Interfaces\Course\ModuleQuestionInterface;
 use App\Contracts\Interfaces\UserCourseTestInterface;
@@ -25,12 +26,14 @@ class CourseTestController extends Controller
 {
     use PaginationTrait;
     private CourseTestInterface $courseTest;
+    private CourseInterface $course;
     private UserCourseTestInterface $userCourseTest;
     private ModuleQuestionInterface $moduleQuestion;
     private CourseTestService $service;
-    public function __construct(CourseTestInterface $courseTest, CourseTestService $service, UserCourseTestInterface $userCourseTest, ModuleQuestionInterface $moduleQuestion)
+    public function __construct(CourseTestInterface $courseTest, CourseTestService $service, UserCourseTestInterface $userCourseTest, ModuleQuestionInterface $moduleQuestion, CourseInterface $course)
     {
         $this->courseTest = $courseTest;
+        $this->course = $course;
         $this->userCourseTest = $userCourseTest;
         $this->moduleQuestion = $moduleQuestion;
         $this->service = $service;
@@ -40,6 +43,14 @@ class CourseTestController extends Controller
         $courseTest = $this->courseTest->show($course->id);
         return ResponseHelper::success(CourseTestResource::make($courseTest), trans('alert.fetch_success'));
     }
+
+    /**
+     * show
+     *
+     * @param  mixed $request
+     * @param  mixed $courseTest
+     * @return JsonResponse
+     */
     public function show(Request $request, CourseTest $courseTest): JsonResponse
     {
         $this->service->store($courseTest);
@@ -49,6 +60,12 @@ class CourseTestController extends Controller
         $data['data'] = UserCourseTestResource::collection($userCourseTests);
         return responsehelper::success($data, trans('alert.fetch_success'));
     }
+
+    /**
+     * get
+     *
+     * @return JsonResponse
+     */
     public function get(): JsonResponse
     {
         $courseTests = $this->courseTest->get();
@@ -94,23 +111,29 @@ class CourseTestController extends Controller
             return ResponseHelper::error(null, trans('alert.not_pre_test_yet'));
         }
     }
+
+    /**
+     * submit
+     *
+     * @param  mixed $request
+     * @param  mixed $userCourseTest
+     * @return JsonResponse
+     */
     public function submit(UserCourseTestRequest $request, UserCourseTest $userCourseTest): JsonResponse
     {
         $this->service->submit($request, $userCourseTest);
         return ResponseHelper::success(null, trans('alert.fetch_success'));
     }
-    public function statistic(UserCourseTest $userCourseTest): JsonResponse
+
+    public function store(CourseTestRequest $request, string $slug): JsonResponse
     {
-        $statistic = $this->userCourseTest->show($userCourseTest->id);
-        return ResponseHelper::success(CourseTestResultResource::make($statistic), trans('alert.fetch_success'));
-    }
-    public function store(CourseTestRequest $request, Course $course): JsonResponse
-    {
+        $course = $this->course->showWithSlug($slug);
         $data = $request->validated();
         $data['course_id'] = $course->id;
         $this->courseTest->store($data);
         return ResponseHelper::success(true, trans('alert.add_success'));
     }
+
     /**
      * Method update
      *
@@ -124,6 +147,7 @@ class CourseTestController extends Controller
         $this->courseTest->update($courseTest->id, $request->validated());
         return ResponseHelper::success(true, trans('alert.update_success'));
     }
+
     /**
      * Method destroy
      *

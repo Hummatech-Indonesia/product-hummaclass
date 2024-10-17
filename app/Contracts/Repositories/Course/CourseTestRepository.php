@@ -49,7 +49,7 @@ class CourseTestRepository extends BaseRepository implements CourseTestInterface
     public function store(array $data): mixed
     {
         return $this->model->updateOrCreate(
-            ['module_id' => $data['module_id']],
+            ['course_id' => $data['course_id']],
             $data
         );
     }
