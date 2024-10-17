@@ -53,6 +53,14 @@ class CourseTestController extends Controller
         $courseTests = $this->courseTest->get();
         return ResponseHelper::success(CourseTestResource::collection($courseTests), trans('alert.fetch_success'));
     }
+
+    /**
+     * preTest
+     *
+     * @param  mixed $request
+     * @param  mixed $courseTest
+     * @return JsonResponse
+     */
     public function preTest(Request $request, CourseTest $courseTest): JsonResponse
     {
         $preTest = $this->service->preTest($courseTest);
@@ -63,6 +71,14 @@ class CourseTestController extends Controller
         $data['user_quiz'] = UserCourseTestResource::make($preTest['preTest']);
         return ResponseHelper::success($data, trans('alert.fetch_success'));
     }
+
+    /**
+     * postTest
+     *
+     * @param  mixed $request
+     * @param  mixed $courseTest
+     * @return JsonResponse
+     */
     public function postTest(Request $request, CourseTest $courseTest): JsonResponse
     {
         try {

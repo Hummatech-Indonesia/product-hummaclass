@@ -16,7 +16,10 @@ class UserCourseResource extends JsonResource
     {
         return [
             'user' => $this->user,
-            'course' => CourseResource::make($this->course)
+            'course' => CourseResource::make($this->course),
+            'is_post_test' => $this->is_post_test,
+            'is_pre_test' => $this->is_pre_test,
+            'sub_module_slug' => $this->subModule->slug
         ];
     }
 }

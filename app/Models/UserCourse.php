@@ -42,5 +42,6 @@ class UserCourse extends Model implements HasUser, HasCourse, HasSubModule
     {
         return $this->belongsTo(SubModule::class);
     }
+    
 
 }

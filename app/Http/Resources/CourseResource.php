@@ -18,6 +18,7 @@ class CourseResource extends JsonResource
             'id' => $this->id,
             'user' => new UserResource($this->user),
             'sub_category' => $this->subCategory->name,
+            'course_test_id' => $this->courseTest ? $this->courseTest->id : null,
             'category' => $this->subCategory->category->name,
             'title' => $this->title,
             'sub_title' => $this->sub_title,
@@ -32,7 +33,7 @@ class CourseResource extends JsonResource
             'course_review_count' => $this->courseReviews->count(),
             'user_courses_count' => $this->userCourses->count(),
             'created' => $this->created_at->format('d/m/Y'),
-            'is_ready'=>$this->is_ready
+            'is_ready' => $this->is_ready
         ];
     }
 }

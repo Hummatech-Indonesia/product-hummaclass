@@ -6,6 +6,7 @@ use App\Base\Interfaces\HasAverageRating;
 use App\Base\Interfaces\HasCourseReview;
 use App\Base\Interfaces\HasCourseReviews;
 use App\Base\Interfaces\HasModules;
+use App\Base\Interfaces\HasOneCourseTest;
 use App\Base\Interfaces\HasSubCategory;
 use App\Base\Interfaces\HasUser;
 use App\Base\Interfaces\HasUserCourses;
@@ -13,8 +14,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class Course extends Model implements HasSubCategory, HasModules, HasUserCourses, HasCourseReviews, HasUser
+class Course extends Model implements HasSubCategory, HasModules, HasUserCourses, HasCourseReviews, HasUser, HasOneCourseTest
 {
     use HasFactory;
 
@@ -70,5 +72,15 @@ class Course extends Model implements HasSubCategory, HasModules, HasUserCourses
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * courseTest
+     *
+     * @return HasOne
+     */
+    public function courseTest(): HasOne
+    {
+        return $this->hasOne(CourseTest::class);
     }
 }

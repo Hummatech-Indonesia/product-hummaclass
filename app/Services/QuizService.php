@@ -100,7 +100,7 @@ class QuizService implements ShouldHandleFileUpload
         } catch (\Throwable $e) {
             $questions = $this->moduleQuestion->getQuestions($quiz->module_id, $quiz->total_question);
             $module_question_id = implode(',', $questions->pluck('id')->toArray());
-            $data = [];\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+            $data = [];
             $data['module_question_id'] = $module_question_id;
             $data['user_id'] = auth()->user()->id;
             $data['quiz_id'] = $quiz->id;
