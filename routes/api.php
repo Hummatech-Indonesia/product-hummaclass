@@ -129,7 +129,7 @@ Route::middleware('enable.cors')->group(function () {
     Route::middleware('auth:sanctum')->group(function () {
         Route::resource('discussions', DiscussionController::class)->except(['index', 'create', 'edit', 'store']);
         Route::get('discussions/course/{slug}', [DiscussionController::class, 'index']);
-        Route::post('discussions/{slug}',[DiscussionController::class,'store']);
+        Route::post('discussions/{slug}', [DiscussionController::class, 'store']);
         Route::get('discussion-answers/{discussion}', [DiscussionAnswerController::class, 'index']);
         Route::post('discussion-answers/{discussion}/{discussion_answer?}', [DiscussionAnswerController::class, 'store']);
         Route::resource('discussion-answers', DiscussionAnswerController::class)->only(['update', 'destroy']);
@@ -210,6 +210,7 @@ Route::middleware('enable.cors')->group(function () {
         /**
          * User and Profile Management
          */
+        Route::get('user-detail', [UserController::class, 'getByAuth']);
         Route::patch('profile-update', [ProfileController::class, 'update']);
         Route::get('/user', function (Request $request) {
             return \App\Models\User::with('roles')->find($request->user()->id);

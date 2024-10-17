@@ -3,11 +3,12 @@
 namespace App\Models;
 
 use App\Base\Interfaces\HasEventDetails;
+use App\Base\Interfaces\HasEventUsers;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Event extends Model implements HasEventDetails
+class Event extends Model implements HasEventDetails,HasEventUsers
 {
     use HasFactory;
     public $incrementing = false;
@@ -34,5 +35,14 @@ class Event extends Model implements HasEventDetails
     public function eventDetails(): HasMany
     {
         return $this->hasMany(EventDetail::class);
+    }
+    /**
+     * Get all of the eventUsers for the Event
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */ 
+    public function eventUsers(): HasMany
+    {
+        return $this->hasMany(EventUser::class);
     }
 }

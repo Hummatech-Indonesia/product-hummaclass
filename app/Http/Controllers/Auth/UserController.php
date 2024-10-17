@@ -45,4 +45,14 @@ class UserController extends Controller
         $data = $this->user->show($user->id);
         return ResponseHelper::success(new UserResource($data), trans('alert.fetch_success'));
     }
+    /**
+     * Method getByAuth
+     *
+     * @return JsonResponse
+     */
+    public function getByAuth(): JsonResponse
+    {
+        $user = $this->user->show(auth()->user()->id);
+        return ResponseHelper::success(UserResource::make($user), trans('alert.fetch_success'));
+    }
 }

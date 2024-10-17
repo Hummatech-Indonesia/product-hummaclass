@@ -4,18 +4,20 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Base\Interfaces\HasEventUsers;
 use Laravel\Sanctum\HasApiTokens;
 use App\Base\Interfaces\HasUserCourses;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use App\Base\Interfaces\HasSocialAccount;
+use App\Base\Interfaces\HasUserCourseTests;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable implements HasUserCourses, HasSocialAccount, MustVerifyEmail
+class User extends Authenticatable implements HasUserCourses, HasSocialAccount, MustVerifyEmail, HasEventUsers, HasUserCourseTests
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
@@ -57,16 +59,6 @@ class User extends Authenticatable implements HasUserCourses, HasSocialAccount, 
     ];
 
     /**
-     * Get the userCourse that owns the User
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function userCourse(): BelongsTo
-    {
-        return $this->belongsTo(UserCourse::class);
-    }
-
-    /**
      * Get all of the comments for the User
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -83,5 +75,23 @@ class User extends Authenticatable implements HasUserCourses, HasSocialAccount, 
     public function userCourses(): HasMany
     {
         return $this->hasMany(UserCourse::class);
+    }
+    /**
+     * Get all of the userCourseTests for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function userCourseTests(): HasMany
+    {
+        return $this->hasMany(UserCourseTest::class);
+    }
+    /**
+     * Get all of the eventUsers for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function eventUsers(): HasMany
+    {
+        return $this->hasMany(EventUser::class);
     }
 }
