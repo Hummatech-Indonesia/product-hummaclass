@@ -354,7 +354,7 @@ Route::middleware('enable.cors')->group(function () {
 
         Route::get('module-tasks/{module}', [ModuleTaskController::class, 'index']);
         Route::post('module-tasks/{module}', [ModuleTaskController::class, 'store']);
-        Route::resource('module-tasks', moduletaskcontroller::class);
+        Route::resource('module-tasks', moduletaskcontroller::class)->only(['update', 'destroy','show']);
 
         Route::get('module-questions/detail/{module}', [ModuleQuestionController::class, 'index']);
         Route::post('module-questions/{module}', [ModuleQuestionController::class, 'store']);
