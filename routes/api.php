@@ -99,7 +99,7 @@ Route::middleware('enable.cors')->group(function () {
         'middlware' => ['is_admin'],
     ]);
 
-    Route::get('sub-modules/{subModule}/edit', [SubModuleController::class, 'edit']);
+    Route::get('sub-modules/{sub_module}/edit', [SubModuleController::class, 'edit']);
     Route::patch('sub-modules/{sub_module}', [SubModuleController::class, 'update']);
     Route::delete('sub-modules/{sub_module}', [SubModuleController::class, 'destroy']);
     Route::get('sub-modules/next/{slug}', [SubModuleController::class, 'next']);
@@ -309,7 +309,6 @@ Route::middleware('enable.cors')->group(function () {
     ]);
 
     Route::post('sub-modules/{module}', [SubModuleController::class, 'store']);
-    Route::get('sub-modules/{subModule}/edit', [SubModuleController::class, 'edit']);
     Route::get('sub-modules/next/{slug}', [SubModuleController::class, 'next']);
     Route::get('sub-modules/prev/{slug}', [SubModuleController::class, 'prev']);
     Route::get('sub-categories/category/{category}', [SubCategoryController::class, 'getByCategory']);
