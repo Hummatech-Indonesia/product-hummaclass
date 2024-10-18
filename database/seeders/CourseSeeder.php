@@ -41,7 +41,7 @@ class CourseSeeder extends Seeder
         ]);
 
         for ($a = 1; $a <= 3; $a++) {
-            $module = Module::create([
+            Module::create([
                 'id' => Uuid::uuid(),
                 'course_id' => $course->id,
                 'step' => $a,
@@ -50,6 +50,7 @@ class CourseSeeder extends Seeder
                 'sub_title' => 'lorem ipsum dolor sit amet'
             ]);
         }
+        $module = Module::firstOrFail();
         for ($a = 1; $a <= 3; $a++) {
 
             SubModule::create([
