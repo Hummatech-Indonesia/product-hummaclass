@@ -157,7 +157,6 @@ Route::middleware('enable.cors')->group(function () {
         Route::post('course-vouchers/{courseSlug}', [CourseVoucherController::class, 'store']);
         Route::delete('course-vouchers/{courseVoucher}', [CourseVoucherController::class, 'destroy']);
 
-        Route::post('module-tasks/{module}', [ModuleTaskController::class, 'store']);
 
         Route::get('module-questions/detail/{module}', [ModuleQuestionController::class, 'index']);
         Route::post('module-questions/{module}', [ModuleQuestionController::class, 'store']);
@@ -185,7 +184,6 @@ Route::middleware('enable.cors')->group(function () {
         Route::get('modules/{slug}', [ModuleController::class, 'index']);
         Route::get('modules/detail/{module}', [ModuleController::class, 'show']);
 
-        Route::get('module-tasks/{module}', [ModuleTaskController::class, 'index']);
         Route::get('module-questions/detail/{module}', [ModuleQuestionController::class, 'index']);
 
         Route::get('submission-tasks/{course_task}', [SubmissionTaskController::class, 'index']);

@@ -52,6 +52,18 @@ class ModuleTaskController extends Controller
         $data['module_id'] = $module->id;
         $this->moduleTask->store($data);
         return ResponseHelper::success(true, trans('alert.add_success'));
+    }    
+    /**
+     * Method show
+     *
+     * @param ModuleTask $moduleTask [explicite description]
+     *
+     * @return JsonResponse
+     */
+    public function show(ModuleTask $moduleTask): JsonResponse
+    {
+        $moduleTask = $this->moduleTask->show($moduleTask->id);
+        return ResponseHelper::success(ModuleTaskResource::make($moduleTask), trans('alert.fetch_success'));
     }
     /**
      * Method update
