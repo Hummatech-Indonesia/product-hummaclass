@@ -2,10 +2,6 @@
 
 namespace App\Models;
 
-use App\Base\Interfaces\HasCourse;
-use App\Base\Interfaces\HasCourseVoucher;
-use App\Base\Interfaces\HasEvent;
-use App\Base\Interfaces\HasUser;
 use App\Models\User;
 use App\Models\Course;
 use App\Models\CourseVoucher;
@@ -14,7 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class Transaction extends Model implements HasUser, HasCourse, HasCourseVoucher, HasEvent, hasvoucher
+class Transaction extends Model
 {
     use HasFactory;
 
@@ -66,12 +62,12 @@ class Transaction extends Model implements HasUser, HasCourse, HasCourseVoucher,
     }
 
     /**
-     * Get the courseVoucher that owns the Transaction
+     * Get the voucher associated with the Transaction
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function courseVoucher(): BelongsTo
+    public function voucher(): BelongsTo
     {
-        return $this->belongsTo(CourseVoucher::class);
+        return $this->belongsTo(CourseVoucher::class, 'course_voucher_id', 'id');
     }
 }

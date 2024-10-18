@@ -29,16 +29,6 @@ class UserCourseRepository extends BaseRepository implements UserCourseInterface
     public function customPaginate(Request $request, int $pagination = 10): LengthAwarePaginator
     {
         return $this->model->query()->where('course_id', $request->course_id)->fastPaginate($pagination);
-    }    
-    /**
-     * Method getWhere
-     *
-     * @param array $data [explicite description]
-     *
-     * @return mixed
-     */
-    public function getWhere(array $data):mixed{
-        return $this->model->query()->where($data)->get();
     }
 
     /**
