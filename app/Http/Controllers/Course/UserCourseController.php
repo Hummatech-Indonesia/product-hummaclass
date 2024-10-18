@@ -53,7 +53,10 @@ class UserCourseController extends Controller
         $this->service->userLastStep($course, $subModule);
         return ResponseHelper::success(null, 'Berhasil masuk materi');
     }
-
+    public function getCourseByUser(string $slug): JsonResponse
+    {
+        return ResponseHelper::success()
+    }
     public function checkPayment(Request $request)
     {
         $userCourse = UserCourse::with('subModule')->where('user_id', auth()->user()->id)->whereRelation('course', 'slug', $request->course_slug)->first();
