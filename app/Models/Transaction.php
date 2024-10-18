@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class Transaction extends Model implements HasUser, HasCourse, HasCourseVoucher, HasEvent, HasCourseVoucher
+class Transaction extends Model implements HasUser, HasCourse, HasCourseVoucher, HasEvent, hasvoucher
 {
     use HasFactory;
 
