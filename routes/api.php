@@ -193,6 +193,7 @@ Route::middleware('enable.cors')->group(function () {
         Route::post('user-courses-check', [UserCourseController::class, 'checkPayment']);
 
         Route::get('transaction/statistic', [TransactionController::class, 'groupByMonth']);
+        Route::get('transactions-user', [TransactionController::class, 'getByUser']);
     });
 
     /**
