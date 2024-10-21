@@ -14,6 +14,8 @@ class CourseResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $this->load(['user', 'subCategory.category', 'courseTest', 'modules', 'courseReviews', 'userCourses']);
+
         return [
             'id' => $this->id,
             'user' => new UserResource($this->user),
