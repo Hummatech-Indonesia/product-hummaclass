@@ -27,6 +27,9 @@ class SubModuleHelper
         if ($subModule->step == 1 && $subModule->module->step != 1) {
             $module = Module::query()->where('step', $subModule->module->step - 1)->first();
             $quiz = Quiz::query()->where('module_id', $module->id)->first();
+            if ($quiz == null) {
+                return false;
+            }
             $userQuiz = UserQuiz::query()->where('user_id', auth()->user()->id)->where('quiz_id', $quiz->id)->get()->contains('score', '>=', $quiz->minimum_score);
             if ($userQuiz) {
                 return true;
