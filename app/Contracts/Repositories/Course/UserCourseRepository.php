@@ -41,6 +41,13 @@ class UserCourseRepository extends BaseRepository implements UserCourseInterface
     {
         return $this->model->query()->create($data);
     }
+    public function customUpdate(mixed $courseId, array $data): mixed
+    {
+        return $this->model->query()->where([
+            'user_id' => auth()->user()->id,
+            'course_id' => $courseId
+        ])->update($data);
+    }
     /**
      * delete
      *

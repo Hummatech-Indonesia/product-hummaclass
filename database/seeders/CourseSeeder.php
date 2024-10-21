@@ -52,7 +52,6 @@ class CourseSeeder extends Seeder
         }
         $module = Module::firstOrFail();
         for ($a = 1; $a <= 3; $a++) {
-
             SubModule::create([
                 'id' => Uuid::uuid(),
                 'module_id' => $module->id,

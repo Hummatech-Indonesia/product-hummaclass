@@ -6,12 +6,10 @@ use App\Base\Interfaces\uploads\ShouldHandleFileUpload;
 use App\Contracts\Interfaces\BlogInterface;
 use App\Contracts\Interfaces\BlogViewInterface;
 use App\Contracts\Interfaces\Course\ModuleQuestionInterface;
-use App\Contracts\Interfaces\Course\UserCourseInterface;
 use App\Contracts\Interfaces\EventDetailInterface;
 use App\Contracts\Interfaces\EventInterface;
 use App\Contracts\Interfaces\UserCourseTestInterface;
 use App\Contracts\Interfaces\UserQuizInterface;
-use App\Enums\TestEnum;
 use App\Enums\UploadDiskEnum;
 use App\Http\Requests\BlogRequest;
 use App\Http\Requests\CourseRequest;
@@ -35,12 +33,10 @@ class CourseTestService implements ShouldHandleFileUpload
 
     use UploadTrait;
     private UserCourseTestInterface $userCourseTest;
-    private UserCourseInterface $userCourse;
     private ModuleQuestionInterface $module;
-    public function __construct(UserCourseTestInterface $userCourseTest, ModuleQuestionInterface $module, UserCourseInterface $userCourse)
+    public function __construct(UserCourseTestInterface $userCourseTest, ModuleQuestionInterface $module)
     {
         $this->userCourseTest = $userCourseTest;
-        $this->userCourse = $userCourse;
         $this->module = $module;
     }
     public function store(CourseTest $courseTest)
@@ -58,11 +54,8 @@ class CourseTestService implements ShouldHandleFileUpload
         try {
             $preTest = $courseTest
                 ->userCourseTests()
-                ->where([
-                    'user_id' => auth()->user()->id,
-                    'test_type' => TestEnum::PRETEST->value
-                ])
-                ->whereNull('score')
+                ->where('user_id', auth()->user()->id)
+                ->whereNull('pre_test_score')
                 ->latest()
                 ->firstOrFail();
             return [
@@ -75,7 +68,6 @@ class CourseTestService implements ShouldHandleFileUpload
             $data = [];
             $data['module_question_id'] = $module_question_id;
             $data['user_id'] = auth()->user()->id;
-            $data['test_type'] = TestEnum::PRETEST->value;
             $data['course_test_id'] = $courseTest->id;
             $preTest = $this->userCourseTest->store($data);
             return [
@@ -86,44 +78,20 @@ class CourseTestService implements ShouldHandleFileUpload
     }
     public function postTest(CourseTest $courseTest)
     {
-        try {
-            $postTest = $courseTest
-                ->userCourseTests()
-                ->where([
-                    'user_id' => auth()->user()->id,
-                    'test_type' => TestEnum::POSTTEST->value
-                ])
-                ->whereNull('score')
-                ->latest()
-                ->firstOrFail();
-            return [
-                'postTest' => $postTest,
-                'questions' => explode(',', $postTest->module_question_id)
-            ];
-        } catch (\Throwable $e) {
-            $preTest = $courseTest
-                ->userCourseTests()
-                ->where([
-                    'user_id' => auth()->user()->id,
-                    'test_type' => TestEnum::PRETEST->value
-                ])
-                ->whereNotNull('score')
-                ->latest()
-                ->firstOrFail();
-            $data['module_question_id'] = $preTest->module_question_id;
-            $data['user_id'] = auth()->user()->id;
-            $data['course_test_id'] = $courseTest->id;
-            $data['test_type'] = TestEnum::POSTTEST->value;
-            $postTest = $this->userCourseTest->store($data);
-            return [
-                'postTest' => $postTest,
-                'questions' => explode(',', $preTest->module_question_id)
-            ];
-        }
+        $postTest = $courseTest
+            ->userCourseTests()
+            ->where('user_id', auth()->user()->id)
+            ->whereNotNull('pre_test_score')
+            ->latest()
+            ->firstOrFail();
+        $postTest->post_test_score;
+        return [
+            'postTest' => $postTest,
+            'questions' => explode(',', $postTest->module_question_id)
+        ];
     }
     public function submit(UserCourseTestRequest $request, UserCourseTest $userCourseTest)
     {
-
         $data = $request->validated();
         $answers = array_map(function ($answer) {
             return $answer ?? 'null';
@@ -142,22 +110,18 @@ class CourseTestService implements ShouldHandleFileUpload
             }
         }
         $score = count(value: $moduleQuestions) > 0 ? ($score / count($moduleQuestions)) * 100 : 0;
-        $userCourseTestData = [
-            'score' => $score,
-            'answer' => implode(',', $answers),
-        ];
-        if ($userCourseTest->test_type == TestEnum::PRETEST->value) {
-            $userCourseData = [
-                'has_pre_test' => true,
+        if ($userCourseTest->pre_test_score) {
+            $userCourseTestData = [
+                'post_test_score' => $score,
+                'answer' => implode(',', $answers),
             ];
         } else {
-            $userCourseData = [
-                'has_post_test' => true,
-                'is_finished' => true,
+            $userCourseTestData = [
+                'pre_test_score' => $score,
+                'answer' => implode(',', $answers),
             ];
         }
         $this->userCourseTest->update($userCourseTest->id, $userCourseTestData);
-        $this->userCourse->customUpdate($userCourseTest->courseTest->course_id, $userCourseData);
 
     }
 }
