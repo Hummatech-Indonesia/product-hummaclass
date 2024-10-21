@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Enums\TestEnum;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Carbon\Carbon;
@@ -23,7 +24,7 @@ class UserResource extends JsonResource
             'email' => $this->email,
             'phone_number' => $this->phone_number,
             'total_courses' => $this->userCourses->count(),
-            'total_course_completed' => $this->userCourseTests()->whereNotNull('post_test_score')->count(),
+            'total_course_completed' => $this->userCourseTests()->where('test_type', TestEnum::POSTTEST->value)->whereNotNull('score')->count(),
             'total_certificate' => $this->eventUsers()->where('is_certificated', true)->count(),
             'course_activities' => $this->userCourses ? CourseResource::collection($this->userCourses) : null,
             'event_activities' => $this->eventUsers ? EventResource::collection($this->eventUsers) : null,

@@ -7,6 +7,7 @@ use App\Contracts\Interfaces\Course\UserEventInterface;
 use App\Contracts\Interfaces\TransactionInterface;
 use App\Helpers\ResponseHelper;
 use App\Models\Course;
+use App\Models\Module;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
@@ -38,7 +39,7 @@ class TransactionService
             return $this->userCourse->store([
                 'user_id' => $transaction->user_id,
                 'course_id' => $transaction->course_id,
-                'sub_module_id' => $product->modules->first()->subModules->first()->id
+                'sub_module_id' => Module::where('course_id', $product->id)->whereHas('subModules')->orderBy('step', 'asc')->first()->subModules->first()->id
             ]);
         } else {
             return $this->userEvent->store([

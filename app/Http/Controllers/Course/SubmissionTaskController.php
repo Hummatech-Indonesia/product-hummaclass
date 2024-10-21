@@ -64,6 +64,8 @@ class SubmissionTaskController extends Controller
         $stored = $this->submissionTask->store($data);
         if (!$stored) {
             $this->service->handleRemoveFile($data['file']);
+        } else {
+            $this->service->handleAddPoint();
         }
         return ResponseHelper::success(true, trans('alert.add_success'));
     }

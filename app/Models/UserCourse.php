@@ -13,7 +13,7 @@ class UserCourse extends Model implements HasUser, HasCourse, HasSubModule
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'course_id', 'sub_module_id'];
+    protected $fillable = ['user_id', 'course_id', 'sub_module_id', 'is_finished', 'has_pre_test', 'has_post_test'];
 
     /**
      * Get the user that owns the UserCourse
@@ -42,6 +42,6 @@ class UserCourse extends Model implements HasUser, HasCourse, HasSubModule
     {
         return $this->belongsTo(SubModule::class);
     }
-    
+
 
 }

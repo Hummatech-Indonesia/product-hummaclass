@@ -16,4 +16,16 @@ class SubmissionTaskService
     {
         return $this->remove($file);
     }
+
+    public function handleAddPoint() {
+        $user = \App\Models\User::find(auth()->user()->id);
+        $user->point += 1;
+        return $user->save();
+    }
+
+    public function handleDecPoint() {
+        $user = \App\Models\User::find(auth()->user()->id);
+        $user->point -= 1;
+        return $user->save();
+    }
 }

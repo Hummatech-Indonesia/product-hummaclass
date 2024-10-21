@@ -10,4 +10,5 @@ use App\Contracts\Interfaces\Eloquent\UpdateInterface;
 
 interface ModuleTaskInterface extends GetWhereInterface, StoreInterface, UpdateInterface, ShowInterface, DeleteInterface
 {
+    public function getByCourse(string $slug);
 }

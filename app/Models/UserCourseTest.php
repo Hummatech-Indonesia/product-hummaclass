@@ -20,9 +20,8 @@ class UserCourseTest extends Model implements HasCourseTest, HasUser
         'course_test_id',
         'module_question_id',
         'answer',
-        'pre_test_score',
-        'post_test_score',
-        'is_submitted',
+        'score',
+        'test_type'
     ];
     /**
      * Get the user that owns the UserCourseTest

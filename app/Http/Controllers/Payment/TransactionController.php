@@ -83,6 +83,7 @@ class TransactionController extends Controller
         $voucher = $this->courseVoucher->getByCode($request->voucher_code);
         if ($productType == 'course') {
             $course = $this->course->show($id);
+            // dd($course);
             if (!$course->is_premium) {
                 $userCourse = $this->transactionService->handleCerateUserCourse($course, (object) ['user_id' => auth()->user()->id, 'course_id' => $course->id]);
                 return ResponseHelper::success($userCourse, 'Berhasil');

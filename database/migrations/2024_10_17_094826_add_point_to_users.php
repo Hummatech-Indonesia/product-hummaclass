@@ -11,9 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('user_courses', function (Blueprint $table) {
-            $table->boolean('is_pre_test');
-            $table->boolean('is_post_test');
+        Schema::table('users', function (Blueprint $table) {
+            $table->integer('point')->after('email_verified_at');
         });
     }
 
@@ -22,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('user_courses', function (Blueprint $table) {
-            //
+        Schema::table('users', function (Blueprint $table) {
+            Schema::dropColumns('users', 'point');
         });
     }
 };

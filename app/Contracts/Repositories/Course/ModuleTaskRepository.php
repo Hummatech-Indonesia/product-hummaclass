@@ -81,4 +81,8 @@ class ModuleTaskRepository extends BaseRepository implements ModuleTaskInterface
     {
         return $this->show($id)->delete();
     }
+
+    public function getByCourse(string $slug) {
+        return $this->model->query()->whereRelation('module.course', 'slug', $slug)->get();
+    }
 }

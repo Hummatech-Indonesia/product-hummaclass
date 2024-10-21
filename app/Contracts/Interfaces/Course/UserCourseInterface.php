@@ -21,4 +21,14 @@ interface UserCourseInterface extends CustomPaginationInterface, StoreInterface,
      */
     public function showByUserCourse($courseId): mixed;
 
+    /**
+     * Method customUpdate
+     *
+     * @param mixed $courseId [explicite description]
+     * @param array $data [explicite description]
+     *
+     * @return mixed
+     */
+    public function customUpdate(mixed $courseId, array $data): mixed;
+
 }

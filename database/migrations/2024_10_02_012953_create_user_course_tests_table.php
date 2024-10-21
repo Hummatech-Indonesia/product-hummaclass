@@ -17,8 +17,8 @@ return new class extends Migration {
             $table->foreignUuid(column: 'course_test_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->text('module_question_id');
             $table->string('answer')->nullable();
-            $table->integer('pre_test_score')->nullable();
-            $table->integer('post_test_score')->nullable();
+            $table->integer('score')->nullable();
+            $table->enum('test_type', array_map(fn($enum) => $enum->value, TestEnum::cases()));
             $table->timestamps();
         });
     }
