@@ -107,7 +107,7 @@ class SubModuleController extends Controller
     public function update(SubModuleRequest $request, SubModule $subModule): JsonResponse
     {
         $this->subModule->update($subModule->id, $request->validated());
-        return ResponseHelper::success(null, trans('alert.update_success'));
+        return ResponseHelper::success(SubModuleResource::make($subModule), trans('alert.update_success'));
     }
 
     /**
