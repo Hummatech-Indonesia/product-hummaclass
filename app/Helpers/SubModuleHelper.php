@@ -25,16 +25,18 @@ class SubModuleHelper
             ->firstOrFail();
 
         if ($subModule->step == 1 && $subModule->module->step != 1) {
-            $module = Module::query()->where('step', $subModule->module->step - 1)->first();
+            $module = Module::query()->where('step', $subModule->module->step - 1)->where('course_id', $subModule->module->course_id)->first();
             $quiz = Quiz::query()->where('module_id', $module->id)->first();
             if ($quiz == null) {
                 return false;
             }
             $userQuiz = UserQuiz::query()->where('user_id', auth()->user()->id)->where('quiz_id', $quiz->id)->get()->contains('score', '>=', $quiz->minimum_score);
+            
             if ($userQuiz) {
                 return true;
             }
         }
+
         $currentStep = $userCourse->subModule->module->step;
         $nextStep = $userCourse->subModule->step + 1;
 
@@ -45,7 +47,7 @@ class SubModuleHelper
                 ->contains('slug', $subModule->slug);
         } else {
             for ($i = $currentStep; $i >= 1; $i--) {
-                $module = Module::where('step', $i)->first();
+                $module = Module::where('step', $i)->where('course_id', $subModule->module->course_id)->first();
                 if (SubModule::where('step', '<=', $nextStep)
                     ->where('module_id', $module->id)
                     ->get()
@@ -56,6 +58,6 @@ class SubModuleHelper
             }
         }
 
-        return false;
+        return 'false';
     }
 }
