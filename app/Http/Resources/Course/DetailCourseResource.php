@@ -17,11 +17,12 @@ class DetailCourseResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $user = \Laravel\Sanctum\PersonalAccessToken::findToken(substr($request->header('authorization'), 7, 100))?->tokenable()->first();
         return [
             'id' => $this->id,
             'user' => new UserResource($this->user),
-            'user_course_check' => auth()->user(),
-            // 'user_course_check' => $this->userCourses->where('user_id', auth()->user()->id)->first(),
+            'user_course' => $this->userCourses->where('user_id', $user?->id)->first(),
+            'course_test_id' => $this->courseTest->id,
             'sub_category' => SubCategoryResource::make($this->subCategory),
             'category' => CategoryResource::make($this->subCategory->category),
             'title' => $this->title,

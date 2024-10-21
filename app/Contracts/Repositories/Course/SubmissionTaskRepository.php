@@ -47,7 +47,7 @@ class SubmissionTaskRepository extends BaseRepository implements SubmissionTaskI
      */
     public function store(array $data): mixed
     {
-        return $this->model->query()->create($data);
+        return $this->model->query()->updateOrCreate($data);
     }
     /**
      * Method show

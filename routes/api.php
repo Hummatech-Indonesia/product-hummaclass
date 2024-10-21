@@ -400,6 +400,8 @@ Route::middleware('enable.cors')->group(function () {
     Route::get('login', function () {
         return ResponseHelper::error(null, 'Unauthenticated');
     })->name('login');
+
+    Route::get('module-tasks/course/{courseSlug}', [ModuleTaskController::class, 'getByCourse']);
 });
 
 require_once('api/tripay.php');

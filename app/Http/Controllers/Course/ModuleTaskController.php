@@ -94,4 +94,10 @@ class ModuleTaskController extends Controller
             return ResponseHelper::success(true, trans('alert.delete_constrained'));
         }
     }
+
+    public function getByCourse(string $slug): JsonResponse
+    {
+        $moduleTask = $this->moduleTask->getByCourse($slug);
+        return ResponseHelper::success($moduleTask);
+    }
 }

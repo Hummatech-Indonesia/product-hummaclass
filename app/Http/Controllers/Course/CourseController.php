@@ -13,6 +13,7 @@ use App\Services\Course\CourseService;
 use App\Traits\PaginationTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class CourseController extends Controller
 {
@@ -66,7 +67,7 @@ class CourseController extends Controller
      *
      * @return JsonResponse
      */
-    public function show(string $slug): JsonResponse
+    public function show(Request $request, string $slug): JsonResponse
     {
         $course = $this->course->showWithSlug($slug);
         return ResponseHelper::success(DetailCourseResource::make($course), trans('alert.fetch_success'));
