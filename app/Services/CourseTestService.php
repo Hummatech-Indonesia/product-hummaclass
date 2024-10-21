@@ -13,6 +13,7 @@ use App\Contracts\Interfaces\UserCourseTestInterface;
 use App\Contracts\Interfaces\UserQuizInterface;
 use App\Enums\TestEnum;
 use App\Enums\UploadDiskEnum;
+use App\Helpers\ResponseHelper;
 use App\Http\Requests\BlogRequest;
 use App\Http\Requests\CourseRequest;
 use App\Http\Requests\EventRequest;
@@ -65,10 +66,14 @@ class CourseTestService implements ShouldHandleFileUpload
                 ->whereNull('score')
                 ->latest()
                 ->firstOrFail();
-            return [
-                'preTest' => $preTest,
-                'questions' => explode(',', $preTest->module_question_id)
-            ];
+            if ($preTest->score) {
+                return ResponseHelper::error(null, trans('alert.fetch_failed'));
+            } else {
+                return [
+                    'preTest' => $preTest,
+                    'questions' => explode(',', $preTest->module_question_id)
+                ];
+            }
         } catch (\Throwable $e) {
             $questions = $this->module->getQuestions($courseTest->course_id, $courseTest->total_question);
             $module_question_id = implode(',', $questions->pluck('id')->toArray());
@@ -155,7 +160,9 @@ class CourseTestService implements ShouldHandleFileUpload
                 'is_post_test' => true,
             ];
         }
-        $this->userCourseTest->update($userCourseTest->id, $userCourseTestData);
+        if ($userCourseTest->score != null) {
+            $this->userCourseTest->update($userCourseTest->id, $userCourseTestData);
+        }
         $this->userCourse->customUpdate($userCourseTest->courseTest->course_id, $userCourseData);
 
     }
