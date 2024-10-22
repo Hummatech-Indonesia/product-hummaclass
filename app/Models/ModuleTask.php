@@ -3,9 +3,10 @@
 namespace App\Models;
 
 use App\Base\Interfaces\HasModule;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class ModuleTask extends Model implements HasModule
 {
@@ -29,5 +30,15 @@ class ModuleTask extends Model implements HasModule
     public function module(): BelongsTo
     {
         return $this->belongsTo(Module::class);
+    }
+
+    /**
+     * Get all of the submissionTask for the ModuleTask
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function submissionTask(): HasMany
+    {
+        return $this->hasMany(SubmissionTask::class);
     }
 }
