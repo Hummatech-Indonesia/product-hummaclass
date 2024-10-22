@@ -19,7 +19,8 @@ class ModuleTaskResource extends JsonResource
             'module' => $this->module,
             'question' => $this->question,
             'description' => $this->description,
-            'point' => $this->point
+            'point' => $this->point,
+            'is_finish' => 'asdfasdf'
         ];
     }
 }
