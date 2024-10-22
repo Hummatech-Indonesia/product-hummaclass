@@ -17,6 +17,7 @@ use App\Http\Resources\UserCourseTestResource;
 use App\Models\Course;
 use App\Models\CourseTest;
 use App\Models\UserCourseTest;
+use App\Models\UserQuiz;
 use App\Services\CourseTestService;
 use App\Traits\PaginationTrait;
 use Illuminate\Http\JsonResponse;
@@ -123,6 +124,12 @@ class CourseTestController extends Controller
     {
         $this->service->submit($request, $userCourseTest);
         return ResponseHelper::success(null, trans('alert.fetch_success'));
+    }
+    public function statistic(userCourseTest $userCourseTest): JsonResponse
+    {
+        $result = $this->userCourseTest->show($userCourseTest->id);
+        return ResponseHelper::success(CourseTestResultResource::make($result), trans('alert.fetch_success'));
+
     }
 
     public function store(CourseTestRequest $request, string $slug): JsonResponse
