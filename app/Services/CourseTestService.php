@@ -56,6 +56,7 @@ class CourseTestService implements ShouldHandleFileUpload
     }
     public function preTest(CourseTest $courseTest)
     {
+
         try {
             $preTest = $courseTest
                 ->userCourseTests()
@@ -63,17 +64,15 @@ class CourseTestService implements ShouldHandleFileUpload
                     'user_id' => auth()->user()->id,
                     'test_type' => TestEnum::PRETEST->value
                 ])
-                ->whereNull('score')
                 ->latest()
                 ->firstOrFail();
             if ($preTest->score) {
-                return ResponseHelper::error(null, trans('alert.fetch_failed'));
-            } else {
-                return [
-                    'preTest' => $preTest,
-                    'questions' => explode(',', $preTest->module_question_id)
-                ];
+                return 'samean sampun ngrampungaken pre-test';
             }
+            return [
+                'preTest' => $preTest,
+                'questions' => explode(',', $preTest->module_question_id)
+            ];
         } catch (\Throwable $e) {
             $questions = $this->module->getQuestions($courseTest->course_id, $courseTest->total_question);
             $module_question_id = implode(',', $questions->pluck('id')->toArray());
@@ -98,9 +97,11 @@ class CourseTestService implements ShouldHandleFileUpload
                     'user_id' => auth()->user()->id,
                     'test_type' => TestEnum::POSTTEST->value
                 ])
-                ->whereNull('score')
                 ->latest()
                 ->firstOrFail();
+            if ($postTest->score) {
+                return 'already';
+            }   
             return [
                 'postTest' => $postTest,
                 'questions' => explode(',', $postTest->module_question_id)
@@ -160,9 +161,7 @@ class CourseTestService implements ShouldHandleFileUpload
                 'has_post_test' => true,
             ];
         }
-        if ($userCourseTest->score != null) {
-            $this->userCourseTest->update($userCourseTest->id, $userCourseTestData);
-        }
+        $this->userCourseTest->update($userCourseTest->id, $userCourseTestData);
         $this->userCourse->customUpdate($userCourseTest->courseTest->course_id, $userCourseData);
 
     }

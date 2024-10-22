@@ -83,6 +83,9 @@ class CourseTestController extends Controller
     public function preTest(Request $request, CourseTest $courseTest): JsonResponse
     {
         $preTest = $this->service->preTest($courseTest);
+        if ($preTest == 'samean sampun ngrampungaken pre-test') {
+            return ResponseHelper::error(null, trans('alert.fetch_failed'));
+        }
         $request->merge(['id' => $preTest['questions']]);
         $questions = $this->moduleQuestion->customPaginate($request);
         $data['paginate'] = $this->customPaginate($questions->currentPage(), $questions->lastPage());
@@ -102,6 +105,9 @@ class CourseTestController extends Controller
     {
         try {
             $postTest = $this->service->postTest($courseTest);
+            if ($postTest == 'already') {
+                return ResponseHelper::error(null, trans('alert.fetch_failed'));
+            }
             $request->merge(['id' => $postTest['questions']]);
             $questions = $this->moduleQuestion->customPaginate($request);
             $data['paginate'] = $this->customPaginate($questions->currentPage(), $questions->lastPage());
