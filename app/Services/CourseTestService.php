@@ -153,11 +153,11 @@ class CourseTestService implements ShouldHandleFileUpload
         ];
         if ($userCourseTest->test_type == TestEnum::PRETEST->value) {
             $userCourseData = [
-                'is_pre_test' => true,
+                'has_pre_test' => true,
             ];
         } else {
             $userCourseData = [
-                'is_post_test' => true,
+                'has_post_test' => true,
             ];
         }
         if ($userCourseTest->score != null) {

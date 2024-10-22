@@ -15,8 +15,8 @@ return new class extends Migration {
             $table->foreignUuid('user_id')->constrained();
             $table->foreignUuid('course_id')->constrained();
             $table->foreignUuid('sub_module_id')->nullable()->constrained();
-            $table->boolean('is_pre_test')->default(false);
-            $table->boolean('is_post_test')->default(false);
+            $table->boolean('has_pre_test')->default(false);
+            $table->boolean('has_post_test')->default(false);
             $table->timestamps();
         });
     }
