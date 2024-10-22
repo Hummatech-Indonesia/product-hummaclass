@@ -33,6 +33,7 @@ class ProfileRequest extends FormRequest
             ],
             'phone_number' => 'required|string|max:20',
             'address' => 'required|string|max:500',
+            'gender' => 'nullable',
             'photo' => 'nullable|mimes:png,jpg,jpeg|image',
         ];
     }
