@@ -16,7 +16,7 @@ class CertificateController extends Controller
     public function __construct(CertificateInterface $certificate)
     {
         $this->certificate = $certificate;
-    }    
+    }
     /**
      * Method index
      *
@@ -24,9 +24,9 @@ class CertificateController extends Controller
      */
     public function index(): JsonResponse
     {
-        $certificates = $this->certificate->getWhere(['user_course_id.user_id' => auth()->user()->id]);
+        $certificates = $this->certificate->get();
         return ResponseHelper::success(CertificateResource::collection($certificates), trans('alert.fetch_success'));
-    }    
+    }
     /**
      * Method store
      *
@@ -38,7 +38,7 @@ class CertificateController extends Controller
     {
         $this->certificate->store($request->validated());
         return ResponseHelper::success(null, trans('alert.add_success'));
-    }    
+    }
     /**
      * Method update
      *

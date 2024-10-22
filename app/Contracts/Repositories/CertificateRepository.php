@@ -27,16 +27,13 @@ class CertificateRepository extends BaseRepository implements CertificateInterfa
     {
         $this->model = $certificate;
     }
-    /**
-     * Method getWhere
-     *
-     * @param array $data [explicite description]
-     *
-     * @return mixed
-     */
-    public function getWhere(array $data): mixed
+    public function get(): mixed
     {
-        return $this->model->query()->where($data)->get();
+        return $this->model
+            ->whereHas('userCourse', function ($query) {
+                $query->where('user_id', auth()->user()->id);
+            })
+            ->get();
     }
     /**
      * Method store

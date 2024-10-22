@@ -32,6 +32,7 @@ use App\Http\Controllers\Course\{
 };
 use App\Http\Controllers\{
     BlogController,
+    CertificateController,
     ContactController,
     DiscussionAnswerController,
     DiscussionController,
@@ -200,6 +201,9 @@ Route::middleware('enable.cors')->group(function () {
      * Sanctum Authenticated Routes
      */
     Route::middleware('auth:sanctum')->group(function () {
+
+        // certificate
+        Route::resource('certificates', CertificateController::class)->only(['index', 'store', 'update']);
 
         Route::get('sub-modules/detail/{slug}', [SubModuleController::class, 'show'])->middleware('check_last_step_user');
 
