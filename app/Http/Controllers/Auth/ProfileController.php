@@ -38,9 +38,7 @@ class ProfileController extends Controller
      */
     public function update(ProfileRequest $request): JsonResponse
     {
-        $user = auth()->user();
-        $this->profile->update($user->id, $this->service->update($user, $request));
-        $user = $this->profile->show($user->id);
-        return ResponseHelper::success(['user' => $user], trans('alert.profile_updated'));
+        $this->profile->update(auth()->user()->id, $this->service->update($request));
+        return ResponseHelper::success(null, trans('alert.profile_updated'));
     }
 }

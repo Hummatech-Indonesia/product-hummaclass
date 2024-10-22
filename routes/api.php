@@ -203,7 +203,8 @@ Route::middleware('enable.cors')->group(function () {
     Route::middleware('auth:sanctum')->group(function () {
 
         // certificate
-        Route::resource('certificates', CertificateController::class)->only(['index', 'store', 'update']);
+        Route::resource('certificates', CertificateController::class)->only(['index', 'update']);
+        Route::post('certificates/{course}', [CertificateController::class, 'store']);
 
         Route::get('sub-modules/detail/{slug}', [SubModuleController::class, 'show'])->middleware('check_last_step_user');
 

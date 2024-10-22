@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Base\Interfaces\HasCourseReviews;
 use App\Base\Interfaces\HasEventUsers;
 use Laravel\Sanctum\HasApiTokens;
 use App\Base\Interfaces\HasUserCourses;
@@ -17,7 +18,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable implements HasUserCourses, HasSocialAccount, MustVerifyEmail, HasEventUsers, HasUserCourseTests
+class User extends Authenticatable implements HasUserCourses, HasSocialAccount, MustVerifyEmail, HasEventUsers, HasUserCourseTests,HasCourseReviews
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
@@ -84,6 +85,15 @@ class User extends Authenticatable implements HasUserCourses, HasSocialAccount, 
     public function userCourseTests(): HasMany
     {
         return $this->hasMany(UserCourseTest::class);
+    }
+    /**
+     * Get all of the courseReviews for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function courseReviews(): HasMany
+    {
+        return $this->hasMany(CourseReview::class);
     }
     /**
      * Get all of the eventUsers for the User

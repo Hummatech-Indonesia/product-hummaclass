@@ -13,10 +13,10 @@ class ProfileService implements ShouldHandleFileUpload
 
     use UploadTrait;
 
-    public function update(User $user, ProfileRequest $request): array|bool
+    public function update(ProfileRequest $request): array|bool
     {
         $data = $request->validated();
-        $photo = $user->photo;
+        $photo = auth()->user()->photo;
 
         if ($request->hasFile('photo')) {
             if ($photo) {
@@ -27,8 +27,9 @@ class ProfileService implements ShouldHandleFileUpload
 
         return [
             'name' => $data['name'],
-            'phone_number' => $data['phone_number'],
             'email' => $data['email'],
+            'gender' => $data['gender'],
+            'phone_number' => $data['phone_number'],
             'address' => $data['address'],
             'photo' => $photo,
         ];

@@ -17,6 +17,7 @@ return new class extends Migration {
             $table->foreignUuid('sub_module_id')->nullable()->constrained();
             $table->boolean('has_pre_test')->default(false);
             $table->boolean('has_post_test')->default(false);
+            $table->boolean('has_downloaded')->default(false);
             $table->timestamps();
         });
     }
