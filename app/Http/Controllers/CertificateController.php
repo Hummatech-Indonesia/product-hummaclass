@@ -61,8 +61,15 @@ class CertificateController extends Controller
      */
     public function update(CertificateRequest $request, Certificate $certificate): JsonResponse
     {
-
-        $this->certificate->update($certificate->id, $request->validated());
-        return ResponseHelper::success(null, trans('alert.update_success'));
+        try {
+            UserCourse::where([
+                'user_id' => auth()->user()->id,
+                'has_downloaded' => false
+            ])->firstOrFail();
+            $this->certificate->update($certificate->id, $request->validated());
+            return ResponseHelper::success(null, trans('alert.update_success'));
+        } catch (\Throwable $e) {
+            return ResponseHelper::error(null, trans('alert.update_failed'));
+        }
     }
 }
