@@ -19,6 +19,7 @@ use App\Contracts\Repositories\BlogViewRepository;
 use App\Contracts\Repositories\RegisterRepository;
 use App\Contracts\Repositories\UserQuizRepository;
 use App\Contracts\Interfaces\Auth\ProfileInterface;
+use App\Contracts\Interfaces\CertificateInterface;
 use App\Contracts\Repositories\Auth\UserRepository;
 use App\Contracts\Repositories\UserEventRepository;
 use App\Contracts\Interfaces\Course\CourseInterface;
@@ -55,6 +56,7 @@ use App\Contracts\Interfaces\DiscussionInterface;
 use App\Contracts\Interfaces\DiscussionTagInterface;
 use App\Contracts\Interfaces\FaqInterface;
 use App\Contracts\Interfaces\TagInterface;
+use App\Contracts\Repositories\CertificateRepository;
 use App\Contracts\Repositories\Course\SubCategoryRepository;
 use App\Contracts\Repositories\Course\CourseReviewRepository;
 use App\Contracts\Repositories\Course\CourseVoucherRepository;
@@ -100,7 +102,8 @@ class AppServiceProvider extends ServiceProvider
         DiscussionTagInterface::class => DiscussionTagRepository::class,
         DiscussionInterface::class => DiscussionRepository::class,
         DiscussionAnswerInterface::class => DiscussionAnswerRepository::class,
-        TagInterface::class => TagRepository::class
+        TagInterface::class => TagRepository::class,
+        CertificateInterface::class => CertificateRepository::class
     ];
 
     /**

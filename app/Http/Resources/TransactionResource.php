@@ -14,6 +14,22 @@ class TransactionResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'user' => $this->user,  // ID user
+            'course' => $this->course,  // ID course
+            'event' => $this->event,  // ID event
+            'invoice_id' => $this->invoice_id,  // ID invoice
+            'fee_amount' => $this->fee_amount,  // Biaya yang ditentukan
+            'amount' => $this->amount,  // Jumlah pembayaran
+            'invoice_url' => $this->invoice_url,  // URL untuk invoice
+            'expiry_date' => $this->expiry_date,  // Tanggal kadaluwarsa
+            'paid_amount' => $this->paid_amount,  // Jumlah yang sudah dibayar
+            'payment_channel' => $this->payment_channel,  // Channel pembayaran
+            'payment_method' => $this->payment_method,  // Metode pembayaran
+            'invoice_status' => $this->invoice_status,  // Status invoice
+            'course_voucher' => $this->courseVoucher,  // Relasi ke voucher course (jika ada)
+        ];
     }
+
 }

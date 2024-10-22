@@ -66,7 +66,7 @@ class Transaction extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function voucher(): BelongsTo
+    public function courseVoucher(): BelongsTo
     {
         return $this->belongsTo(CourseVoucher::class, 'course_voucher_id', 'id');
     }
