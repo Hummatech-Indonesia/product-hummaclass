@@ -18,8 +18,8 @@ class UserCourseResource extends JsonResource
         return [
             'user' => $this->user,
             'course' => $this->course,
-            'is_post_test' => $this->is_post_test,
-            'is_pre_test' => $this->is_pre_test,
+            'has_post_test' => $this->has_post_test,
+            'has_pre_test' => $this->has_pre_test,
             'sub_module_slug' => $this->subModule->slug
         ];
     }

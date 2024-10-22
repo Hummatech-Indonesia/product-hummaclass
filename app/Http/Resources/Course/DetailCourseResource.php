@@ -21,7 +21,11 @@ class DetailCourseResource extends JsonResource
     {
         $user = \Laravel\Sanctum\PersonalAccessToken::findToken(substr($request->header('authorization'), 7, 100))?->tokenable()->first();
         $userCourse = $this->userCourses->where('user_id', $user?->id)->first();
-        $userCourse->sub_module_slug = SubModule::find($userCourse->sub_module_id)->slug;
+        if ($userCourse) {
+            $userCourse->sub_module_slug = SubModule::find($userCourse?->sub_module_id)?->slug;
+        } else {
+            $userCourse == null;
+        }
         return [
             'id' => $this->id,
             'user' => new UserResource($this->user),
