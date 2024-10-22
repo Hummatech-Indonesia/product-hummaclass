@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->foreignUuid('user_id')->constrained();
             $table->foreignUuid('course_id')->constrained();
             $table->integer('rating');
-            $table->text('review');
+            $table->text('review')->nullable();
             $table->timestamps();
         });
     }

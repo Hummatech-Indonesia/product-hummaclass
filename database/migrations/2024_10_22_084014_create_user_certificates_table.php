@@ -13,6 +13,7 @@ return new class extends Migration {
         Schema::create('user_certificates', function (Blueprint $table) {
             $table->id();
             $table->foreignUuid('user_id')->constrained();
+            $table->string('code');
             $table->string('username');
             $table->timestamps();
         });
