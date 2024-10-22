@@ -95,9 +95,9 @@ class ModuleTaskController extends Controller
         }
     }
 
-    public function getByCourse(string $slug): JsonResponse
+    public function getByCourse(string $slug)
     {
         $moduleTask = $this->moduleTask->getByCourse($slug);
-        return ResponseHelper::success($moduleTask);
+        return ResponseHelper::success(ModuleTaskResource::collection($moduleTask));
     }
 }

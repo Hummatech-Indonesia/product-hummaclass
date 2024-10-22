@@ -17,6 +17,7 @@ class ModuleTask extends Model implements HasModule
     protected $primaryKey = 'id';
     protected $fillable = [
         'module_id',
+        'user_id',
         'question',
         'point',
         'description'
@@ -40,5 +41,15 @@ class ModuleTask extends Model implements HasModule
     public function submissionTask(): HasMany
     {
         return $this->hasMany(SubmissionTask::class);
+    }
+
+    /**
+     * Get the user that owns the ModuleTask
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }
