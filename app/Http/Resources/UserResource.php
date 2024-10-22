@@ -24,6 +24,7 @@ class UserResource extends JsonResource
             'email' => $this->email,
             'phone_number' => $this->phone_number,
             'total_courses' => $this->userCourses->count(),
+            'course_reviews' => $this->courseReviews,
             // 'total_course_completed' => $this->userCourseTests()->where('type_test', TestEnum::POSTTEST->value)->whereNotNull('score')->count(),
             'total_certificate' => $this->eventUsers()->where('is_certificated', true)->count(),
             'course_activities' => $this->userCourses ? UserCourseResource::collection($this->userCourses) : null,
