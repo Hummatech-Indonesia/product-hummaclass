@@ -11,6 +11,7 @@ use App\Models\Certificate;
 use App\Models\Course;
 use App\Models\UserCourse;
 use App\Services\CertificateService;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -71,5 +72,11 @@ class CertificateController extends Controller
         } catch (\Throwable $e) {
             return ResponseHelper::error(null, trans('alert.update_failed'));
         }
+    }
+    public function download(string $slug)
+    {
+        $this->service->download($slug);
+
+        
     }
 }

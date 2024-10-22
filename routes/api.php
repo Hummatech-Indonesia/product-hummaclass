@@ -205,6 +205,7 @@ Route::middleware('enable.cors')->group(function () {
         // certificate
         Route::resource('certificates', CertificateController::class)->only(['index', 'update']);
         Route::post('certificates/{slug}', [CertificateController::class, 'store']);
+        Route::get('certificate/download/{slug}', [CertificateController::class, 'download']);
 
         Route::get('sub-modules/detail/{slug}', [SubModuleController::class, 'show'])->middleware('check_last_step_user');
 

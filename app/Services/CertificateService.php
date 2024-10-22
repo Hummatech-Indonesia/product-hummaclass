@@ -59,5 +59,18 @@ class CertificateService
             return true;
         }
     }
+    public function download(string $slug)
+    {
+        $course = $this->course->showWithSlug($slug);
+        $userCourse = UserCourse::where([
+            'course_id' => $course->id,
+            'user_id' => auth()->user()->user
+        ]);
+
+        $pdf = Pdf::loadView('certificate', compact('certificate'));
+
+        return $pdf->download('kursus-' . $certificate->id . '.pdf');
+
+    }
 
 }

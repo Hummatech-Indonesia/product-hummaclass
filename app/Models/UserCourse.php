@@ -42,6 +42,14 @@ class UserCourse extends Model implements HasUser, HasCourse, HasSubModule
     {
         return $this->belongsTo(SubModule::class);
     }
-
+    /**
+     * Get the certificate that owns the UserCourse
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function certificate(): BelongsTo
+    {
+        return $this->belongsTo(Certificate::class);
+    }
 
 }
