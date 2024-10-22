@@ -13,7 +13,7 @@ use App\Contracts\Interfaces\Eloquent\ShowSlugInterface;
 use App\Contracts\Interfaces\Eloquent\StoreInterface;
 use App\Contracts\Interfaces\Eloquent\UpdateInterface;
 
-interface CertificateInterface extends GetInterface, StoreInterface, UpdateInterface
+interface CertificateInterface extends GetInterface,ShowInterface, StoreInterface, UpdateInterface
 {
 
 }

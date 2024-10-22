@@ -155,7 +155,7 @@ class ModuleController extends Controller
      * @param  mixed $slug
      * @return void
      */
-    public function listModuleWithSubModul(string $slug, Request $request)
+    public function userlistModuleWithSubModul(string $slug, Request $request)
     {
         $subModule = $this->subModule->showWithSlug($slug);
         $request->merge(['course_id' => $subModule->module->course_id]);
