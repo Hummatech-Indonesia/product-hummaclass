@@ -76,6 +76,7 @@ Route::middleware('enable.cors')->group(function () {
 
     Route::get('contact', [ContactController::class, 'index']);
     Route::get('blogs', [BlogController::class, 'index']);
+    Route::get('blogs/{blog}', [BlogController::class, 'show']);
     Route::get('categories', [CategoryController::class, 'index']);
 
 
@@ -254,7 +255,7 @@ Route::middleware('enable.cors')->group(function () {
         /**
          * Blog Management
          */
-        Route::resource('blogs', BlogController::class)->only(['store', 'update', 'destroy', 'show']);
+        Route::resource('blogs', BlogController::class)->only(['store', 'update', 'destroy']);
 
         /**
          * Contact Management
