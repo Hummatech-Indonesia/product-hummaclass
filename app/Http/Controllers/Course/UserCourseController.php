@@ -34,9 +34,8 @@ class UserCourseController extends Controller
      * @param  mixed $course
      * @return JsonResponse
      */
-    public function index(Request $request, Course $course): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        $request->merge(['course_id' => $course->id]);
         $userCourses = $this->userCourse->customPaginate($request);
         return ResponseHelper::success(UserCourseResource::collection($userCourses), trans('alert.fetch_success'));
     }
