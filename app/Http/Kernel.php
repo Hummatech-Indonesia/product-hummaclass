@@ -4,6 +4,7 @@ namespace App\Http;
 
 use App\Http\Middleware\CheckLastStepMiddleware;
 use App\Http\Middleware\EnableCors;
+use App\Http\Middleware\QuizMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -69,6 +70,7 @@ class Kernel extends HttpKernel
         'tripay.signature' => \App\Http\Middleware\CheckSignatureMiddleware::class,
         'is_admin' => \App\Http\Middleware\AdminMiddleware::class,
         'is_guest' => \App\Http\Middleware\GuestMiddleware::class,
-        'check_last_step_user' => CheckLastStepMiddleware::class
+        'check_last_step_user' => CheckLastStepMiddleware::class,
+        'check_access_quiz' => QuizMiddleware::class
     ];
 }
