@@ -7,8 +7,6 @@ use App\Contracts\Interfaces\Eloquent\CustomPaginationInterface;
 use App\Contracts\Interfaces\Eloquent\SearchInterface;
 use App\Contracts\Interfaces\Eloquent\ShowInterface;
 use App\Contracts\Interfaces\Eloquent\StoreInterface;
+use App\Contracts\Interfaces\Eloquent\UpdateInterface;
 
-interface UserInterface extends CustomPaginationInterface,ShowInterface
-{
-
-}
+interface UserInterface extends CustomPaginationInterface, ShowInterface, UpdateInterface {}

@@ -2,11 +2,12 @@
 
 namespace App\Contracts\Repositories\Auth;
 
-use App\Contracts\Interfaces\Auth\UserInterface;
-use App\Contracts\Repositories\BaseRepository;
 use App\Models\User;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use App\Contracts\Repositories\BaseRepository;
+use Illuminate\Pagination\LengthAwarePaginator;
+use App\Contracts\Interfaces\Auth\UserInterface;
 
 class UserRepository extends BaseRepository implements UserInterface
 {
@@ -38,5 +39,12 @@ class UserRepository extends BaseRepository implements UserInterface
     public function show(mixed $id): mixed
     {
         return $this->model->query()->findOrFail($id);
+    }
+
+    public function update(mixed $id, array $data): mixed
+    {
+        return auth()->user()->forceFill([
+            'password' => Hash::make($data['password'])
+        ]);
     }
 }

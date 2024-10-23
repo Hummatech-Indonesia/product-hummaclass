@@ -40,7 +40,8 @@ use App\Http\Controllers\{
     EventController,
     FaqController,
     Payment\TransactionController,
-    TagController
+    TagController,
+    UpdatePasswordController
 };
 use App\Helpers\ResponseHelper;
 
@@ -392,6 +393,7 @@ Route::middleware('enable.cors')->group(function () {
         Route::post('user-courses-check', [UserCourseController::class, 'checkPayment']);
 
         Route::get('transaction/statistic', [TransactionController::class, 'groupByMonth']);
+
     });
     /**
      * Password Reset
@@ -400,6 +402,7 @@ Route::middleware('enable.cors')->group(function () {
     Route::middleware('throttle:10,1')->prefix('password')->group(function () {
         Route::get('reset/{token}', [ResetPasswordController::class, 'resetToken'])->name('password.reset');
         Route::post('reset', [ResetPasswordController::class, 'reset']);
+        Route::patch('update', [UpdatePasswordController::class, 'update'])->middleware('auth:sanctum'); 
     });
 
     /**
