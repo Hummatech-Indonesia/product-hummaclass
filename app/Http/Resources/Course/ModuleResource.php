@@ -28,7 +28,7 @@ class ModuleResource extends JsonResource
             'quizz_count' => $this->quizzes->count(),
             'sub_modules' => SubModuleResource::collection($this->subModules),
             'sub_module_count' => $this->subModules->count(),
-            // 'module_tasks' => ModuleTaskResource::collection($this->moduleTasks),
+            'module_tasks' => ModuleTaskResource::collection($this->moduleTasks),
             'module_task_count' => $this->moduleTasks->count(),
         ];
     }
