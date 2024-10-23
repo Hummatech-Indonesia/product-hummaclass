@@ -74,4 +74,15 @@ class QuizRepository extends BaseRepository implements QuizInterface
     {
         return $this->model->query()->where('module_id', $id)->firstOrFail();
     }
+    /**
+     * Method delete
+     *
+     * @param mixed $id [explicite description]
+     *
+     * @return mixed
+     */
+    public function delete(mixed $id): mixed
+    {
+        return $this->model->query()->findOrFail($id)->delete();
+    }
 }

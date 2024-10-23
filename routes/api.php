@@ -168,6 +168,7 @@ Route::middleware('enable.cors')->group(function () {
         Route::get('quizzes', [QuizController::class, 'get']);
         Route::get('quiz-start/{quiz}', [QuizController::class, 'show']);
         Route::post('quizzes/{module}', [QuizController::class, 'store']);
+        Route::delete('quizzes/{quiz}', [QuizController::class, 'destroy']);
 
         Route::get('course-tests-get', [CourseTestController::class, 'get']);
 

@@ -129,4 +129,16 @@ class QuizController extends Controller
         $this->quiz->store($data);
         return ResponseHelper::success(true, trans('alert.add_success'));
     }
+    /**
+     * Method destroy
+     *
+     * @param Quiz $quiz [explicite description]
+     *
+     * @return JsonResponse
+     */
+    public function destroy(Quiz $quiz): JsonResponse
+    {
+        $this->quiz->delete($quiz->id);
+        return ResponseHelper::success(null, trans('alert.delete_success'));
+    }
 }
