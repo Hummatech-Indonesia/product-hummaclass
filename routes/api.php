@@ -129,7 +129,7 @@ Route::middleware('enable.cors')->group(function () {
         'except' => ['edit', 'create']
     ]);
 
-    Route::middleware('auth:sanctum')->group(function () {
+    // Route::middleware('auth:sanctum')->group(function () {
         Route::resource('discussions', DiscussionController::class)->except(['index', 'create', 'edit', 'store']);
         Route::get('discussions/course/{slug}', [DiscussionController::class, 'index']);
         Route::post('discussions/{slug}', [DiscussionController::class, 'store']);
@@ -198,7 +198,7 @@ Route::middleware('enable.cors')->group(function () {
 
         Route::get('transaction/statistic', [TransactionController::class, 'groupByMonth']);
         Route::get('transactions-user', [TransactionController::class, 'getByUser']);
-    });
+    // });
 
     /**
      * Sanctum Authenticated Routes
