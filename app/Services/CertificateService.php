@@ -22,6 +22,7 @@ use App\Models\EventDetail;
 use App\Models\User;
 use App\Models\UserCourse;
 use App\Traits\UploadTrait;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
 class CertificateService
@@ -61,15 +62,20 @@ class CertificateService
     }
     public function download(string $slug)
     {
+
         $course = $this->course->showWithSlug($slug);
-        $userCourse = UserCourse::where([
-            'course_id' => $course->id,
-            'user_id' => auth()->user()->user
-        ]);
+        $userCourse = UserCourse::query()
+            ->where([
+                'course_id' => $course->id,
+                'user_id' => 'd633e29b-f216-3246-b1b3-c768e31566bc'
+            ])
+            ->firstOrFail();
+        $pdf = Pdf::loadView('certificate', compact('userCourse'));
 
-        $pdf = Pdf::loadView('certificate', compact('certificate'));
-
-        return $pdf->download('kursus-' . $certificate->id . '.pdf');
+        return [
+            'pdf' => $pdf,
+            'userCourse' => $userCourse
+        ];
 
     }
 

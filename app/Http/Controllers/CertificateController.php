@@ -79,6 +79,9 @@ class CertificateController extends Controller
     }
     public function download(string $slug)
     {
-        $this->service->download($slug);
+        $certificate = $this->service->download($slug);
+        return $certificate['pdf']->download($certificate['userCourse']->course->title . ' - ' . $certificate['userCourse']->certificate->username . '.pdf');
+        // return ResponseHelper::success(null, trans('alert.download_success'));
+
     }
 }

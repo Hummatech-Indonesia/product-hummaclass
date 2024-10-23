@@ -8,6 +8,8 @@ use App\Base\Interfaces\HasUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class UserCourse extends Model implements HasUser, HasCourse, HasSubModule
 {
@@ -43,13 +45,13 @@ class UserCourse extends Model implements HasUser, HasCourse, HasSubModule
         return $this->belongsTo(SubModule::class);
     }
     /**
-     * Get the certificate that owns the UserCourse
+     * Get the certificate associated with the UserCourse
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function certificate(): BelongsTo
+    public function certificate(): HasOne
     {
-        return $this->belongsTo(Certificate::class);
+        return $this->hasOne(Certificate::class);
     }
 
 }
