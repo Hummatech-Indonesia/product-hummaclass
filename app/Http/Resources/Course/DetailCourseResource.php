@@ -26,7 +26,7 @@ class DetailCourseResource extends JsonResource
             'id' => $this->id,
             // 'user' => new UserResource($this->user),
             'user_course' => $this->userCourses()?->where('user_id', $user?->id)->with('subModule')->first(),
-            'course_test_id' => $this->courseTest->id,
+            'course_test_id' => $this->courseTest?->id,
             'sub_category' => SubCategoryResource::make($this->subCategory),
             'category' => CategoryResource::make($this->subCategory->category),
             'title' => $this->title,

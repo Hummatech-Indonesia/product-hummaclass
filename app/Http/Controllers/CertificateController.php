@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Contracts\Interfaces\CertificateInterface;
 use App\Contracts\Interfaces\Course\CourseInterface;
+use App\Contracts\Interfaces\Course\UserCourseInterface;
 use App\Helpers\ResponseHelper;
 use App\Http\Requests\CertificateRequest;
 use App\Http\Resources\CertificateResource;
@@ -18,23 +19,26 @@ use Illuminate\Http\Request;
 class CertificateController extends Controller
 {
     private CertificateInterface $certificate;
-    private CertificateService $service;
+    private UserCourseInterface $userCourse;
     private CourseInterface $course;
-    public function __construct(CertificateInterface $certificate, CourseInterface $course, CertificateService $service)
+    private CertificateService $service;
+    public function __construct(CertificateInterface $certificate, CourseInterface $course, UserCourseInterface $userCourse)
     {
         $this->certificate = $certificate;
         $this->course = $course;
-        $this->service = $service;
+        $this->userCourse = $userCourse;
     }
     /**
      * Method index
      *
      * @return JsonResponse
      */
-    public function index(): JsonResponse
+    public function show(string $slug): JsonResponse
     {
-        $certificates = $this->certificate->get();
-        return ResponseHelper::success(CertificateResource::collection($certificates), trans('alert.fetch_success'));
+        $course = $this->course->showWithSlug($slug);
+        $userCourse = $this->userCourse->showByUserCourse($course->id);
+        $certificate = $this->certificate->showWithCourse($userCourse->id);
+        return ResponseHelper::success(CertificateResource::make($certificate), trans('alert.fetch_success'));
     }
     /**
      * Method store
@@ -76,7 +80,5 @@ class CertificateController extends Controller
     public function download(string $slug)
     {
         $this->service->download($slug);
-
-        
     }
 }

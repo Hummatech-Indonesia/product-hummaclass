@@ -69,4 +69,15 @@ class CertificateRepository extends BaseRepository implements CertificateInterfa
     {
         return $this->model->query()->findOrFail($id)->update($data);
     }
+
+    /**
+     * showWithCourse
+     *
+     * @param  mixed $id
+     * @return mixed
+     */
+    public function showWithCourse(mixed $id): mixed
+    {
+        return $this->model->query()->where('user_course_id', $id)->firstOrFail();
+    }
 }

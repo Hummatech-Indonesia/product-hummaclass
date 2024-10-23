@@ -15,5 +15,5 @@ use App\Contracts\Interfaces\Eloquent\UpdateInterface;
 
 interface CertificateInterface extends GetInterface,ShowInterface, StoreInterface, UpdateInterface
 {
-
+    public function showWithCourse(mixed $id): mixed;
 }

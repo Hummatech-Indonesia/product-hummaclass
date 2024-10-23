@@ -14,7 +14,7 @@ return new class extends Migration {
         Schema::create('module_questions', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('module_id')->constrained();
-            $table->string('question');
+            $table->longText('question');
             $table->string('option_a');
             $table->string('option_b');
             $table->string('option_c');

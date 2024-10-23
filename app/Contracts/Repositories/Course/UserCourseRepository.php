@@ -41,12 +41,17 @@ class UserCourseRepository extends BaseRepository implements UserCourseInterface
     {
         return $this->model->query()->create($data);
     }
+
+    /**
+     * customUpdate
+     *
+     * @param  mixed $courseId
+     * @param  mixed $data
+     * @return mixed
+     */
     public function customUpdate(mixed $courseId, array $data): mixed
     {
-        return $this->model->query()->where([
-            'user_id' => auth()->user()->id,
-            'course_id' => $courseId
-        ])->update($data);
+        return $this->showByUserCourse($courseId)->update($data);
     }
     /**
      * delete
@@ -78,7 +83,7 @@ class UserCourseRepository extends BaseRepository implements UserCourseInterface
      */
     public function update(mixed $id, array $data): mixed
     {
-        return $this->model->query()->where('user_id', auth()->user()->id)->where('course_id', $id)->firstOrFail()->update($data);
+        return $this->showByUserCourse($id)->update($data);
     }
     /**
      * Method showByUserCourse
