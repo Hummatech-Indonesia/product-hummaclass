@@ -40,7 +40,6 @@ use App\Http\Controllers\{
     EventController,
     FaqController,
     Payment\TransactionController,
-    RewardController,
     TagController,
     UpdatePasswordController
 };
@@ -130,7 +129,7 @@ Route::middleware('enable.cors')->group(function () {
         'except' => ['edit', 'create']
     ]);
 
-    // Route::middleware('auth:sanctum')->group(function () {
+    Route::middleware('auth:sanctum')->group(function () {
         Route::resource('discussions', DiscussionController::class)->except(['index', 'create', 'edit', 'store']);
         Route::get('discussions/course/{slug}', [DiscussionController::class, 'index']);
         Route::post('discussions/{slug}', [DiscussionController::class, 'store']);
@@ -199,7 +198,7 @@ Route::middleware('enable.cors')->group(function () {
 
         Route::get('transaction/statistic', [TransactionController::class, 'groupByMonth']);
         Route::get('transactions-user', [TransactionController::class, 'getByUser']);
-    // });
+    });
 
     /**
      * Sanctum Authenticated Routes
@@ -337,15 +336,7 @@ Route::middleware('enable.cors')->group(function () {
 
     Route::get('quizzes-get', [QuizController::class, 'get']);
 
-    Route::get('rewards', [RewardController::class, 'index']);
-    Route::get('rewards/{slug}', [RewardController::class, 'show']);
     Route::middleware('auth:sanctum')->group(function () {
-        Route::resources([
-            'blogs'=>BlogController::class,
-            'rewards'=>RewardController::class,
-        ],[
-            'only'=>['store','update','destroy']
-        ]);
         Route::resource('blogs', BlogController::class)->only(['store', 'update', 'destroy']);
         Route::get('blog/{blog}', [BlogController::class, 'show']);
 
