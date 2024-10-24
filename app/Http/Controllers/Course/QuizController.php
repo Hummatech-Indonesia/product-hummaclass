@@ -75,6 +75,7 @@ class QuizController extends Controller
 
         $moduleQuestions = $this->moduleQuestion->customPaginate($request);
         $data['paginate'] = $this->customPaginate($moduleQuestions->currentPage(), $moduleQuestions->lastPage());
+        $data['quiz'] = QuizResource::make($quiz);
         $data['data'] = ModuleQuestionResource::collection($moduleQuestions);
         $data['user_quiz'] = UserQuizResource::make($userQuiz['userQuiz']);
 

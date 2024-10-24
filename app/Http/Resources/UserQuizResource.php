@@ -26,6 +26,7 @@ class UserQuizResource extends JsonResource
 
         return [
             'id' => $this->id,
+            'created_at' => $this->created_at,
             'quiz_questions' => $questions->pluck('question'),
             // 'quiz_answers' => $questions->pluck('nnanswer'),
         ];

@@ -17,6 +17,8 @@ class QuizResource extends JsonResource
         return [
             'id' => $this->id,
             'module_id' => $this->module_id,
+            'course_slug' => $this->module->course->slug,
+            'course_title' => $this->module->course->title,
             'module_title' => $this->module->title,
             'rules' => $this->rules,
             'module_slug' => $this->module->slug,
@@ -24,7 +26,7 @@ class QuizResource extends JsonResource
             'minimum_score' => $this->minimum_score,
             'duration' => $this->duration,
             'retry_delay' => $this->retry_delay,
-            'user_quizzes' => $this->userQuizzes,
+            // 'user_quizzes' => $this->userQuizzes,
             'is_submited' => $this->is_submited,
         ];
     }
