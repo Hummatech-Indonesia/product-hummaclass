@@ -28,7 +28,23 @@ class UserCourseRepository extends BaseRepository implements UserCourseInterface
      */
     public function customPaginate(Request $request, int $pagination = 10): LengthAwarePaginator
     {
-        return $this->model->query()->where('course_id', $request->course_id)->fastPaginate($pagination);
+        return $this->model->query()
+            ->with(['subModule.module', 'course' => function ($query) {
+                $query->with(['subCategory', 'user'])
+                    ->withCount('userCourses')
+                    ->withAvg('courseReviews', 'rating')
+                    ->with(['modules' => function ($query) {
+                        $query->select('id', 'course_id', 'step')
+                            ->withCount('subModules')
+                            ->with('quizzes', function ($query) {
+                                $query->with('userQuizzes', function ($query) {
+                                    $query->where('user_id', auth()->user()->id)->exists();
+                                });
+                            });
+                    }]);
+            }])
+            // ->where('course_id', $request->course_id)
+            ->fastPaginate($pagination);
     }
 
     /**

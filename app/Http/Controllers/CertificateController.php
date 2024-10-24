@@ -81,7 +81,5 @@ class CertificateController extends Controller
     {
         $certificate = $this->service->download($slug);
         return $certificate['pdf']->download($certificate['userCourse']->course->title . ' - ' . $certificate['userCourse']->certificate->username . '.pdf');
-        // return ResponseHelper::success(null, trans('alert.download_success'));
-
     }
 }
