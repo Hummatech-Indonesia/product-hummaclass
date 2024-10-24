@@ -55,6 +55,7 @@ use App\Contracts\Interfaces\DiscussionAnswerInterface;
 use App\Contracts\Interfaces\DiscussionInterface;
 use App\Contracts\Interfaces\DiscussionTagInterface;
 use App\Contracts\Interfaces\FaqInterface;
+use App\Contracts\Interfaces\RewardInterface;
 use App\Contracts\Interfaces\TagInterface;
 use App\Contracts\Repositories\CertificateRepository;
 use App\Contracts\Repositories\Course\SubCategoryRepository;
@@ -67,6 +68,7 @@ use App\Contracts\Repositories\DiscussionAnswerRepository;
 use App\Contracts\Repositories\DiscussionRepository;
 use App\Contracts\Repositories\DiscussionTagRepository;
 use App\Contracts\Repositories\FaqRepository;
+use App\Contracts\Repositories\RewardRepository;
 use App\Contracts\Repositories\TagRepository;
 
 class AppServiceProvider extends ServiceProvider
@@ -103,7 +105,8 @@ class AppServiceProvider extends ServiceProvider
         DiscussionInterface::class => DiscussionRepository::class,
         DiscussionAnswerInterface::class => DiscussionAnswerRepository::class,
         TagInterface::class => TagRepository::class,
-        CertificateInterface::class => CertificateRepository::class
+        CertificateInterface::class => CertificateRepository::class,
+        RewardInterface::class => RewardRepository::class
     ];
 
     /**

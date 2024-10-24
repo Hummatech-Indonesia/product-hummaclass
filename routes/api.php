@@ -40,6 +40,7 @@ use App\Http\Controllers\{
     EventController,
     FaqController,
     Payment\TransactionController,
+    RewardController,
     TagController,
     UpdatePasswordController
 };
@@ -336,7 +337,15 @@ Route::middleware('enable.cors')->group(function () {
 
     Route::get('quizzes-get', [QuizController::class, 'get']);
 
+    Route::get('rewards', [RewardController::class, 'index']);
+    Route::get('rewards/{slug}', [RewardController::class, 'show']);
     Route::middleware('auth:sanctum')->group(function () {
+        Route::resources([
+            'blogs'=>BlogController::class,
+            'rewards'=>RewardController::class,
+        ],[
+            'only'=>['store','update','destroy']
+        ]);
         Route::resource('blogs', BlogController::class)->only(['store', 'update', 'destroy']);
         Route::get('blog/{blog}', [BlogController::class, 'show']);
 
