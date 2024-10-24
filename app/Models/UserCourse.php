@@ -53,5 +53,4 @@ class UserCourse extends Model implements HasUser, HasCourse, HasSubModule
     {
         return $this->hasOne(Certificate::class);
     }
-
 }

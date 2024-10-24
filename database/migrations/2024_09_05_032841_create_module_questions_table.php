@@ -15,11 +15,11 @@ return new class extends Migration {
             $table->uuid('id')->primary();
             $table->foreignUuid('module_id')->constrained();
             $table->longText('question');
-            $table->string('option_a');
-            $table->string('option_b');
-            $table->string('option_c');
-            $table->string('option_d');
-            $table->string('option_e');
+            $table->longText('option_a');
+            $table->longText('option_b');
+            $table->longText('option_c');
+            $table->longText('option_d');
+            $table->longText('option_e');
             $table->enum('answer', [AnswerEnum::OPTION_A->value, AnswerEnum::OPTION_B->value, AnswerEnum::OPTION_C->value, AnswerEnum::OPTION_D->value, AnswerEnum::OPTION_E->value]);
             $table->timestamps();
         });

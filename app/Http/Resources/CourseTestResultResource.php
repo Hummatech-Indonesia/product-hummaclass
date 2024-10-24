@@ -24,12 +24,12 @@ class CourseTestResultResource extends JsonResource
 
         return [
             'id' => $this->id,
-            // 'score' => $this->score,
+            'score' => $this->score,
             'total_fault' => $totalFault,
             'total_correct' => $totalCorrect,
-            // 'status' => $this->score > $this->quiz->minimum_score ? 'Lulus' : 'Tidak lulus',
             'total_question' => $totalFault + $totalCorrect,
             'questions' => $transformedQuestions,
+            'course_slug' => $this->courseTest->course->slug,
         ];
     }
 
