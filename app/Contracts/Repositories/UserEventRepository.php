@@ -22,9 +22,11 @@ class UserEventRepository extends BaseRepository implements UserEventInterface
      *
      * @return LengthAwarePaginator
      */
-    public function customPaginate(Request $request, int $pagination = 10): LengthAwarePaginator
+    public function customPaginate(Request|null $request, int $pagination = 10): LengthAwarePaginator
     {
-        return $this->model->query()->where('course_id', $request->course_id)->fastPaginate($pagination);
+        return $this->model->query()->with(['event' => function ($query) {
+            $query->withCount('userEvents');
+        }, 'user'])->where('user_id', auth()->user()->id)->fastPaginate($pagination);
     }
 
     /**

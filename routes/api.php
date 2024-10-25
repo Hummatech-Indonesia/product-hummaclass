@@ -41,7 +41,8 @@ use App\Http\Controllers\{
     FaqController,
     Payment\TransactionController,
     TagController,
-    UpdatePasswordController
+    UpdatePasswordController,
+    UserEventController
 };
 use App\Helpers\ResponseHelper;
 
@@ -391,6 +392,8 @@ Route::middleware('enable.cors')->group(function () {
         // Route::get('user-courses/{course}', [UserCourseController::class, 'index']);
         Route::put('user-courses/{slug}/{sub_module}', [UserCourseController::class, 'userLastStep']);
         Route::post('user-courses-check', [UserCourseController::class, 'checkPayment']);
+        Route::post('user-events-check', [UserEventController::class, 'checkPayment']);
+        Route::get('user-events', [UserEventController::class, 'index']);
 
         Route::get('transaction/statistic', [TransactionController::class, 'groupByMonth']);
 

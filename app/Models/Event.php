@@ -41,6 +41,23 @@ class Event extends Model implements HasEventDetails,HasEventUsers
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */ 
+    public function UserEvents(): HasMany
+    {
+        return $this->hasMany(UserEvent::class);
+    }
+    
+
+
+
+
+
+
+
+
+
+
+
+
     public function eventUsers(): HasMany
     {
         return $this->hasMany(EventUser::class);

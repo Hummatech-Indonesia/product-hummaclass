@@ -83,7 +83,6 @@ class TransactionController extends Controller
         $voucher = $this->courseVoucher->getByCode($request->voucher_code);
         if ($productType == 'course') {
             $course = $this->course->show($id);
-            // dd($course);
             if (!$course->is_premium) {
                 $userCourse = $this->transactionService->handleCerateUserCourse($course, (object) ['user_id' => auth()->user()->id, 'course_id' => $course->id]);
                 return ResponseHelper::success($userCourse, 'Berhasil');
@@ -92,7 +91,12 @@ class TransactionController extends Controller
             }
         } else if ($productType == 'event') {
             $event = $this->event->show($id);
-            $transaction = json_decode($this->service->handelCreateTransaction($request, $event, $voucher), 1);
+            if (!$event->price > 0) {
+                $userEvent = $this->transactionService->handleCerateUserCourse($event, (object) ['user_id' => auth()->user()->id, 'event_id' => $event->id]);
+                return ResponseHelper::success($userEvent, 'Berhasil');
+            } else {
+                $transaction = json_decode($this->service->handelCreateTransaction($request, $event, $voucher), 1);
+            }
         }
 
         if ($transaction['success']) {
@@ -111,6 +115,7 @@ class TransactionController extends Controller
                 'payment_method' => $transaction['data']['payment_method'],
                 'course_voucher_id' => $voucher->id ?? null
             ];
+            dd($transaction);
             $transactionResult = $this->transaction->store($data);
             $transactionResult->reference = $transaction['data']['reference'];
             return ResponseHelper::success(['transaction' => $transactionResult, 'voucher' => $voucher], 'Transaksi berhasil');
