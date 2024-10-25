@@ -44,7 +44,10 @@ class CertificateRepository extends BaseRepository implements CertificateInterfa
      */
     public function store(array $data): mixed
     {
-        return $this->model->query()->create($data);
+        return $this->model->updateOrCreate(
+            ['user_course_id' => $data['user_course_id']],
+            $data
+        );
     }
     /**
      * Method show

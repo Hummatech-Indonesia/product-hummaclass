@@ -22,11 +22,12 @@ class CertificateController extends Controller
     private UserCourseInterface $userCourse;
     private CourseInterface $course;
     private CertificateService $service;
-    public function __construct(CertificateInterface $certificate, CourseInterface $course, UserCourseInterface $userCourse)
+    public function __construct(CertificateInterface $certificate, CourseInterface $course, UserCourseInterface $userCourse, CertificateService $service)
     {
         $this->certificate = $certificate;
         $this->course = $course;
         $this->userCourse = $userCourse;
+        $this->service = $service;
     }
     /**
      * Method index
@@ -50,10 +51,7 @@ class CertificateController extends Controller
      */
     public function store(CertificateRequest $request, string $slug): JsonResponse
     {
-        $service = $this->service->store($request, $slug);
-        if ($service === false) {
-            return ResponseHelper::error(null, trans('alert.fetch_failed'));
-        }
+        $this->service->store($request, $slug);
         return ResponseHelper::success(null, trans('alert.add_success'));
     }
     /**
@@ -77,9 +75,11 @@ class CertificateController extends Controller
             return ResponseHelper::error(null, trans('alert.update_failed'));
         }
     }
-    public function download(string $slug)
+    public function download(string $slug, string $user_id)
     {
-        $certificate = $this->service->download($slug);
+        $certificate = $this->service->download($slug, $user_id);
+
+
         return $certificate['pdf']->download($certificate['userCourse']->course->title . ' - ' . $certificate['userCourse']->certificate->username . '.pdf');
     }
 }

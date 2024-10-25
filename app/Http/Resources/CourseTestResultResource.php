@@ -25,6 +25,7 @@ class CourseTestResultResource extends JsonResource
         return [
             'id' => $this->id,
             'score' => $this->score,
+            'test_type' => $this->test_type,
             'total_fault' => $totalFault,
             'total_correct' => $totalCorrect,
             'total_question' => $totalFault + $totalCorrect,

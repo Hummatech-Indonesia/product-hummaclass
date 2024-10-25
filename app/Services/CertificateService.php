@@ -23,7 +23,6 @@ use App\Models\User;
 use App\Models\UserCourse;
 use App\Traits\UploadTrait;
 use Barryvdh\DomPDF\Facade\Pdf;
-use Illuminate\Http\Request;
 
 class CertificateService
 {
@@ -47,36 +46,27 @@ class CertificateService
 
         $data['user_course_id'] = $userCourse->id;
 
-        try {
-            Certificate::where('user_course_id', $userCourse->id)
-                ->latest()
-                ->firstOrFail();
-            return false;
-        } catch (\Throwable $e) {
-            $certificates = Certificate::count();
-            $data['code'] = '12' . date('Ymd') . str_pad($certificates + 1, 4, '0', STR_PAD_LEFT);
+        $certificates = Certificate::count();
+        $data['code'] = '12' . date('Ymd') . str_pad($certificates + 1, 4, '0', STR_PAD_LEFT);
 
-            $this->certificate->store($data);
-            return true;
-        }
+        $this->certificate->store($data);
+        return true;
     }
-    public function download(string $slug)
-    {
 
+    public function download(string $slug, string $user_id)
+    {
         $course = $this->course->showWithSlug($slug);
         $userCourse = UserCourse::query()
             ->where([
                 'course_id' => $course->id,
-                'user_id' => 'd633e29b-f216-3246-b1b3-c768e31566bc'
+                'user_id' => $user_id,
             ])
             ->firstOrFail();
-        $pdf = Pdf::loadView('certificate', compact('userCourse'));
+        $pdf = Pdf::loadView('certificate', compact('userCourse'))->setPaper('A4', 'landscape');
 
         return [
             'pdf' => $pdf,
             'userCourse' => $userCourse
         ];
-
     }
-
 }

@@ -348,6 +348,7 @@ Route::middleware('enable.cors')->group(function () {
     Route::get('quizzes-get', [QuizController::class, 'get']);
 
     Route::middleware('auth:sanctum')->group(function () {
+        
         Route::resource('blogs', BlogController::class)->only(['store', 'update', 'destroy']);
         Route::get('blog/{blog}', [BlogController::class, 'show']);
 
