@@ -11,11 +11,13 @@ use App\Http\Requests\UserRewardRequest;
 use App\Http\Resources\RewardResource;
 use App\Models\UserReward;
 use App\Services\RewardService;
+use App\Traits\PaginationTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class RewardController extends Controller
 {
+    use PaginationTrait;
     private RewardInterface $reward;
     private RewardService $service;
     public function __construct(RewardInterface $reward, RewardService $service)
@@ -29,7 +31,7 @@ class RewardController extends Controller
     public function index(Request $request): JsonResponse
     {
         $rewards = $this->reward->customPaginate($request);
-        // $data['paginate'] = $this->customPaginate($rewards->currentPage(), $rewards->lastPage());
+        $data['paginate'] = $this->customPaginate($rewards->currentPage(), $rewards->lastPage());
         $data['data'] = RewardResource::collection($rewards);
         return ResponseHelper::success($data, trans('alert.fetch_success'));
     }
