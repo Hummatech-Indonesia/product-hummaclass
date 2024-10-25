@@ -18,6 +18,7 @@ class Reward extends Model
         'name',
         'slug',
         'description',
+        'stock',
         'image',
         'points_required'
     ];

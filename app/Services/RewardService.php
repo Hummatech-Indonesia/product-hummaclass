@@ -69,22 +69,34 @@ class RewardService implements ShouldHandleFileUpload
             'status' => RewardStatusEnum::PENDING->value,
         ];
         $user = User::findOrFail(auth()->user()->id);
-        $lastReward = $user->userRewards()->where([
-            'reward_id' => $reward->id
-        ])->latest()->firstOrFail();
-        if (auth()->user()->point < $reward->points_required || $lastReward->status == RewardStatusEnum::PENDING->value) {
-            return 'failed';
+        try {
+            $lastReward = $user->userRewards()->where([
+                'reward_id' => $reward->id
+            ])->latest()->firstOrFail();
+            if ($lastReward->status == RewardStatusEnum::PENDING->value) {
+                return 'failed';
+            }
+        } catch (\Throwable $e) {
+            if (auth()->user()->point < $reward->points_required || $reward->stock < 1) {
+                return 'failed';
+            }
+            $this->userReward->store($data);
+            return 'success';
         }
-        $this->userReward->store($data);
-        return 'success';
     }
     public function change(UserRewardRequest $request, UserReward $userReward)
     {
         $data = $request->validated();
+
+        $reward = Reward::findOrFail($userReward->reward_id);
+
         $currentPoint = $userReward->user->point - $userReward->reward->points_required;
         if ($data['status'] == RewardStatusEnum::SUCCESS->value) {
             $this->user->customUpdate($userReward->user->id, [
                 'point' => $currentPoint
+            ]);
+            $reward->update([
+                'stock' => $reward->stock - 1
             ]);
         }
         $this->userReward->update($userReward->id, $data);

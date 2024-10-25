@@ -18,6 +18,7 @@ class RewardSeeder extends Seeder
             Reward::create([
                 'id' => Uuid::uuid(),
                 'image' => '',
+                'stock' => 3,
                 'name' => 'lorem ipsum ' . $i,
                 'slug' => 'lorem-ipsum ' . $i,
                 'description' => 'lorem ipsum dolor sit amet',
