@@ -194,4 +194,15 @@ class ModuleRepository extends BaseRepository implements ModuleInterface
     {
         return $this->model->query()->where('slug', $slug)->firstOrFail();
     }
+
+    /**
+     * whereStepCourse
+     *
+     * @param  mixed $step
+     * @return mixed
+     */
+    public function whereStepCourse(int $step, mixed $course_id): mixed
+    {
+        return $this->model->query()->where('step', $step)->where('course_id', $course_id)->firstOrFail();
+    }
 }

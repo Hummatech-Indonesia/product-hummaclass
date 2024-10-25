@@ -47,4 +47,15 @@ class UserRepository extends BaseRepository implements UserInterface
             'password' => Hash::make($data['password'])
         ]);
     }
+    /**
+     * Method customUpdate
+     *
+     * @param array $data [explicite description]
+     *
+     * @return mixed
+     */
+    public function customUpdate(mixed $id, array $data): mixed
+    {
+        return $this->show($id)->update($data);
+    }
 }

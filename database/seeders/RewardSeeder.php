@@ -14,13 +14,16 @@ class RewardSeeder extends Seeder
      */
     public function run(): void
     {
-        Reward::create([
-            'id' => Uuid::uuid(),
-            'image' => '',
-            'name' => 'lorem ipsum',
-            'slug' => 'lorem-ipsum',
-            'description' => 'lorem ipsum dolor sit amet',
-            'points_required' => 10
-        ]);
+        for ($i = 1; $i <= 16; $i++) {
+            Reward::create([
+                'id' => Uuid::uuid(),
+                'image' => '',
+                'stock' => 3,
+                'name' => 'lorem ipsum ' . $i,
+                'slug' => 'lorem-ipsum ' . $i,
+                'description' => 'lorem ipsum dolor sit amet',
+                'points_required' => 10
+            ]);
+        }
     }
 }

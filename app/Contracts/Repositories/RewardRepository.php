@@ -33,7 +33,7 @@ class RewardRepository extends BaseRepository implements RewardInterface
      *
      * @return LengthAwarePaginator
      */
-    public function customPaginate(Request $request, int $pagination = 10): LengthAwarePaginator
+    public function customPaginate(Request $request, int $pagination = 8): LengthAwarePaginator
     {
         return $this->model->query()->fastPaginate($pagination);
     }

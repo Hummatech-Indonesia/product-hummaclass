@@ -40,6 +40,7 @@ use App\Http\Controllers\{
     EventController,
     FaqController,
     Payment\TransactionController,
+    RewardController,
     TagController,
     UpdatePasswordController,
     UserEventController
@@ -130,7 +131,13 @@ Route::middleware('enable.cors')->group(function () {
         'except' => ['edit', 'create']
     ]);
 
+    Route::get('rewards', [RewardController::class, 'index']);
+    Route::get('rewards/{slug}', [RewardController::class, 'show']);
+
     Route::middleware('auth:sanctum')->group(function () {
+        Route::post('rewards-claim/{reward}', [RewardController::class, 'claim']);
+        Route::patch('rewards-change/{user_reward}', [RewardController::class, 'change']);
+        Route::resource('rewards', RewardController::class)->only(['store', 'update', 'destroy']);
         Route::resource('discussions', DiscussionController::class)->except(['index', 'create', 'edit', 'store']);
         Route::get('discussions/course/{slug}', [DiscussionController::class, 'index']);
         Route::post('discussions/{slug}', [DiscussionController::class, 'store']);
@@ -205,6 +212,7 @@ Route::middleware('enable.cors')->group(function () {
      * Sanctum Authenticated Routes
      */
     Route::middleware('auth:sanctum')->group(function () {
+
 
         // certificate
         Route::resource('certificates', CertificateController::class)->only(['update']);
@@ -281,6 +289,8 @@ Route::middleware('enable.cors')->group(function () {
         Route::post('submission-tasks/{moduleTask}', [SubmissionTaskController::class, 'store']);
         Route::get('submission-tasks/detail/{submissionTask}', [SubmissionTaskController::class, 'show']);
         // Route::get('submission-tasks/download/{submissionTask}', [SubmissionTaskController::class, 'download']);
+
+        Route::get('check-finished-course/{userQuiz}', [CourseController::class, 'checkSubmit']);
 
         // Quiz Management
         Route::get('quizzes/working/{quiz}', [QuizController::class, 'show']);
@@ -396,7 +406,6 @@ Route::middleware('enable.cors')->group(function () {
         Route::get('user-events', [UserEventController::class, 'index']);
 
         Route::get('transaction/statistic', [TransactionController::class, 'groupByMonth']);
-
     });
     /**
      * Password Reset
@@ -405,7 +414,7 @@ Route::middleware('enable.cors')->group(function () {
     Route::middleware('throttle:10,1')->prefix('password')->group(function () {
         Route::get('reset/{token}', [ResetPasswordController::class, 'resetToken'])->name('password.reset');
         Route::post('reset', [ResetPasswordController::class, 'reset']);
-        Route::patch('update', [UpdatePasswordController::class, 'update'])->middleware('auth:sanctum'); 
+        Route::patch('update', [UpdatePasswordController::class, 'update'])->middleware('auth:sanctum');
     });
 
     /**

@@ -23,6 +23,7 @@ class UpdateRewardRequest extends ApiRequest
     {
         return [
             'name' => 'sometimes|required',
+            'stock' => 'required|integer|min:1',
             'description' => 'sometimes|required',
             'points_required' => 'sometimes|required|integer',
             'image' => 'nullable|image|mimes:png,jpg'
@@ -37,7 +38,10 @@ class UpdateRewardRequest extends ApiRequest
             'points_required.required' => 'Poin yang dibutuhkan wajib diisi.',
             'points_required.integer' => 'Poin yang dibutuhkan harus berupa angka.',
             'image.image' => 'File harus berupa gambar.',
-            'image.mimes' => 'Gambar harus berformat PNG atau JPG.'
+            'image.mimes' => 'Gambar harus berformat PNG atau JPG.',
+            'stock.required' => 'Stok wajib diisi',
+            'stock.integer' => 'Stok harus berupa angka',
+            'stock.min' => 'Stok minimal :min',
         ];
     }
 }

@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->string('name');
             $table->string('slug');
             $table->text('image');
+            $table->integer('stock');
             $table->text('description');
             $table->integer('points_required');
             $table->timestamps();

@@ -24,6 +24,7 @@ class StoreRewardRequest extends ApiRequest
         return [
             'name' => 'required',
             'description' => 'required',
+            'stock' => 'required|integer|min:1',
             'points_required' => 'required|integer',
             'image' => 'required|image|mimes:png,jpg'
         ];
@@ -38,7 +39,10 @@ class StoreRewardRequest extends ApiRequest
             'points_required.integer' => 'Poin yang dibutuhkan harus berupa angka.',
             'image.required' => 'Gambar wajib diisi.',
             'image.image' => 'File harus berupa gambar.',
-            'image.mimes' => 'Gambar harus berformat PNG atau JPG.'
+            'image.mimes' => 'Gambar harus berformat PNG atau JPG.',
+            'stock.required' => 'Stok wajib diisi',
+            'stock.integer' => 'Stok harus berupa angka',
+            'stock.min' => 'Stok minimal :min',
         ];
     }
 }

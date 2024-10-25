@@ -3,12 +3,18 @@
 namespace App\Http\Controllers\Course;
 
 use App\Contracts\Interfaces\Course\CourseInterface;
+use App\Contracts\Interfaces\Course\ModuleInterface;
+use App\Contracts\Interfaces\Course\UserCourseInterface;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CourseRequest;
 use App\Http\Resources\Course\DetailCourseResource;
+use App\Http\Resources\Course\ModuleResource;
 use App\Http\Resources\CourseResource;
+use App\Http\Resources\QuizResource;
 use App\Models\Course;
+use App\Models\UserCourse;
+use App\Models\UserQuiz;
 use App\Services\Course\CourseService;
 use App\Traits\PaginationTrait;
 use Illuminate\Http\JsonResponse;
@@ -19,6 +25,8 @@ class CourseController extends Controller
 {
     use PaginationTrait;
     private CourseInterface $course;
+    private UserCourseInterface $userCourse;
+    private ModuleInterface $module;
     private CourseService $service;
 
 
@@ -29,10 +37,12 @@ class CourseController extends Controller
      *
      * @return void
      */
-    public function __construct(CourseInterface $course, CourseService $service)
+    public function __construct(CourseInterface $course, CourseService $service, UserCourseInterface $userCourse, ModuleInterface $module)
     {
+        $this->userCourse = $userCourse;
         $this->course = $course;
         $this->service = $service;
+        $this->module = $module;
     }
 
     public function index(Request $request): JsonResponse
@@ -161,5 +171,37 @@ class CourseController extends Controller
     {
         // return ResponseHelper::success($subModule);
         return ResponseHelper::success(Course::whereRelation('modules.subModules', 'slug', $subModule)->first());
+    }
+
+    /**
+     * checkSubmit
+     *
+     * @return JsonResponse
+     */
+    public function checkSubmit(UserQuiz $userQuiz): JsonResponse
+    {
+        $quiz = $userQuiz->quiz->minimum_score;
+        if ($userQuiz->score >= $quiz) {
+            $userCourse = $this->userCourse->showByUserCourse($userQuiz->quiz->module->course_id);
+            $module_step = 1;
+            foreach ($userCourse->course->modules as $module) {
+                if ($module->step > $module_step) {
+                    $module_step = $module->step;
+                }
+            }
+            $module = $this->module->whereStepCourse($module_step, $userCourse->course->id);
+            if ($userQuiz->quiz->module->id == $module->id) {
+                $data['status'] = 'finished';
+                $data['parameter'] = $userQuiz->quiz->module->course->courseTest->id;
+            } else {
+                $data['status'] = 'not_finished';
+                $data['parameter'] = $userQuiz->quiz->module->slug;
+            }
+        } else {
+            $data['status'] = 'not_finished';
+            $data['parameter'] = $userQuiz->quiz->module->slug;
+        }
+        $data['course'] = CourseResource::make($userQuiz->quiz->module->course);
+        return ResponseHelper::success($data);
     }
 }

@@ -91,6 +91,6 @@ class UserQuizRepository extends BaseRepository implements UserQuizInterface
      */
     public function show(mixed $id): mixed
     {
-        return $this->model->query()->where('user_id', auth()->user()->id)->first();
+        return $this->model->query()->findOrFail($id);
     }
 }

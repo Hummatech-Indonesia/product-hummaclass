@@ -68,6 +68,13 @@ class QuizController extends Controller
         }
     }
 
+    /**
+     * show
+     *
+     * @param  mixed $request
+     * @param  mixed $quiz
+     * @return JsonResponse
+     */
     public function show(Request $request, Quiz $quiz): JsonResponse
     {
         $userQuiz = $this->service->quiz($quiz);
@@ -142,4 +149,6 @@ class QuizController extends Controller
         $this->quiz->delete($quiz->id);
         return ResponseHelper::success(null, trans('alert.delete_success'));
     }
+
+    
 }
