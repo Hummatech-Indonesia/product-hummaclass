@@ -60,6 +60,16 @@ class User extends Authenticatable implements HasUserCourses, HasSocialAccount, 
     ];
 
     /**
+     * Get all of the userRewards for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function userRewards(): HasMany
+    {
+        return $this->hasMany(UserReward::class);
+    }
+
+    /**
      * Get all of the comments for the User
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

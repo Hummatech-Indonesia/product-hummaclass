@@ -40,6 +40,7 @@ use App\Http\Controllers\{
     EventController,
     FaqController,
     Payment\TransactionController,
+    RewardController,
     TagController,
     UpdatePasswordController
 };
@@ -129,7 +130,13 @@ Route::middleware('enable.cors')->group(function () {
         'except' => ['edit', 'create']
     ]);
 
+    Route::get('rewards', [RewardController::class, 'index']);
+    Route::get('rewards/{slug}', [RewardController::class, 'show']);
+
     Route::middleware('auth:sanctum')->group(function () {
+        Route::post('rewards-claim/{reward}', [RewardController::class, 'claim']);
+        Route::patch('rewards-change/{user_reward}', [RewardController::class, 'change']);
+        Route::resource('rewards', RewardController::class)->only(['store', 'update', 'destroy']);
         Route::resource('discussions', DiscussionController::class)->except(['index', 'create', 'edit', 'store']);
         Route::get('discussions/course/{slug}', [DiscussionController::class, 'index']);
         Route::post('discussions/{slug}', [DiscussionController::class, 'store']);

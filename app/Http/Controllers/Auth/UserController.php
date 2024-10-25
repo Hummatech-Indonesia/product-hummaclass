@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Contracts\Interfaces\Auth\UserInterface;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\AuthResource;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Traits\PaginationTrait;

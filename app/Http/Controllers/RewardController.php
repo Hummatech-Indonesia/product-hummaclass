@@ -7,7 +7,9 @@ use App\Helpers\ResponseHelper;
 use App\Models\Reward;
 use App\Http\Requests\StoreRewardRequest;
 use App\Http\Requests\UpdateRewardRequest;
+use App\Http\Requests\UserRewardRequest;
 use App\Http\Resources\RewardResource;
+use App\Models\UserReward;
 use App\Services\RewardService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -82,5 +84,25 @@ class RewardController extends Controller
     {
         $this->reward->delete($reward->id);
         return ResponseHelper::success(null, trans('alert.delete_success'));
+    }
+    public function claim(Reward $reward): JsonResponse
+    {
+        $claimStatus = $this->service->claim($reward);
+        if ($claimStatus == 'success') {
+            return ResponseHelper::success(null, trans('alert.add_success'));
+        }
+        return ResponseHelper::error(null, trans('alert.add_failed'));
+    }
+    /**
+     * Method change
+     *
+     * @param UserReward $userReward [explicite description]
+     *
+     * @return JsonResponse
+     */
+    public function change(UserRewardRequest $request, UserReward $userReward): JsonResponse
+    {
+        $this->service->change($request, $userReward);
+        return ResponseHelper::success(null, trans('alert.fetch_success'));
     }
 }

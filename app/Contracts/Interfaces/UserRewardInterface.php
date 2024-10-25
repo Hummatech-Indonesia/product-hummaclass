@@ -1,22 +1,18 @@
 <?php
 
-namespace App\Contracts\Interfaces\Auth;
+namespace App\Contracts\Interfaces;
 
 use App\Contracts\Interfaces\Eloquent\BaseInterface;
 use App\Contracts\Interfaces\Eloquent\CustomPaginationInterface;
+use App\Contracts\Interfaces\Eloquent\DeleteInterface;
+use App\Contracts\Interfaces\Eloquent\GetInterface;
 use App\Contracts\Interfaces\Eloquent\SearchInterface;
 use App\Contracts\Interfaces\Eloquent\ShowInterface;
+use App\Contracts\Interfaces\Eloquent\ShowSlugInterface;
 use App\Contracts\Interfaces\Eloquent\StoreInterface;
 use App\Contracts\Interfaces\Eloquent\UpdateInterface;
 
-interface UserInterface extends CustomPaginationInterface, ShowInterface, UpdateInterface
+interface UserRewardInterface extends StoreInterface,UpdateInterface
 {
-    /**
-     * Method customUpdate
-     *
-     * @param array $data [explicite description]
-     *
-     * @return mixed
-     */
-    public function customUpdate(array $data): mixed;
+
 }
