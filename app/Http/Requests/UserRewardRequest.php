@@ -37,7 +37,6 @@ class UserRewardRequest extends ApiRequest
     {
         return [
             'status.required' => 'status wajib diisi',
-            'message.required' => 'pesan wajib diisi'
         ];
     }
 }

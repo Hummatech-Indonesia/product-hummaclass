@@ -54,8 +54,8 @@ class UserRepository extends BaseRepository implements UserInterface
      *
      * @return mixed
      */
-    public function customUpdate(array $data): mixed
+    public function customUpdate(mixed $id, array $data): mixed
     {
-        return $this->show(auth()->user()->id)->update($data);
+        return $this->show($id)->update($data);
     }
 }

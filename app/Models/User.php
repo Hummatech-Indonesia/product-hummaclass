@@ -18,7 +18,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable implements HasUserCourses, HasSocialAccount, MustVerifyEmail, HasEventUsers, HasUserCourseTests,HasCourseReviews
+class User extends Authenticatable implements HasUserCourses, HasSocialAccount, MustVerifyEmail, HasEventUsers, HasUserCourseTests, HasCourseReviews
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
@@ -35,6 +35,7 @@ class User extends Authenticatable implements HasUserCourses, HasSocialAccount, 
         'name',
         'email',
         'password',
+        'point',
         'phone_number',
         'address',
         'photo'
