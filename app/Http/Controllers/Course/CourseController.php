@@ -9,7 +9,9 @@ use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CourseRequest;
 use App\Http\Resources\Course\DetailCourseResource;
+use App\Http\Resources\Course\ModuleResource;
 use App\Http\Resources\CourseResource;
+use App\Http\Resources\QuizResource;
 use App\Models\Course;
 use App\Models\UserCourse;
 use App\Models\UserQuiz;
@@ -178,15 +180,28 @@ class CourseController extends Controller
      */
     public function checkSubmit(UserQuiz $userQuiz): JsonResponse
     {
-        $userCourse = $this->userCourse->showByUserCourse($userQuiz->quiz->module->course_id);
-        $module_step = 1;
-        foreach ($userCourse->course->modules as $module) {
-            if ($module->step > $module_step) {
-                $module_step = $module->step;
+        $quiz = $userQuiz->quiz->minimum_score;
+        if ($userQuiz->score >= $quiz) {
+            $userCourse = $this->userCourse->showByUserCourse($userQuiz->quiz->module->course_id);
+            $module_step = 1;
+            foreach ($userCourse->course->modules as $module) {
+                if ($module->step > $module_step) {
+                    $module_step = $module->step;
+                }
             }
+            $module = $this->module->whereStepCourse($module_step, $userCourse->course->id);
+            if ($userQuiz->quiz->module->id == $module->id) {
+                $data['status'] = 'finished';
+                $data['parameter'] = $userQuiz->quiz->module->course->courseTest->id;
+            } else {
+                $data['status'] = 'not_finished';
+                $data['parameter'] = $userQuiz->quiz->module->slug;
+            }
+        } else {
+            $data['status'] = 'not_finished';
+            $data['parameter'] = $userQuiz->quiz->module->slug;
         }
-        $module = $this->module->whereStepCourse($module_step, $userCourse->course->id);
-        dd($module);
-        return ResponseHelper::success();
+        $data['course'] = CourseResource::make($userQuiz->quiz->module->course);
+        return ResponseHelper::success($data);
     }
 }
