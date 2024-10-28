@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 interface UserEventInterface extends CustomPaginationInterface, StoreInterface, DeleteInterface, ShowInterface, UpdateInterface
 {
     /**
-     * showByUserCourse
+     * showByCourse
      *
      * @param  mixed $userId
      * @param  mixed $courseId

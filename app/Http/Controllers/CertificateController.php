@@ -37,7 +37,7 @@ class CertificateController extends Controller
     public function show(string $slug): JsonResponse
     {
         $course = $this->course->showWithSlug($slug);
-        $userCourse = $this->userCourse->showByUserCourse($course->id);
+        $userCourse = $this->userCourse->showByCourse($course->id);
         $certificate = $this->certificate->showWithCourse($userCourse->id);
         return ResponseHelper::success(CertificateResource::make($certificate), trans('alert.fetch_success'));
     }

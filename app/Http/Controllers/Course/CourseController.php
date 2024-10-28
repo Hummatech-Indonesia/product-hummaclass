@@ -182,7 +182,7 @@ class CourseController extends Controller
     {
         $quiz = $userQuiz->quiz->minimum_score;
         if ($userQuiz->score >= $quiz) {
-            $userCourse = $this->userCourse->showByUserCourse($userQuiz->quiz->module->course_id);
+            $userCourse = $this->userCourse->showByCourse($userQuiz->quiz->module->course_id);
             $module_step = 1;
             foreach ($userCourse->course->modules as $module) {
                 if ($module->step > $module_step) {

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Course;
 
 use App\Contracts\Interfaces\Course\CourseInterface;
 use App\Contracts\Interfaces\Course\UserCourseInterface;
+use App\Helpers\CourcePercentaceHelper;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserCourseResource;
@@ -12,11 +13,14 @@ use App\Models\Module;
 use App\Models\SubModule;
 use App\Models\UserCourse;
 use App\Services\UserCourseService;
+use App\Traits\PaginationTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class UserCourseController extends Controller
 {
+    use PaginationTrait;
+
     private UserCourseInterface $userCourse;
     private CourseInterface $course;
     private UserCourseService $service;
@@ -37,7 +41,9 @@ class UserCourseController extends Controller
     public function index(Request $request): JsonResponse
     {
         $userCourses = $this->userCourse->customPaginate($request);
-        return ResponseHelper::success(UserCourseResource::collection($userCourses), trans('alert.fetch_success'));
+        $data['paginate'] = $this->customPaginate($userCourses->currentPage(), $userCourses->lastPage());
+        $data['data'] = UserCourseResource::collection($userCourses);
+        return ResponseHelper::success($data, trans('alert.fetch_success'));
     }
 
 
@@ -49,8 +55,10 @@ class UserCourseController extends Controller
     public function userLastStep(string $slug, SubModule $subModule): JsonResponse
     {
         $course = $this->course->showWithSlug($slug);
+        $userCourse = UserCourseResource::make($this->userCourse->showByCourse($course->id));
+        $userCourse->course->test_id = $course->courseTest->id;
         $this->service->userLastStep($course, $subModule);
-        return ResponseHelper::success(null, 'Berhasil masuk materi');
+        return ResponseHelper::success($userCourse, 'Berhasil masuk materi');
     }
 
     public function checkPayment(Request $request)

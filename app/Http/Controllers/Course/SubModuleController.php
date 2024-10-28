@@ -156,7 +156,7 @@ class SubModuleController extends Controller
     public function checkPrevSubModule(string $slug): JsonResponse
     {
         $subModule = $this->subModule->showWithSlug($slug);
-        $userCourse = $this->userCourse->showByUserCourse($subModule->module->course->id);
+        $userCourse = $this->userCourse->showByCourse($subModule->module->course->id);
         $this->subModule->getAllPrevSubModule($userCourse->subModule->id, $userCourse->subModule->module->id);
         return ResponseHelper::success();
     }

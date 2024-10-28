@@ -55,7 +55,7 @@ class CourseReviewController extends Controller
         $data = $request->validated();
         $data['user_id'] = auth()->user()->id;
         $data['course_id'] = $course->id;
-        $userCourse = $this->userCoruse->showByUserCourse($course->id);
+        $userCourse = $this->userCoruse->showByCourse($course->id);
         $updated_at = Carbon::make($userCourse->updated_at);
         if ($userCourse->has_post_test && $updated_at->diffInMonths(Carbon::now())) {
             return ResponseHelper::success(false, trans('alert.review_expired'));

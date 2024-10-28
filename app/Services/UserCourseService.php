@@ -45,7 +45,7 @@ class UserCourseService
      */
     public function userLastStep(Course $course, SubModule $subModule)
     {
-        $userCourse = $this->userCourse->showByUserCourse($course->id);
+        $userCourse = $this->userCourse->showByCourse($course->id);
         $currentStep = $userCourse->subModule->step;
         $currentStepModule = $userCourse->subModule->module->step;
 
