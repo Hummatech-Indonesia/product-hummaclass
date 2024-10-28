@@ -22,9 +22,11 @@ use App\Contracts\Interfaces\TransactionInterface;
 use App\Http\Resources\TransactionResource;
 use App\Models\User;
 use App\Models\UserEvent;
+use App\Traits\PaginationTrait;
 
 class TransactionController extends Controller
 {
+    use PaginationTrait;
     private TransactionInterface $transaction;
     private UserCourseInterface $userCourse;
     private UserEventInterface $userEvent;
@@ -54,10 +56,24 @@ class TransactionController extends Controller
         return response()->json($paymentInstructions = $this->service->handlePaymentInstructions($request->code));
         // return ResponseHelper::success($paymentInstructions, trans('alert.fetch_success'));
     }
-    public function index(): JsonResponse
+
+    /**
+     * index
+     *
+     * @param  mixed $request
+     * @return JsonResponse
+     */
+    public function index(Request $request): JsonResponse
     {
-        $transactions = $this->transaction->get();
-        return ResponseHelper::success(TransactionResource::collection($transactions), trans('alert.fetch_success'));
+        if ($request->has('page')) {
+            $categories = $this->transaction->customPaginate($request);
+            $data['paginate'] = $this->customPaginate($categories->currentPage(), $categories->lastPage());
+            $data['data'] = TransactionResource::collection($categories);
+        } else {
+            $categories = $this->transaction->search($request);
+            $data['data'] = TransactionResource::collection($categories);
+        }
+        return ResponseHelper::success($data, trans('alert.fetch_success'));
     }
     public function getByUser(): JsonResponse
     {

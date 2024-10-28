@@ -8,6 +8,8 @@ use App\Contracts\Repositories\BaseRepository;
 use App\Enums\InvoiceStatusEnum;
 use App\Models\Transaction;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class TransactionRepository extends BaseRepository implements TransactionInterface
 {
@@ -82,21 +84,32 @@ class TransactionRepository extends BaseRepository implements TransactionInterfa
         return $this->show($id)->destroy();
     }
 
-    // public function countByMonth(): mixed
-    // {
-    //     return $this->model->query()
-    //         ->where('invoice_status', InvoiceStatusEnum::PAID)
-    //         ->selectRaw('DATE_FORMAT(created_at, "%M") as month_name, MONTH(created_at) as month_number, COUNT(*) as count')
-    //         ->groupBy('month_number', 'month_name')
-    //         ->orderBy('month_number') // Urutkan berdasarkan nomor bulan
-    //         ->get()
-    //         ->map(function ($item) {
-    //             return [
-    //                 'month' => $item->month_name,
-    //                 'count' => $item->count,
-    //             ];
-    //         });
-    // }
+    /**
+     * customPaginate
+     *
+     * @param  mixed $request
+     * @param  mixed $pagination
+     * @return LengthAwarePaginator
+     */
+    public function customPaginate(Request $request, int $pagination = 10): LengthAwarePaginator
+    {
+        return $this->model->query()->when($request->name, function ($query) use ($request) {
+            $query->whereRelation('user', 'name', 'LIKE', '%' . $request->name . '%');
+        })->fastPaginate($pagination);
+    }
+
+    /**
+     * search
+     *
+     * @param  mixed $request
+     * @return mixed
+     */
+    public function search(Request $request): mixed
+    {
+        return $this->model->query()->when($request->name, function ($query) use ($request) {
+            $query->where('user', 'name', 'LIKE', '%' . $request->name . '%');
+        })->get();
+    }
 
     public function countByMonth(): mixed
     {

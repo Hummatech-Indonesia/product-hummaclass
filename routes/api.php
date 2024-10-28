@@ -333,6 +333,7 @@ Route::middleware('enable.cors')->group(function () {
     Route::get('sub-modules/next/{slug}', [SubModuleController::class, 'next']);
     Route::get('sub-modules/prev/{slug}', [SubModuleController::class, 'prev']);
     Route::get('sub-categories/category/{category}', [SubCategoryController::class, 'getByCategory']);
+    Route::get('sub-categories', [SubCategoryController::class, 'index']);
 
     Route::get('courses', [CourseController::class, 'index']);
     Route::get('courses/{slug}', [CourseController::class, 'show']);
@@ -348,7 +349,7 @@ Route::middleware('enable.cors')->group(function () {
     Route::get('quizzes-get', [QuizController::class, 'get']);
 
     Route::middleware('auth:sanctum')->group(function () {
-        
+
         Route::resource('blogs', BlogController::class)->only(['store', 'update', 'destroy']);
         Route::get('blog/{blog}', [BlogController::class, 'show']);
 
@@ -387,7 +388,7 @@ Route::middleware('enable.cors')->group(function () {
         Route::post('quizzes/{module}', [QuizController::class, 'store']);
 
         Route::get('course-tests-get', [CourseTestController::class, 'get']);
-        Route::get('course-tests/{course}', [CourseTestController::class, 'index']);
+        Route::get('course-tests/{slug}', [CourseTestController::class, 'index']);
         Route::get('course-test-start/{course_test}', [CourseTestController::class, 'show']);
         Route::post('course-tests/{course}', [CourseTestController::class, 'store']);
 
