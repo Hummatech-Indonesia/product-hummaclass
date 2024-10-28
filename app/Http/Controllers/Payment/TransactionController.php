@@ -115,7 +115,7 @@ class TransactionController extends Controller
                 'payment_method' => $transaction['data']['payment_method'],
                 'course_voucher_id' => $voucher->id ?? null
             ];
-            dd($transaction);
+            // dd($transaction);
             $transactionResult = $this->transaction->store($data);
             $transactionResult->reference = $transaction['data']['reference'];
             return ResponseHelper::success(['transaction' => $transactionResult, 'voucher' => $voucher], 'Transaksi berhasil');
