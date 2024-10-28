@@ -62,6 +62,7 @@ class CertificateService
                 'user_id' => $user_id,
             ])
             ->firstOrFail();
+        $userCourse->update(['has_downloaded' => 1]);
         $pdf = Pdf::loadView('certificate', compact('userCourse'))->setPaper('A4', 'landscape');
 
         return [

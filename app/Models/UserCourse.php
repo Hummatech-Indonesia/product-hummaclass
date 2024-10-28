@@ -15,7 +15,7 @@ class UserCourse extends Model implements HasUser, HasCourse, HasSubModule
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'course_id', 'sub_module_id', 'has_pre_test', 'has_post_test'];
+    protected $fillable = ['user_id', 'course_id', 'sub_module_id', 'has_pre_test', 'has_post_test', 'has_downloaded'];
 
     /**
      * Get the user that owns the UserCourse

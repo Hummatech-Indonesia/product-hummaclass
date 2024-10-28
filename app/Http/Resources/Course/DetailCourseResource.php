@@ -43,7 +43,7 @@ class DetailCourseResource extends JsonResource
             'course_reviews' => CourseReviewResource::collection($this->courseReviews),
             'course_review_count' => $this->courseReviews->count(),
             'user_courses_count' => $this->userCourses->count(),
-            'created' => $this->created_at->format('d/m/Y'),
+            'created' => $this->created_at,
         ];
     }
 }
