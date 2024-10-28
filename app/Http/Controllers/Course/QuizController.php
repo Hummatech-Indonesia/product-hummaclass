@@ -78,6 +78,9 @@ class QuizController extends Controller
     public function show(Request $request, Quiz $quiz): JsonResponse
     {
         $userQuiz = $this->service->quiz($quiz);
+        if ($userQuiz == 'failed') {
+            return ResponseHelper::error(null, trans('alert.fetch_failed'));
+        }
         $request->merge(['id' => $userQuiz['questions']]);
 
         $moduleQuestions = $this->moduleQuestion->customPaginate($request);
@@ -150,5 +153,5 @@ class QuizController extends Controller
         return ResponseHelper::success(null, trans('alert.delete_success'));
     }
 
-    
+
 }
