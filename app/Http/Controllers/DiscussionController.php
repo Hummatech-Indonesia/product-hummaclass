@@ -29,11 +29,11 @@ class DiscussionController extends Controller
      *
      * @return JsonResponse
      */
-    public function index(string $slug): JsonResponse
+    public function index(Request $request, string $slug): JsonResponse
     {
         $course = $this->course->showWithSlug($slug);
         // dd($course);
-        $discussions = $this->discussion->getWhere(['course_id' => $course->id]);
+        $discussions = $this->discussion->getWhere($request, ['course_id' => $course->id]);
         // dd($discussions);
         return ResponseHelper::success(DiscussionResource::collection($discussions), trans('alert.fetch_success'));
     }

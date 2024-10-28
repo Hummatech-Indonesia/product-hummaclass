@@ -12,8 +12,10 @@ use App\Contracts\Interfaces\Eloquent\ShowInterface;
 use App\Contracts\Interfaces\Eloquent\ShowSlugInterface;
 use App\Contracts\Interfaces\Eloquent\StoreInterface;
 use App\Contracts\Interfaces\Eloquent\UpdateInterface;
+use Illuminate\Http\Request;
+use Svg\Tag\Rect;
 
-interface DiscussionInterface extends GetInterface,GetWhereInterface, StoreInterface, ShowInterface, UpdateInterface, DeleteInterface
+interface DiscussionInterface extends GetInterface, StoreInterface, ShowInterface, UpdateInterface, DeleteInterface
 {
-
+    public function getWhere(Request $request, array $data): mixed;
 }

@@ -41,9 +41,29 @@ class DiscussionRepository extends BaseRepository implements DiscussionInterface
      *
      * @return mixed
      */
-    public function getWhere(array $data): mixed    
+    public function getWhere(Request $request, array $data): mixed
     {
-        return $this->model->query()->where($data)->get();
+        return $this->model->query()
+            ->when($request->latest == true, function ($model) use ($request) {
+                $model->orderBy('created_at', 'DESC');
+            })
+            ->when($request->oldest == true, function ($model) use ($request) {
+                $model->orderBy('created_at', 'ASC');
+            })
+            ->when($request->answered == true, function ($model) use ($request) {
+                $model->whereHas('discussionAnswers');
+            })
+            ->when($request->unanswered == true, function ($model) use ($request) {
+                $model->whereDoesntHave('discussionAnswers');
+            })
+            ->when($request->tags, function ($model) use ($request) {
+                $model->whereRelation('discussionTags.tag', 'name', $request->tag);
+            })
+            ->when($request->search, function ($model) use ($request) {
+                $model->where('discussion_title', 'LIKE', "%$request->search%") ?? $model->where('discussion_question', 'LIKE', "%$request->search%");
+            })
+            ->where($data)
+            ->get();
     }
     /**
      * Method store
