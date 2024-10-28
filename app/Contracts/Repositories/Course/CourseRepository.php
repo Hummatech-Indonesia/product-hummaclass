@@ -46,7 +46,10 @@ class CourseRepository extends BaseRepository implements CourseInterface
                 $query->orderBy('user_courses_count', 'desc');
             })
             ->when($request->categories, function ($query) use ($request) {
-                $query->whereIn('sub_category_id', $request->categories);
+                $query->where('sub_category_id', $request->categories);
+            })
+            ->when($request->status, function ($query) use ($request) {
+                $query->where('is_ready', $request->status);
             })
             ->when($request->maximum, function ($query) use ($request) {
                 $query->where('price', '<=', $request->maximum);

@@ -39,8 +39,9 @@ class CourseTestController extends Controller
         $this->moduleQuestion = $moduleQuestion;
         $this->service = $service;
     }
-    public function index(Course $course): JsonResponse
+    public function index(string $slug): JsonResponse
     {
+        $course = $this->course->showWithSlug($slug);
         $courseTest = $this->courseTest->show($course->id);
         return ResponseHelper::success(CourseTestResource::make($courseTest), trans('alert.fetch_success'));
     }
@@ -135,7 +136,6 @@ class CourseTestController extends Controller
     {
         $result = $this->userCourseTest->show($userCourseTest->id);
         return ResponseHelper::success(CourseTestResultResource::make($result), trans('alert.fetch_success'));
-
     }
 
     public function store(CourseTestRequest $request, string $slug): JsonResponse
