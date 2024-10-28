@@ -5,7 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Certificate</title>
+    {{-- <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet"> --}}
+
     <style>
         body {
             margin: 0;
@@ -15,58 +17,121 @@
             background-position: center;
             display: flex;
             flex-direction: column;
-            /* Memusatkan teks */
         }
 
-        h1 {
-            font-size: 24px;
-            margin: 10px 0;
-            /* Jarak atas dan bawah */
+        .certificate-container {
+            position: relative;
+            width: 100%;
+            height: auto;
+            text-align: center;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            margin: 0 auto;
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+        }
+
+        .certificate-number {
+            position: absolute;
+            font-family: 'Poppins', sans-serif;
+            left: 46%;
+            top: 24.3%;
+            transform: translate(-50%, -50%);
+            font-size: 22px;
+            font-weight: 400;
+            letter-spacing: 4px;
+            color: #333;
+            width: 100%;
+        }
+
+        @font-face {
+            font-family: 'Great Vibes';
+            src: url('{{ public_path('fonts/Great_Vibes/GreatVibes-Regular.ttf') }}') format('truetype');
         }
 
         .name-people {
-            font-family: "Great Vibes", cursive;
-            font-size: 18px;
-            margin: 5px 0;
+            position: absolute;
+            left: 50%;
+            top: 46%;
+            transform: translate(-50%, -50%);
+            font-size: 42px;
+            font-weight: 500;
+            letter-spacing: 3px;
+            color: #3b3a3a;
+            line-height: 25px;
+            font-family: 'Great Vibes', cursive; /* Menggunakan font Great Vibes */
         }
 
         .course-title {
+            position: absolute;
+            top: 60%;
+            left: 49%;
+            transform: translate(-50%, -50%);
             font-size: 16px;
-            margin: 5px 0;
+            font-family: 'Poppins', sans-serif; /* Menggunakan Poppins untuk judul kursus */
+            font-weight: 700;
+            color: #555;
+        }
+
+        .qr-code .verifikasi {
+            position: absolute;
+            right: 12%;
+            bottom: 13.6%;
+            font-size: 11px;
+            color: #000000;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .qr-code .link {
+            position: absolute;
+            right: 12%;
+            bottom: 11.5%;
+            font-size: 11px;
+            color: #333;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .qr-code .valid {
+            position: absolute;
+            right: 12%;
+            bottom: 9.4%;
+            font-size: 9px;
+            color: #333;
+            font-family: 'Poppins', sans-serif;
         }
 
         .date {
-            font-size: 14px;
-            margin: 5px 0;
+            position: absolute;
+            left: -33.9%;
+            bottom: 29%;
+            font-family: 'Poppins', sans-serif; /* Menggunakan Poppins untuk tanggal */
+            font-weight: 700;
+            font-size: 11px;
+            color: #333;
+            width: 100%;
         }
 
-        .qr-code {
-            margin-top: 20px;
-        }
-
-        .verifikasi,
-        .link,
-        .valid {
-            font-size: 14px;
-            margin: 5px 0;
-        }
-
-        img {
-            max-width: 100px;
+        .qr-code img {
+            width: 55px !important;
+            position: absolute;
+            right: 12.4%;
+            bottom: 17%;
         }
     </style>
 </head>
 
 <body>
-    <h1>12202410250002</h1>
-    <div class="name-people" id="username">Mohamad Arif</div>
-    <div class="course-title" id="course_title">Belajar Membuat Aplikasi Kognitif</div>
-    <div class="date" id="date"><b></b></div>
-    <div class="qr-code">
-        <img src="{{ asset('assets/img/certificate/qr.png') }}" alt="QR Code">
-        <div class="verifikasi"><b>Verifikasi Sertifikat</b></div>
-        <div class="link">class.hummatech.com/sertifikat/example</div>
-        <div class="valid"><i>Berlaku hingga 28 Agustus 2024</i></div>
+    <div class="certificate-container">
+        <div class="certificate-number" id="code">12202410250002</div>
+        <div class="name-people" id="username">Mohamad Arif</div>
+        <div class="course-title d-flex justify-content-center text-center" id="course_title">Belajar Membuat Aplikasi Kognitif</div>
+        <div class="date" id="date">Jakarta, 28 Agustus 2024</div>
+        <div class="qr-code">
+            <img src="{{ public_path('certificate/qr.png') }}" alt="">
+            <div class="verifikasi"><b>Verifikasi Sertifikat</b></div>
+            <div class="link">class.hummatech.com/sertifikat/example</div>
+            <div class="valid"><i>Berlaku hingga 28 Agustus 2024</i></div>
+        </div>
     </div>
 </body>
 
