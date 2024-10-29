@@ -30,6 +30,17 @@ class EventRepository extends BaseRepository implements EventInterface
             ->orderBy('created_at', 'desc')
             ->fastPaginate($pagination);
     }
+
+    /**
+     * get
+     *
+     * @return mixed
+     */
+    public function get(): mixed
+    {
+        return $this->model->query()->get();
+    }
+
     /**
      * Method store
      *

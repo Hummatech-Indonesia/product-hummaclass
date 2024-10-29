@@ -92,6 +92,7 @@ Route::middleware('enable.cors')->group(function () {
 
 
     Route::resource('events', EventController::class)->except('show');
+    Route::get('events-user', [EventController::class, 'pageUser']);
     Route::get('events/{slug}', [EventController::class, 'show']);
 
     Route::resource('categories', CategoryController::class)->except('index');

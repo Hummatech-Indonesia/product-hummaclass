@@ -34,6 +34,18 @@ class EventController extends Controller
         $data['data'] = EventResource::collection($events);
         return ResponseHelper::success($data, trans('alert.fetch_success'));
     }
+    
+    /**
+     * pageUser
+     *
+     * @return JsonResponse
+     */
+    public function pageUser(): JsonResponse
+    {
+        $events = $this->event->get();
+        return ResponseHelper::success(EventResource::collection($events));
+    }
+
     /**
      * Method store
      *

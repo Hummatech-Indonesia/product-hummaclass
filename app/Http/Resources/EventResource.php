@@ -27,6 +27,7 @@ class EventResource extends JsonResource
             'start_date' => $this->start_date,
             'image' => url('storage/' . $this->image),
             'event_details' => $this->eventDetails,
+            'created_at' => $this->created_at,
         ];
     }
 }
