@@ -9,6 +9,7 @@ use App\Contracts\Interfaces\UserCourseTestInterface;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CourseTestRequest;
+use App\Http\Requests\CustomCourseTestRequest;
 use App\Http\Requests\UserCourseTestRequest;
 use App\Http\Resources\CourseTestResource;
 use App\Http\Resources\CourseTestResultResource;
@@ -75,13 +76,14 @@ class CourseTestController extends Controller
     }
 
     /**
-     * preTest
+     * Method preTest
      *
-     * @param  mixed $request
-     * @param  mixed $courseTest
+     * @param CustomCourseTestRequest $request [explicite description]
+     * @param CourseTest $courseTest [explicite description]
+     *
      * @return JsonResponse
      */
-    public function preTest(Request $request, CourseTest $courseTest): JsonResponse
+    public function preTest(CustomCourseTestRequest $request, CourseTest $courseTest): JsonResponse
     {
         $preTest = $this->service->preTest($courseTest);
         if ($preTest == 'samean sampun ngrampungaken pre-test') {

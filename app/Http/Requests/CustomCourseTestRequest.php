@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CourseTestRequest extends FormRequest
+class CustomCourseTestRequest extends ApiRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,17 +22,20 @@ class CourseTestRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'total_question' => 'required',
-            'duration' => 'required',
-            'is_submitted' => 'required|boolean'
+            'module_id' => 'required|array',
+            'total_question' => 'required|array'
         ];
     }
-
+    /**
+     * Method messages
+     *
+     * @return array
+     */
     public function messages(): array
     {
         return [
-            'total_question.required' => 'Total Pertanyaan Wajib Diisi',
-            'duration.required' => 'Durasi Wajib Wajib Diisi',
+            'module_id.required' => 'module wajib dipilih',
+            'total_question.required' => 'total pertanyaan wajib diisi'
         ];
     }
 }

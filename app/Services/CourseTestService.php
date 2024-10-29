@@ -16,6 +16,7 @@ use App\Enums\UploadDiskEnum;
 use App\Helpers\ResponseHelper;
 use App\Http\Requests\BlogRequest;
 use App\Http\Requests\CourseRequest;
+use App\Http\Requests\CustomCourseTestRequest;
 use App\Http\Requests\EventRequest;
 use App\Http\Requests\ProfileRequest;
 use App\Http\Requests\UserCourseTestRequest;
@@ -54,9 +55,9 @@ class CourseTestService implements ShouldHandleFileUpload
         $data['course_id'] = $courseTest->id;
         $this->userCourseTest->store($data);
     }
-    public function preTest(CourseTest $courseTest)
+    public function preTest(CustomCourseTestRequest $request,CourseTest $courseTest)
     {
-
+        dd($request->validated());
         try {
             $preTest = $courseTest
                 ->userCourseTests()

@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Course;
 use App\Contracts\Interfaces\UserCourseTestInterface;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\TestHistoryResource;
 use App\Http\Resources\UserCourseResource;
+use App\Http\Resources\UserCourseTestResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -24,7 +26,7 @@ class UserCourseTestController extends Controller
     public function index(): JsonResponse
     {
         $userCourseTests = $this->userCourseTest->get();
-        return ResponseHelper::success(UserCourseResource::collection($userCourseTests), trans('alert.fetch_success'));
+        return ResponseHelper::success(TestHistoryResource::collection($userCourseTests), trans('alert.fetch_success'));
     }
     /**
      * Method store
