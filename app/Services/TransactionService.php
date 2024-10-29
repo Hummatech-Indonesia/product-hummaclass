@@ -6,11 +6,14 @@ use App\Contracts\Interfaces\Course\UserCourseInterface;
 use App\Contracts\Interfaces\Course\UserEventInterface;
 use App\Contracts\Interfaces\TransactionInterface;
 use App\Helpers\ResponseHelper;
+use App\Jobs\SendEventEmailJob;
+use App\Mail\EventEmail;
 use App\Models\Course;
 use App\Models\Module;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Mail;
 
 class TransactionService
 {
@@ -59,8 +62,11 @@ class TransactionService
     {
         $transaction = $this->transaction->show($request->reference);
         $product = $transaction->course ?? $transaction->event;
-        $this->handleCerateUserCourse($product, $transaction);
+        $product->type = $transaction->course ? 'course' : 'event';
+        $created = $this->handleCerateUserCourse($product, $transaction);
         $data = null;
+
+        // return response()->json($created->user);
         switch ($request->status) {
             case 'UNPAID':
                 $data = [
@@ -68,6 +74,13 @@ class TransactionService
                 ];
                 break;
             case 'PAID':
+                if($product->type == 'event') {
+                    // dispatch(new SendEventEmailJob($product->email_content, $created->user->email));
+                    $this->sendEmailEvent([
+                        'email' => $created->user->email,
+                        'content' => $product->email_content
+                    ]);
+                }
                 $data = [
                     'id' => $request->reference,
                     'invoice_id' => $request->merchant_ref,
@@ -100,5 +113,9 @@ class TransactionService
         } else {
             return ResponseHelper::error(null, "Callback gagal");
         }
+    }
+
+    public function sendEmailEvent($data): mixed {
+        return Mail::to($data['email'])->send(new EventEmail($data['content']));
     }
 }

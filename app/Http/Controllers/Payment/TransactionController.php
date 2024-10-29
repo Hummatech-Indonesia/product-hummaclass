@@ -184,4 +184,8 @@ class TransactionController extends Controller
             'thisMountIncome' => $transactions['thisMountIncome']
         ]);
     }
+
+    public function testEmail(): mixed {
+        return $this->transactionService->sendEmailEvent($data);
+    }
 }

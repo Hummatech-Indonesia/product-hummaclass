@@ -10,5 +10,5 @@ class CourseTestQuestion extends Model
     use HasFactory;
     protected $fillable=[
         ''
-    ]
+    ];
 }

@@ -53,9 +53,9 @@ class EventController extends Controller
      *
      * @return JsonResponse
      */
-    public function store(EventRequest $request): JsonResponse
+    public function store(EventRequest $request)
     {
-        // dd($request->validated());
+        // return ($request->validated());
         $this->service->store($request);
         return ResponseHelper::success(true, trans('alert.add_success'));
     }
@@ -97,4 +97,6 @@ class EventController extends Controller
         $this->service->delete($event);
         return ResponseHelper::success(true, trans('alert.delete_success'));
     }
+
+    
 }

@@ -59,6 +59,7 @@ use App\Helpers\ResponseHelper;
 |
 */
 
+Route::get('test-email', [TransactionController::class, 'testEmail']);
 Route::get('submission-tasks/download/{submissionTask}', [SubmissionTaskController::class, 'download']);
 Route::middleware('enable.cors')->group(function () {
 

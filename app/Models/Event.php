@@ -20,6 +20,7 @@ class Event extends Model implements HasEventDetails,HasEventUsers
         'title',
         'slug',
         'description',
+        'email_content',
         'location',
         'capacity',
         'price',

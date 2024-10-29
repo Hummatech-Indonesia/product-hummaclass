@@ -24,7 +24,8 @@ class EventRequest extends ApiRequest
         return [
             'image' => 'nullable|image|mimes:png,jpg',
             'title' => 'required|string|max:255',
-            'description' => 'required|string|max:500',
+            'description' => 'required|string',
+            'email_content' => 'required|string',
             'location' => 'nullable|string|max:500',
             'capacity' => 'required|integer|min:1',
             'price' => 'nullable|integer|min:0',
@@ -51,6 +52,8 @@ class EventRequest extends ApiRequest
             'title.max' => 'Judul tidak boleh lebih dari 255 karakter.',
             'description.required' => 'Deskripsi harus diisi.',
             'description.string' => 'Deskripsi harus berupa teks.',
+            'email_content.required' => 'Konten email harus diisi.',
+            'email_content.string' => 'Konten email harus berupa teks.',
             'description.max' => 'Deskripsi tidak boleh lebih dari 500 karakter.',
             'location.required' => 'Lokasi harus diisi.',
             'location.string' => 'Lokasi harus berupa teks.',
