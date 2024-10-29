@@ -55,10 +55,11 @@ class CourseTestService implements ShouldHandleFileUpload
         $data['course_id'] = $courseTest->id;
         $this->userCourseTest->store($data);
     }
-    public function preTest(CustomCourseTestRequest $request,CourseTest $courseTest)
+    public function preTest(CourseTest $courseTest)
     {
-        dd($request->validated());
         try {
+
+
             $preTest = $courseTest
                 ->userCourseTests()
                 ->where([
@@ -75,8 +76,29 @@ class CourseTestService implements ShouldHandleFileUpload
                 'questions' => explode(',', $preTest->module_question_id)
             ];
         } catch (\Throwable $e) {
-            $questions = $this->module->getQuestions($courseTest->course_id, $courseTest->total_question);
-            $module_question_id = implode(',', $questions->pluck('id')->toArray());
+
+            if ($courseTest->courseTestQuestions) {
+                $questions = [];
+
+                foreach ($courseTest->courseTestQuestions as $index => $question) {
+                    $total_question = $question;
+
+                    $moduleQuestions = ModuleQuestion::where('module_id', $question->module_id)
+                        ->inRandomOrder()
+                        ->limit($question->question_count)
+                        ->get();
+
+                    $questions = array_merge($questions, $moduleQuestions->toArray());
+                }
+
+                $module_question_id = implode(',', array_column($questions, 'id'));
+            } else {
+                $questions = $this->module->getQuestions($courseTest->course_id, $courseTest->total_question);
+                $module_question_id = implode(',', $questions->pluck('id')->toArray());
+            }
+
+            dd($module_question_id, $total_question);
+
             $data = [];
             $data['module_question_id'] = $module_question_id;
             $data['user_id'] = auth()->user()->id;
@@ -102,7 +124,7 @@ class CourseTestService implements ShouldHandleFileUpload
                 ->firstOrFail();
             if ($postTest->score) {
                 return 'already';
-            }   
+            }
             return [
                 'postTest' => $postTest,
                 'questions' => explode(',', $postTest->module_question_id)
