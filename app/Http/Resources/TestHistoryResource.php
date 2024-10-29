@@ -22,7 +22,8 @@ class TestHistoryResource extends JsonResource
             'module_question_ids' => $this->module_question_id,
             'answer' => $this->answer,
             'score' => $this->score,
-            'test_type' => $this->test_type
+            'test_type' => $this->test_type,
+            'created_at' => $this->created_at->format('j F Y H:i'),
         ];
     }
 }
