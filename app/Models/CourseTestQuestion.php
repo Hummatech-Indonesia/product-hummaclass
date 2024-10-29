@@ -5,11 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CourseTestRule extends Model
+class CourseTestQuestion extends Model
 {
     use HasFactory;
     protected $fillable=[
-        'module_ids',
         ''
     ]
 }

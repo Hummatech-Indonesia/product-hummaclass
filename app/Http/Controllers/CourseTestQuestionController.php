@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CourseTestRule;
+use App\Models\CourseTestQuestion;
 use Illuminate\Http\Request;
 
-class CourseTestRuleController extends Controller
+class CourseTestQuestionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +34,7 @@ class CourseTestRuleController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(CourseTestRule $courseTestRule)
+    public function show(CourseTestQuestion $courseTestQuestion)
     {
         //
     }
@@ -42,7 +42,7 @@ class CourseTestRuleController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(CourseTestRule $courseTestRule)
+    public function edit(CourseTestQuestion $courseTestQuestion)
     {
         //
     }
@@ -50,7 +50,7 @@ class CourseTestRuleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, CourseTestRule $courseTestRule)
+    public function update(Request $request, CourseTestQuestion $courseTestQuestion)
     {
         //
     }
@@ -58,7 +58,7 @@ class CourseTestRuleController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(CourseTestRule $courseTestRule)
+    public function destroy(CourseTestQuestion $courseTestQuestion)
     {
         //
     }
