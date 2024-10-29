@@ -58,7 +58,7 @@ use App\Helpers\ResponseHelper;
 |
 */
 
-Route::get('submission-tasks/download/{submissionTask}', [SubmissionTaskController::class, 'download'])->middleware('auth:sanctum');
+Route::get('submission-tasks/download/{submissionTask}', [SubmissionTaskController::class, 'download']);
 Route::middleware('enable.cors')->group(function () {
 
     /**
@@ -198,7 +198,7 @@ Route::middleware('enable.cors')->group(function () {
 
         Route::get('module-questions/detail/{module}', [ModuleQuestionController::class, 'index']);
 
-        Route::get('submission-tasks/{course_task}', [SubmissionTaskController::class, 'index']);
+        // Route::get('submission-tasks/{course_task}', [SubmissionTaskController::class, 'index']);
 
         Route::get('user-courses', [UserCourseController::class, 'index']);
         Route::put('user-courses/{slug}/{sub_module}', [UserCourseController::class, 'userLastStep']);
@@ -399,7 +399,7 @@ Route::middleware('enable.cors')->group(function () {
 
         Route::get('module-questions/detail/{module}', [ModuleQuestionController::class, 'index']);
 
-        Route::get('submission-tasks/{course_task}', [SubmissionTaskController::class, 'index']);
+        Route::get('submission-tasks/{moduleTask}', [SubmissionTaskController::class, 'index']);
 
         // Route::get('user-courses/{course}', [UserCourseController::class, 'index']);
         Route::put('user-courses/{slug}/{sub_module}', [UserCourseController::class, 'userLastStep']);
