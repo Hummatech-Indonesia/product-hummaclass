@@ -24,6 +24,9 @@ class CourseTestResultResource extends JsonResource
 
         return [
             'id' => $this->id,
+            'user_name' => $this->user->name,
+            'user_email' => $this->user->email,
+            'user_photo' => asset('storage/' . $this->user->photo),
             'score' => $this->score,
             'test_type' => $this->test_type,
             'total_fault' => $totalFault,

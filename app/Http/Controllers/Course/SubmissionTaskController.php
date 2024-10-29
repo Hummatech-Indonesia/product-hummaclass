@@ -13,6 +13,9 @@ use App\Services\SubmissionTaskService;
 use App\Http\Requests\CourseTaskRequest;
 use App\Http\Requests\SubmissionTaskRequest;
 use App\Contracts\Interfaces\Course\SubmissionTaskInterface;
+use App\Http\Resources\ModuleTaskResource;
+use App\Http\Resources\ShowSubmissionTaskResource;
+use App\Http\Resources\SubmissionTaskResource;
 use Illuminate\Support\Facades\Storage;
 
 class SubmissionTaskController extends Controller
@@ -38,14 +41,14 @@ class SubmissionTaskController extends Controller
      *
      * @return JsonResponse
      */
-    public function index(SubmissionTask $submissionTask): JsonResponse
+    public function index(ModuleTask $moduleTask): JsonResponse
     {
-        $submissionTasks = $this->submissionTask->getWhere(['course_task_id' => $submissionTask->id]);
-        return ResponseHelper::success($submissionTasks, trans('alert.fetch_success'));
+        $submissionTasks = $this->submissionTask->getWhere(['module_task_id' => $moduleTask->id]);
+        return ResponseHelper::success(SubmissionTaskResource::collection($submissionTasks), trans('alert.fetch_success'));
     }
     public function show(SubmissionTask $submissionTask): JsonResponse
     {
-        return ResponseHelper::success($submissionTask, trans('alert.fetch_success'));
+        return ResponseHelper::success(ShowSubmissionTaskResource::make($submissionTask), trans('alert.fetch_success'));
     }
     /**
      * Method store
@@ -103,9 +106,8 @@ class SubmissionTaskController extends Controller
     {
         $exist = $this->service->exist($submissionTask->file);
         if ($exist) {
-            return ResponseHelper::success(storage_path('app/public/' . $submissionTask->file), trans('alert.file_not_found'), 404);
-            // return response()->download(storage_path('app/public/' . $submissionTask->file));
+            return response()->download(storage_path('app/public/' . $submissionTask->file));
         }
-        return ResponseHelper::error(false, trans('alert.file_not_found'), 404);
+        return view('errors.file-notfound');
     }
 }

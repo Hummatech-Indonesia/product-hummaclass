@@ -28,6 +28,7 @@ use App\Http\Controllers\Course\{
     CourseTaskController,
     SubmissionTaskController,
     UserCourseController,
+    UserCourseTestController,
     UserQuizController
 };
 use App\Http\Controllers\{
@@ -58,7 +59,7 @@ use App\Helpers\ResponseHelper;
 |
 */
 
-Route::get('submission-tasks/download/{submissionTask}', [SubmissionTaskController::class, 'download'])->middleware('auth:sanctum');
+Route::get('submission-tasks/download/{submissionTask}', [SubmissionTaskController::class, 'download']);
 Route::middleware('enable.cors')->group(function () {
 
     /**
@@ -188,6 +189,8 @@ Route::middleware('enable.cors')->group(function () {
         Route::post('course-submit-test/{user_course_test}', [CourseTestController::class, 'submit']);
         Route::get('course-test-statistic/{user_course_test}', [CourseTestController::class, 'statistic']);
 
+        Route::get('user-course-tests', [UserCourseTestController::class, 'index']);
+
         Route::get('course-tests/{course}', [CourseTestController::class, 'index']);
         Route::get('course-test-start/{course_test}', [CourseTestController::class, 'show']);
         Route::post('course-tests/{slug}', [CourseTestController::class, 'store']);
@@ -199,7 +202,7 @@ Route::middleware('enable.cors')->group(function () {
 
         Route::get('module-questions/detail/{module}', [ModuleQuestionController::class, 'index']);
 
-        Route::get('submission-tasks/{course_task}', [SubmissionTaskController::class, 'index']);
+        // Route::get('submission-tasks/{course_task}', [SubmissionTaskController::class, 'index']);
 
         Route::get('user-courses', [UserCourseController::class, 'index']);
         Route::put('user-courses/{slug}/{sub_module}', [UserCourseController::class, 'userLastStep']);
@@ -400,7 +403,7 @@ Route::middleware('enable.cors')->group(function () {
 
         Route::get('module-questions/detail/{module}', [ModuleQuestionController::class, 'index']);
 
-        Route::get('submission-tasks/{course_task}', [SubmissionTaskController::class, 'index']);
+        Route::get('submission-tasks/{moduleTask}', [SubmissionTaskController::class, 'index']);
 
         // Route::get('user-courses/{course}', [UserCourseController::class, 'index']);
         Route::put('user-courses/{slug}/{sub_module}', [UserCourseController::class, 'userLastStep']);

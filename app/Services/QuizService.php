@@ -90,13 +90,28 @@ class QuizService implements ShouldHandleFileUpload
             $userQuiz = $quiz
                 ->userQuizzes()
                 ->where('user_id', auth()->user()->id)
-                ->whereNull('score')
                 ->latest()
                 ->firstOrFail();
-            return [
-                'userQuiz' => $userQuiz,
-                'questions' => explode(',', $userQuiz->module_question_id)
-            ];
+            if ($userQuiz->score == null) {
+                return [
+                    'userQuiz' => $userQuiz,
+                    'questions' => explode(',', $userQuiz->module_question_id)
+                ];
+            } else if ($userQuiz->score >= $quiz->minimum_score) {
+                return 'failed';
+            } else if ($userQuiz->score < $quiz->minimum_score) {
+                $questions = $this->moduleQuestion->getQuestions($quiz->module_id, $quiz->total_question);
+                $module_question_id = implode(',', $questions->pluck('id')->toArray());
+                $data = [];
+                $data['module_question_id'] = $module_question_id;
+                $data['user_id'] = auth()->user()->id;
+                $data['quiz_id'] = $quiz->id;
+                $userQuiz = $this->userQuiz->store($data);
+                return [
+                    'userQuiz' => $userQuiz,
+                    'questions' => explode(',', $userQuiz->module_question_id)
+                ];
+            }
         } catch (\Throwable $e) {
             $questions = $this->moduleQuestion->getQuestions($quiz->module_id, $quiz->total_question);
             $module_question_id = implode(',', $questions->pluck('id')->toArray());

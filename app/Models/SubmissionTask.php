@@ -19,4 +19,24 @@ class SubmissionTask extends Model
         'answer',
         'file'
     ];
+
+    /**
+     * Get the user that owns the SubmissionTask
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get the moduleTask that owns the SubmissionTask
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function moduleTask(): BelongsTo
+    {
+        return $this->belongsTo(ModuleTask::class);
+    }
 }

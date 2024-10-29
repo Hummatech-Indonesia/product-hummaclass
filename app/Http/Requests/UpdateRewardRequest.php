@@ -23,17 +23,17 @@ class UpdateRewardRequest extends ApiRequest
     {
         return [
             'name' => 'sometimes|required',
-            'stock' => 'required|integer|min:1',
+            'stock' => 'sometimes|required|integer|min:1',
             'description' => 'sometimes|required',
             'points_required' => 'sometimes|required|integer',
-            'image' => 'nullable|image|mimes:png,jpg'
+            'image' => 'sometimes|nullable|image|mimes:png,jpg'
         ];
     }
 
     public function messages(): array
     {
         return [
-            'name.required' => 'Nama wajib diisi.',
+            'name.required' => 'sometimes|Nama wajib diisi.',
             'description.required' => 'Deskripsi wajib diisi.',
             'points_required.required' => 'Poin yang dibutuhkan wajib diisi.',
             'points_required.integer' => 'Poin yang dibutuhkan harus berupa angka.',

@@ -59,6 +59,11 @@ class DiscussionRepository extends BaseRepository implements DiscussionInterface
             ->when($request->tags, function ($model) use ($request) {
                 $model->whereRelation('discussionTags.tag', 'name', $request->tag);
             })
+            ->when($request->module, function ($model) use ($request) {
+                $model->whereHas('module', function ($model) use ($request) {
+                    $model->where('module_id', $request->module);
+                });
+            })
             ->when($request->search, function ($model) use ($request) {
                 $model->where('discussion_title', 'LIKE', "%$request->search%") ?? $model->where('discussion_question', 'LIKE', "%$request->search%");
             })
