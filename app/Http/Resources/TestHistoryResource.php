@@ -15,6 +15,7 @@ class TestHistoryResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id' => $this->id,
             'user_name' => $this->user->name,
             'user' => $this->user,
             'course_test' => $this->courseTest,
