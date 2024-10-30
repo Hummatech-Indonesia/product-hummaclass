@@ -26,6 +26,7 @@ class EventSeeder extends Seeder
             'capacity' => 100,
             'price' => 100000,
             'start_date' => now(),
+            'end_date' => now()->addDays(3),
             'has_certificate' => 1,
             'is_online' => 1,
         ]);

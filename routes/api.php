@@ -197,7 +197,7 @@ Route::middleware('enable.cors')->group(function () {
         Route::get('user-course-tests', [UserCourseTestController::class, 'index']);
 
         Route::get('course-test-questions/{course_test}', [CourseTestQuestionController::class, 'index']);
-        Route::post('course-test-questions/{course_test}', [CourseTestQuestionController::class, 'store']);
+        Route::post('course-test-questions/{course_test}', [CourseTestQuestionController::class, 'stokwre']);
         Route::resource('course-test-questions', CourseTestQuestionController::class)->only(['show', 'update', 'destroy']);
 
         Route::get('course-tests/{course}', [CourseTestController::class, 'index']);
@@ -226,6 +226,8 @@ Route::middleware('enable.cors')->group(function () {
      */
     Route::middleware('auth:sanctum')->group(function () {
 
+        // event attendance
+        Route::get('event-attendance/{event_attendance}', [EventController::class, 'attendance']);
 
         // certificate
         Route::resource('certificates', CertificateController::class)->only(['update']);

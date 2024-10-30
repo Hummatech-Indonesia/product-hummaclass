@@ -24,15 +24,23 @@ class CourseTestRequest extends FormRequest
         return [
             'total_question' => 'required',
             'duration' => 'required',
-            'is_submitted' => 'required|boolean'
+            'is_submitted' => 'required|boolean',
+            'module_id.*' => 'required',
+            'question_count' => 'required',
+            'module_id' => 'required',
+            'question_count.*' => 'required|integer|min:1'
         ];
     }
 
     public function messages(): array
     {
         return [
+            'module_id.required' => 'Modul wajib diisi',
+            'question_count.required' => 'Total pertanyaan wajib diisi',
             'total_question.required' => 'Total Pertanyaan Wajib Diisi',
             'duration.required' => 'Durasi Wajib Wajib Diisi',
+            'module_id.*.required' => 'Module wajib diisi',
+            'question_count.*.required' => 'Total pertanyaan wajib diisi'
         ];
     }
 }

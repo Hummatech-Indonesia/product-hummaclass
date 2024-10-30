@@ -79,7 +79,7 @@ class QuizController extends Controller
     {
         $userQuiz = $this->service->quiz($quiz);
         if ($userQuiz == 'failed') {
-            return ResponseHelper::error(null, trans('alert.fetch_failed'));
+            return ResponseHelper::error(null, 'Anda sudah mengerjakan quiz ini, silahkan lanjutkan ke materi selanjutnya');
         }
         $request->merge(['id' => $userQuiz['questions']]);
 
@@ -152,6 +152,4 @@ class QuizController extends Controller
         $this->quiz->delete($quiz->id);
         return ResponseHelper::success(null, trans('alert.delete_success'));
     }
-
-
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Course;
 
 use App\Contracts\Interfaces\Course\CourseInterface;
 use App\Contracts\Interfaces\Course\CourseTestInterface;
+use App\Contracts\Interfaces\Course\CourseTestQuestionInterface;
 use App\Contracts\Interfaces\Course\ModuleQuestionInterface;
 use App\Contracts\Interfaces\UserCourseTestInterface;
 use App\Helpers\ResponseHelper;
@@ -28,16 +29,18 @@ class CourseTestController extends Controller
 {
     use PaginationTrait;
     private CourseTestInterface $courseTest;
+    private CourseTestQuestionInterface $courseTestQuestion;
     private CourseInterface $course;
     private UserCourseTestInterface $userCourseTest;
     private ModuleQuestionInterface $moduleQuestion;
     private CourseTestService $service;
-    public function __construct(CourseTestInterface $courseTest, CourseTestService $service, UserCourseTestInterface $userCourseTest, ModuleQuestionInterface $moduleQuestion, CourseInterface $course)
+    public function __construct(CourseTestInterface $courseTest, CourseTestService $service, UserCourseTestInterface $userCourseTest, ModuleQuestionInterface $moduleQuestion, CourseInterface $course, CourseTestQuestionInterface $courseTestQuestion)
     {
         $this->courseTest = $courseTest;
         $this->course = $course;
         $this->userCourseTest = $userCourseTest;
         $this->moduleQuestion = $moduleQuestion;
+        $this->courseTestQuestion = $courseTestQuestion;
         $this->service = $service;
     }
     public function index(string $slug): JsonResponse
@@ -82,7 +85,7 @@ class CourseTestController extends Controller
      *
      * @return JsonResponse
      */
-    public function preTest(CourseTest $courseTest): JsonResponse
+    public function preTest(CourseTest $courseTest, Request $request): JsonResponse
     {
         $preTest = $this->service->preTest($courseTest);
         if ($preTest == 'samean sampun ngrampungaken pre-test') {
@@ -139,12 +142,28 @@ class CourseTestController extends Controller
         return ResponseHelper::success(CourseTestResultResource::make($result), trans('alert.fetch_success'));
     }
 
+    /**
+     * store
+     *
+     * @param  mixed $request
+     * @param  mixed $slug
+     * @return JsonResponse
+     */
     public function store(CourseTestRequest $request, string $slug): JsonResponse
     {
         $course = $this->course->showWithSlug($slug);
         $data = $request->validated();
         $data['course_id'] = $course->id;
-        $this->courseTest->store($data);
+        $courseTest = $this->courseTest->store($data);
+        foreach ($request['question_count'] as $index => $questionCount) {
+            $storeData = [
+                'course_test_id' => $courseTest->id,
+                'question_count' => $questionCount,
+                'module_id' => $data['module_id'][$index]
+            ];
+            $this->courseTestQuestion->store($storeData);
+        }
+
         return ResponseHelper::success(true, trans('alert.add_success'));
     }
 

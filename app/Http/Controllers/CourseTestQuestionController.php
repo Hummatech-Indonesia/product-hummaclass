@@ -41,8 +41,14 @@ class CourseTestQuestionController extends Controller
     public function store(CourseTestQuestionRequest $request, CourseTest $courseTest): JsonResponse
     {
         $data = $request->validated();
-        $data['course_test_id'] = $courseTest->id;
-        $this->model->store($data);
+        foreach ($request['question_count'] as $index => $questionCount) {
+            $storeData = [
+                'course_test_id' => $courseTest->id,
+                'question_count' => $questionCount,
+                'module_id' => $data['module_id'][$index]
+            ];
+            $this->model->store($storeData);
+        }
         return ResponseHelper::success(null, trans('alert.add_success'));
     }
 

@@ -10,11 +10,11 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('event_attendances', function (Blueprint $table) {
+        Schema::create('user_event_attendances', function (Blueprint $table) {
             $table->id();
-            $table->foreignUuid('event_id')->constrained()->restrictOnDelete()->cascadeOnUpdate();
-            $table->date('attendance_date');
-            $table->text('attendance_link');
+            $table->foreignUuid('user_id')->constrained();
+            $table->foreignId('event_attendance_id')->constrained();
+            $table->boolean('is_attendance')->nullable();
             $table->timestamps();
         });
     }
@@ -24,6 +24,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('event_attendances');
+        Schema::dropIfExists('user_event_attendances');
     }
 };

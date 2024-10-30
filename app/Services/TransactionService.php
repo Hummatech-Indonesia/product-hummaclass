@@ -6,6 +6,7 @@ use App\Contracts\Interfaces\Course\UserCourseInterface;
 use App\Contracts\Interfaces\Course\UserEventInterface;
 use App\Contracts\Interfaces\TransactionInterface;
 use App\Helpers\ResponseHelper;
+use App\Jobs\SendEmailEventJob;
 use App\Jobs\SendEventEmailJob;
 use App\Mail\EventEmail;
 use App\Models\Course;
@@ -74,8 +75,7 @@ class TransactionService
                 ];
                 break;
             case 'PAID':
-                if($product->type == 'event') {
-                    // dispatch(new SendEventEmailJob($product->email_content, $created->user->email));
+                if ($product->type == 'event') {
                     $this->sendEmailEvent([
                         'email' => $created->user->email,
                         'content' => $product->email_content
@@ -115,7 +115,8 @@ class TransactionService
         }
     }
 
-    public function sendEmailEvent($data): mixed {
-        return Mail::to($data['email'])->send(new EventEmail($data['content']));
+    public function sendEmailEvent($data): mixed
+    {
+        return SendEmailEventJob::dispatch($data);
     }
 }
