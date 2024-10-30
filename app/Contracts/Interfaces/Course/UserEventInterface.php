@@ -19,6 +19,6 @@ interface UserEventInterface extends CustomPaginationInterface, StoreInterface, 
      * @param  mixed $courseId
      * @return mixed
      */
-    public function showByUserEvent($userId, $courseId): mixed;
+    public function showByEvent($userId, $eventId): mixed;
 
 }

@@ -7,6 +7,7 @@ use App\Models\Course;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class UserEvent extends Model
 {
@@ -25,5 +26,15 @@ class UserEvent extends Model
     public function event(): BelongsTo
     {
         return $this->belongsTo(Event::class);
+    }
+
+    /**
+     * Get the certificate associated with the UserEvent
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function certificate(): HasOne
+    {
+        return $this->hasOne(Certificate::class);
     }
 }

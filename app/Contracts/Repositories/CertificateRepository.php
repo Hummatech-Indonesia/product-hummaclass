@@ -44,10 +44,17 @@ class CertificateRepository extends BaseRepository implements CertificateInterfa
      */
     public function store(array $data): mixed
     {
-        return $this->model->updateOrCreate(
-            ['user_course_id' => $data['user_course_id']],
-            $data
-        );
+        if ($data['user_course_id']) {
+            return $this->model->updateOrCreate(
+                ['user_course_id' => $data['user_course_id']],
+                $data
+            );
+        } else {
+            return $this->model->updateOrCreate(
+                ['user_event_id' => $data['user_event_id']],
+                $data
+            );
+        }
     }
     /**
      * Method show
@@ -82,5 +89,9 @@ class CertificateRepository extends BaseRepository implements CertificateInterfa
     public function showWithCourse(mixed $id): mixed
     {
         return $this->model->query()->where('user_course_id', $id)->firstOrFail();
+    }
+    public function showWithEvent(mixed $id): mixed
+    {
+        return $this->model->query()->where('user_event_id', $id)->firstOrFail();
     }
 }

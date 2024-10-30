@@ -78,9 +78,9 @@ class UserEventRepository extends BaseRepository implements UserEventInterface
      * @param  mixed $courseId
      * @return mixed
      */
-    public function showByUserEvent($userId, $courseId): mixed
+    public function showByEvent($userId, $eventId): mixed
     {
-        // return [$userId, $courseId];
-        return $this->model->query()->where('user_id', $userId)->where('course_id', $courseId)->firstOrFail();
+        // return [$userId, $eventId];
+        return $this->model->query()->where('user_id', $userId)->where('event_id', $eventId)->firstOrFail();
     }
 }
