@@ -92,6 +92,10 @@ class RewardController extends Controller
         $claimStatus = $this->service->claim($reward);
         if ($claimStatus == 'success') {
             return ResponseHelper::success(null, trans('alert.add_success'));
+        } else if ($claimStatus == 'failed request anda masih pending') {
+            return ResponseHelper::error(null, 'failed request anda masih pending');
+        } else if ($claimStatus == 'failed point kurang atau stock tidak tercukupi') {
+            return ResponseHelper::error(null, 'failed point kurang atau stock tidak tercukupi');
         }
         return ResponseHelper::error(null, trans('alert.add_failed'));
     }
