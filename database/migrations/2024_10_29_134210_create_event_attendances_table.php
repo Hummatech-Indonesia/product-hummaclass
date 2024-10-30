@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_events', function (Blueprint $table) {
+        Schema::create('event_attendances', function (Blueprint $table) {
             $table->id();
-            $table->foreignUuid('user_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignUuid('event_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
-            $table->boolean('has_certificate')->default(false);
+            $table->foreignUuid('event_id')->constrained()->restrictOnDelete()->cascadeOnUpdate();
+            $table->foreignUuid('user_id')->constrained()->restrictOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
     }
@@ -25,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_events');
+        Schema::dropIfExists('event_attendances');
     }
 };

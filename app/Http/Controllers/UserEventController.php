@@ -92,4 +92,18 @@ class UserEventController extends Controller
             return ResponseHelper::error(['user_event' => $userCourse, 'event' => $event], 'Not valid');
         }
     }
+
+    public function setCertificate(string $userEventId): mixed
+    {
+        try {
+            $updated = $this->userEvent->update($userEventId, ['has_certificate' => true]);
+            if ($updated) {
+                return ResponseHelper::success(null, "Sertifikat berhasil ditetapkan");
+            } else {
+                return ResponseHelper::error(null, "Sertifikat gagal ditetapkan");
+            }
+        } catch (\Throwable $th) {
+            return ResponseHelper::error(null, $th->getMessage());
+        }
+    }
 }

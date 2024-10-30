@@ -185,7 +185,7 @@ class TransactionController extends Controller
         ]);
     }
 
-    public function testEmail(): mixed {
-        return $this->transactionService->sendEmailEvent($data);
-    }
+    // public function testEmail(): mixed {
+    //     return $this->transactionService->sendEmailEvent($data);
+    // }
 }

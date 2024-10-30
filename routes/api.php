@@ -39,6 +39,7 @@ use App\Http\Controllers\{
     DiscussionAnswerController,
     DiscussionController,
     DiscussionTagController,
+    EventAttendanceController,
     EventController,
     FaqController,
     Payment\TransactionController,
@@ -49,6 +50,7 @@ use App\Http\Controllers\{
     UserEventController
 };
 use App\Helpers\ResponseHelper;
+use App\Models\EventAttendance;
 
 /*
 |--------------------------------------------------------------------------
@@ -328,6 +330,8 @@ Route::middleware('enable.cors')->group(function () {
 
     Route::resource('events', EventController::class)->except('show');
     Route::get('events/{slug}', [EventController::class, 'show']);
+    // Basic route definition
+    Route::get('/event-attendances/{event}', [EventAttendanceController::class, 'index']);
 
     Route::resource('categories', CategoryController::class)->except('index');
 
@@ -417,6 +421,7 @@ Route::middleware('enable.cors')->group(function () {
         Route::post('user-courses-check', [UserCourseController::class, 'checkPayment']);
         Route::post('user-events-check', [UserEventController::class, 'checkPayment']);
         Route::get('user-events', [UserEventController::class, 'index']);
+        Route::patch('user-events/{userEventId}', [UserEventController::class, 'setCertificate']);
 
         Route::get('transaction/statistic', [TransactionController::class, 'groupByMonth']);
     });

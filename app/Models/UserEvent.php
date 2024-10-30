@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class UserEvent extends Model
 {
     use HasFactory;
-    protected $fillable = ['user_id', 'event_id'];
+    protected $fillable = ['user_id', 'event_id', 'has_certificate'];
 
     public function user(): BelongsTo
     {
