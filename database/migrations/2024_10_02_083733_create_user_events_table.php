@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignUuid('user_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignUuid('event_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->boolean('has_certificate')->default(false);
             $table->timestamps();
         });
     }
