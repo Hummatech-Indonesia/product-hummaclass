@@ -6,6 +6,7 @@ use App\Contracts\Interfaces\Course\UserCourseInterface;
 use App\Contracts\Interfaces\Course\UserEventInterface;
 use App\Contracts\Interfaces\TransactionInterface;
 use App\Helpers\ResponseHelper;
+use App\Jobs\SendEmailEventJob;
 use App\Jobs\SendEventEmailJob;
 use App\Mail\EventEmail;
 use App\Models\Course;
@@ -116,6 +117,6 @@ class TransactionService
 
     public function sendEmailEvent($data): mixed
     {
-        return Mail::to($data['email'])->send(new EventEmail($data['content']));
+        return SendEmailEventJob::dispatch($data);
     }
 }

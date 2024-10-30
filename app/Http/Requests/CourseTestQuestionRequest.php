@@ -26,6 +26,12 @@ class CourseTestQuestionRequest extends ApiRequest
             'question_count' => 'required|integer|min:1'
         ];
     }
+
+    /**
+     * messages
+     *
+     * @return array
+     */
     public function messages(): array
     {
         return [
