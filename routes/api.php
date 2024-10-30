@@ -26,6 +26,7 @@ use App\Http\Controllers\Course\{
     ModuleQuestionController,
     ModuleTaskController,
     CourseTaskController,
+    estQuestionController,
     SubmissionTaskController,
     UserCourseController,
     UserCourseTestController,
@@ -44,6 +45,7 @@ use App\Http\Controllers\{
     RewardController,
     TagController,
     UpdatePasswordController,
+    CourseTestQuestionController,
     UserEventController
 };
 use App\Helpers\ResponseHelper;
@@ -191,6 +193,10 @@ Route::middleware('enable.cors')->group(function () {
         Route::get('course-test-statistic/{user_course_test}', [CourseTestController::class, 'statistic']);
 
         Route::get('user-course-tests', [UserCourseTestController::class, 'index']);
+
+        Route::get('course-test-questions/{course_test}', [CourseTestQuestionController::class, 'index']);
+        Route::post('course-test-questions/{course_test}', [CourseTestQuestionController::class, 'store']);
+        Route::resource('course-test-questions', CourseTestQuestionController::class)->only(['show', 'update', 'destroy']);
 
         Route::get('course-tests/{course}', [CourseTestController::class, 'index']);
         Route::get('course-test-start/{course_test}', [CourseTestController::class, 'show']);

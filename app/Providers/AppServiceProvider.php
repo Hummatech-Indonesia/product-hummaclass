@@ -49,6 +49,7 @@ use App\Contracts\Repositories\Course\CourseTestRepository;
 use App\Contracts\Repositories\Course\ModuleTaskRepository;
 use App\Contracts\Repositories\Course\UserCourseRepository;
 use App\Contracts\Interfaces\Configuration\ContactInterface;
+use App\Contracts\Interfaces\Course\CourseTestQuestionInterface;
 use App\Contracts\Interfaces\Course\ModuleQuestionInterface;
 use App\Contracts\Interfaces\Course\SubmissionTaskInterface;
 use App\Contracts\Interfaces\DiscussionAnswerInterface;
@@ -63,6 +64,7 @@ use App\Contracts\Repositories\Course\SubCategoryRepository;
 use App\Contracts\Repositories\Course\CourseReviewRepository;
 use App\Contracts\Repositories\Course\CourseVoucherRepository;
 use App\Contracts\Repositories\Configuration\ContactRepository;
+use App\Contracts\Repositories\Course\CourseTestQuestionRepository;
 use App\Contracts\Repositories\Course\ModuleQuestionRepository;
 use App\Contracts\Repositories\Course\SubmissionTaskRepository;
 use App\Contracts\Repositories\DiscussionAnswerRepository;
@@ -109,6 +111,7 @@ class AppServiceProvider extends ServiceProvider
         TagInterface::class => TagRepository::class,
         CertificateInterface::class => CertificateRepository::class,
         RewardInterface::class => RewardRepository::class,
+        CourseTestQuestionInterface::class => CourseTestQuestionRepository::class,
         UserRewardInterface::class => UserRewardRepository::class
     ];
 

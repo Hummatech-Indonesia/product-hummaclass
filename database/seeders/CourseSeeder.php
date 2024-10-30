@@ -50,35 +50,41 @@ class CourseSeeder extends Seeder
                 'sub_title' => 'lorem ipsum dolor sit amet'
             ]);
         }
-        $module = Module::firstOrFail();
-        for ($a = 1; $a <= 3; $a++) {
+        $modules = Module::limit(3)->get();
+        $firstModule = Module::firstOrFail();
+        foreach ($modules as $index => $module) {
             SubModule::create([
                 'id' => Uuid::uuid(),
                 'module_id' => $module->id,
-                'step' => $a,
-                'title' => 'lorem ipsum ' . $a,
-                'slug' => Str::slug('lorem ipsum ' . $a),
+                'step' => $index,
+                'title' => 'lorem ipsum ' . $index,
+                'slug' => Str::slug('lorem ipsum ' . $index),
                 'sub_title' => 'lroem ipsum dolor sit amet',
                 'content' => "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).",
             ]);
         }
-        foreach (AnswerEnum::cases() as $index => $option) {
-            ModuleQuestion::create([
-                'id' => Uuid::uuid(),
-                'module_id' => $module->id,
-                'question' => 'lorem ipsum dolor sit amet jawabannya adalah:' . $option->value,
-                'option_a' => 'lorem ipsum',
-                'option_b' => 'lorem ipsum',
-                'option_c' => 'lorem ipsum',
-                'option_d' => 'lorem ipsum',
-                'option_e' => 'lorem ipsum',
-                'answer' => $option->value,
-            ]);
+        foreach ($modules as $index => $module) {
+
+            foreach (AnswerEnum::cases() as $index => $option) {
+                ModuleQuestion::create([
+                    'id' => Uuid::uuid(),
+                    'module_id' => $module->id,
+                    'question' => 'lorem ipsum dolor sit amet jawabannya adalah:' . $option->value,
+                    'option_a' => 'lorem ipsum',
+                    'option_b' => 'lorem ipsum',
+                    'option_c' => 'lorem ipsum',
+                    'option_d' => 'lorem ipsum',
+                    'option_e' => 'lorem ipsum',
+                    'answer' => $option->value,
+                ]);
+            }
+
         }
+
 
         $quiz = Quiz::create([
             'id' => Uuid::uuid(),
-            'module_id' => $module->id,
+            'module_id' => $firstModule->id,
             'rules' => 'lorem ipsum dolor sit amet',
             'total_question' => 5,
             'retry_delay' => 60,
@@ -94,7 +100,7 @@ class CourseSeeder extends Seeder
 
         $moduleTask = ModuleTask::create([
             'id' => Uuid::uuid(),
-            'module_id' => $module->id,
+            'module_id' => $firstModule->id,
             'point' => 1,
             'description' => 'lorem ipsum dolor sit amet lorem rebum magna diam stet',
             'question' => 'lorem ipsum dolor sit amet'
