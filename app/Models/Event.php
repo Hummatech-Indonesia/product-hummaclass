@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Event extends Model implements HasEventDetails,HasEventUsers
+class Event extends Model implements HasEventDetails, HasEventUsers
 {
     use HasFactory;
     public $incrementing = false;
@@ -25,6 +25,7 @@ class Event extends Model implements HasEventDetails,HasEventUsers
         'capacity',
         'price',
         'start_date',
+        'end_date',
         'has_certificate',
         'is_online',
     ];
@@ -41,12 +42,12 @@ class Event extends Model implements HasEventDetails,HasEventUsers
      * Get all of the eventUsers for the Event
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */ 
+     */
     public function UserEvents(): HasMany
     {
         return $this->hasMany(UserEvent::class);
     }
-    
+
 
 
 
