@@ -74,11 +74,11 @@ class RewardService implements ShouldHandleFileUpload
                 'reward_id' => $reward->id
             ])->latest()->firstOrFail();
             if ($lastReward->status == RewardStatusEnum::PENDING->value) {
-                return 'failed';
+                return 'failed request anda masih pending';
             }
         } catch (\Throwable $e) {
             if (auth()->user()->point < $reward->points_required || $reward->stock < 1) {
-                return 'failed';
+                return 'failed point kurang atau stock tidak tercukupi';
             }
             $this->userReward->store($data);
             return 'success';
