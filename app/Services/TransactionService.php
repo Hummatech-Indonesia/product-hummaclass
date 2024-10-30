@@ -74,8 +74,7 @@ class TransactionService
                 ];
                 break;
             case 'PAID':
-                if($product->type == 'event') {
-                    // dispatch(new SendEventEmailJob($product->email_content, $created->user->email));
+                if ($product->type == 'event') {
                     $this->sendEmailEvent([
                         'email' => $created->user->email,
                         'content' => $product->email_content
@@ -115,7 +114,8 @@ class TransactionService
         }
     }
 
-    public function sendEmailEvent($data): mixed {
+    public function sendEmailEvent($data): mixed
+    {
         return Mail::to($data['email'])->send(new EventEmail($data['content']));
     }
 }

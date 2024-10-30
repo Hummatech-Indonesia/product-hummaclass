@@ -34,7 +34,7 @@ class EventController extends Controller
         $data['data'] = EventResource::collection($events);
         return ResponseHelper::success($data, trans('alert.fetch_success'));
     }
-    
+
     /**
      * pageUser
      *
@@ -85,6 +85,7 @@ class EventController extends Controller
         $this->service->update($request, $event);
         return ResponseHelper::success(true, trans('alert.update_success'));
     }
+
     /**
      * Method destroy
      *
@@ -97,6 +98,4 @@ class EventController extends Controller
         $this->service->delete($event);
         return ResponseHelper::success(true, trans('alert.delete_success'));
     }
-
-    
 }
