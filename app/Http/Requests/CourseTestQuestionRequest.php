@@ -22,17 +22,17 @@ class CourseTestQuestionRequest extends ApiRequest
     public function rules(): array
     {
         return [
-            'module_id' => 'required',
-            'question_count' => 'required|integer|min:1'
+            'module_id.*' => 'required',
+            'question_count.*' => 'required|integer|min:1'
         ];
     }
     public function messages(): array
     {
         return [
-            'module_id.required' => 'id modul wajib diisi',
-            'question_count.required' => 'total pertanyaan wajib diisi',
-            'question_count.integer' => 'total pertanyaan harus berupa angka',
-            'question_count.min' => 'total pertanyaan minimal :min',
+            'module_id.*.required' => 'id modul wajib diisi',
+            'question_count.*.required' => 'total pertanyaan wajib diisi',
+            'question_count.*.integer' => 'total pertanyaan harus berupa angka',
+            'question_count.*.min' => 'total pertanyaan minimal :min',
         ];
     }
 }
