@@ -72,4 +72,13 @@ class Module extends Model implements HasCourse, HasSubModules, HasModuleQuestio
     {
         return $this->hasMany(ModuleTask::class);
     }
+    /**
+     * Get all of the courseTestQuestions for the CourseTest
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function courseTestQuestions(): HasMany
+    {
+        return $this->hasMany(CourseTestQuestion::class);
+    }
 }

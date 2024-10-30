@@ -78,12 +78,11 @@ class CourseTestController extends Controller
     /**
      * Method preTest
      *
-     * @param CustomCourseTestRequest $request [explicite description]
      * @param CourseTest $courseTest [explicite description]
      *
      * @return JsonResponse
      */
-    public function preTest(CustomCourseTestRequest $request, CourseTest $courseTest): JsonResponse
+    public function preTest(CourseTest $courseTest): JsonResponse
     {
         $preTest = $this->service->preTest($courseTest);
         if ($preTest == 'samean sampun ngrampungaken pre-test') {
