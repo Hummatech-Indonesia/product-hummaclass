@@ -69,7 +69,7 @@ class UserEventRepository extends BaseRepository implements UserEventInterface
      */
     public function update(mixed $id, array $data): mixed
     {
-        return $this->model->query()->where('user_id', auth()->user()->id)->where('course_id', $id)->firstOrFail()->update($data);
+        return $this->model->query()->where('user_id', auth()->user()->id)->where('event_id', $id)->firstOrFail()->update($data);
     }
     /**
      * showByCourse

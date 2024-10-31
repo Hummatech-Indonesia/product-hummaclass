@@ -227,7 +227,7 @@ Route::middleware('enable.cors')->group(function () {
     Route::middleware('auth:sanctum')->group(function () {
 
         // event attendance
-        Route::get('event-attendance/{event_attendance}', [EventController::class, 'attendance']);
+        Route::get('event-attendance/{event_attendance}/{date}', [EventController::class, 'attendance'])->name('event-attendance.store');
 
         // certificate
         Route::resource('certificates', CertificateController::class)->only(['update']);

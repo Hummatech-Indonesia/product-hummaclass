@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Contracts\Interfaces\EventAttendanceInterface;
 use App\Base\Interfaces\uploads\ShouldHandleFileUpload;
+use App\Contracts\Interfaces\Course\UserEventInterface;
 use App\Contracts\Interfaces\EventDetailInterface;
 use App\Contracts\Interfaces\EventInterface;
 use App\Contracts\Interfaces\UserEventAttendanceInterface;
@@ -15,6 +16,8 @@ use App\Models\Event;
 use App\Models\EventAttendance;
 use App\Models\EventDetail;
 use App\Models\User;
+use App\Models\UserEvent;
+use App\Models\UserEventAttendance;
 use App\Traits\UploadTrait;
 use Carbon\Carbon;
 
@@ -24,9 +27,11 @@ class EventService implements ShouldHandleFileUpload
     private EventDetailInterface $eventDetail;
     private EventAttendanceInterface $eventAttendance;
     private UserEventAttendanceInterface $userEventAttendance;
-    public function __construct(EventInterface $event, EventDetailInterface $eventDetail, EventAttendanceInterface $eventAttendance, UserEventAttendanceInterface $userEventAttendance)
+    private UserEventInterface $userEvent;
+    public function __construct(EventInterface $event, EventDetailInterface $eventDetail, EventAttendanceInterface $eventAttendance, UserEventAttendanceInterface $userEventAttendance, UserEventInterface $userEvent)
     {
         $this->event = $event;
+        $this->userEvent = $userEvent;
         $this->eventDetail = $eventDetail;
         $this->eventAttendance = $eventAttendance;
         $this->userEventAttendance = $userEventAttendance;
@@ -61,9 +66,11 @@ class EventService implements ShouldHandleFileUpload
             $attendanceData = [
                 'event_id' => $event->id,
                 'attendance_date' => $start->copy()->addDays($i),
-                'attendance_link' => "ini link absen"
+                'attendance_link' => ""
             ];
-            $this->eventAttendance->store($attendanceData);
+            $eventAttendance = $this->eventAttendance->store($attendanceData);
+            $eventAttendance->attendance_link = route('event-attendance.store', ['date' => $attendanceData['attendance_date'], 'event_attendance' => $eventAttendance->id]);
+            $eventAttendance->save();
         }
 
 
@@ -132,12 +139,42 @@ class EventService implements ShouldHandleFileUpload
     }
     public function attendance(EventAttendance $eventAttendance)
     {
-
         $data = [
             'user_id' => auth()->user()->id,
             'event_attendance_id' => $eventAttendance->id,
             'is_attendance' => true
         ];
         $this->userEventAttendance->store($data);
+    }
+    public function checkAttendance(EventAttendance $eventAttendance)
+    {
+        $userId = auth()->user()->id;
+        $eventAttendances = $eventAttendance->event->eventAttendances;
+        $userAttendances = [];
+        $complete = true;
+
+        foreach ($eventAttendances as $attendance) {
+            $count = UserEventAttendance::where([
+                'user_id' => $userId,
+                'event_attendance_id' => $attendance->id
+            ])->count();
+
+            $userAttendances[$attendance->id] = $count;
+            $complete = $userAttendances[$attendance->id] == 1 ? true : false;
+        }
+
+        return $complete;
+    }
+
+    public function isLastAttendance(EventAttendance $eventAttendance) {
+        $event = $eventAttendance->event;
+        $lastAttendance = EventAttendance::where('event_id', $event->id)->orderBy('attendance_date', 'DESC')->first();
+
+        return $eventAttendance->id == $lastAttendance->id;
+    }
+
+    public function setCertificateUser(Event $event) {
+        $userEvent = UserEvent::where('event_id', $event->id)->where('user_id', auth()->user()->id)->first()->id;
+        $this->userEvent->update($userEvent, ['has_certificate' => true]);
     }
 }
