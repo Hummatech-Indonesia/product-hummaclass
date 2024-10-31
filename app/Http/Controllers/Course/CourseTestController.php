@@ -155,6 +155,8 @@ class CourseTestController extends Controller
         $data = $request->validated();
         $data['course_id'] = $course->id;
         $courseTest = $this->courseTest->store($data);
+        $courseTest->courseTestQuestions()->delete();
+
         foreach ($request['question_count'] as $index => $questionCount) {
             $storeData = [
                 'course_test_id' => $courseTest->id,
