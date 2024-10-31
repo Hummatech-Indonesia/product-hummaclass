@@ -20,11 +20,9 @@ class DetailCourseResource extends JsonResource
     public function toArray(Request $request): array
     {
         $user = \Laravel\Sanctum\PersonalAccessToken::findToken(substr($request->header('authorization'), 7, 100))?->tokenable()->first();
-        // $userCourse = $this->userCourses->where('user_id', $user?->id)->first();
-        // $userCourse->sub_module_slug = SubModule::find($userCourse->sub_module_id)->slug;
+
         return [
             'id' => $this->id,
-            // 'user' => new UserResource($this->user),
             'user_course' => $this->userCourses()?->where('user_id', $user?->id)->with('subModule')->first(),
             'course_test_id' => $this->courseTest?->id,
             'sub_category' => SubCategoryResource::make($this->subCategory),
@@ -35,7 +33,11 @@ class DetailCourseResource extends JsonResource
             'slug' => $this->slug,
             'is_premium' => $this->is_premium,
             'price' => $this->price,
-            'ratings' => $this->courseReviews->groupBy('rating')->map(fn($group) => $group->count()),
+            'ratings' => $ratings = collect([1 => 0, 2 => 0, 3 => 0, 4 => 0, 5 => 0])
+                ->merge(
+                    $this->courseReviews->groupBy('rating')
+                        ->map(fn($group) => $group->count())
+                ),
             'photo' => url('storage/' . $this->photo),
             'modules' => ModuleResource::collection($this->modules),
             'modules_count' => $this->modules->count(),
@@ -46,4 +48,5 @@ class DetailCourseResource extends JsonResource
             'created' => $this->created_at,
         ];
     }
+
 }
