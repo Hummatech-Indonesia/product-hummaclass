@@ -14,6 +14,12 @@ class CourseTestResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'duration' => $this->duration,
+            'total_question' => $this->total_question,
+            'is_submitted' => $this->is_submitted,
+            'courseTestQuestions' => CourseTestQuestionResource::collection($this->courseTestQuestions)
+        ];
     }
 }
