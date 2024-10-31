@@ -7,6 +7,7 @@ use App\Helpers\ResponseHelper;
 use App\Http\Requests\EventRequest;
 use App\Http\Resources\EventResource;
 use App\Models\Event;
+use App\Models\EventAttendance;
 use App\Services\EventService;
 use App\Traits\PaginationTrait;
 use Illuminate\Http\JsonResponse;
@@ -98,4 +99,11 @@ class EventController extends Controller
         $this->service->delete($event);
         return ResponseHelper::success(true, trans('alert.delete_success'));
     }
+
+    public function attendance(EventAttendance $eventAttendance): JsonResponse
+    {
+        $this->service->attendance($eventAttendance);
+        return ResponseHelper::success(null, trans('alert.fetch_success'));
+    }
+
 }

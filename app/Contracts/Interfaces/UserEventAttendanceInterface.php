@@ -12,4 +12,6 @@ use App\Contracts\Interfaces\Eloquent\ShowSlugInterface;
 use App\Contracts\Interfaces\Eloquent\StoreInterface;
 use App\Contracts\Interfaces\Eloquent\UpdateInterface;
 
-interface EventAttendanceInterface extends ShowInterface,StoreInterface,DeleteInterface {}
+interface UserEventAttendanceInterface extends StoreInterface
+{
+}

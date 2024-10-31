@@ -2,26 +2,34 @@
 
 namespace App\Services;
 
+use App\Contracts\Interfaces\EventAttendanceInterface;
 use App\Base\Interfaces\uploads\ShouldHandleFileUpload;
 use App\Contracts\Interfaces\EventDetailInterface;
 use App\Contracts\Interfaces\EventInterface;
+use App\Contracts\Interfaces\UserEventAttendanceInterface;
 use App\Enums\UploadDiskEnum;
 use App\Http\Requests\CourseRequest;
 use App\Http\Requests\EventRequest;
 use App\Http\Requests\ProfileRequest;
 use App\Models\Event;
+use App\Models\EventAttendance;
 use App\Models\EventDetail;
 use App\Models\User;
 use App\Traits\UploadTrait;
+use Carbon\Carbon;
 
 class EventService implements ShouldHandleFileUpload
 {
     private EventInterface $event;
     private EventDetailInterface $eventDetail;
-    public function __construct(EventInterface $event, EventDetailInterface $eventDetail)
+    private EventAttendanceInterface $eventAttendance;
+    private UserEventAttendanceInterface $userEventAttendance;
+    public function __construct(EventInterface $event, EventDetailInterface $eventDetail, EventAttendanceInterface $eventAttendance, UserEventAttendanceInterface $userEventAttendance)
     {
         $this->event = $event;
         $this->eventDetail = $eventDetail;
+        $this->eventAttendance = $eventAttendance;
+        $this->userEventAttendance = $userEventAttendance;
     }
 
     use UploadTrait;
@@ -42,11 +50,29 @@ class EventService implements ShouldHandleFileUpload
         }
 
         $event = $this->event->store($data);
+
+
+        $start = Carbon::parse($event->start_date);
+        $end = Carbon::parse($event->end_date);
+
+        $diff = $start->diffInDays($end);
+
+        for ($i = 0; $i <= $diff; $i++) {
+            $attendanceData = [
+                'event_id' => $event->id,
+                'attendance_date' => $start->copy()->addDays($i),
+                'attendance_link' => "ini link absen"
+            ];
+            $this->eventAttendance->store($attendanceData);
+        }
+
+
         foreach ($data['start'] as $index => $start) {
             $detailData = [
                 'event_id' => $event->id,
-                'start' => $start,
                 'user' => $data['user'][$index],
+                'event_date' => $data['event_date'][$index],
+                'start' => $start,
                 'end' => $data['end'][$index],
                 'session' => $data['session'][$index],
             ];
@@ -103,5 +129,15 @@ class EventService implements ShouldHandleFileUpload
         }
 
         return $this->event->delete($event->id);
+    }
+    public function attendance(EventAttendance $eventAttendance)
+    {
+
+        $data = [
+            'user_id' => auth()->user()->id,
+            'event_attendance_id' => $eventAttendance->id,
+            'is_attendance' => true
+        ];
+        $this->userEventAttendance->store($data);
     }
 }

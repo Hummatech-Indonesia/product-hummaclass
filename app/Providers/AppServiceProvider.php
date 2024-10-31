@@ -2,8 +2,9 @@
 
 namespace App\Providers;
 
-use App\Base\Interfaces\EventAttendanceInterface;
-use Illuminate\Support\Facades\URL;
+use App\Contracts\Interfaces\EventAttendanceInterface;
+use App\Contracts\Interfaces\UserEventAttendanceInterface;
+use App\Contracts\Repositories\UserEventAttendanceRepository;
 use Illuminate\Support\ServiceProvider;
 use App\Contracts\Interfaces\BlogInterface;
 use App\Contracts\Interfaces\EventInterface;
@@ -115,7 +116,8 @@ class AppServiceProvider extends ServiceProvider
         RewardInterface::class => RewardRepository::class,
         CourseTestQuestionInterface::class => CourseTestQuestionRepository::class,
         UserRewardInterface::class => UserRewardRepository::class,
-        EventAttendanceInterface::class => EventAttendanceRepository::class
+        EventAttendanceInterface::class => EventAttendanceRepository::class,
+        UserEventAttendanceInterface::class=>UserEventAttendanceRepository::class
     ];
 
     /**
