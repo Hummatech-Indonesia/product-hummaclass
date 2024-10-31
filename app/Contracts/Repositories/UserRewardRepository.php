@@ -48,4 +48,16 @@ class UserRewardRepository extends BaseRepository implements UserRewardInterface
     {
         return $this->model->query()->findOrFail($id)->update($data);
     }
+
+    /**
+     * customPaginate
+     *
+     * @param  mixed $request
+     * @param  mixed $pagination
+     * @return LengthAwarePaginator
+     */
+    public function customPaginate(Request $request, int $pagination = 10): LengthAwarePaginator
+    {
+        return $this->model->query()->customPaginate($pagination);
+    }
 }
