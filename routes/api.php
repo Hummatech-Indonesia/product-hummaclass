@@ -47,6 +47,7 @@ use App\Http\Controllers\{
     TagController,
     UpdatePasswordController,
     CourseTestQuestionController,
+    UserEventAttendanceController,
     UserEventController
 };
 use App\Helpers\ResponseHelper;
@@ -228,6 +229,7 @@ Route::middleware('enable.cors')->group(function () {
 
         // event attendance
         Route::get('event-attendance/{event_attendance}/{date}', [EventController::class, 'attendance'])->name('event-attendance.store');
+        Route::get('user-event-attendances/{event}', [UserEventAttendanceController::class, 'index']);
 
         // certificate
         Route::resource('certificates', CertificateController::class)->only(['update']);

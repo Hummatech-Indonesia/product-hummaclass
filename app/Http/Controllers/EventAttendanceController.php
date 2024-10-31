@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Base\Interfaces\EventAttendanceInterface;
+use App\Contracts\Interfaces\EventAttendanceInterface as InterfacesEventAttendanceInterface;
 use App\Helpers\ResponseHelper;
 use App\Http\Requests\EventAttendanceRequest;
 use App\Models\Event;
@@ -12,17 +13,17 @@ use Illuminate\Http\Request;
 class EventAttendanceController extends Controller
 {
 
-    protected EventAttendanceInterface $eventAtetndance;
+    protected InterfacesEventAttendanceInterface $eventAtetndance;
 
-    public function __construct(EventAttendanceInterface $eventAtetndance) {
+    public function __construct(InterfacesEventAttendanceInterface $eventAtetndance) {
         $this->eventAtetndance = $eventAtetndance;
     }
     /**
      * Display a listing of the resource.
      */
-    public function index(Event $event)
+    public function index(Request $request, Event $event)
     {
-        $eventAttendances = $this->eventAtetndance->get($event);
+        $eventAttendances = $this->eventAtetndance->get($request, $event);
         return ResponseHelper::success($eventAttendances, trans('alert.fetch_success'));
     }
 

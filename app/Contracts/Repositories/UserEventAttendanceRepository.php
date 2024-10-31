@@ -20,6 +20,13 @@ class UserEventAttendanceRepository extends BaseRepository implements UserEventA
     {
         $this->model = $userEventAttendance;
     }
+
+    public function get($event): mixed
+    {
+        return $this->model->whereHas('eventAttendance', function ($query) use ($event) {
+            $query->where('event_id', $event->id);
+        })->get();
+    }
     public function store(array $data): mixed
     {
         return $this->model->query()->create($data);

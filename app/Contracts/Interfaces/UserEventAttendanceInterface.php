@@ -14,4 +14,5 @@ use App\Contracts\Interfaces\Eloquent\UpdateInterface;
 
 interface UserEventAttendanceInterface extends StoreInterface
 {
+    public function get($event): mixed;
 }

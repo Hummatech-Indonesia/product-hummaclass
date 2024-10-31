@@ -2,17 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\UserEventAttendance;
+use App\Contracts\Interfaces\UserEventAttendanceInterface;
+use App\Models\Event;
 use Illuminate\Http\Request;
+use Svg\Tag\Rect;
 
 class UserEventAttendanceController extends Controller
 {
+
+    protected UserEventAttendanceInterface $userEventAttendance;
+    public function __construct(UserEventAttendanceInterface $userEventAttendance)
+    {
+        $this->userEventAttendance = $userEventAttendance;
+    }
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Event $event)
     {
-        //
+        dd($this->userEventAttendance->get($event));
     }
 
     /**
