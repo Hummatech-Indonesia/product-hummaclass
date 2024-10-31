@@ -47,6 +47,7 @@ use App\Http\Controllers\{
     TagController,
     UpdatePasswordController,
     CourseTestQuestionController,
+    UserEventAttendanceController,
     UserEventController,
     UserRewardController
 };
