@@ -2,64 +2,31 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\Interfaces\UserRewardInterface;
+use App\Helpers\ResponseHelper;
+use App\Http\Resources\UserRewardResource;
 use App\Models\UserReward;
+use App\Traits\PaginationTrait;
 use Illuminate\Http\Request;
 
 class UserRewardController extends Controller
 {
+    use PaginationTrait;
+    private UserRewardInterface $userReward;
+
+    public function __construct(UserRewardInterface $userReward)
+    {
+        $this->userReward = $userReward;
+    }
+
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(UserReward $userReward)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(UserReward $userReward)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, UserReward $userReward)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(UserReward $userReward)
-    {
-        //
+        $userRewards = $this->userReward->customPaginate($request);
+        $data['paginate'] = $this->customPaginate($userRewards->currentPage(), $userRewards->lastPage());
+        $data['data'] = UserRewardResource::collection($userRewards);
+        return ResponseHelper::success($data, trans('alert.fetch_success'));
     }
 }

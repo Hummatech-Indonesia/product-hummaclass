@@ -47,8 +47,8 @@ use App\Http\Controllers\{
     TagController,
     UpdatePasswordController,
     CourseTestQuestionController,
-    UserEventAttendanceController,
-    UserEventController
+    UserEventController,
+    UserRewardController
 };
 use App\Helpers\ResponseHelper;
 use App\Models\EventAttendance;
@@ -140,6 +140,7 @@ Route::middleware('enable.cors')->group(function () {
     ]);
 
     Route::get('rewards', [RewardController::class, 'index']);
+    Route::get('user-rewards', [UserRewardController::class, 'index']);
     Route::get('rewards/{slug}', [RewardController::class, 'show']);
 
     Route::middleware('auth:sanctum')->group(function () {

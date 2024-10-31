@@ -117,6 +117,7 @@ class CourseTestController extends Controller
             $questions = $this->moduleQuestion->customPaginate($request);
             $data['paginate'] = $this->customPaginate($questions->currentPage(), $questions->lastPage());
             $data['data'] = ModuleQuestionResource::collection($questions);
+            $data['course_test'] = CourseTestResource::make($courseTest);
             $data['user_quiz'] = UserCourseTestResource::make($postTest['postTest']);
             return ResponseHelper::success($data, trans('alert.fetch_success'));
         } catch (\Throwable $e) {
