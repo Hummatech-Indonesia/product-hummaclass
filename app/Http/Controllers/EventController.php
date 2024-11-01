@@ -103,7 +103,7 @@ class EventController extends Controller
     public function attendance(EventAttendance $eventAttendance, $date): JsonResponse
     {
         $this->service->attendance($eventAttendance);
-        if($this->service->isLastAttendance($eventAttendance) && $this->service->checkAttendance($eventAttendance)) {
+        if ($this->service->isLastAttendance($eventAttendance) && $this->service->checkAttendance($eventAttendance)) {
             $this->service->setCertificateUser($eventAttendance->event);
         }
         return ResponseHelper::success(null, trans('alert.fetch_success'));

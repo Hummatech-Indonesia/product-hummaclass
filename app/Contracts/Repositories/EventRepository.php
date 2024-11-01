@@ -22,8 +22,9 @@ class EventRepository extends BaseRepository implements EventInterface
     {
         return $this->model->query()
             ->when($request->search, function ($query) use ($request) {
-                $query->whereLike('title', $request->search);
+                $query->where('title', 'LIKE', '%' . $request->search . '%');
             })
+
             ->when($request->filter, function ($query) {
                 $query->latest('start_date');
             })
