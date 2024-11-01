@@ -80,7 +80,10 @@ class RewardService implements ShouldHandleFileUpload
             if (auth()->user()->point < $reward->points_required || $reward->stock < 1) {
                 return 'failed point kurang atau stock tidak tercukupi';
             }
+            $this->reward->update($reward->id, ['stock' => $reward->stock - 1]);
             $this->userReward->store($data);
+            $user = User::findOrFail(auth()->user()->id);
+            $user->update(['point' => auth()->user()->point - $reward->points_required]);
             return 'success';
         }
     }
@@ -89,16 +92,13 @@ class RewardService implements ShouldHandleFileUpload
         $data = $request->validated();
 
         $reward = Reward::findOrFail($userReward->reward_id);
+        $user = User::findOrFail(auth()->user()->id);
 
-        $currentPoint = $userReward->user->point - $userReward->reward->points_required;
-        if ($data['status'] == RewardStatusEnum::SUCCESS->value) {
-            $this->user->customUpdate($userReward->user->id, [
-                'point' => $currentPoint
-            ]);
-            $reward->update([
-                'stock' => $reward->stock - 1
-            ]);
+        if ($request->status == RewardStatusEnum::REJECTED->value) {
+            $reward->update(['stock' => $reward->stock + 1]);
+            $user->update(['point' => $user->point + $reward->points_required]);
         }
+
         $this->userReward->update($userReward->id, $data);
     }
 }
