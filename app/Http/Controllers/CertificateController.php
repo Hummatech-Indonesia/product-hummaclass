@@ -41,7 +41,7 @@ class CertificateController extends Controller
      *
      * @return JsonResponse
      */
-    public function show($type, string $slug): mixed
+    public function show(string $type, $slug): mixed
     {
         if ($type == 'course') {
             $course = $this->course->showWithSlug($slug);
