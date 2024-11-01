@@ -16,16 +16,43 @@ class UserCourseResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        // Hitung total langkah dari semua submodule dalam modul
+        $total_steps = 0;
+        foreach ($this->course->modules as $module) {
+            $total_steps += $module->subModules->count();
+        }
 
-        $percentace = CourcePercentaceHelper::getPercentace($this);
+        // Dapatkan step untuk sub_module_id saat ini
+        $current_step = $this->course->modules()
+            ->whereHas('subModules', function ($query) {
+                $query->where('id', $this->sub_module_id);
+            })
+            ->with([
+                'subModules' => function ($query) {
+                    $query->where('id', $this->sub_module_id);
+                }
+            ])
+            ->first()
+            ->subModules
+            ->pluck('step')
+            ->first();
+
+        // Kalkulasi persentase pengerjaan
+        $percentage = $total_steps > 0 ? ($current_step / $total_steps) * 100 : 0;
+
         return [
             'user' => $this->user,
             'course' => $this->course,
-            'percentace' => $percentace,
+            'total_module' => $this->course->modules->count(),
+            'study_time' => $this->created_at
+                ? now()->diffInHours($this->created_at) . ' jam ' . now()->diffInMinutes($this->created_at) % 60 . ' menit'
+                : 'Belum ada waktu belajar',
+            'study_percentage' => $percentage,
             'sub_module' => $this->subModule,
             'has_post_test' => $this->has_post_test,
             'has_pre_test' => $this->has_pre_test,
-            'sub_module_slug' => $this->subModule->slug
+            'sub_module_slug' => $this->subModule->slug,
         ];
     }
+
 }

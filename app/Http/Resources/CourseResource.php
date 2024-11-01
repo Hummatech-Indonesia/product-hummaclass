@@ -18,7 +18,7 @@ class CourseResource extends JsonResource
 
         return [
             'id' => $this->id,
-            'user' => new UserResource($this->user),
+            'user' => new UserResource($this->user) ?? null,
             'sub_category' => $this->subCategory->name,
             'course_test_id' => $this->courseTest ? $this->courseTest->id : null,
             'category' => $this->subCategory->category->name,
