@@ -8,11 +8,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\TestHistoryResource;
 use App\Http\Resources\UserCourseResource;
 use App\Http\Resources\UserCourseTestResource;
+use App\Traits\PaginationTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class UserCourseTestController extends Controller
 {
+    use PaginationTrait;
     private UserCourseTestInterface $userCourseTest;
     public function __construct(UserCourseTestInterface $userCourseTest)
     {
@@ -23,10 +25,12 @@ class UserCourseTestController extends Controller
      *
      * @return JsonResponse
      */
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        $userCourseTests = $this->userCourseTest->get();
-        return ResponseHelper::success(TestHistoryResource::collection($userCourseTests), trans('alert.fetch_success'));
+        $userCourseTests = $this->userCourseTest->customPaginate($request);
+        $data['paginate'] = $this->customPaginate($userCourseTests->currentPage(), $userCourseTests->lastPage());
+        $data['data'] = TestHistoryResource::collection($userCourseTests);
+        return ResponseHelper::success($data, trans('alert.fetch_success'));
     }
     /**
      * Method store
