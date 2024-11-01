@@ -156,6 +156,8 @@ class ModuleRepository extends BaseRepository implements ModuleInterface
         return $this->model->query()
             ->when($request->course_id, function ($query) use ($request) {
                 $query->where('course_id', $request->course_id);
+            })->when($request->search, function ($query) use ($request) {
+                $query->where('title', 'like', "%$request->search%");
             })
             ->orderBy('step', 'asc')
             ->get();
