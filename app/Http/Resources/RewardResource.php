@@ -18,6 +18,7 @@ class RewardResource extends JsonResource
             'id' => $this->id,
             'image' => asset('storage/' . $this->image),
             'name' => $this->name,
+            'slug' => $this->slug,
             'stock' => $this->stock,
             'points_required' => $this->points_required,
             'description' => $this->description,
