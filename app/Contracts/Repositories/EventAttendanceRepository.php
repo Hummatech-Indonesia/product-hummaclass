@@ -21,6 +21,11 @@ class EventAttendanceRepository extends BaseRepository implements EventAttendanc
             ->when($request->date, function ($query) use ($request) {
                 $query->where('attendance_date', $request->date);
             })
+            ->when($request->name, function ($query) use ($request) {
+                $query->whereHas('userEventAttendance.user', function ($query) use ($request) {
+                    $query->where('name', 'LIKE', '%' . $request->name . '%');
+                });
+            })
             ->fastPaginate(10);
     }
     /**
