@@ -3,10 +3,14 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Contracts\Interfaces\Auth\UserInterface;
+use App\Contracts\Interfaces\Course\UserCourseInterface;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\AuthResource;
+use App\Http\Resources\UserCourseActivityResource;
+use App\Http\Resources\UserCourseResource;
 use App\Http\Resources\UserResource;
+use App\Models\Course;
 use App\Models\User;
 use App\Traits\PaginationTrait;
 use Illuminate\Http\JsonResponse;
@@ -16,9 +20,11 @@ class UserController extends Controller
 {
     use PaginationTrait;
     private UserInterface $user;
-    public function __construct(UserInterface $user)
+    private UserCourseInterface $userCourse;
+    public function __construct(UserInterface $user, UserCourseInterface $userCourse)
     {
         $this->user = $user;
+        $this->userCourse = $userCourse;
     }
     /**
      * Method index
@@ -45,6 +51,12 @@ class UserController extends Controller
     {
         $data = $this->user->show($user->id);
         return ResponseHelper::success(new UserResource($data), trans('alert.fetch_success'));
+    }
+    public function courseActivity(): JsonResponse
+    {
+        $user = $this->user->show(auth()->user()->id);
+
+        return ResponseHelper::success(UserCourseResource::collection($user->userCourses), trans('alert.fetch_success'));
     }
     /**
      * Method getByAuth

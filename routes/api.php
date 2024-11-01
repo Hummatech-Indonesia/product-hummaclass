@@ -145,6 +145,10 @@ Route::middleware('enable.cors')->group(function () {
     Route::get('rewards/{slug}', [RewardController::class, 'show']);
 
     Route::middleware('auth:sanctum')->group(function () {
+
+        // user
+        Route::get('user-course-activities', [UserController::class, 'courseActivity']);
+
         Route::post('rewards-claim/{reward}', [RewardController::class, 'claim']);
         Route::patch('rewards-change/{user_reward}', [RewardController::class, 'change']);
         Route::resource('rewards', RewardController::class)->only(['store', 'update', 'destroy']);
