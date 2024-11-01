@@ -58,6 +58,10 @@ class UserRewardRepository extends BaseRepository implements UserRewardInterface
      */
     public function customPaginate(Request $request, int $pagination = 10): LengthAwarePaginator
     {
-        return $this->model->query()->fastPaginate($pagination);
+        return $this->model->query()
+            ->when($request->status, function ($query) use ($request) {
+                return $query->where('status', $request->status);
+            })
+            ->fastPaginate($pagination);
     }
 }
