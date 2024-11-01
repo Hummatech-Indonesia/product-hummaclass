@@ -84,6 +84,7 @@ class UserEventController extends Controller
     public function checkPayment(Request $request)
     {
         // dd(auth()->user()->id, $request->event_slug);
+        // return $request;
         $event = Event::where('slug', $request->event_slug)->first();
         $userCourse = UserEvent::with('event')->where('user_id', auth()->user()->id)->whereRelation('event', 'slug', $request->event_slug)->first();
         if ($userCourse) {
