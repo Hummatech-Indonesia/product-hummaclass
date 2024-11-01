@@ -9,6 +9,7 @@ use App\Http\Requests\ModuleQuestionRequest;
 use App\Http\Resources\ModuleQuestionResource;
 use App\Models\Module;
 use App\Models\ModuleQuestion;
+use App\Traits\PaginationTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
