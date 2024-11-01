@@ -41,7 +41,7 @@ class CertificateController extends Controller
      *
      * @return JsonResponse
      */
-    public function show(string $slug, $type): mixed
+    public function show(string $type, $slug): mixed
     {
         if ($type == 'course') {
             $course = $this->course->showWithSlug($slug);
@@ -63,7 +63,7 @@ class CertificateController extends Controller
      *
      * @return JsonResponse
      */
-    public function store(CertificateRequest $request, string $slug, $type): mixed
+    public function store(CertificateRequest $request, $type, string $slug): mixed
     {
         if ($type == 'course') {
             $this->service->store($request, $slug);
