@@ -18,6 +18,8 @@ class UserRewardResource extends JsonResource
             'id' => $this->id,
             'user' => UserResource::make($this->user),
             'reward' => RewardResource::make($this->reward),
+            'status' => $this->status
         ];
     }
 }
+
