@@ -15,7 +15,8 @@ class EventResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $day = now()->diffInDays(Carbon::parse($this->event->start_date));
+        // Hitung hari hingga event dimulai
+        $day = now()->diffInDays(Carbon::parse($this->start_date));
 
         return [
             'id' => $this->id,
@@ -29,7 +30,7 @@ class EventResource extends JsonResource
             'is_online' => $this->is_online,
             'start_in' => now()->greaterThan($this->start_date)
                 ? $this->start_date
-                : (Carbon::parse($this->event->start_date)->isFuture()
+                : (Carbon::parse($this->start_date)->isFuture()
                     ? ($day > 0 ? $day . " hari lagi" : "hari ini") : ''
                 ),
             'start_date' => Carbon::parse($this->start_date)->translatedFormat('j F Y'),
