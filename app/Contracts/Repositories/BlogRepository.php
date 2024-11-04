@@ -33,7 +33,11 @@ class BlogRepository extends BaseRepository implements BlogInterface
      */
     public function customPaginate(Request $request, int $pagination = 10): LengthAwarePaginator
     {
-        return $this->model->query()->fastPaginate($pagination);
+        return $this->model->query()
+            ->when($request->search, function ($query) use ($request) {
+                return $query->where('title', 'LIKE', '%' . $request->search . '%');
+            })
+            ->fastPaginate($pagination);
     }
     /**
      * Method store
