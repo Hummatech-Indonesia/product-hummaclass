@@ -43,6 +43,7 @@ class UserCourseResource extends JsonResource
         return [
             'user' => $this->user,
             'course' => $this->course,
+            'sub_category'=>$this->subCategory,
             'total_module' => $this->course->modules->count(),
             'study_time' => $this->created_at
                 ? now()->diffInHours($this->created_at) . ' jam ' . now()->diffInMinutes($this->created_at) % 60 . ' menit'
