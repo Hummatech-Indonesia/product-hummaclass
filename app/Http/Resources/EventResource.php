@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -14,6 +15,9 @@ class EventResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        // Hitung hari hingga event dimulai
+        $day = now()->diffInDays(Carbon::parse($this->start_date));
+
         return [
             'id' => $this->id,
             'title' => $this->title,
@@ -24,7 +28,13 @@ class EventResource extends JsonResource
             'capacity' => $this->capacity,
             'has_certificate' => $this->has_certificate,
             'is_online' => $this->is_online,
-            'start_date' => $this->start_date,
+            'start_in' => now()->greaterThan($this->start_date)
+                ? $this->start_date
+                : (Carbon::parse($this->start_date)->isFuture()
+                    ? ($day > 0 ? $day . " hari lagi" : "hari ini") : ''
+                ),
+            'start_date' => Carbon::parse($this->start_date)->translatedFormat('j F Y'),
+            'end_date' => Carbon::parse($this->end_date)->translatedFormat('j F Y'),
             'image' => url('storage/' . $this->image),
             'event_details' => $this->eventDetails,
             'created_at' => $this->created_at,

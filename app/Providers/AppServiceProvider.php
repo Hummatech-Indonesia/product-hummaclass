@@ -77,6 +77,7 @@ use App\Contracts\Repositories\FaqRepository;
 use App\Contracts\Repositories\RewardRepository;
 use App\Contracts\Repositories\TagRepository;
 use App\Contracts\Repositories\UserRewardRepository;
+use Carbon\Carbon;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -117,7 +118,7 @@ class AppServiceProvider extends ServiceProvider
         CourseTestQuestionInterface::class => CourseTestQuestionRepository::class,
         UserRewardInterface::class => UserRewardRepository::class,
         EventAttendanceInterface::class => EventAttendanceRepository::class,
-        UserEventAttendanceInterface::class=>UserEventAttendanceRepository::class
+        UserEventAttendanceInterface::class => UserEventAttendanceRepository::class
     ];
 
     /**
@@ -134,5 +135,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Carbon::setLocale('id');
     }
 }

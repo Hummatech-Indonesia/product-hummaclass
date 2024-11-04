@@ -31,6 +31,17 @@ class FaqController extends Controller
         $data['data'] = FaqResource::collection($faqs);
         return ResponseHelper::success($data, trans('alert.fetch_success'));
     }
+
+    /**
+     * indexUser
+     *
+     * @return JsonResponse
+     */
+    public function indexUser(): JsonResponse
+    {
+        $faqs = $this->faq->get();
+        return ResponseHelper::success(FaqResource::collection($faqs), trans('alert.fetch_success'));
+    }
     /**
      * Method store
      *

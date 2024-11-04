@@ -28,7 +28,7 @@ class ContactRequest extends ApiRequest
             'email' => 'required|string|max:255',
             'phone_number' => 'required|string|max:255',
         ];
-    }    
+    }
     /**
      * Method messages
      *

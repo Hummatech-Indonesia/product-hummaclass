@@ -140,6 +140,7 @@ Route::middleware('enable.cors')->group(function () {
         'except' => ['edit', 'create']
     ]);
 
+    Route::get('faq-user', [FaqController::class, 'indexUser']);
     Route::get('rewards', [RewardController::class, 'index']);
     Route::get('user-rewards', [UserRewardController::class, 'index']);
     Route::get('rewards/{slug}', [RewardController::class, 'show']);
@@ -148,6 +149,7 @@ Route::middleware('enable.cors')->group(function () {
 
         // user
         Route::get('user-course-activities', [UserController::class, 'courseActivity']);
+        Route::get('user-event-activities', [UserController::class, 'eventActivity']);
 
         Route::post('rewards-claim/{reward}', [RewardController::class, 'claim']);
         Route::patch('rewards-change/{user_reward}', [RewardController::class, 'change']);
@@ -174,7 +176,6 @@ Route::middleware('enable.cors')->group(function () {
 
         Route::post('sub-modules/{module}', [SubModuleController::class, 'store']);
 
-        Route::patch('contact/{contact}', [ContactController::class, 'update']);
 
         Route::get('course-vouchers/{courseSlug}', [CourseVoucherController::class, 'index']);
         Route::get('course-vouchers/{courseSlug}/check', [CourseVoucherController::class, 'checkCode']);
@@ -294,7 +295,8 @@ Route::middleware('enable.cors')->group(function () {
         /**
          * Contact Management
          */
-        Route::patch('contact/{contact}', [ContactController::class, 'update']);
+        Route::post('contact', [ContactController::class, 'post']);
+        Route::get('contact-detail', [ContactController::class, 'show']);
 
         /**
          * Module and Task Management
@@ -392,7 +394,6 @@ Route::middleware('enable.cors')->group(function () {
 
         Route::post('sub-modules/{module}', [SubModuleController::class, 'store']);
 
-        Route::patch('contact/{contact}', [ContactController::class, 'update']);
 
         Route::get('course-vouchers/{courseSlug}', [CourseVoucherController::class, 'index']);
         Route::get('course-vouchers/{courseSlug}/check', [CourseVoucherController::class, 'checkCode']);
