@@ -92,6 +92,18 @@ class SubModuleController extends Controller
         return ResponseHelper::success(SubModuleResource::make($subModule), trans('alert.fetch_success'));
     }
 
+    /**
+     * showAdmin
+     *
+     * @param  mixed $slug
+     * @return JsonResponse
+     */
+    public function showAdmin(string $slug): JsonResponse
+    {
+        $subModule = $this->subModule->showWithSlug($slug);
+        return ResponseHelper::success(SubModuleResource::make($subModule), trans('alert.fetch_success'));
+    }
+
     public function edit(SubModule $subModule): JsonResponse
     {
         return ResponseHelper::success(SubModuleResource::make($subModule));

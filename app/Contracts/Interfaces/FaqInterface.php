@@ -12,7 +12,4 @@ use App\Contracts\Interfaces\Eloquent\ShowSlugInterface;
 use App\Contracts\Interfaces\Eloquent\StoreInterface;
 use App\Contracts\Interfaces\Eloquent\UpdateInterface;
 
-interface FaqInterface extends GetInterface, StoreInterface, ShowInterface, UpdateInterface, DeleteInterface
-{
-
-}
+interface FaqInterface extends GetInterface, StoreInterface, ShowInterface, UpdateInterface, DeleteInterface, CustomPaginationInterface {}

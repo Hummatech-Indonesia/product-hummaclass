@@ -183,7 +183,6 @@ Route::middleware('enable.cors')->group(function () {
         Route::delete('course-vouchers/{courseVoucher}', [CourseVoucherController::class, 'destroy']);
 
 
-        Route::get('module-questions/detail/{module}', [ModuleQuestionController::class, 'index']);
         Route::post('module-questions/{module}', [ModuleQuestionController::class, 'store']);
         Route::delete('module-questions/{module_question}', [ModuleQuestionController::class, 'destroy']);
 
@@ -216,7 +215,6 @@ Route::middleware('enable.cors')->group(function () {
         Route::get('modules/{slug}', [ModuleController::class, 'index']);
         Route::get('modules/detail/{module}', [ModuleController::class, 'show']);
 
-        Route::get('module-questions/detail/{module}', [ModuleQuestionController::class, 'index']);
 
         // Route::get('submission-tasks/{course_task}', [SubmissionTaskController::class, 'index']);
 
@@ -245,6 +243,7 @@ Route::middleware('enable.cors')->group(function () {
 
 
         Route::get('sub-modules/detail/{slug}', [SubModuleController::class, 'show'])->middleware('check_last_step_user');
+        Route::get('sub-modules/detail/admin/{slug}', [SubModuleController::class, 'showAdmin']);
 
         Route::get('list-course', [CourseController::class, 'listCourse']);
         Route::get('list-module/{slug}', [ModuleController::class, 'listModuleWithSubModul']);
@@ -305,7 +304,6 @@ Route::middleware('enable.cors')->group(function () {
         Route::post('modules/{slug}', [ModuleController::class, 'store']);
         Route::patch('modules-forward/{module}', [ModuleController::class, 'forward']);
         Route::patch('modules-backward/{module}', [ModuleController::class, 'backward']);
-        Route::get('module-questions/detail/{module}', [ModuleQuestionController::class, 'index']);
         Route::post('module-questions/{module}', [ModuleQuestionController::class, 'store']);
 
         /**
@@ -377,6 +375,9 @@ Route::middleware('enable.cors')->group(function () {
 
     Route::middleware('auth:sanctum')->group(function () {
 
+        Route::get('module-questions/detail/admin/{module}', [ModuleQuestionController::class, 'showAdmin']);
+
+
         Route::resource('blogs', BlogController::class)->only(['store', 'update', 'destroy']);
         Route::get('blog/{blog}', [BlogController::class, 'show']);
 
@@ -424,7 +425,6 @@ Route::middleware('enable.cors')->group(function () {
         Route::get('modules/{slug}', [ModuleController::class, 'index']);
         Route::get('modules/detail/{module}', [ModuleController::class, 'show']);
 
-        Route::get('module-questions/detail/{module}', [ModuleQuestionController::class, 'index']);
 
         Route::get('submission-tasks/{moduleTask}', [SubmissionTaskController::class, 'index']);
 

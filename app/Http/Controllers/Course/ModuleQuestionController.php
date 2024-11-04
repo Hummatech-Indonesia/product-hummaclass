@@ -6,6 +6,7 @@ use App\Contracts\Interfaces\Course\ModuleQuestionInterface;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ModuleQuestionRequest;
+use App\Http\Resources\ModuleQuestionAdminResource;
 use App\Http\Resources\ModuleQuestionResource;
 use App\Models\Module;
 use App\Models\ModuleQuestion;
@@ -29,6 +30,18 @@ class ModuleQuestionController extends Controller
     {
         $moduleQuestions = $this->moduleQuestion->getByModule($module->id);
         return ResponseHelper::success(ModuleQuestionResource::collection($moduleQuestions), trans('alert.fetch_success'));
+    }
+
+    /**
+     * index
+     *
+     * @param  mixed $module
+     * @return JsonResponse
+     */
+    public function showAdmin(Module $module): JsonResponse
+    {
+        $moduleQuestions = $this->moduleQuestion->getByModule($module->id);
+        return ResponseHelper::success(ModuleQuestionAdminResource::collection($moduleQuestions), trans('alert.fetch_success'));
     }
     /**
      * Method store

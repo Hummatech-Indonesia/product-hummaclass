@@ -7,11 +7,13 @@ use App\Helpers\ResponseHelper;
 use App\Http\Requests\FaqRequest;
 use App\Http\Resources\FaqResource;
 use App\Models\Faq;
+use App\Traits\PaginationTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class FaqController extends Controller
 {
+    use PaginationTrait;
     private FaqInterface $faq;
     public function __construct(FaqInterface $faq)
     {
@@ -22,10 +24,12 @@ class FaqController extends Controller
      *
      * @return JsonResponse
      */
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        $faqs = $this->faq->get();
-        return ResponseHelper::success(FaqResource::collection($faqs), trans('alert.fetch_success'));
+        $faqs = $this->faq->customPaginate($request);
+        $data['paginate'] = $this->customPaginate($faqs->currentPage(), $faqs->lastPage());
+        $data['data'] = FaqResource::collection($faqs);
+        return ResponseHelper::success($data, trans('alert.fetch_success'));
     }
     /**
      * Method store
