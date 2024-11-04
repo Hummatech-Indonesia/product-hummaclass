@@ -7,8 +7,10 @@ use App\Contracts\Interfaces\Course\UserCourseInterface;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\AuthResource;
+use App\Http\Resources\CustomUserEventResource;
 use App\Http\Resources\UserCourseActivityResource;
 use App\Http\Resources\UserCourseResource;
+use App\Http\Resources\UserEventResource;
 use App\Http\Resources\UserResource;
 use App\Models\Course;
 use App\Models\User;
@@ -55,8 +57,17 @@ class UserController extends Controller
     public function courseActivity(): JsonResponse
     {
         $user = $this->user->show(auth()->user()->id);
-
         return ResponseHelper::success(UserCourseResource::collection($user->userCourses), trans('alert.fetch_success'));
+    }
+    /**
+     * Method aventActivity
+     *
+     * @return JsonResponse
+     */
+    public function eventActivity(): JsonResponse
+    {
+        $user = $this->user->show(auth()->user()->id);
+        return ResponseHelper::success(CustomUserEventResource::collection($user->userEvents), trans('alert.fetch_success'));
     }
     /**
      * Method getByAuth

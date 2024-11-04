@@ -18,7 +18,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable implements HasUserCourses, HasSocialAccount, MustVerifyEmail, HasEventUsers, HasUserCourseTests, HasCourseReviews
+class User extends Authenticatable implements HasUserCourses, HasSocialAccount, MustVerifyEmail, HasUserCourseTests, HasCourseReviews
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
@@ -107,12 +107,12 @@ class User extends Authenticatable implements HasUserCourses, HasSocialAccount, 
         return $this->hasMany(CourseReview::class);
     }
     /**
-     * Get all of the eventUsers for the User
+     * Get all of the userEvents for the User
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function eventUsers(): HasMany
+    public function userEvents(): HasMany
     {
-        return $this->hasMany(EventUser::class);
+        return $this->hasMany(UserEvent::class);
     }
 }

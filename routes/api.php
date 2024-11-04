@@ -149,6 +149,7 @@ Route::middleware('enable.cors')->group(function () {
 
         // user
         Route::get('user-course-activities', [UserController::class, 'courseActivity']);
+        Route::get('user-event-activities', [UserController::class, 'eventActivity']);
 
         Route::post('rewards-claim/{reward}', [RewardController::class, 'claim']);
         Route::patch('rewards-change/{user_reward}', [RewardController::class, 'change']);
