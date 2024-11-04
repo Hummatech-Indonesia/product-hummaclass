@@ -2,13 +2,17 @@
 
 namespace App\Contracts\Repositories\Course;
 
-use App\Contracts\Interfaces\Course\CategoryInterface;
-use App\Contracts\Interfaces\Course\CourseInterface;
-use App\Contracts\Repositories\BaseRepository;
-use App\Models\Category;
+use admin;
+use App\Models\User;
 use App\Models\Course;
+use App\Models\Category;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Laravel\Sanctum\PersonalAccessToken;
+use App\Contracts\Repositories\BaseRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
+use App\Contracts\Interfaces\Course\CourseInterface;
+use App\Contracts\Interfaces\Course\CategoryInterface;
 
 class CourseRepository extends BaseRepository implements CourseInterface
 {
@@ -33,6 +37,10 @@ class CourseRepository extends BaseRepository implements CourseInterface
      */
     public function customPaginate(Request $request, int $pagination = 9): LengthAwarePaginator
     {
+        $bearerToken = $request->header('Authorization');
+        $token = Str::substr($bearerToken, 7);
+        $user = PersonalAccessToken::where('token', $token)->where('tokenable_type', User::class)->first();
+        // dd($user);   
         return $this->model->query()
             ->with('modules')
             ->when($request->is_ready, function ($query) use ($request) {
@@ -57,7 +65,7 @@ class CourseRepository extends BaseRepository implements CourseInterface
             ->when($request->minimum, function ($query) use ($request) {
                 $query->where('price', '>=', $request->minimum);
             })
-            ->when(!auth()->user()?->hasRole('admin'), function($query) {
+            ->when($user?->roles->pluck('name')[0] == 'admin', function ($query) use ($request) {
                 $query->where('is_ready', 1);
             })
             ->orderBy('created_at', 'desc')
