@@ -16,7 +16,6 @@ return new class extends Migration {
             $table->string('title');
             $table->string('slug');
             $table->text('description');
-            $table->text('email_content')->nullable()->default(null);
             $table->text('location')->nullable();
             $table->integer('capacity');
             $table->integer('price')->default(0);

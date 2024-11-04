@@ -57,6 +57,9 @@ class CourseRepository extends BaseRepository implements CourseInterface
             ->when($request->minimum, function ($query) use ($request) {
                 $query->where('price', '>=', $request->minimum);
             })
+            ->when(!auth()->user()?->hasRole('admin'), function($query) {
+                $query->where('is_ready', 1);
+            })
             ->orderBy('created_at', 'desc')
             ->fastPaginate($pagination);
     }
