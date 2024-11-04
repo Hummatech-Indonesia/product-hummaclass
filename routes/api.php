@@ -175,7 +175,6 @@ Route::middleware('enable.cors')->group(function () {
 
         Route::post('sub-modules/{module}', [SubModuleController::class, 'store']);
 
-        Route::patch('contact/{contact}', [ContactController::class, 'update']);
 
         Route::get('course-vouchers/{courseSlug}', [CourseVoucherController::class, 'index']);
         Route::get('course-vouchers/{courseSlug}/check', [CourseVoucherController::class, 'checkCode']);
@@ -295,7 +294,8 @@ Route::middleware('enable.cors')->group(function () {
         /**
          * Contact Management
          */
-        Route::patch('contact', [ContactController::class, 'post']);
+        Route::post('contact', [ContactController::class, 'post']);
+        Route::get('contact-detail', [ContactController::class, 'show']);
 
         /**
          * Module and Task Management
@@ -393,7 +393,6 @@ Route::middleware('enable.cors')->group(function () {
 
         Route::post('sub-modules/{module}', [SubModuleController::class, 'store']);
 
-        Route::patch('contact/{contact}', [ContactController::class, 'update']);
 
         Route::get('course-vouchers/{courseSlug}', [CourseVoucherController::class, 'index']);
         Route::get('course-vouchers/{courseSlug}/check', [CourseVoucherController::class, 'checkCode']);

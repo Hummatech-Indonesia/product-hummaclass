@@ -35,9 +35,9 @@ class ContactController extends Controller
      * @param  mixed $contact
      * @return JsonResponse
      */
-    public function post(ContactRequest $request, Contact $contact): JsonResponse
+    public function post(ContactRequest $request): JsonResponse
     {
-        $this->contact->store($contact->id, $request->validated());
+        $this->contact->store($request->validated());
         return ResponseHelper::success(true, trans('alert.update_success'));
     }
 
@@ -47,9 +47,9 @@ class ContactController extends Controller
      * @param  mixed $contact
      * @return JsonResponse
      */
-    public function show(Contact $contact): JsonResponse
+    public function show(): JsonResponse
     {
-        $this->contact->show($contact);
-        return ResponseHelper::success(ContactResource::make($contact->id));
+        $contact = $this->contact->show(1);
+        return ResponseHelper::success(ContactResource::make($contact));
     }
 }
