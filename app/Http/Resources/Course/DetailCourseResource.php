@@ -38,10 +38,10 @@ class DetailCourseResource extends JsonResource
                     $this->courseReviews->groupBy('rating')
                         ->map(fn($group) => $group->count())
                 ),
+            'rating' => $this->courseReviews->avg('rating') ?? 0,
             'photo' => url('storage/' . $this->photo),
             'modules' => ModuleResource::collection($this->modules),
             'modules_count' => $this->modules->count(),
-            'rating' => $this->courseReviews->avg('rating') ?? 0,
             'course_reviews' => CourseReviewResource::collection($this->courseReviews),
             'course_review_count' => $this->courseReviews->count(),
             'user_courses_count' => $this->userCourses->count(),
