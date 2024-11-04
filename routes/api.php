@@ -295,7 +295,7 @@ Route::middleware('enable.cors')->group(function () {
         /**
          * Contact Management
          */
-        Route::patch('contact/{contact}', [ContactController::class, 'update']);
+        Route::patch('contact', [ContactController::class, 'post']);
 
         /**
          * Module and Task Management
