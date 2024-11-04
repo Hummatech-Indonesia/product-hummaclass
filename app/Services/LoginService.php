@@ -21,9 +21,12 @@ class LoginService
             $data['user'] = auth()->user();
             $data['user']->roles = $roles;
             $data['token'] =  auth()->user()->createToken('auth_token')->plainTextToken;
+            if ($request->remember) {
+                $cookie = cookie('remember_me', true, 43200);
+                return ResponseHelper::success($data, trans('auth.success'))->cookie($cookie);
+            }
             return ResponseHelper::success($data, trans('auth.success'));
         }
-
         return ResponseHelper::error(null, trans('auth.failed'), Response::HTTP_BAD_REQUEST);
     }
 }
