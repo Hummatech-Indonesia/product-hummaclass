@@ -38,9 +38,13 @@ class CourseRepository extends BaseRepository implements CourseInterface
     public function customPaginate(Request $request, int $pagination = 9): LengthAwarePaginator
     {
         $bearerToken = $request->header('Authorization');
-        $token = Str::substr($bearerToken, 7);
-        $user = PersonalAccessToken::where('token', $token)->where('tokenable_type', User::class)->first();
-        // dd($user);   
+
+        if (!$bearerToken || !preg_match('/Bearer\s(\S+)/', $bearerToken, $matches)) {
+            return response()->json(['error' => 'Token tidak valid'], 401);
+        }
+
+        $token = $matches[1];
+        $user = PersonalAccessToken::findToken($token)->tokenable ?? null;
         return $this->model->query()
             ->with('modules')
             ->when($request->is_ready, function ($query) use ($request) {
@@ -65,7 +69,7 @@ class CourseRepository extends BaseRepository implements CourseInterface
             ->when($request->minimum, function ($query) use ($request) {
                 $query->where('price', '>=', $request->minimum);
             })
-            ->when($user?->roles->pluck('name')[0] == 'admin', function ($query) use ($request) {
+            ->when($user->hasRole('guest'), function ($query) {
                 $query->where('is_ready', 1);
             })
             ->orderBy('created_at', 'desc')
