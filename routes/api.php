@@ -140,6 +140,7 @@ Route::middleware('enable.cors')->group(function () {
         'except' => ['edit', 'create']
     ]);
 
+    Route::get('faq-user', [FaqController::class, 'indexUser']);
     Route::get('rewards', [RewardController::class, 'index']);
     Route::get('user-rewards', [UserRewardController::class, 'index']);
     Route::get('rewards/{slug}', [RewardController::class, 'show']);

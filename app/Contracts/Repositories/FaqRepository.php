@@ -77,9 +77,10 @@ class FaqRepository extends BaseRepository implements FaqInterface
      */
     public function customPaginate(Request $request, int $pagination = 10): LengthAwarePaginator
     {
-        return $this->model->query()->when($request->search, function ($query) use ($request) {
-            $query->where('question', 'like', '%' . $request->search . '%')
-                ->orWhere('answer', 'like', '%' . $request->search . '%');
-        })->fastPaginate($pagination);
+        return $this->model->query()
+            ->when($request->search, function ($query) use ($request) {
+                $query->where('question', 'like', '%' . $request->search . '%')
+                    ->orWhere('answer', 'like', '%' . $request->search . '%');
+            })->fastPaginate($pagination);
     }
 }
