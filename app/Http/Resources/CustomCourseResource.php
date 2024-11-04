@@ -22,6 +22,7 @@ class CustomCourseResource extends JsonResource
             'description' => $this->description,
             'is_premium' => $this->is_premium,
             'price' => $this->price,
+            'slug' => $this->slug,
             'photo' => $this->photo,
             'user' => $this->user,
             'is_ready' => $this->is_ready,
