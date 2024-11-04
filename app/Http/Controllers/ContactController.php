@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Contracts\Interfaces\Configuration\ContactInterface;
 use App\Helpers\ResponseHelper;
 use App\Http\Requests\ContactRequest;
+use App\Http\Resources\ContactResource;
 use App\Models\Contact;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -26,18 +27,29 @@ class ContactController extends Controller
         $contact = $this->contact->get();
         return ResponseHelper::success($contact, trans('alert.fetch_success'));
     }
+
     /**
-     * Method update
+     * post
      *
-     * @param ContactRequest $request [explicite description]
-     * @param Contact $contact [explicite description]
-     *
+     * @param  mixed $request
+     * @param  mixed $contact
      * @return JsonResponse
      */
-    public function update(ContactRequest $request, Contact $contact): JsonResponse
+    public function post(ContactRequest $request, Contact $contact): JsonResponse
     {
-        $this->contact->update($contact->id, $request->validated());
+        $this->contact->store($contact->id, $request->validated());
         return ResponseHelper::success(true, trans('alert.update_success'));
     }
 
+    /**
+     * show
+     *
+     * @param  mixed $contact
+     * @return JsonResponse
+     */
+    public function show(Contact $contact): JsonResponse
+    {
+        $this->contact->show($contact);
+        return ResponseHelper::success(ContactResource::make($contact->id));
+    }
 }

@@ -16,17 +16,19 @@ class ContactRepository extends BaseRepository implements ContactInterface
     {
         $this->model = $contact;
     }
+
     /**
-     * Method update
+     * store
      *
-     * @param mixed $id [explicite description]
-     * @param array $data [explicite description]
-     *
+     * @param  mixed $data
      * @return mixed
      */
-    public function update(mixed $id, array $data): mixed
+    public function store(array $data): mixed
     {
-        return $this->model->findOrFail($id)->update($data);
+        return $this->model->query()->updateOrCreate(
+            ['id' => 1],
+            $data
+        );
     }
 
     /**
@@ -37,5 +39,16 @@ class ContactRepository extends BaseRepository implements ContactInterface
     public function get(): mixed
     {
         return $this->model->query()->firstOrFail();
+    }
+
+    /**
+     * show
+     *
+     * @param  mixed $id
+     * @return mixed
+     */
+    public function show(mixed $id): mixed
+    {
+        return $this->model->query()->findOrFail($id);
     }
 }
