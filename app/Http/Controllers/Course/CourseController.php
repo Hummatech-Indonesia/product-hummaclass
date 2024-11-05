@@ -11,6 +11,7 @@ use App\Http\Requests\CourseRequest;
 use App\Http\Resources\Course\DetailCourseResource;
 use App\Http\Resources\Course\ModuleResource;
 use App\Http\Resources\CourseResource;
+use App\Http\Resources\CourseStatisticResource;
 use App\Http\Resources\QuizResource;
 use App\Models\Course;
 use App\Models\UserCourse;
@@ -111,6 +112,11 @@ class CourseController extends Controller
         } catch (\Throwable $e) {
             return ResponseHelper::error(true, trans('alert.delete_constrained'));
         }
+    }
+    public function statistic(string $slug): JsonResponse
+    {
+        $course = $this->course->showWithSlug($slug);
+        return ResponseHelper::success(CourseStatisticResource::make($course), trans('alert.fetch_success'));
     }
     /**
      * Method readyToUse

@@ -94,4 +94,13 @@ class Course extends Model implements HasSubCategory, HasModules, HasUserCourses
     {
         return $this->hasOne(CourseTest::class);
     }
+    /**
+     * Get all of the courseTests for the Course
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function courseTests(): HasMany
+    {
+        return $this->hasMany(CourseTest::class);
+    }
 }

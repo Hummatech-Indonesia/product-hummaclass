@@ -60,7 +60,7 @@ class ProfileRequest extends ApiRequest
             'address.max' => 'Alamat maksimal :max karakter',
             'photo.mimes' => 'Foto harus berupa file dengan ekstensi png, jpg, atau jpeg',
             'photo.image' => 'Foto harus berupa gambar',
-            'gender'=>"gender wajib diisi",
+            'gender' => "gender wajib diisi",
         ];
     }
 }
