@@ -335,6 +335,7 @@ Route::middleware('enable.cors')->group(function () {
      * Publicly Accessible Routes
      */
     Route::get('users', [UserController::class, 'index']);
+    Route::patch('user-update', [UserController::class, 'customUpdate']);
     Route::get('users/{user}', [UserController::class, 'show']);
 
     Route::get('faqs', [FaqController::class, 'index']);

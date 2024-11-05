@@ -40,10 +40,10 @@ class CourseRepository extends BaseRepository implements CourseInterface
         $bearerToken = $request->header('Authorization');
 
         if (!$bearerToken || !preg_match('/Bearer\s(\S+)/', $bearerToken, $matches)) {
-            return response()->json(['error' => 'Token tidak valid'], 401);
+            // return response()->json(['error' => 'Token tidak valid'], 401);
         }
 
-        $token = $matches[1];
+        $token = $matches[1] ?? null;
         $user = PersonalAccessToken::findToken($token)->tokenable ?? null;
         return $this->model->query()
             ->with('modules')
@@ -69,7 +69,7 @@ class CourseRepository extends BaseRepository implements CourseInterface
             ->when($request->minimum, function ($query) use ($request) {
                 $query->where('price', '>=', $request->minimum);
             })
-            ->when($user->hasRole('guest'), function ($query) {
+            ->when($user?->hasRole('guest') || !$user, function ($query) {
                 $query->where('is_ready', 1);
             })
             ->orderBy('created_at', 'desc')

@@ -30,6 +30,7 @@ class UserResource extends JsonResource
             'course_activities' => $this->userCourses ? UserCourseResource::collection($this->userCourses) : null,
             'event_activities' => $this->userEvents ? EventResource::collection($this->userEvents) : null,
             'address' => $this->address,
+            'banner' => $this->banner,
             'gender' => $this->gender,
             'created' => Carbon::parse($this->created_at)->format('d F Y'),
         ];
