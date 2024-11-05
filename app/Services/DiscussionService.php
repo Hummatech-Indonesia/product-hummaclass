@@ -22,6 +22,7 @@ use App\Models\Discussion;
 use App\Models\Event;
 use App\Models\EventDetail;
 use App\Models\Module;
+use App\Models\Tag;
 use App\Models\User;
 use App\Traits\UploadTrait;
 use Illuminate\Http\Request;
@@ -45,10 +46,13 @@ class DiscussionService
         $data['user_id'] = auth()->user()->id;
         $discussion = $this->discussion->store($data);
 
-        foreach ($data['tag_id'] as $index => $tag_id) {
-            $data['tag_id'] = $tag_id;
-            $data['discussion_id'] = $discussion->id;
-            $this->discussionTag->store($data);
+        foreach ($data['tag'] as $tagName) {
+            $tag = Tag::firstOrCreate(['name' => $tagName]);
+            $discussionTagData = [
+                'discussion_id' => $discussion->id,
+                'tag_id' => $tag->id,
+            ];
+            $this->discussionTag->store($discussionTagData);
         }
     }
 }

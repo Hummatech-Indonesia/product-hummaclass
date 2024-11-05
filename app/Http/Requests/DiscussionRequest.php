@@ -25,8 +25,8 @@ class DiscussionRequest extends ApiRequest
             'module_id' => 'required',
             'discussion_title' => 'required',
             'discussion_question' => 'required',
-            'tag_id' => 'required|array|max:6',
-            'tag_id.*' => 'string'
+            'tag' => 'required|array|max:6',
+            'tag.*' => 'string'
         ];
     }
 
@@ -41,9 +41,9 @@ class DiscussionRequest extends ApiRequest
             'module_id.required' => 'Modul wajib diisi',
             'discussion_title.required' => 'Judul diskusi wajib diisi',
             'discussion_question.required' => 'Pertanyaan diskusi wajib diisi',
-            'tag_id.required' => 'Tag wajib diisi',
-            'tag_id.array' => 'Tag harus berupa array',
-            'tag_id.max' => 'Tag maksimal sebanyak 6',
+            'tag.required' => 'Tag wajib diisi',
+            'tag.array' => 'Tag harus berupa array',
+            'tag.max' => 'Tag maksimal sebanyak 6',
         ];
     }
 }
