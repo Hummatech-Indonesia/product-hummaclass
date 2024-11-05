@@ -31,7 +31,8 @@ class CourseRequest extends ApiRequest
                 'min:0',
                 Rule::requiredIf($this->input('is_premium') === true),
             ],
-            'photo' => 'nullable|mimes:png,jpg,jpeg|max:2048'
+            'photo' => 'nullable|mimes:png,jpg,jpeg|max:2048',
+            'promotional_price' => 'nullable|integer|min:0'
         ];
     }
 
@@ -52,6 +53,8 @@ class CourseRequest extends ApiRequest
             'price.required' => 'Harga wajib diisi.',
             'price.integer' => 'Harga harus berupa angka.',
             'price.min' => 'Harga tidak boleh negatif.',
+            'promotional_price.integer' => 'Harga promo harus berupa angka.',
+            'promotional_price.min' => 'Harga promo tidak boleh negatif.',
         ];
     }
 }

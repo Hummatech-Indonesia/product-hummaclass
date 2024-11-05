@@ -33,6 +33,7 @@ class Course extends Model implements HasSubCategory, HasModules, HasUserCourses
         'price',
         'photo',
         'user_id',
+        'promotional_price',
         'is_ready'
     ];
 
