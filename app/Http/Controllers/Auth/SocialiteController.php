@@ -29,7 +29,7 @@ class SocialiteController extends Controller
         $authUser = $this->findOrCreateUser($user, $provider);
 
         // login user
-        $auth = Auth()->login($authUser, true);
+        $auth = auth()->login($authUser, true);
         $token = auth()->user()->createToken('auth_token')->plainTextToken;
         $user = auth()->user();
         $user->assignRole('guest');

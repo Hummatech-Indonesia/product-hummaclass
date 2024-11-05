@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\CertificateController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CertificateController;
+use App\Http\Controllers\Auth\SocialiteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +24,9 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::get('{type}/certificate-download/{slug}/{user_id}', [CertificateController::class, 'download']);
 
-Route::get('certificate-pdf', function(){
+Route::get('certificate-pdf', function () {
     return view('certificate');
 })->name('certificate.index');
+
+Route::get('/login/{provider}', [SocialiteController::class, 'redirectToProvider']);
+Route::get('/login/{provider}/callback', [SocialiteController::class, 'handleProvideCallback']);

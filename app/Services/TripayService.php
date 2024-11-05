@@ -35,7 +35,7 @@ class TripayService
 
         return collect($res);
     }
-    
+
     /**
      * handleGenerateCallbackSignature
      *
@@ -63,7 +63,8 @@ class TripayService
         $privateKey   = config('tripay.private_key');
         $merchantCode = config('tripay.merchant_code');
         $merchantRef  = "HMCLS" . substr(time(), 6);
-        $amount       = $courseVoucher ? $product->price - ($product->price * ($courseVoucher->discount / 100)) : $product->price;
+        $productPrice = $product->promotional_price ?? $product->price;
+        $amount       = $courseVoucher ? $productPrice - ($productPrice * ($courseVoucher->discount / 100)) : $productPrice;
         // $amount       = $product->price;
         $data = [
             'method'         => $request->payment_method,
