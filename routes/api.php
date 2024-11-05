@@ -207,7 +207,7 @@ Route::middleware('enable.cors')->group(function () {
         Route::post('course-test-questions/{course_test}', [CourseTestQuestionController::class, 'stokwre']);
         Route::resource('course-test-questions', CourseTestQuestionController::class)->only(['show', 'update', 'destroy']);
 
-        Route::get('course-tests/{course}', [CourseTestController::class, 'index']);
+        Route::get('course-tests/{slug}', [CourseTestController::class, 'index']);
         Route::get('course-test-start/{course_test}', [CourseTestController::class, 'show']);
         Route::post('course-tests/{slug}', [CourseTestController::class, 'store']);
         Route::resource('course-tests', CourseTestController::class)->only(['update', 'destroy']);

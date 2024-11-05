@@ -64,6 +64,7 @@ class CourseTestRepository extends BaseRepository implements CourseTestInterface
     {
         return $this->model->query()->where('course_id', $id)->firstOrFail();
     }
+    
     public function update(mixed $id, array $data): mixed
     {
         return $this->show($id)->update($data);

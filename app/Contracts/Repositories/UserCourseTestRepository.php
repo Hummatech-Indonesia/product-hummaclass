@@ -44,12 +44,12 @@ class UserCourseTestRepository extends BaseRepository implements UserCourseTestI
      * @param  mixed $pagination
      * @return LengthAwarePaginator
      */
-    public function customPaginate(Request $request, int $pagination = 1): LengthAwarePaginator
+    public function customPaginate(Request $request, int $pagination = 10): LengthAwarePaginator
     {
         return $this->model->query()->when($request->quiz_id, function ($query) use ($request) {
             $query->where(['quiz_id' => $request->quiz_id]);
         })->fastPaginate($pagination);
-    }
+    } 
     /**
      * Method store
      *
