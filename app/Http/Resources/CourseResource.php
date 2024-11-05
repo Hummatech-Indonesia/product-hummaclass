@@ -28,6 +28,7 @@ class CourseResource extends JsonResource
             'slug' => $this->slug,
             'is_premium' => $this->is_premium,
             'price' => $this->price,
+            'promotional_price' => $this->promotional_price,
             'photo' => url('storage/' . $this->photo),
             'modules_count' => $this->modules->count(),
             'rating' => $this->courseReviews->avg('rating'),

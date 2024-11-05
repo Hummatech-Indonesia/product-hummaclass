@@ -44,16 +44,16 @@ class DiscussionRepository extends BaseRepository implements DiscussionInterface
     public function getWhere(Request $request, array $data): mixed
     {
         return $this->model->query()
-            ->when($request->latest == true, function ($model) use ($request) {
+            ->when($request->latest == true, function ($model) {
                 $model->orderBy('created_at', 'DESC');
             })
-            ->when($request->oldest == true, function ($model) use ($request) {
+            ->when($request->oldest == true, function ($model) {
                 $model->orderBy('created_at', 'ASC');
             })
-            ->when($request->answered == true, function ($model) use ($request) {
+            ->when($request->answered == true, function ($model) {
                 $model->whereHas('discussionAnswers');
             })
-            ->when($request->unanswered == true, function ($model) use ($request) {
+            ->when($request->unanswered == true, function ($model) {
                 $model->whereDoesntHave('discussionAnswers');
             })
             ->when($request->tags, function ($model) use ($request) {
@@ -61,7 +61,7 @@ class DiscussionRepository extends BaseRepository implements DiscussionInterface
             })
             ->when($request->module, function ($model) use ($request) {
                 $model->whereHas('module', function ($model) use ($request) {
-                    $model->where('module_id', $request->module);
+                    $model->where('module_id', $request->module)->orWhereRelation('module', 'title', $request->module);
                 });
             })
             ->when($request->search, function ($model) use ($request) {

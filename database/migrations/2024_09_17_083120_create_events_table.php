@@ -20,7 +20,6 @@ return new class extends Migration {
             $table->integer('capacity');
             $table->integer('price')->default(0);
             $table->date('start_date');
-            $table->date('end_date');
             $table->boolean('has_certificate')->default(true);
             $table->boolean('is_online')->default(true);
             $table->timestamps();
