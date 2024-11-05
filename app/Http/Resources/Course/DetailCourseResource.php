@@ -33,6 +33,7 @@ class DetailCourseResource extends JsonResource
             'slug' => $this->slug,
             'is_premium' => $this->is_premium,
             'price' => $this->price,
+            'promotional_price' => $this->promotional_price,
             'ratings' => $ratings = collect([1 => 0, 2 => 0, 3 => 0, 4 => 0, 5 => 0])
                 ->merge(
                     $this->courseReviews->groupBy('rating')
