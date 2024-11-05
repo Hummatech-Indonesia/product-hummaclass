@@ -33,6 +33,7 @@ class User extends Authenticatable implements HasUserCourses, HasSocialAccount, 
      */
     protected $fillable = [
         'name',
+        'banner',
         'email',
         'password',
         'point',

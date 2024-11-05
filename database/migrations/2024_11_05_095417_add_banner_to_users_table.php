@@ -10,8 +10,8 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::table('courses', function (Blueprint $table) {
-            $table->integer('promotional_price')->nullable();
+        Schema::table('users', function (Blueprint $table) {
+            $table->text('banner');
         });
     }
 
@@ -20,8 +20,8 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::table('courses', function (Blueprint $table) {
-            $table->dropColumn('promotional_price');
+        Schema::table('users', function (Blueprint $table) {
+            //
         });
     }
 };
