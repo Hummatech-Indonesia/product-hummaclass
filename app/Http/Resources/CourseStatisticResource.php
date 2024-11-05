@@ -26,6 +26,7 @@ class CourseStatisticResource extends JsonResource
             'post_test_average' => $this->courseTests()->with('userCourseTests', function ($query) {
                 return $query->where('type_test', TestEnum::POSTTEST->value)->avg('score');
             }) ?? 0,
+            'rating_count' => $this->courseReviews()->count(),
             'average_rating' => $this->courseReviews->avg('rating') ?? 0,
             'ratings_distribution' => collect([1 => 0, 2 => 0, 3 => 0, 4 => 0, 5 => 0])
                 ->merge(
