@@ -34,6 +34,7 @@ class ProfileRequest extends ApiRequest
             'phone_number' => 'required|string|max:20',
             'address' => 'required|string|max:500',
             'gender' => 'nullable',
+            'banner' => 'nullable|mimes:png,jpg,jpeg|image',
             'photo' => 'nullable|mimes:png,jpg,jpeg|image',
         ];
     }
@@ -60,7 +61,9 @@ class ProfileRequest extends ApiRequest
             'address.max' => 'Alamat maksimal :max karakter',
             'photo.mimes' => 'Foto harus berupa file dengan ekstensi png, jpg, atau jpeg',
             'photo.image' => 'Foto harus berupa gambar',
-            'gender'=>"gender wajib diisi",
+            'banner.mimes' => 'Banner harus berupa file dengan ekstensi png, jpg, atau jpeg',
+            'banner.image' => 'Banner harus berupa gambar',
+            'gender' => "gender wajib diisi",
         ];
     }
 }

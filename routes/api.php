@@ -276,6 +276,7 @@ Route::middleware('enable.cors')->group(function () {
          * Course Management
          */
         Route::resource('courses', CourseController::class)->except(['index', 'show']);
+        Route::get('course-statistic/{slug}', [CourseController::class, 'statistic']);
         Route::patch('courses-ready/{course}', [CourseController::class, 'readyToUse']);
         Route::post('course-vouchers/{courseSlug}', [CourseVoucherController::class, 'store']);
         Route::delete('course-vouchers/{courseVoucher}', [CourseVoucherController::class, 'destroy']);

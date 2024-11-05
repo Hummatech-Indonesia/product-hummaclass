@@ -17,12 +17,20 @@ class ProfileService implements ShouldHandleFileUpload
     {
         $data = $request->validated();
         $photo = auth()->user()->photo;
+        $banner = auth()->user()->banner;
 
         if ($request->hasFile('photo')) {
             if ($photo) {
                 $this->remove($photo);
             }
             $photo = $this->upload(UploadDiskEnum::USERS->value, $request->file('photo'), "users-" . now());
+        }
+
+        if ($request->hasFile('photo')) {
+            if ($banner) {
+                $this->remove($banner);
+            }
+            $banner = $this->upload(UploadDiskEnum::USERS->value, $request->file('banner'), "users-" . now());
         }
 
         return [
@@ -32,6 +40,7 @@ class ProfileService implements ShouldHandleFileUpload
             'phone_number' => $data['phone_number'],
             'address' => $data['address'],
             'photo' => $photo,
+            'banner' => $banner,
         ];
     }
 }
