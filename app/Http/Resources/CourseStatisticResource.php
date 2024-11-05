@@ -19,7 +19,7 @@ class CourseStatisticResource extends JsonResource
             'total_purchases' => $this->userCourses ? $this->userCourses()->count() : 0,
             'total_revenue' => optional($this->userCourses->first())->course->price ?? 0,
             'total_tasks' => $this->modules()->withCount('moduleTasks'),
-
+            'completed' => $this->userCourses()->whereNotNull('has_post_test')->count(),
             'pre_test_average' => $this->courseTests()->with('userCourseTests', function ($query) {
                 return $query->where('type_test', TestEnum::PRETEST->value)->avg('score');
             }) ?? 0,
