@@ -14,6 +14,8 @@ class AuthResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return ['wkwk', 'kwkw'];
+        return [
+            ''
+        ];
     }
 }

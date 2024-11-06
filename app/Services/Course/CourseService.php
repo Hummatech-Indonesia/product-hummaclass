@@ -4,8 +4,8 @@ namespace App\Services\Course;
 
 use App\Base\Interfaces\uploads\ShouldHandleFileUpload;
 use App\Enums\UploadDiskEnum;
-use App\Http\Requests\CourseRequest;
 use App\Http\Requests\ProfileRequest;
+use App\Http\Requests\StoreCourseRequest;
 use App\Models\User;
 use App\Traits\UploadTrait;
 
@@ -20,7 +20,7 @@ class CourseService implements ShouldHandleFileUpload
      *
      * @return array
      */
-    public function store(CourseRequest $request): array|bool
+    public function store(StoreCourseRequest $request): array|bool
     {
         $data = $request->validated();
         $data['user_id'] = auth()->user()->id;

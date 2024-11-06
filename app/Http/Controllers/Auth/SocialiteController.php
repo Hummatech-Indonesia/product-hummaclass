@@ -21,7 +21,7 @@ class SocialiteController extends Controller
     public function handleProvideCallback($provider)
     {
         try {
-            $user = Socialite::driver($provider)->stateless()->user();
+            $user = Socialite::driver('google')->stateless()->user();
         } catch (Exception $e) {
             return redirect()->back();
         }

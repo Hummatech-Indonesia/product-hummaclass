@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class CourseRequest extends ApiRequest
+class UpdateCourseRequest extends ApiRequest
 {
     public function authorize(): bool
     {

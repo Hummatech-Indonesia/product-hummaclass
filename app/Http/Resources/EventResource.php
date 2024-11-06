@@ -15,6 +15,7 @@ class EventResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        // $this->load('UserEvent');
         // Calculate days until the event starts
         $day = now()->diffInDays(Carbon::parse($this->start_date));
         $start_in = now()->greaterThan($this->start_date)
@@ -31,7 +32,7 @@ class EventResource extends JsonResource
             'price' => $this->price,
             'location' => $this->location,
             'capacity' => $this->capacity,
-            'capacity_left' => $this->capacity - $this->userEvents()->count(),
+            'capacity_left' => $this->capacity - $this->UserEvents()->count(),
             'has_certificate' => $this->has_certificate,
             'is_online' => $this->is_online,
             'start_date' => Carbon::parse($this->start_date)->translatedFormat('j F Y'),

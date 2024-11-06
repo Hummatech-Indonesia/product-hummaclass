@@ -7,20 +7,18 @@ use App\Contracts\Interfaces\Course\ModuleInterface;
 use App\Contracts\Interfaces\Course\UserCourseInterface;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CourseRequest;
+use App\Http\Requests\StoreCourseRequest;
+use App\Http\Requests\UpdateCourseRequest;
 use App\Http\Resources\Course\DetailCourseResource;
-use App\Http\Resources\Course\ModuleResource;
 use App\Http\Resources\CourseResource;
 use App\Http\Resources\CourseStatisticResource;
 use App\Http\Resources\QuizResource;
 use App\Models\Course;
-use App\Models\UserCourse;
 use App\Models\UserQuiz;
 use App\Services\Course\CourseService;
 use App\Traits\PaginationTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Laravel\Sanctum\PersonalAccessToken;
 
 class CourseController extends Controller
 {
@@ -62,11 +60,11 @@ class CourseController extends Controller
     /**
      * Method store
      *
-     * @param CourseRequest $request [explicite description]
+     * @param StoreCourseRequest $request [explicite description]
      *
      * @return JsonResponse
      */
-    public function store(CourseRequest $request): JsonResponse
+    public function store(StoreCourseRequest $request): JsonResponse
     {
         $this->course->store($this->service->store($request));
         return ResponseHelper::success(true, trans('alert.add_success'));
@@ -87,12 +85,12 @@ class CourseController extends Controller
     /**
      * Method update
      *
-     * @param CourseRequest $request [explicite description]
+     * @param UpdateCourseRequest $request [explicite description]
      * @param Course $course [explicite description]
      *
      * @return JsonResponse
      */
-    public function update(CourseRequest $request, Course $course): JsonResponse
+    public function update(UpdateCourseRequest $request, Course $course): JsonResponse
     {
         $this->course->update($course->id, $request->validated());
         return ResponseHelper::success(true, trans('alert.update_success'));
