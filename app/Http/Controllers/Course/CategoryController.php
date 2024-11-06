@@ -75,7 +75,7 @@ class CategoryController extends Controller
             $this->category->delete($category->id);
             return ResponseHelper::success(true, trans('alert.delete_success'));
         } catch (\Throwable $e) {
-            return ResponseHelper::success(true, trans('alert.delete_constrained'));
+            return ResponseHelper::error(true, trans('alert.delete_constrained'));
         }
     }
 }
