@@ -26,7 +26,7 @@ class ProfileService implements ShouldHandleFileUpload
             $photo = $this->upload(UploadDiskEnum::USERS->value, $request->file('photo'));
         }
 
-        if ($request->hasFile('photo')) {
+        if ($request->hasFile('banner')) {
             if ($banner) {
                 $this->remove($banner);
             }
