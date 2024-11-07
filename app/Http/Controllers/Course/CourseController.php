@@ -166,7 +166,6 @@ class CourseController extends Controller
         return ResponseHelper::success(CourseResource::make($course), trans('alert.fetch_success'));
     }
 
-
     public function count(): JsonResponse
     {
         $course_count = $this->course->count();
