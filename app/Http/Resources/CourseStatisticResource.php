@@ -3,8 +3,10 @@
 namespace App\Http\Resources;
 
 use App\Enums\TestEnum;
+use App\Services\Course\CourseService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Carbon\Carbon;
 
 class CourseStatisticResource extends JsonResource
 {
@@ -15,11 +17,32 @@ class CourseStatisticResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $transactions = $this->transactions; // Anggap transaksi ini adalah koleksi (Collection)
+
+        $groupedTransactions = $transactions->groupBy(function ($date) {
+            // Menggunakan format bulan saja (misalnya "01", "02", ..., "12")
+            return Carbon::parse($date->created_at)->format('m'); // Format bulan: 01, 02, ..., 12
+        });
+
+        // Mengubah bulan menjadi nama bulan dalam bahasa Indonesia dengan huruf kecil
+        $groupedTransactionsWithMonthName = $groupedTransactions->mapWithKeys(function ($items, $key) {
+            // dd($items->sum('amount'));
+            // Nama bulan dalam bahasa Indonesia dengan huruf kecil
+            $monthName = Carbon::createFromFormat('m', $key)->locale('id')->isoFormat('MMMM'); // Nama bulan dalam bahasa Indonesia
+            $monthNameLowerCase = strtolower($monthName); // Ubah ke huruf kecil
+            return [$monthNameLowerCase => $items->sum('amount')];
+        });
+
+        // Dump hasilnya untuk melihat
+
+
+
         return [
             'total_purchases' => $this->userCourses ? $this->userCourses()->count() : 0,
             'total_revenue' => optional($this->userCourses->first())->course->price ?? 0,
             'total_tasks' => $this->modules()->withCount('moduleTasks'),
             'completed' => $this->userCourses()->whereNotNull('has_post_test')->count(),
+            'transaction' => $groupedTransactionsWithMonthName,
             'pre_test_average' => $this->courseTests()->with('userCourseTests', function ($query) {
                 return $query->where('type_test', TestEnum::PRETEST->value)->avg('score');
             }) ?? 0,

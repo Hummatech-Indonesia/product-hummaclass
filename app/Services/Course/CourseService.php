@@ -51,4 +51,8 @@ class CourseService implements ShouldHandleFileUpload
         $data['photo'] = $photo;
         return $data;
     }
+
+    public function statisticTransaction($transactions) {
+        // return $transactions->groupBy('created_at');
+    }
 }

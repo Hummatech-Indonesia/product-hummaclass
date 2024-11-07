@@ -13,8 +13,10 @@ use App\Contracts\Interfaces\Eloquent\UpdateInterface;
 use App\Contracts\Interfaces\Eloquent\GetWhereInterface;
 use App\Contracts\Interfaces\Eloquent\ShowSlugInterface;
 use App\Contracts\Interfaces\Eloquent\CustomPaginationInterface;
+use Illuminate\Http\Request;
 
-interface CourseInterface extends CustomPaginationInterface, StoreInterface, UpdateInterface, ShowInterface, DeleteInterface, ShowSlugInterface, SearchInterface, GetInterface
+interface CourseInterface extends CustomPaginationInterface, StoreInterface, UpdateInterface, ShowInterface, DeleteInterface, SearchInterface, GetInterface
 {
     public function count(): mixed;    
+    public function showWithSlug(Request $request, string $slug): mixed;    
 }

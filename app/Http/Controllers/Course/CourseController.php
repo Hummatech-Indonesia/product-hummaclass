@@ -111,9 +111,10 @@ class CourseController extends Controller
             return ResponseHelper::error(true, trans('alert.delete_constrained'));
         }
     }
-    public function statistic(string $slug): JsonResponse
+    public function statistic(Request $request, string $slug): JsonResponse
     {
-        $course = $this->course->showWithSlug($slug);
+        $course = $this->course->showWithSlug($request, $slug);
+        // dd($course->transactions);
         return ResponseHelper::success(CourseStatisticResource::make($course), trans('alert.fetch_success'));
     }
     /**
