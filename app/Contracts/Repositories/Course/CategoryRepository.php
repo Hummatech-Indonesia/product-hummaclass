@@ -34,7 +34,9 @@ class CategoryRepository extends BaseRepository implements CategoryInterface
     {
         return $this->model->query()->when($request->name, function ($query) use ($request) {
             $query->where('name', 'LIKE', '%' . $request->name . '%');
-        })->fastPaginate($pagination);
+        })
+        ->with('subCategories')
+        ->fastPaginate($pagination);
     }
 
     /**
