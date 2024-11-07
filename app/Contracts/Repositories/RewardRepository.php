@@ -42,6 +42,7 @@ class RewardRepository extends BaseRepository implements RewardInterface
             ->when($request->filter, function ($query) use ($request) {
                 return $request->filter === 'oldest' ? $query->oldest() : $query->latest();
             })
+            ->latest()
             ->fastPaginate($pagination);
     }
     /**
