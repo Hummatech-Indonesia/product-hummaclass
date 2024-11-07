@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Event;
+use App\Models\EventAttendance;
 use Faker\Provider\Uuid;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -30,5 +31,13 @@ class EventSeeder extends Seeder
             'has_certificate' => 1,
             'is_online' => 1,
         ]);
+        // for ($i = 1; $i <= 3; $i++) {
+        //     EventAttendance::create([
+
+        //         'event_id'=>
+        //         'attendance_date'=>
+        //         'attendance_link'=>
+        //     ]);
+        // }
     }
 }
