@@ -47,6 +47,7 @@ class DetailCourseResource extends JsonResource
             'course_review_count' => $this->courseReviews->count(),
             'user_courses_count' => $this->userCourses->count(),
             'created' => $this->created_at,
+            'is_admin' => $user?->hasRole('admin'),
         ];
     }
 
