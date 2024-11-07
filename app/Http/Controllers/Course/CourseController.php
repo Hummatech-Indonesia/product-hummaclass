@@ -7,6 +7,7 @@ use App\Contracts\Interfaces\Course\ModuleInterface;
 use App\Contracts\Interfaces\Course\UserCourseInterface;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CourseUpdateRequest;
 use App\Http\Requests\StoreCourseRequest;
 use App\Http\Requests\UpdateCourseRequest;
 use App\Http\Resources\Course\DetailCourseResource;
@@ -78,7 +79,7 @@ class CourseController extends Controller
      */
     public function show(Request $request, string $slug): JsonResponse
     {
-        $course = $this->course->showWithSlug($slug);
+        $course = $this->course->showWithSlug($request, $slug);
         return ResponseHelper::success(DetailCourseResource::make($course), trans('alert.fetch_success'));
     }
 
@@ -90,7 +91,7 @@ class CourseController extends Controller
      *
      * @return JsonResponse
      */
-    public function update(UpdateCourseRequest $request, Course $course): JsonResponse
+    public function update(CourseUpdateRequest $request, Course $course): JsonResponse
     {
         $this->course->update($course->id, $this->service->update($course, $request));
         return ResponseHelper::success(true, trans('alert.update_success'));
@@ -159,9 +160,9 @@ class CourseController extends Controller
      *
      * @return JsonResponse
      */
-    public function share(string $slug): JsonResponse
+    public function share(Request $request, string $slug): JsonResponse
     {
-        $course = $this->course->showWithSlug($slug);
+        $course = $this->course->showWithSlug($request, $slug);
         return ResponseHelper::success(CourseResource::make($course), trans('alert.fetch_success'));
     }
 
