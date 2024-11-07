@@ -35,7 +35,11 @@ class RewardRepository extends BaseRepository implements RewardInterface
      */
     public function customPaginate(Request $request, int $pagination = 8): LengthAwarePaginator
     {
-        return $this->model->query()->fastPaginate($pagination);
+        return $this->model->query()
+            ->when($request->search, function ($query) use ($request) {
+                return $query->where('name', 'LIKE', '%' . $request->search . '%');
+            })
+            ->fastPaginate($pagination);
     }
     /**
      * Method get
