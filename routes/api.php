@@ -213,6 +213,8 @@ Route::middleware('enable.cors')->group(function () {
         Route::resource('course-tests', CourseTestController::class)->only(['update', 'destroy']);
         Route::get('blog-detail/{slug}', [BlogController::class, 'showLanding']);
 
+        Route::get('course-tests-get', [CourseTestController::class, 'get']);
+
         Route::get('modules/{slug}', [ModuleController::class, 'index']);
         Route::get('modules/detail/{module}', [ModuleController::class, 'show']);
 
@@ -418,10 +420,7 @@ Route::middleware('enable.cors')->group(function () {
         Route::get('quiz-start/{quiz}', [QuizController::class, 'show']);
         Route::post('quizzes/{module}', [QuizController::class, 'store']);
 
-        Route::get('course-tests-get', [CourseTestController::class, 'get']);
-        Route::get('course-tests/{slug}', [CourseTestController::class, 'index']);
-        Route::get('course-test-start/{course_test}', [CourseTestController::class, 'show']);
-        Route::post('course-tests/{course}', [CourseTestController::class, 'store']);
+
 
         Route::get('blog-detail/{slug}', [BlogController::class, 'showLanding']);
 

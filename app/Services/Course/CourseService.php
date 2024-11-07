@@ -4,9 +4,9 @@ namespace App\Services\Course;
 
 use App\Base\Interfaces\uploads\ShouldHandleFileUpload;
 use App\Enums\UploadDiskEnum;
-use App\Http\Requests\ProfileRequest;
+use App\Http\Requests\CourseUpdateRequest;
 use App\Http\Requests\StoreCourseRequest;
-use App\Models\User;
+use App\Models\Course;
 use App\Traits\UploadTrait;
 
 class CourseService implements ShouldHandleFileUpload
@@ -36,10 +36,10 @@ class CourseService implements ShouldHandleFileUpload
      * @param  mixed $request
      * @return array
      */
-    public function update(User $user, ProfileRequest $request): array|bool
+    public function update(Course $course, CourseUpdateRequest $request): array|bool
     {
         $data = $request->validated();
-        $photo = $user->photo;
+        $photo = $course->photo;
 
         if ($request->hasFile('photo')) {
             if ($photo) {

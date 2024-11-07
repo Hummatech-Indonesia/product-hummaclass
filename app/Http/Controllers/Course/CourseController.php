@@ -92,7 +92,7 @@ class CourseController extends Controller
      */
     public function update(UpdateCourseRequest $request, Course $course): JsonResponse
     {
-        $this->course->update($course->id, $request->validated());
+        $this->course->update($course->id, $this->service->update($course, $request));
         return ResponseHelper::success(true, trans('alert.update_success'));
     }
     /**

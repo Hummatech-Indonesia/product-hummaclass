@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('event_attendances', function (Blueprint $table) {
             $table->id();
-            $table->foreignUuid('event_id')->constrained()->restrictOnDelete()->cascadeOnUpdate();
+            $table->foreignUuid('event_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->date('attendance_date');
             $table->text('attendance_link');
             $table->timestamps();

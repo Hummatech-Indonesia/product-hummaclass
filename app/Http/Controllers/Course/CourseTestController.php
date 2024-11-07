@@ -47,6 +47,7 @@ class CourseTestController extends Controller
     {
         $course = $this->course->showWithSlug($slug);
         $courseTest = $this->courseTest->show($course->id);
+        if ($courseTest == null) return ResponseHelper::error(null, "Anda Belum Setting Test");
         return ResponseHelper::success(CourseTestResource::make($courseTest), trans('alert.fetch_success'));
     }
 
