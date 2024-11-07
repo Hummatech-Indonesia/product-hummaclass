@@ -36,9 +36,9 @@ class CourseVoucherController extends Controller
      *
      * @return JsonResponse
      */
-    public function index(string $courseSlug)
+    public function index(string $courseSlug, Request $request)
     {
-        $course = $this->course->showWithSlug($courseSlug);
+        $course = $this->course->showWithSlug($request, $courseSlug);
         $courseVouchers = $this->courseVoucher->getWhere(['course_id' => $course->id]);
         return ResponseHelper::success(CourseVoucherResource::collection($courseVouchers), trans('alert.fetch_success'));
     }

@@ -43,9 +43,9 @@ class CourseTestController extends Controller
         $this->courseTestQuestion = $courseTestQuestion;
         $this->service = $service;
     }
-    public function index(string $slug): JsonResponse
+    public function index(string $slug, Request $request): JsonResponse
     {
-        $course = $this->course->showWithSlug($slug);
+        $course = $this->course->showWithSlug($request, $slug);
         $courseTest = $this->courseTest->show($course->id);
         if ($courseTest == null) return ResponseHelper::error(null, "Anda Belum Setting Test");
         return ResponseHelper::success(CourseTestResource::make($courseTest), trans('alert.fetch_success'));
