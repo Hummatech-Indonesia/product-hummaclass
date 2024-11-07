@@ -26,7 +26,11 @@ class UserEventRepository extends BaseRepository implements UserEventInterface
     {
         return $this->model->query()->with(['event' => function ($query) {
             $query->withCount('userEvents');
-        }, 'user'])->where('user_id', auth()->user()->id)->fastPaginate($pagination);
+        }, 'user'])
+            ->when($request->event_id, function ($query) use ($request) {
+                $query->where('event_id', $request->event_id);
+            })
+            ->where('user_id', auth()->user()->id)->fastPaginate($pagination);
     }
 
     /**

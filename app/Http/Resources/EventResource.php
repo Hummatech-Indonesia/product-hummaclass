@@ -15,8 +15,7 @@ class EventResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        // $this->load('UserEvent');
-        // Calculate days until the event starts
+    
         $day = now()->diffInDays(Carbon::parse($this->start_date));
         $start_in = now()->greaterThan($this->start_date)
             ? 'Sudah dimulai'

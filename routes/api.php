@@ -435,6 +435,7 @@ Route::middleware('enable.cors')->group(function () {
         Route::post('user-courses-check', [UserCourseController::class, 'checkPayment']);
         Route::post('user-events-check', [UserEventController::class, 'checkPayment']);
         Route::get('user-events', [UserEventController::class, 'index']);
+        Route::get('user-events/{slug}', [UserEventController::class, 'show']);
         Route::patch('user-events/{userEventId}', [UserEventController::class, 'setCertificate']);
 
         Route::get('transaction/statistic', [TransactionController::class, 'groupByMonth']);
