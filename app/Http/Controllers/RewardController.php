@@ -63,14 +63,6 @@ class RewardController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Reward $reward)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
     public function update(UpdateRewardRequest $request, Reward $reward): JsonResponse
