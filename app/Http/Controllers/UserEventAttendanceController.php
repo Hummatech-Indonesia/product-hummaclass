@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\Interfaces\UserEventAttendanceInterface;
+use App\Helpers\ResponseHelper;
+use App\Http\Resources\UserEventAttendanceResource;
 use App\Models\Event;
+use App\Models\UserEvent;
 use Illuminate\Http\Request;
 use Svg\Tag\Rect;
 
@@ -18,9 +21,10 @@ class UserEventAttendanceController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Event $event)
+    public function index(UserEvent $userEvent)
     {
-        dd($this->userEventAttendance->get($event));
+        $userEventAttendances = $this->userEventAttendance->getWhere(['user_id' => $userEvent->user_id]);
+        return ResponseHelper::success(UserEventAttendanceResource::collection($userEventAttendances), trans('alert.fetch_success'));
     }
 
     /**

@@ -16,9 +16,11 @@ class UserEventAttendanceResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'user' => $this->user,
-            'is_attendance' => $this->is_attendance,
-            'created_at' => Carbon::parse($this->created_at)->isoFormat('DD MMMM YYYY'),
+            'id' => $this->id,
+            'attendance_date' => $this->eventAttendance->attendance_date,
+            'created' => $this->created_at->format('H:i'),
+            'updated' => $this->updated_at->format('H:i'),
+            'status' => $this->is_attendance === true ? 'Hadir' : 'Tidak Hadir'
         ];
     }
 }

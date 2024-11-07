@@ -236,7 +236,7 @@ Route::middleware('enable.cors')->group(function () {
 
         // event attendance
         Route::get('event-attendance/{event_attendance}/{date}', [EventController::class, 'attendance'])->name('event-attendance.store');
-        Route::get('user-event-attendances/{event}', [UserEventAttendanceController::class, 'index']);
+        Route::get('user-event-attendances/{user_event}', [UserEventAttendanceController::class, 'index']);
 
         // certificate
         Route::resource('certificates', CertificateController::class)->only(['update']);
