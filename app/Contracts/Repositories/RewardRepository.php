@@ -39,6 +39,9 @@ class RewardRepository extends BaseRepository implements RewardInterface
             ->when($request->search, function ($query) use ($request) {
                 return $query->where('name', 'LIKE', '%' . $request->search . '%');
             })
+            ->when($request->filter, function ($query) use ($request) {
+                return $request->filter === 'oldest' ? $query->oldest() : $query->latest();
+            })
             ->fastPaginate($pagination);
     }
     /**
