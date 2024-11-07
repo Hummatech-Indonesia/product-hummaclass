@@ -18,6 +18,7 @@ class UserEventAttendanceResource extends JsonResource
         return [
             'id' => $this->id,
             'attendance_date' => $this->eventAttendance->attendance_date,
+            'attendance_day' => Carbon::parse($this->eventAttendance->attendance_date)->locale('id_ID')->isoFormat('dddd'),
             'created' => $this->created_at->format('H:i'),
             'updated' => $this->updated_at->format('H:i'),
             'status' => $this->is_attendance === true ? 'Hadir' : 'Tidak Hadir'
