@@ -14,7 +14,13 @@ use App\Contracts\Interfaces\Eloquent\GetWhereInterface;
 use App\Contracts\Interfaces\Eloquent\SearchInterface;
 use App\Contracts\Interfaces\Eloquent\UpdateInterface;
 
-interface TransactionInterface extends GetInterface, GetWhereInterface,StoreInterface, UpdateInterface, DeleteInterface, ShowInterface, CustomPaginationInterface, SearchInterface
+interface TransactionInterface extends GetInterface, GetWhereInterface, StoreInterface, UpdateInterface, DeleteInterface, ShowInterface, CustomPaginationInterface, SearchInterface
 {
-    public function countByMonth() : mixed;
+    public function countByMonth(): mixed;    
+    /**
+     * Method getLatest
+     *
+     * @return mixed
+     */
+    public function getLatest(): mixed;
 }

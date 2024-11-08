@@ -75,6 +75,11 @@ class TransactionController extends Controller
         }
         return ResponseHelper::success($data, trans('alert.fetch_success'));
     }
+    public function getLatest(): JsonResponse
+    {
+        $transactions = $this->transaction->getLatest();
+        return ResponseHelper::success(TransactionResource::collection($transactions), trans('alert.fetch_success'));
+    }
     public function getByUser(): JsonResponse
     {
         $transactions = $this->transaction->getWhere(['user_id' => auth()->user()->id]);
