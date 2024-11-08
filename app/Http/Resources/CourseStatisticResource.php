@@ -51,6 +51,18 @@ class CourseStatisticResource extends JsonResource
             ->pluck('score')
             ->toArray();
 
+        $totalRatings = $this->courseReviews()->count();
+        $ratingsDistribution = collect([1 => 0, 2 => 0, 3 => 0, 4 => 0, 5 => 0])
+            ->merge(
+                $this->courseReviews->groupBy('rating')
+                    ->map(fn($group) => $group->count())
+            );
+
+        // Calculate percentage distribution for each rating
+        $ratingsPercentageDistribution = $ratingsDistribution->map(function ($count) use ($totalRatings) {
+            return $totalRatings > 0 ? round(($count / $totalRatings) * 100, 2) : 0;
+        });
+
         return [
             'total_purchases' => $this->userCourses ? $this->userCourses()->count() : 0,
             'total_revenue' => optional($this->userCourses->first())->course->price ?? 0,
@@ -61,19 +73,14 @@ class CourseStatisticResource extends JsonResource
 
             'pre_test_average' => number_format($preTestAvg, 1),
             'post_test_average' => number_format($postTestAvg, 1),
-            'rating_count' => $this->courseReviews()->count(),
+            'rating_count' => $totalRatings,
             'average_rating' => $this->courseReviews->avg('rating') ?? 0,
 
-            'ratings_distribution' => collect([1 => 0, 2 => 0, 3 => 0, 4 => 0, 5 => 0])
-                ->merge(
-                    $this->courseReviews->groupBy('rating')
-                        ->map(fn($group) => $group->count())
-                )->all(),
+            'ratings_distribution' => $ratingsDistribution->all(),
+            'ratings_percentage_distribution' => $ratingsPercentageDistribution->all(),
 
             // Adding sequential score arrays for statistics
-            'score_average' => UserCourseTest::whereIn('course_test_id', $this->courseTest->pluck('id'))->avg('score'),
-            // 'completed_percentage' => UserCourseTest::whereIn('course_test_id', $this->courseTest->pluck('id'))->whereNull('test_type', TestEnum::POSTTEST->value)->get()->count(),
-            // 'uncompleted_percentage' => UserCourseTest::whereIn('course_test_id', $this->courseTest->pluck('id'))->whereNotNull('test_type', TestEnum::POSTTEST->value)->get()->count(),
+            'score_average' => UserCourseTest::whereIn('course_test_id', $this->courseTests->pluck('id'))->avg('score'),
             'pre_test_score_distribution' => $preTestScores,
             'post_test_score_distribution' => $postTestScores,
         ];

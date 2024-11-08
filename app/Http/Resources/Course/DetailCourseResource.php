@@ -21,6 +21,17 @@ class DetailCourseResource extends JsonResource
     {
         $user = \Laravel\Sanctum\PersonalAccessToken::findToken(substr($request->header('authorization'), 7, 100))?->tokenable()->first();
 
+        $totalReviews = $this->courseReviews->count();
+        $ratingsCount = collect([1 => 0, 2 => 0, 3 => 0, 4 => 0, 5 => 0])
+            ->merge(
+                $this->courseReviews->groupBy('rating')
+                    ->map(fn($group) => $group->count())
+            );
+
+        $ratingsPercentage = $ratingsCount->mapWithKeys(function ($count, $rating) use ($totalReviews) {
+            return [$rating => $totalReviews > 0 ? round(($count / $totalReviews) * 100, 2) : 0];
+        });
+
         return [
             'id' => $this->id,
             'user_course' => $this->userCourses()?->where('user_id', $user?->id)->with('subModule')->first(),
@@ -34,11 +45,8 @@ class DetailCourseResource extends JsonResource
             'is_premium' => $this->is_premium,
             'price' => $this->price,
             'promotional_price' => $this->promotional_price,
-            'ratings' => $ratings = collect([1 => 0, 2 => 0, 3 => 0, 4 => 0, 5 => 0])
-                ->merge(
-                    $this->courseReviews->groupBy('rating')
-                        ->map(fn($group) => $group->count())
-                ),
+            'ratings' => $ratingsCount,
+            'ratings_percentage' => $ratingsPercentage,
             'rating' => $this->courseReviews->avg('rating') ?? 0,
             'photo' => url('storage/' . $this->photo),
             'modules' => ModuleResource::collection($this->modules),
@@ -50,5 +58,4 @@ class DetailCourseResource extends JsonResource
             'is_admin' => $user?->hasRole('admin'),
         ];
     }
-
 }
