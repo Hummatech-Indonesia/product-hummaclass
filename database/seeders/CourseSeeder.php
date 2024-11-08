@@ -40,6 +40,32 @@ class CourseSeeder extends Seeder
             'is_ready' => false
         ]);
 
+        $course = Course::create([
+            'id' => Uuid::uuid(),
+            'user_id' => $user->id,
+            'sub_category_id' => 1,
+            'title' => 'lorem ipsum dolor',
+            'slug' => Str::slug('lorem ipsum dolor'),
+            'sub_title' => 'lorem ipsum dolor sit amet',
+            'description' => 'lorem ipsum dolor sit amet lorem rebum magna diam stet',
+            'price' => 100000,
+            'photo' => 'course/course_thumb04.jpg',
+            'is_premium' => true,
+            'is_ready' => false
+        ]);
+        $course = Course::create([
+            'id' => Uuid::uuid(),
+            'user_id' => $user->id,
+            'sub_category_id' => 1,
+            'title' => 'lorem ipsum dolor sit',
+            'slug' => Str::slug('lorem ipsum dolor sit'),
+            'sub_title' => 'lorem ipsum dolor sit amet',
+            'description' => 'lorem ipsum dolor sit amet lorem rebum magna diam stet',
+            'price' => 100000,
+            'photo' => 'course/course_thumb04.jpg',
+            'is_premium' => true,
+            'is_ready' => false
+        ]);
         for ($a = 1; $a <= 3; $a++) {
             Module::create([
                 'id' => Uuid::uuid(),

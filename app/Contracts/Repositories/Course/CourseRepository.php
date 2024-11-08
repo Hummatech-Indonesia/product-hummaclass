@@ -76,6 +76,19 @@ class CourseRepository extends BaseRepository implements CourseInterface
             ->orderBy('created_at', 'desc')
             ->fastPaginate($pagination);
     }
+    /**
+     * Method getTop
+     *
+     * @return mixed
+     */
+    public function getTop(): mixed
+    {
+        return $this->model
+            ->withCount('userCourses')
+            ->limit(4)
+            ->get();
+    }
+
 
     /**
      * search

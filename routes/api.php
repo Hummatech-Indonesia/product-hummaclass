@@ -121,6 +121,7 @@ Route::middleware('enable.cors')->group(function () {
     Route::get('sub-categories/category/{category}', [SubCategoryController::class, 'getByCategory']);
 
     Route::get('courses', [CourseController::class, 'index']);
+    Route::get('top-courses', [CourseController::class, 'topCourses']);
     Route::get('courses/{slug}', [CourseController::class, 'show']);
     Route::get('courses/{slug}/share', [CourseController::class, 'share']);
 

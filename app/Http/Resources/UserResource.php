@@ -23,6 +23,7 @@ class UserResource extends JsonResource
             'name' => $this->name,
             'email' => $this->email,
             'phone_number' => $this->phone_number,
+            'user_courses' => $this->userCourses,
             'total_courses' => $this->userCourses->count(),
             'total_reviews' => $this->courseReviews->count(),
             'course_reviews' => ReviewResource::collection($this->courseReviews),

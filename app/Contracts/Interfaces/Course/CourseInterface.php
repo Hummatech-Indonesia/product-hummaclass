@@ -18,7 +18,7 @@ use Illuminate\Http\Request;
 interface CourseInterface extends CustomPaginationInterface, StoreInterface, UpdateInterface, ShowInterface, DeleteInterface, SearchInterface, GetInterface
 {
     public function count(): mixed;
-    
+
     /**
      * showWithSlug
      *
@@ -27,4 +27,10 @@ interface CourseInterface extends CustomPaginationInterface, StoreInterface, Upd
      * @return mixed
      */
     public function showWithSlug(Request $request, string $slug): mixed;
+    /**
+     * Method getTop
+     *
+     * @return mixed
+     */
+    public function getTop(): mixed;
 }

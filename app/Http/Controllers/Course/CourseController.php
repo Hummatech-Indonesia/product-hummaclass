@@ -14,6 +14,8 @@ use App\Http\Resources\Course\DetailCourseResource;
 use App\Http\Resources\CourseResource;
 use App\Http\Resources\CourseStatisticResource;
 use App\Http\Resources\QuizResource;
+use App\Http\Resources\TopCourseResource;
+use App\Http\Resources\UserCourseResource;
 use App\Models\Course;
 use App\Models\UserQuiz;
 use App\Services\Course\CourseService;
@@ -117,6 +119,11 @@ class CourseController extends Controller
         $course = $this->course->showWithSlug($request, $slug);
         // dd($course->transactions);
         return ResponseHelper::success(CourseStatisticResource::make($course), trans('alert.fetch_success'));
+    }
+    public function topCourses(): JsonResponse
+    {
+        $courses = $this->course->getTop();
+        return ResponseHelper::success(TopCourseResource::collection($courses), trans('alert.fetch_success'));
     }
     /**
      * Method readyToUse
