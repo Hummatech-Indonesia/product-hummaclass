@@ -48,7 +48,7 @@ class UserCourseResource extends JsonResource
             'study_time' => $this->created_at
                 ? now()->diffInHours($this->created_at) . ' jam ' . now()->diffInMinutes($this->created_at) % 60 . ' menit'
                 : 'Belum ada waktu belajar',
-            'study_percentage' => $percentage,
+            'study_percentage' => round($percentage),
             'sub_module' => $this->subModule,
             'has_post_test' => $this->has_post_test,
             'has_pre_test' => $this->has_pre_test,

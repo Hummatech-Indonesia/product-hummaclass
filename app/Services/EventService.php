@@ -116,6 +116,7 @@ class EventService implements ShouldHandleFileUpload
                     'end' => $data['end'][$index],
                     'session' => $data['session'][$index],
                     'user' => $data['user'][$index],
+                    'event_date' => $data['event_date'][$index],
                 ];
                 $this->eventDetail->store($detailData);
             }
@@ -166,14 +167,16 @@ class EventService implements ShouldHandleFileUpload
         return $complete;
     }
 
-    public function isLastAttendance(EventAttendance $eventAttendance) {
+    public function isLastAttendance(EventAttendance $eventAttendance)
+    {
         $event = $eventAttendance->event;
         $lastAttendance = EventAttendance::where('event_id', $event->id)->orderBy('attendance_date', 'DESC')->first();
 
         return $eventAttendance->id == $lastAttendance->id;
     }
 
-    public function setCertificateUser(Event $event) {
+    public function setCertificateUser(Event $event)
+    {
         $userEvent = UserEvent::where('event_id', $event->id)->where('user_id', auth()->user()->id)->first()->id;
         $this->userEvent->update($userEvent, ['has_certificate' => true]);
     }

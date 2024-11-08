@@ -15,7 +15,7 @@ class EventResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-    
+
         $day = now()->diffInDays(Carbon::parse($this->start_date));
         $start_in = now()->greaterThan($this->start_date)
             ? 'Sudah dimulai'
@@ -34,13 +34,13 @@ class EventResource extends JsonResource
             'capacity_left' => $this->capacity - $this->UserEvents()->count(),
             'has_certificate' => $this->has_certificate,
             'is_online' => $this->is_online,
-            'start_date' =>$this->start_date,
-            'end_date' => Carbon::parse($this->end_date)->translatedFormat('j F Y'),
+            'email_content' => $this->email_content,
+            'start_date' => $this->start_date,
+            'end_date' => $this->end_date,  
             'image' => url('storage/' . $this->image),
             'event_details' => $this->eventDetails,
             'start_in' => $start_in, // Add the start_in field here
             'created_at' => $this->created_at,
         ];
     }
-
 }
