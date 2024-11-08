@@ -56,8 +56,10 @@ class CourseRepository extends BaseRepository implements CourseInterface
             ->when($request->order == "best seller", function ($query) {
                 $query->orderBy('user_courses_count', 'desc');
             })
-            ->when($request->categories[0] != null, function ($query) use ($request) {
-                $query->whereIn('sub_category_id', $request->categories);
+            ->when($request->categories, function ($query) use ($request) {
+                $query->when($request->categories[0] != null, function ($query) use ($request) {
+                    $query->whereIn('sub_category_id', $request->categories);
+                });
             })
             ->when($request->status, function ($query) use ($request) {
                 $query->where('is_ready', $request->status);
