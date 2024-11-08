@@ -26,6 +26,10 @@ class TransactionRepository extends BaseRepository implements TransactionInterfa
     {
         return $this->model->query()->get();
     }
+    public function getLatest(): mixed
+    {
+        return $this->model->query()->latest()->limit(5)->get();
+    }
     /**
      * Method getWhere
      *
