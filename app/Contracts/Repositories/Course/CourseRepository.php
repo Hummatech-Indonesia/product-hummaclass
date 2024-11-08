@@ -37,11 +37,11 @@ class CourseRepository extends BaseRepository implements CourseInterface
      */
     public function customPaginate(Request $request, int $pagination = 9): LengthAwarePaginator
     {
-        $bearerToken = $request->header('Authorization');
+        // $bearerToken = $request->header('Authorization');
 
-        if (!$bearerToken || !preg_match('/Bearer\s(\S+)/', $bearerToken, $matches)) {
-            // return response()->json(['error' => 'Token tidak valid'], 401);
-        }
+        // if (!$bearerToken || !preg_match('/Bearer\s(\S+)/', $bearerToken, $matches)) {
+        //     // return response()->json(['error' => 'Token tidak valid'], 401);
+        // }
         $token = $matches[1] ?? null;
         $user = PersonalAccessToken::findToken($token)->tokenable ?? null;
         return $this->model->query()
@@ -83,26 +83,34 @@ class CourseRepository extends BaseRepository implements CourseInterface
      */
     public function search(Request $request): mixed
     {
+        $token = $matches[1] ?? null;
+        $user = PersonalAccessToken::findToken($token)->tokenable ?? null;
         return $this->model->query()
             ->with('modules')
-            ->withCount('userCourses')
             ->when($request->is_ready, function ($query) use ($request) {
                 $query->where('is_ready', $request->is_ready);
             })
-            ->when($request->search, function ($query) use ($request) {
-                $query->whereLike('name', $request->search);
+            ->withCount('userCourses')
+            ->when($request->title, function ($query) use ($request) {
+                $query->where('title', 'like', '%' . $request->title . '%');
             })
             ->when($request->order == "best seller", function ($query) {
                 $query->orderBy('user_courses_count', 'desc');
             })
-            ->when($request->sub_category, function ($query) use ($request) {
-                $query->whereIn('sub_category', $request->sub_category);
+            ->when($request->categories[0] != null, function ($query) use ($request) {
+                $query->whereIn('sub_category_id', $request->categories);
             })
-            ->when($request->maksimum && $request->minimum, function ($query) use ($request) {
-                $query->where('price', '>=', $request->minimum)->where('price', '<=', $request->maksimum);
+            ->when($request->status, function ($query) use ($request) {
+                $query->where('is_ready', $request->status);
             })
-            ->when($request->limit, function ($query) use ($request) {
-                $query->limit($request->limit);
+            ->when($request->maximum, function ($query) use ($request) {
+                $query->where('price', '<=', $request->maximum);
+            })
+            ->when($request->minimum, function ($query) use ($request) {
+                $query->where('price', '>=', $request->minimum);
+            })
+            ->when($user?->hasRole('guest') || !$user, function ($query) {
+                $query->where('is_ready', 1);
             })
             ->orderBy('created_at', 'desc')
             ->get();
