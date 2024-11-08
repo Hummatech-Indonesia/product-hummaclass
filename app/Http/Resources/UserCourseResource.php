@@ -44,6 +44,7 @@ class UserCourseResource extends JsonResource
             'user' => $this->user,
             'course' => CustomCourseResource::make($this->course),
             'total_module' => $this->course->modules->count(),
+            'total_user' => $this->course->userCourses>count(),
             'study_time' => $this->created_at
                 ? now()->diffInHours($this->created_at) . ' jam ' . now()->diffInMinutes($this->created_at) % 60 . ' menit'
                 : 'Belum ada waktu belajar',
