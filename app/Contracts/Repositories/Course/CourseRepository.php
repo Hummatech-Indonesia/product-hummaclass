@@ -37,11 +37,11 @@ class CourseRepository extends BaseRepository implements CourseInterface
      */
     public function customPaginate(Request $request, int $pagination = 9): LengthAwarePaginator
     {
-        // $bearerToken = $request->header('Authorization');
+        $bearerToken = $request->header('Authorization');
 
-        // if (!$bearerToken || !preg_match('/Bearer\s(\S+)/', $bearerToken, $matches)) {
-        //     // return response()->json(['error' => 'Token tidak valid'], 401);
-        // }
+        if (!$bearerToken || !preg_match('/Bearer\s(\S+)/', $bearerToken, $matches)) {
+            // return response()->json(['error' => 'Token tidak valid'], 401);
+        }
         $token = $matches[1] ?? null;
         $user = PersonalAccessToken::findToken($token)->tokenable ?? null;
         return $this->model->query()
