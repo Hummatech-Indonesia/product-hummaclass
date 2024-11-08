@@ -34,7 +34,7 @@ class EventResource extends JsonResource
             'capacity_left' => $this->capacity - $this->UserEvents()->count(),
             'has_certificate' => $this->has_certificate,
             'is_online' => $this->is_online,
-            'start_date' => Carbon::parse($this->start_date)->translatedFormat('j F Y'),
+            'start_date' =>$this->start_date,
             'end_date' => Carbon::parse($this->end_date)->translatedFormat('j F Y'),
             'image' => url('storage/' . $this->image),
             'event_details' => $this->eventDetails,
