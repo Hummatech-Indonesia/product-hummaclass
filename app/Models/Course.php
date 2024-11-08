@@ -75,6 +75,10 @@ class Course extends Model implements HasSubCategory, HasModules, HasUserCourses
     {
         return $this->hasMany(UserCourse::class);
     }
+    public function currentUserCourse(): HasOne
+    {
+        return $this->hasOne(UserCourse::class)->where('user_id', auth()->user()->id);
+    }
     /**
      * Get the user that owns the Course
      *

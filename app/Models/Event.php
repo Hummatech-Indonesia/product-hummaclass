@@ -7,6 +7,7 @@ use App\Base\Interfaces\HasEventUsers;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Event extends Model implements HasEventDetails
 {
@@ -46,6 +47,11 @@ class Event extends Model implements HasEventDetails
     public function UserEvents(): HasMany
     {
         return $this->hasMany(UserEvent::class);
+    }
+
+    public function currentUserEvent(): HasOne
+    {
+        return $this->hasOne(UserEvent::class)->where('user_id', auth()->user()->id);
     }
 
     /**
