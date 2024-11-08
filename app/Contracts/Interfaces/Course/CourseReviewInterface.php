@@ -10,7 +10,13 @@ use App\Contracts\Interfaces\Eloquent\ShowInterface;
 use App\Contracts\Interfaces\Eloquent\StoreInterface;
 use App\Contracts\Interfaces\Eloquent\UpdateInterface;
 
-interface CourseReviewInterface extends GetInterface,StoreInterface,ShowInterface,UpdateInterface
+interface CourseReviewInterface extends GetInterface, StoreInterface, ShowInterface, UpdateInterface
 {
-    public function latest(int $limit): mixed;
+    public function latest(int $limit): mixed;    
+    /**
+     * Method getLatest
+     *
+     * @return mixed
+     */
+    public function getLatest(): mixed;
 }

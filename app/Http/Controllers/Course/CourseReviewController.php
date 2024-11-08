@@ -43,6 +43,16 @@ class CourseReviewController extends Controller
         return ResponseHelper::success(CourseReviewResource::collection($courseReview), trans('alert.fetch_success'));
     }
     /**
+     * Method getLatest
+     *
+     * @return JsonResponse
+     */
+    public function getLatest(): JsonResponse
+    {
+        $courseReviews = $this->courseReview->getLatest();
+        return ResponseHelper::success(CourseReviewResource::collection($courseReviews), trans('alert.fetch_success'));
+    }
+    /**
      * Method store
      *
      * @param CourseReviewRequest $request [explicite description]

@@ -96,6 +96,7 @@ Route::middleware('enable.cors')->group(function () {
     /**
      * Publicly Accessible Routes
      */
+    Route::get('top-reviews', [CourseReviewController::class, 'getLatest']);
     Route::get('users', [UserController::class, 'index']);
     Route::get('users/{user}', [UserController::class, 'show']);
 

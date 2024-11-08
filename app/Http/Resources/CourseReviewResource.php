@@ -18,7 +18,7 @@ class CourseReviewResource extends JsonResource
         $createdAt = Carbon::parse($this->created_at); // Ganti $this->created_at dengan atribut tanggal pembuatan yang sesuai
 
         return [
-            'user' => new UserResource($this->user),
+            'user' => $this->user,
             'course' => $this->course,
             'rating' => $this->rating,
             'review' => $this->review,
