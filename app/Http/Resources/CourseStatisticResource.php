@@ -3,7 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Enums\TestEnum;
-use App\Services\Course\CourseService;
+use App\Models\UserCourseTest;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Carbon\Carbon;
@@ -24,31 +24,58 @@ class CourseStatisticResource extends JsonResource
         });
 
         $groupedTransactionsWithMonthName = $groupedTransactions->mapWithKeys(function ($items, $key) {
-            // dd($items->sum('amount'));
             $monthName = Carbon::createFromFormat('m', $key)->locale('id')->isoFormat('MMMM');
             $monthNameLowerCase = strtolower($monthName);
             return [$monthNameLowerCase => $items->sum('amount')];
         });
+
+        // Calculating pre-test and post-test averages
+        $preTestAvg = UserCourseTest::whereIn('course_test_id', $this->courseTests->pluck('id'))
+            ->where('test_type', TestEnum::PRETEST->value)
+            ->avg('score');
+
+        $postTestAvg = UserCourseTest::whereIn('course_test_id', $this->courseTests->pluck('id'))
+            ->where('test_type', TestEnum::POSTTEST->value)
+            ->avg('score');
+
+        // Sequential scores for statistics
+        $preTestScores = UserCourseTest::whereIn('course_test_id', $this->courseTests->pluck('id'))
+            ->where('test_type', TestEnum::PRETEST->value)
+            ->orderBy('created_at')
+            ->pluck('score')
+            ->toArray();
+
+        $postTestScores = UserCourseTest::whereIn('course_test_id', $this->courseTests->pluck('id'))
+            ->where('test_type', TestEnum::POSTTEST->value)
+            ->orderBy('created_at')
+            ->pluck('score')
+            ->toArray();
 
         return [
             'total_purchases' => $this->userCourses ? $this->userCourses()->count() : 0,
             'total_revenue' => optional($this->userCourses->first())->course->price ?? 0,
             'total_tasks' => $this->modules()->withCount('moduleTasks'),
             'completed' => $this->userCourses()->whereNotNull('has_post_test')->count(),
+
             'transaction' => $groupedTransactionsWithMonthName,
-            'pre_test_average' => $this->courseTests()->with('userCourseTests', function ($query) {
-                return $query->where('type_test', TestEnum::PRETEST->value)->avg('score');
-            }) ?? 0,
-            'post_test_average' => $this->courseTests()->with('userCourseTests', function ($query) {
-                return $query->where('type_test', TestEnum::POSTTEST->value)->avg('score');
-            }) ?? 0,
+
+            'pre_test_average' => number_format($preTestAvg, 1),
+            'post_test_average' => number_format($postTestAvg, 1),
             'rating_count' => $this->courseReviews()->count(),
             'average_rating' => $this->courseReviews->avg('rating') ?? 0,
+
             'ratings_distribution' => collect([1 => 0, 2 => 0, 3 => 0, 4 => 0, 5 => 0])
                 ->merge(
                     $this->courseReviews->groupBy('rating')
                         ->map(fn($group) => $group->count())
                 )->all(),
+
+            // Adding sequential score arrays for statistics
+            'score_average' => UserCourseTest::whereIn('course_test_id', $this->courseTest->pluck('id'))->avg('score'),
+            // 'completed_percentage' => UserCourseTest::whereIn('course_test_id', $this->courseTest->pluck('id'))->whereNull('test_type', TestEnum::POSTTEST->value)->get()->count(),
+            // 'uncompleted_percentage' => UserCourseTest::whereIn('course_test_id', $this->courseTest->pluck('id'))->whereNotNull('test_type', TestEnum::POSTTEST->value)->get()->count(),
+            'pre_test_score_distribution' => $preTestScores,
+            'post_test_score_distribution' => $postTestScores,
         ];
     }
 }

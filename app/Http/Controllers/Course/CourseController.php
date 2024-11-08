@@ -86,7 +86,7 @@ class CourseController extends Controller
     /**
      * Method update
      *
-     * @param UpdateCourseRequest $request [explicite description]
+     * @param CourseUpdateRequest $request [explicite description]
      * @param Course $course [explicite description]
      *
      * @return JsonResponse
