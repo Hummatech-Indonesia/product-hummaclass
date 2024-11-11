@@ -76,12 +76,13 @@ class EventController extends Controller
      * Method update
      *
      * @param EventRequest $request [explicite description]
-     * @param Event $event [explicite description]
+     * @param string $slug [explicite description]
      *
      * @return JsonResponse
      */
-    public function update(EventRequest $request, Event $event): JsonResponse
+    public function update(EventRequest $request, string $slug): JsonResponse
     {
+        $event = $this->event->showWithSlug($slug);
         $this->service->update($request, $event);
         return ResponseHelper::success(true, trans('alert.update_success'));
     }
