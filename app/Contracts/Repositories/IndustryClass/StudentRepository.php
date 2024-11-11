@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Contracts\Interfaces\IndustryClass;
+namespace App\Contracts\Repositories\IndustryClass;
 
 use Illuminate\Http\Request;
 use App\Models\StudentClassroom;
