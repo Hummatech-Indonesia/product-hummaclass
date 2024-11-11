@@ -1,12 +1,19 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\IndustryClass;
 
+use App\Helpers\ResponseHelper;
+use App\Http\Controllers\Controller;
 use App\Models\Student;
 use Illuminate\Http\Request;
+use StudentInterface;
 
 class StudentController extends Controller
 {
+    private StudentInterface $student;
+    public function __construct(StudentInterface $student) {
+        $this->student = $student;
+    }
     /**
      * Display a listing of the resource.
      */
@@ -26,9 +33,16 @@ class StudentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, $schoolId)
     {
-        //
+        $data = $request->validated();
+        try {
+            if($this->student->store($schoolId, $data)) {
+                return ResponseHelper::success(null, trans('alert.add_success'));
+            };
+        } catch (\Throwable $th) {
+            return ResponseHelper::error(null, trans('alert.add_failed'));
+        }
     }
 
     /**

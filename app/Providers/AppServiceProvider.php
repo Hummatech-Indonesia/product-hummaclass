@@ -82,6 +82,8 @@ use App\Contracts\Repositories\RewardRepository;
 use App\Contracts\Repositories\TagRepository;
 use App\Contracts\Repositories\UserRewardRepository;
 use Carbon\Carbon;
+use StudentInterface;
+use StudentRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -125,6 +127,7 @@ class AppServiceProvider extends ServiceProvider
         UserEventAttendanceInterface::class => UserEventAttendanceRepository::class,
         SchoolInterface::class => SchoolRepository::class,
         ClassroomInterface::class => ClassroomRepository::class,
+        StudentInterface::class => StudentRepository::class,
     ];
 
     /**
