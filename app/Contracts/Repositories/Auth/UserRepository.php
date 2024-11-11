@@ -33,33 +33,39 @@ class UserRepository extends BaseRepository implements UserInterface
             12 => 'Dec'
         ];
 
-        // Menghitung pengguna per bulan dari Januari hingga Desember
+        // Menghitung pengguna per bulan dari Januari hingga Desember untuk satu tahun terakhir
         $userCounts = $this->model->query()
             ->where('email', '!=', 'admin@gmail.com')
-            ->where('created_at', '>=', now()->subYear()) // Mengambil pengguna yang bergabung dalam satu tahun terakhir
+            ->where('created_at', '>=', now()->subYear())
             ->selectRaw('MONTH(created_at) as month, COUNT(*) as user_count')
             ->groupBy('month')
-            ->orderBy('month') // Urutkan berdasarkan bulan (1-12)
+            ->orderBy('month')
             ->pluck('user_count', 'month')
             ->toArray();
 
-        // Menyusun hasil dengan nama bulan
+        // Menyusun hasil dengan nama bulan dan menghitung total pengguna satu tahun terakhir
         $result = [];
-        $totalUsers = 0;
+        $totalUsersLastYear = 0;
         foreach ($months as $monthNumber => $monthName) {
-            // Jika bulan tidak ada dalam hasil, set user_count menjadi 0
             $userCount = $userCounts[$monthNumber] ?? 0;
             $result[$monthName] = $userCount;
-
-            // Menambahkan ke total pengguna
-            $totalUsers += $userCount;
+            $totalUsersLastYear += $userCount;
         }
 
-        // Menambahkan total pengguna pada akhir array
-        $result['Total'] = $totalUsers;
+        // Menambahkan total pengguna satu tahun terakhir
+        $result['total_last_year'] = $totalUsersLastYear;
+
+        // Menghitung total pengguna keseluruhan (tanpa filter waktu)
+        $totalUsersOverall = $this->model->query()
+            ->where('email', '!=', 'admin@gmail.com')
+            ->count();
+
+        // Menambahkan total pengguna keseluruhan ke dalam hasil
+        $result['total_overall'] = $totalUsersOverall;
 
         return $result;
     }
+
 
 
 
