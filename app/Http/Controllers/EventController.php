@@ -96,7 +96,11 @@ class EventController extends Controller
      */
     public function destroy(Event $event): JsonResponse
     {
-        $this->service->delete($event);
+        try {
+            $this->service->delete($event);
+        } catch (\Throwable $e) {
+            return ResponseHelper::success(null, trans('alert.delete_constrained'));
+        }
         return ResponseHelper::success(true, trans('alert.delete_success'));
     }
 
