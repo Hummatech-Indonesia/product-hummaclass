@@ -47,6 +47,7 @@ use App\Http\Controllers\{
     TagController,
     UpdatePasswordController,
     CourseTestQuestionController,
+    DashboardController,
     UserEventAttendanceController,
     UserEventController,
     UserRewardController
@@ -95,6 +96,7 @@ Route::middleware('enable.cors')->group(function () {
     /**
      * Publicly Accessible Routes
      */
+    Route::get('dashboard-api', [DashboardController::class, 'index']);
     Route::get('latest-transactions', [TransactionController::class, 'getLatest']);
     Route::get('latest-reviews', [CourseReviewController::class, 'getLatest']);
     Route::get('users', [UserController::class, 'index']);
