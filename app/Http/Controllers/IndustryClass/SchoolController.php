@@ -6,6 +6,7 @@ use App\Contracts\Interfaces\IndustryClass\SchoolInterface;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\IndustryClass\SchoolRequest;
+use App\Http\Resources\DetailSchoolResource;
 use App\Http\Resources\IndustryClass\SchoolResource;
 use App\Models\School;
 use App\Services\IndustryClass\SchoolService;
@@ -45,6 +46,10 @@ class SchoolController extends Controller
         return ResponseHelper::success(null, trans('alert.add_success'));
     }
 
+    public function show($slug) {
+        $school = $this->school->showWithSlug($slug);
+        return ResponseHelper::success(SchoolResource::make($school), trans('alert.fetch_success'));
+    }
     /**
      * Update the specified resource in storage.
      */
