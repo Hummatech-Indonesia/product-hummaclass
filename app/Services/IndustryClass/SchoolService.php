@@ -26,8 +26,8 @@ class SchoolService implements ShouldHandleFileUpload
     {
         $data = $request->validated();
 
-        if ($request->hasFile('school')) {
-            $data['school'] = $this->upload(UploadDiskEnum::SCHOOL->value, $request->file('photo'));
+        if ($request->hasFile('photo')) {
+            $data['photo'] = $this->upload(UploadDiskEnum::SCHOOL->value, $request->file('photo'));
         }
         return $data;
     }
