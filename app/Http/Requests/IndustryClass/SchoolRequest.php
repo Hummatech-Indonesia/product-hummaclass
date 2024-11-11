@@ -28,7 +28,8 @@ class SchoolRequest extends ApiRequest
             'head_master' => 'required',
             'photo' => 'required|mimes:png,jpg,jpeg',
             'description' => 'required',
-            'phone_number' => 'required'
+            'phone_number' => 'required',
+            'npsn' => 'required'
         ];
     }
 }

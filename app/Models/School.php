@@ -19,7 +19,8 @@ class School extends Model
         'head_master',
         'photo',
         'description',
-        'phone_number'
+        'phone_number',
+        'npsn'
     ];
     /**
      * Get all of the classrooms for the School
