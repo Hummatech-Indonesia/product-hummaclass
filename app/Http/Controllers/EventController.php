@@ -80,9 +80,8 @@ class EventController extends Controller
      *
      * @return JsonResponse
      */
-    public function update(EventRequest $request, string $slug): JsonResponse
+    public function update(EventRequest $request, Event $event): JsonResponse
     {
-        $event = $this->event->showWithSlug($slug);
         $this->service->update($request, $event);
         return ResponseHelper::success(true, trans('alert.update_success'));
     }
