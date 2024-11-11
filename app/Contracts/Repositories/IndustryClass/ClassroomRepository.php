@@ -25,7 +25,7 @@ class ClassroomRepository extends BaseRepository implements ClassroomInterface
      */
     public function getWhere(array $data): mixed
     {
-        return $this->model->query()->where('school_id' . $data['school_id'])->get();
+        return $this->model->query()->where($data)->get();
     }
 
     /**

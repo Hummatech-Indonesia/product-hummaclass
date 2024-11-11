@@ -6,7 +6,9 @@ use App\Contracts\Interfaces\IndustryClass\ClassroomInterface;
 use App\Contracts\Interfaces\IndustryClass\SchoolInterface;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\IndustryClass\ClassroomRequest;
 use App\Http\Resources\IndustryClass\ClassroomResource;
+use App\Models\Classroom;
 use App\Models\School;
 use App\Traits\PaginationTrait;
 use Illuminate\Http\Request;
@@ -29,7 +31,7 @@ class ClassroomController extends Controller
     public function index(string $slug)
     {
         $school = $this->school->showWithSlug($slug);
-        $classrooms = $this->classroom->getWhere(['school' => $school->id]);
+        $classrooms = $this->classroom->getWhere(['school_id' => $school->id]);
         return ResponseHelper::success(ClassroomResource::collection($classrooms));
     }
 
@@ -44,17 +46,20 @@ class ClassroomController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ClassroomRequest $request, School $school)
     {
-        //
+        $data = $request->validated();
+        $data['school_id'] = $school->id;
+        $this->classroom->store($data);
+        return ResponseHelper::success(null, trans('alert.add_success'));
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Classroom $classroom)
     {
-        //
+        return ResponseHelper::success(ClassroomResource::make($classroom), trans('alert.fetch_success'));
     }
 
     /**
@@ -68,16 +73,22 @@ class ClassroomController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(ClassroomRequest $request, Classroom $classroom)
     {
-        //
+        $this->classroom->update($classroom->id, $request->validated());
+        return ResponseHelper::success(null, trans('alert.update_success'));
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Classroom $classroom)
     {
-        //
+        try {
+            $this->classroom->delete($classroom->id);
+        } catch (\Throwable $e) {
+            return ResponseHelper::error(null, trans('alert.delete_constrained'));
+        }
+        return ResponseHelper::success(null, trans('alert.delete_success'));
     }
 }

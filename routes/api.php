@@ -52,6 +52,7 @@ use App\Http\Controllers\{
     UserRewardController
 };
 use App\Helpers\ResponseHelper;
+use App\Http\Controllers\IndustryClass\ClassroomController;
 use App\Http\Controllers\IndustryClass\SchoolController;
 use App\Models\EventAttendance;
 
@@ -344,6 +345,8 @@ Route::middleware('enable.cors')->group(function () {
     /**
      * Publicly Accessible Routes
      */
+    Route::get('classrooms/{slug}', [ClassroomController::class, 'index']);
+    Route::get('classrooms-detail/{classroom}', [ClassroomController::class, 'show']);
     Route::get('users', [UserController::class, 'index']);
     Route::patch('user-update', [UserController::class, 'customUpdate']);
     Route::get('users/{user}', [UserController::class, 'show']);
@@ -387,6 +390,8 @@ Route::middleware('enable.cors')->group(function () {
     Route::get('quizzes-get', [QuizController::class, 'get']);
 
     Route::middleware('auth:sanctum')->group(function () {
+        Route::post('classrooms/{school}', [ClassroomController::class, 'store']);
+        Route::resource('classrooms', ClassroomController::class)->only(['update', 'destroy']);
 
         Route::get('module-questions/detail/admin/{module}', [ModuleQuestionController::class, 'showAdmin']);
 

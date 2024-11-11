@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Blog;
+use App\Models\Classroom;
 use App\Models\Course;
 use App\Models\CourseTask;
 use App\Models\CourseTest;
@@ -21,6 +22,7 @@ use App\Models\User;
 use App\Models\UserCourseTest;
 use App\Models\UserQuiz;
 use App\Observers\BlogObserver;
+use App\Observers\ClassroomObserver;
 use App\Observers\CourseObserver;
 use App\Observers\CourseTaskObserver;
 use App\Observers\CourseTestObserver;
@@ -77,6 +79,7 @@ class EventServiceProvider extends ServiceProvider
         UserCourseTest::observe(UserCourseTestObserver::class);
         Reward::observe(RewardObserver::class);
         School::observe(SchoolObserver::class);
+        Classroom::observe(ClassroomObserver::class);
     }
 
     /**
