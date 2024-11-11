@@ -52,6 +52,7 @@ use App\Http\Controllers\{
     UserRewardController
 };
 use App\Helpers\ResponseHelper;
+use App\Http\Controllers\IndustryClass\SchoolController;
 use App\Models\EventAttendance;
 
 /*
@@ -103,6 +104,7 @@ Route::middleware('enable.cors')->group(function () {
 
 
     Route::resource('events', EventController::class)->except('show');
+    Route::resource('schools', SchoolController::class);
     Route::get('events-user', [EventController::class, 'pageUser']);
     Route::get('events/{slug}', [EventController::class, 'show']);
 
