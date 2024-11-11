@@ -6,33 +6,34 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class StudentClassroom extends Model
+class CourseLearningPath extends Model
 {
     use HasFactory;
     public $incrementing = false;
     public $keyType = 'char';
     protected $primaryKey = 'id';
-    protected $table = 'student_classrooms';
+    protected $table = 'course_learning_paths';
     protected $fillable = [
-        'student_id',
-        'classroom_id'
+        'course_id',
+        'learning_path_id',
+        'step'
     ];
     /**
-     * Get the user that owns the StudentClassroom
+     * Get the course that owns the CourseLearningPath
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function user(): BelongsTo
+    public function course(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Course::class);
     }
     /**
-     * Get the classroom that owns the StudentClassroom
+     * Get the learningPath that owns the CourseLearningPath
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function classroom(): BelongsTo
+    public function learningPath(): BelongsTo
     {
-        return $this->belongsTo(Classroom::class);
+        return $this->belongsTo(LearningPath::class);
     }
 }

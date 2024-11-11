@@ -14,7 +14,7 @@ return new class extends Migration {
         Schema::create('classrooms', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('school_id')->constrained();
-            $table->foreignId('division_id')->constrained();
+            $table->foreignUuid('division_id')->constrained();
             $table->string('name');
             $table->enum('class_level', array_map(fn($enum) => $enum->value, ClassEnum::cases()));
             $table->timestamps();
