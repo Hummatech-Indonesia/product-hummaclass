@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->string('name');
             $table->text('address');
             $table->string('head_master');
-            $table->text('photo');
+            $table->text('photo')->nullable();
             $table->text('description');
             $table->string('phone_number');
             $table->timestamps();
