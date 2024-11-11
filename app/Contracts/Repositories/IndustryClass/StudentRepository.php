@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Contracts\Interfaces\IndustryClass;
+
 use Illuminate\Http\Request;
 use App\Models\StudentClassroom;
 use App\Contracts\Repositories\BaseRepository;

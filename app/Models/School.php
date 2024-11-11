@@ -20,7 +20,8 @@ class School extends Model
         'photo',
         'description',
         'phone_number',
-        'npsn'
+        'npsn',
+        'email'
     ];
     /**
      * Get all of the classrooms for the School

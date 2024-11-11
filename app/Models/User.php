@@ -37,6 +37,7 @@ class User extends Authenticatable implements HasUserCourses, HasSocialAccount, 
         'email',
         'password',
         'point',
+        'gender',
         'phone_number',
         'address',
         'photo'

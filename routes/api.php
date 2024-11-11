@@ -54,6 +54,7 @@ use App\Http\Controllers\{
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\IndustryClass\ClassroomController;
 use App\Http\Controllers\IndustryClass\SchoolController;
+use App\Http\Controllers\IndustryClass\StudentController;
 use App\Models\EventAttendance;
 
 /*
@@ -106,7 +107,11 @@ Route::middleware('enable.cors')->group(function () {
 
     Route::resource('events', EventController::class)->except(['show', 'update']);
     Route::patch('events/{slug}', [EventController::class, 'update']);
+
     Route::resource('schools', SchoolController::class);
+    Route::post('import-student', [StudentController::class, 'import']);
+
+
     Route::get('events-user', [EventController::class, 'pageUser']);
     Route::get('events/{slug}', [EventController::class, 'show']);
 

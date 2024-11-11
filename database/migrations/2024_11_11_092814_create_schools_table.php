@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->string('name')->unique();
             $table->string('slug');
             $table->string('npsn')->unique();
+            $table->string('email')->unique();
             $table->text('address');
             $table->string('head_master');
             $table->text('photo')->nullable();

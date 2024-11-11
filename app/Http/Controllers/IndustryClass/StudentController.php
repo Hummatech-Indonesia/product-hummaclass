@@ -2,16 +2,21 @@
 
 namespace App\Http\Controllers\IndustryClass;
 
+use App\Contracts\Interfaces\IndustryClass\StudentInterface;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ImportRequest;
+use App\Imports\StudentsImport;
 use App\Models\Student;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use StudentInterface;
+use Maatwebsite\Excel\Facades\Excel;
 
 class StudentController extends Controller
 {
     private StudentInterface $student;
-    public function __construct(StudentInterface $student) {
+    public function __construct(StudentInterface $student)
+    {
         $this->student = $student;
     }
     /**
@@ -37,7 +42,7 @@ class StudentController extends Controller
     {
         $data = $request->validated();
         try {
-            if($this->student->store($schoolId, $data)) {
+            if ($this->student->store($schoolId, $data)) {
                 return ResponseHelper::success(null, trans('alert.add_success'));
             };
         } catch (\Throwable $th) {
@@ -75,5 +80,17 @@ class StudentController extends Controller
     public function destroy(Student $student)
     {
         //
+    }
+
+    /**
+     * import
+     *
+     * @param  mixed $request
+     * @return JsonResponse
+     */
+    public function import(ImportRequest $request): JsonResponse
+    {
+        Excel::import(new StudentsImport, $request->file('file'));
+        return ResponseHelper::success(null, trans('alert.add_success'));
     }
 }

@@ -60,6 +60,8 @@ use App\Contracts\Interfaces\DiscussionTagInterface;
 use App\Contracts\Interfaces\FaqInterface;
 use App\Contracts\Interfaces\IndustryClass\ClassroomInterface;
 use App\Contracts\Interfaces\IndustryClass\SchoolInterface;
+use App\Contracts\Interfaces\IndustryClass\StudentInterface;
+use App\Contracts\Interfaces\IndustryClass\StudentRepository;
 use App\Contracts\Interfaces\RewardInterface;
 use App\Contracts\Interfaces\TagInterface;
 use App\Contracts\Interfaces\UserRewardInterface;
@@ -82,8 +84,6 @@ use App\Contracts\Repositories\RewardRepository;
 use App\Contracts\Repositories\TagRepository;
 use App\Contracts\Repositories\UserRewardRepository;
 use Carbon\Carbon;
-use StudentInterface;
-use StudentRepository;
 
 class AppServiceProvider extends ServiceProvider
 {

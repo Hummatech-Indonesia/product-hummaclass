@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Contracts\Interfaces\IndustryClass;
+
 use App\Contracts\Interfaces\Eloquent\BaseInterface;
 use App\Contracts\Interfaces\Eloquent\DeleteInterface;
 use App\Contracts\Interfaces\Eloquent\GetInterface;

@@ -22,7 +22,8 @@ class SchoolResource extends JsonResource
             'head_master' => $this->head_master,
             'photo' => url('storage/' . $this->photo),
             'description' => $this->description,
-            'phone_number' => $this->phone_number
+            'phone_number' => $this->phone_number,
+            'classrooms' => ClassroomResource::collection($this->classrooms)
         ];
     }
 }
