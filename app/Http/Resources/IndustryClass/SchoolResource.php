@@ -18,7 +18,7 @@ class SchoolResource extends JsonResource
             'name' => $this->name,
             'address' => $this->address,
             'head_master' => $this->head_master,
-            'photo' => $this->photo,
+            'photo' => url('storage/' . $this->photo),
             'description' => $this->description,
             'phone_number' => $this->phone_number
         ];
