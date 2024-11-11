@@ -1,4 +1,3 @@
-
 <?php
 
 use Illuminate\Http\Request;
@@ -96,6 +95,7 @@ Route::middleware('enable.cors')->group(function () {
     /**
      * Publicly Accessible Routes
      */
+    Route::get('user-added', [usercontroller::class, 'newestCount']);
     Route::get('latest-transactions', [TransactionController::class, 'getLatest']);
     Route::get('latest-reviews', [CourseReviewController::class, 'getLatest']);
     Route::get('users', [UserController::class, 'index']);
