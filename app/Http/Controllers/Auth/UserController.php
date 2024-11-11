@@ -94,5 +94,15 @@ class UserController extends Controller
     {
         $user = $this->user->show(auth()->user()->id);
         return ResponseHelper::success(UserResource::make($user), trans('alert.fetch_success'));
+    }    
+    /**
+     * Method newestCount
+     *
+     * @return JsonResponse
+     */
+    public function newestCount(): JsonResponse
+    {
+        $users = $this->user->countUsersbyMonth();
+        return ResponseHelper::success($users, trans('alert.fetch_success'));
     }
 }

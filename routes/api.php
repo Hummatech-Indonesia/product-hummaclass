@@ -1,4 +1,3 @@
-
 <?php
 
 use Illuminate\Http\Request;
@@ -341,6 +340,7 @@ Route::middleware('enable.cors')->group(function () {
     /**
      * Publicly Accessible Routes
      */
+    Route::get('user-added', [UserController::class, 'newestCount']);
     Route::get('users', [UserController::class, 'index']);
     Route::patch('user-update', [UserController::class, 'customUpdate']);
     Route::get('users/{user}', [UserController::class, 'show']);

@@ -10,7 +10,7 @@ use App\Contracts\Interfaces\Eloquent\StoreInterface;
 use App\Contracts\Interfaces\Eloquent\UpdateInterface;
 
 interface UserInterface extends CustomPaginationInterface, ShowInterface, UpdateInterface
-{    
+{
     /**
      * Method customUpdate
      *
@@ -20,4 +20,10 @@ interface UserInterface extends CustomPaginationInterface, ShowInterface, Update
      * @return mixed
      */
     public function customUpdate(mixed $id, array $data): mixed;
+    /**
+     * Method countUsersbyMonth
+     *
+     * @return array
+     */
+    public function countUsersbyMonth(): array;
 }
