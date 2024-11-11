@@ -17,9 +17,15 @@ class ClassroomRepository extends BaseRepository implements ClassroomInterface
         $this->model = $classroom;
     }
 
-    public function customPaginate(Request $request, int $pagination = 10): LengthAwarePaginator
+    /**
+     * getWhere
+     *
+     * @param  mixed $data
+     * @return mixed
+     */
+    public function getWhere(array $data): mixed
     {
-        return $this->model->query()->fastPaginate($pagination);
+        return $this->model->query()->where('school_id' . $data['school_id'])->get();
     }
 
     /**

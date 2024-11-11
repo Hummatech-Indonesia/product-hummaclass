@@ -58,6 +58,7 @@ use App\Contracts\Interfaces\DiscussionAnswerInterface;
 use App\Contracts\Interfaces\DiscussionInterface;
 use App\Contracts\Interfaces\DiscussionTagInterface;
 use App\Contracts\Interfaces\FaqInterface;
+use App\Contracts\Interfaces\IndustryClass\ClassroomInterface;
 use App\Contracts\Interfaces\IndustryClass\SchoolInterface;
 use App\Contracts\Interfaces\RewardInterface;
 use App\Contracts\Interfaces\TagInterface;
@@ -75,6 +76,7 @@ use App\Contracts\Repositories\DiscussionRepository;
 use App\Contracts\Repositories\DiscussionTagRepository;
 use App\Contracts\Repositories\EventAttendanceRepository;
 use App\Contracts\Repositories\FaqRepository;
+use App\Contracts\Repositories\IndustryClass\ClassroomRepository;
 use App\Contracts\Repositories\IndustryClass\SchoolRepository;
 use App\Contracts\Repositories\RewardRepository;
 use App\Contracts\Repositories\TagRepository;
@@ -121,7 +123,8 @@ class AppServiceProvider extends ServiceProvider
         UserRewardInterface::class => UserRewardRepository::class,
         EventAttendanceInterface::class => EventAttendanceRepository::class,
         UserEventAttendanceInterface::class => UserEventAttendanceRepository::class,
-        SchoolInterface::class => SchoolRepository::class
+        SchoolInterface::class => SchoolRepository::class,
+        ClassroomInterface::class => ClassroomRepository::class,
     ];
 
     /**

@@ -19,6 +19,18 @@ class SchoolRepository extends BaseRepository implements SchoolInterface
     {
         return $this->model->query()->fastPaginate($pagination);
     }
+
+    /**
+     * showWithSlug
+     *
+     * @param  mixed $slug
+     * @return mixed
+     */
+    public function showWithSlug(string $slug): mixed
+    {
+        return $this->model->query()->where('slug', $slug)->firstOrFail();
+    }
+
     /**
      * Method get
      *
