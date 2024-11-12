@@ -17,6 +17,7 @@ use App\Http\Controllers\Course\CourseVoucherController;
 use App\Http\Controllers\Course\CourseVoucherUserController;
 use App\Http\Controllers\Course\ModuleController;
 use App\Http\Controllers\Course\ModuleQuestionController;
+use App\Http\Controllers\Course\ModuleTaskController;
 use App\Http\Controllers\Course\QuizController;
 use App\Http\Controllers\Course\SubCategoryController;
 use App\Http\Controllers\Course\SubmissionTaskController;
@@ -96,11 +97,15 @@ Route::middleware('enable.cors')->group(function () {
 
     //FAQ
     Route::get('faqs/{faq}', [FaqController::class, 'show']);
+    Route::get('faq-user', [FaqController::class, 'indexUser']);
     Route::get('faqs', [FaqController::class, 'index']);
 
     //Reward
     Route::get('rewards', [RewardController::class, 'index']);
     Route::get('rewards/{slug}', [RewardController::class, 'show']);
+
+    //Module Task
+    Route::get('module-tasks/course/{courseSlug}', [ModuleTaskController::class, 'getByCourse']);
 
 
     /**
