@@ -95,7 +95,6 @@ Route::middleware('enable.cors')->group(function () {
     Route::get('categories', [CategoryController::class, 'index']);
 
 
-
     /**
      * Publicly Accessible Routes
      */

@@ -4,10 +4,14 @@ namespace App\Imports;
 
 use App\Helpers\Excel\ImportStudentHelper;
 use App\Models\User;
+use App\Traits\Excel\ValidationStudentTrait;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Maatwebsite\Excel\Concerns\WithValidation;
 
-class StudentsImport implements ToModel
+class StudentsImport implements ToModel, WithHeadingRow, WithValidation
 {
+    use ValidationStudentTrait;
     /**
      * @param array $row
      *
@@ -25,7 +29,7 @@ class StudentsImport implements ToModel
             'name' => $row['nama'],
             'email' => $row['email'],
             'phone_number' => $row['no_hp'],
-            'address' => $row['address'],
+            'address' => $row['alamat'],
             'gender' => $gender
         ]);
     }

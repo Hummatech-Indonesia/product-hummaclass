@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Base\Interfaces\HasCourseReviews;
 use App\Base\Interfaces\HasEventUsers;
+use App\Base\Interfaces\HasOneStudent;
 use Laravel\Sanctum\HasApiTokens;
 use App\Base\Interfaces\HasUserCourses;
 use Spatie\Permission\Traits\HasRoles;
@@ -16,9 +17,10 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable implements HasUserCourses, HasSocialAccount, MustVerifyEmail, HasUserCourseTests, HasCourseReviews
+class User extends Authenticatable implements HasUserCourses, HasSocialAccount, MustVerifyEmail, HasUserCourseTests, HasCourseReviews, HasOneStudent
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
@@ -116,5 +118,15 @@ class User extends Authenticatable implements HasUserCourses, HasSocialAccount, 
     public function userEvents(): HasMany
     {
         return $this->hasMany(UserEvent::class);
+    }
+
+    /**
+     * student
+     *
+     * @return HasOne
+     */
+    public function student(): HasOne
+    {
+        return $this->hasOne(Student::class);
     }
 }

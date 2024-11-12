@@ -16,14 +16,12 @@ class ImportStudentHelper
      */
     public static function import(array $data): mixed
     {
-        dd($data);
         $student = User::query()
             ->create($data);
 
-        $student->students()->create($data);
+        $student->student()->create($data);
 
         $student->assignRole(RoleEnum::STUDENT->value);
-
 
         return $student;
     }
