@@ -308,5 +308,9 @@ Route::middleware('enable.cors')->group(function () {
             Route::post('{type}/certificates/{slug}', [CertificateController::class, 'store']);
             Route::get('{type}/certificates/{slug}', [CertificateController::class, 'show']);
         });
+        Route::get('/user', function (Request $request) {
+            return \App\Models\User::with('roles')->find($request->user()->id);
+        });
     });
 });
+require_once('api/tripay.php');
