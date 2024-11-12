@@ -482,3 +482,4 @@ Route::middleware('enable.cors')->group(function () {
 });
 
 require_once('api/tripay.php');
+require_once('kelas_industri.php');
