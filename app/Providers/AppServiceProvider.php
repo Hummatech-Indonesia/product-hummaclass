@@ -61,6 +61,7 @@ use App\Contracts\Interfaces\FaqInterface;
 use App\Contracts\Interfaces\IndustryClass\ClassroomInterface;
 use App\Contracts\Interfaces\IndustryClass\SchoolInterface;
 use App\Contracts\Interfaces\IndustryClass\StudentInterface;
+use App\Contracts\Interfaces\IndustryClass\TeacherInterface;
 use App\Contracts\Interfaces\RewardInterface;
 use App\Contracts\Interfaces\TagInterface;
 use App\Contracts\Interfaces\UserRewardInterface;
@@ -80,6 +81,7 @@ use App\Contracts\Repositories\FaqRepository;
 use App\Contracts\Repositories\IndustryClass\ClassroomRepository;
 use App\Contracts\Repositories\IndustryClass\SchoolRepository;
 use App\Contracts\Repositories\IndustryClass\StudentRepository;
+use App\Contracts\Repositories\IndustryClass\TeacherRepository;
 use App\Contracts\Repositories\RewardRepository;
 use App\Contracts\Repositories\TagRepository;
 use App\Contracts\Repositories\UserRewardRepository;
@@ -128,6 +130,7 @@ class AppServiceProvider extends ServiceProvider
         SchoolInterface::class => SchoolRepository::class,
         ClassroomInterface::class => ClassroomRepository::class,
         StudentInterface::class => StudentRepository::class,
+        TeacherInterface::class=>TeacherRepository::class
     ];
 
     /**
