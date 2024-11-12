@@ -32,10 +32,10 @@ class UserCourseResource extends JsonResource
                     $query->where('id', $this->sub_module_id);
                 }
             ])
-            ->first()
-            ->subModules
-            ->pluck('step')
             ->first();
+
+        // Check if current_step was found and get the step number
+        $current_step = $current_step?->subModules->first()?->step ?? 0;
 
         // Kalkulasi persentase pengerjaan
         $percentage = $total_steps > 0 ? ($current_step / $total_steps) * 100 : 0;
@@ -55,5 +55,4 @@ class UserCourseResource extends JsonResource
             'sub_module_slug' => $this->subModule->slug,
         ];
     }
-
 }

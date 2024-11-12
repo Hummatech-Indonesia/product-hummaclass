@@ -11,6 +11,7 @@ use App\Http\Resources\UserCourseResource;
 use App\Models\Course;
 use App\Models\Module;
 use App\Models\SubModule;
+use App\Models\User;
 use App\Models\UserCourse;
 use App\Services\UserCourseService;
 use App\Traits\PaginationTrait;
@@ -46,6 +47,14 @@ class UserCourseController extends Controller
         return ResponseHelper::success($data, trans('alert.fetch_success'));
     }
 
+    public function getByUser(Request $request, User $user): JsonResponse
+    {
+        $request->merge(['user_id' => $user->id]);
+        $userCourses = $this->userCourse->customPaginate($request);
+        $data['paginate'] = $this->customPaginate($userCourses->currentPage(), $userCourses->lastPage());
+        $data['data'] = UserCourseResource::collection($userCourses);
+        return ResponseHelper::success($data, trans('alert.fetch_success'));
+    }
 
     /**
      * updateLastStepUser

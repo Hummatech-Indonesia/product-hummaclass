@@ -251,6 +251,7 @@ Route::middleware('enable.cors')->group(function () {
 
             //UserCourse
             Route::get('user-courses', [UserCourseController::class, 'index']);
+            ROute::get('get-courses-by-user/{user}', [UserCourseController::class, 'getByUser']);
 
             //FAQ & Tag
             Route::resources([
