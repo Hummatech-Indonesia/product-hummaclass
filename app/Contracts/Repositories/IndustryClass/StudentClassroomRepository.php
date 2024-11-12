@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Contracts\Repositories\IndustryClass;
+
 use Illuminate\Http\Request;
 use App\Models\StudentClassroom;
 use App\Contracts\Repositories\BaseRepository;
@@ -7,7 +9,6 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class StudentClassroomRepository extends BaseRepository implements StudentClassroomInterface
 {
-    protected $model;
 
     public function __construct(StudentClassroom $model)
     {

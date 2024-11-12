@@ -6,13 +6,12 @@ use App\Contracts\Interfaces\IndustryClass\StudentInterface;
 use Illuminate\Http\Request;
 use App\Models\StudentClassroom;
 use App\Contracts\Repositories\BaseRepository;
+use App\Models\Student;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class StudentRepository extends BaseRepository implements StudentInterface
 {
-    protected $model;
-
-    public function __construct(StudentClassroom $model)
+    public function __construct(Student $model)
     {
         $this->model = $model;
     }
