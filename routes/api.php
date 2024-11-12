@@ -108,8 +108,7 @@ Route::middleware('enable.cors')->group(function () {
     Route::resource('events', EventController::class)->except(['show', 'update']);
     Route::patch('events/{slug}', [EventController::class, 'update']);
 
-    Route::resource('schools', SchoolController::class);
-    Route::post('import-student', [StudentController::class, 'import']);
+    
 
 
     Route::get('events-user', [EventController::class, 'pageUser']);
@@ -395,8 +394,6 @@ Route::middleware('enable.cors')->group(function () {
     Route::get('quizzes-get', [QuizController::class, 'get']);
 
     Route::middleware('auth:sanctum')->group(function () {
-        Route::post('classrooms/{school}', [ClassroomController::class, 'store']);
-        Route::resource('classrooms', ClassroomController::class)->only(['update', 'destroy']);
 
         Route::get('module-questions/detail/admin/{module}', [ModuleQuestionController::class, 'showAdmin']);
 
