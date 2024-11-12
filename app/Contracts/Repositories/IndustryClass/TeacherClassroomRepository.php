@@ -2,23 +2,34 @@
 
 namespace App\Contracts\Repositories\IndustryClass;
 
-use App\Contracts\Interfaces\IndustryClass\StudentClassroomInterface;
-use Illuminate\Http\Request;
-use App\Models\StudentClassroom;
+use App\Contracts\Interfaces\IndustryClass\ClassroomInterface;
+use App\Contracts\Interfaces\IndustryClass\SchoolInterface;
+use App\Contracts\Interfaces\IndustryClass\TeacherClassroomInterface;
+use App\Contracts\Interfaces\IndustryClass\TeacherInterface;
 use App\Contracts\Repositories\BaseRepository;
+use App\Models\Classroom;
+use App\Models\School;
+use App\Models\Teacher;
+use App\Models\TeacherClassroom;
+use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class StudentClassroomRepository extends BaseRepository implements StudentClassroomInterface
+class TeacherClassroomRepository extends BaseRepository implements TeacherClassroomInterface
 {
-
-    public function __construct(StudentClassroom $model)
+    public function __construct(TeacherClassroom $teacherClassroom)
     {
-        $this->model = $model;
+        $this->model = $teacherClassroom;
     }
 
-    public function customPaginate(Request $request, int $pagination = 10): LengthAwarePaginator
+    /**
+     * getWhere
+     *
+     * @param  mixed $data
+     * @return mixed
+     */
+    public function getWhere(array $data): mixed
     {
-        return $this->model->query()->fastPaginate($pagination);
+        return $this->model->query()->where($data)->get();
     }
 
     /**

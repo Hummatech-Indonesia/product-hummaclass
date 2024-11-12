@@ -19,6 +19,7 @@ use App\Models\School;
 use App\Models\SubmissionTask;
 use App\Models\SubModule;
 use App\Models\Teacher;
+use App\Models\TeacherClassroom;
 use App\Models\User;
 use App\Models\UserCourseTest;
 use App\Models\UserQuiz;
@@ -38,6 +39,7 @@ use App\Observers\RewardObserver;
 use App\Observers\SchoolObserver;
 use App\Observers\SubmissionTaskObserver;
 use App\Observers\SubModuleObserver;
+use App\Observers\TeacherClassroomObserver;
 use App\Observers\TeacherObserver;
 use App\Observers\UserCourseTestObserver;
 use App\Observers\UserObserver;
@@ -83,6 +85,7 @@ class EventServiceProvider extends ServiceProvider
         School::observe(SchoolObserver::class);
         Classroom::observe(ClassroomObserver::class);
         Teacher::observe(TeacherObserver::class);
+        TeacherClassroom::observe(TeacherClassroomObserver::class);
     }
 
     /**
