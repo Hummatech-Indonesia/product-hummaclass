@@ -2,6 +2,7 @@
 
 namespace App\Contracts\Repositories\IndustryClass;
 
+use App\Contracts\Interfaces\IndustryClass\StudentInterface;
 use Illuminate\Http\Request;
 use App\Models\StudentClassroom;
 use App\Contracts\Repositories\BaseRepository;
