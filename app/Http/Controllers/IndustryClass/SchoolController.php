@@ -46,7 +46,8 @@ class SchoolController extends Controller
         return ResponseHelper::success(null, trans('alert.add_success'));
     }
 
-    public function show($slug) {
+    public function show(string $slug)
+    {
         $school = $this->school->showWithSlug($slug);
         return ResponseHelper::success(SchoolResource::make($school), trans('alert.fetch_success'));
     }

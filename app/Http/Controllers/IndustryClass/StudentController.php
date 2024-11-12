@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers\IndustryClass;
 
+use App\Contracts\Interfaces\IndustryClass\SchoolInterface;
 use App\Contracts\Interfaces\IndustryClass\StudentInterface;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ImportRequest;
+use App\Http\Requests\StudentRequest;
+use App\Http\Resources\StudentResource;
 use App\Imports\StudentsImport;
+use App\Models\School;
 use App\Models\Student;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -15,16 +19,20 @@ use Maatwebsite\Excel\Facades\Excel;
 class StudentController extends Controller
 {
     private StudentInterface $student;
-    public function __construct(StudentInterface $student)
+    private SchoolInterface $school;
+    public function __construct(StudentInterface $student, SchoolInterface $school)
     {
         $this->student = $student;
+        $this->school = $school;
     }
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(string $slug)
     {
-        //
+        $school = $this->school->showWithSlug($slug);
+        $students = $this->student->getWhere(['school_id' => $school->id]);
+        return ResponseHelper::success(StudentResource::collection($students), trans('alert.fetch_success'));
     }
 
     /**
@@ -38,16 +46,12 @@ class StudentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, $schoolId)
+    public function store(StudentRequest $request, School $school): JsonResponse
     {
         $data = $request->validated();
-        try {
-            if ($this->student->store($schoolId, $data)) {
-                return ResponseHelper::success(null, trans('alert.add_success'));
-            };
-        } catch (\Throwable $th) {
-            return ResponseHelper::error(null, trans('alert.add_failed'));
-        }
+        $data['school_id'] = $school->id;
+        $this->student->store($data);
+        return ResponseHelper::success(null, trans('alert.add_success'));
     }
 
     /**
@@ -55,7 +59,7 @@ class StudentController extends Controller
      */
     public function show(Student $student)
     {
-        //
+        return ResponseHelper::success(StudentResource::make($student), trans('alert.fetch_success'));
     }
 
     /**
@@ -69,9 +73,10 @@ class StudentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Student $student)
+    public function update(StudentRequest $request, Student $student)
     {
-        //
+        $this->student->update($student->id, $request->validated());
+        return ResponseHelper::success(null, trans('alert.update_success'));
     }
 
     /**
@@ -79,7 +84,12 @@ class StudentController extends Controller
      */
     public function destroy(Student $student)
     {
-        //
+        try {
+            $this->student->delete($student->id);
+        } catch (\Throwable $e) {
+            return ResponseHelper::error(null, trans('alert.delete_constrained'));
+        }
+        return ResponseHelper::success(null, trans('alert.delete_success'));
     }
 
     /**
