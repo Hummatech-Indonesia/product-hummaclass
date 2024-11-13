@@ -23,7 +23,7 @@ class CustomCourseResource extends JsonResource
             'is_premium' => $this->is_premium,
             'price' => $this->price,
             'slug' => $this->slug,
-            'photo' => $this->photo,
+            'photo' => url('storage/' . $this->photo),
             'user' => $this->user,
             'is_ready' => $this->is_ready,
             'ratings' => $ratings = collect([1 => 0, 2 => 0, 3 => 0, 4 => 0, 5 => 0])
