@@ -59,6 +59,8 @@ Route::middleware('enable.cors')->group(function () {
         return response()->json(['message' => 'Email verified successfully']);
     })->middleware('signed')->name('verification.verify');
 
+    Route::post('upload-image', [SubModuleController::class, 'uploadImage']);
+
     /**
      * Authentication
      */
@@ -208,8 +210,6 @@ Route::middleware('enable.cors')->group(function () {
             Route::get('latest-transactions', [TransactionController::class, 'getLatest']);
             Route::get('transaction/statistic', [TransactionController::class, 'groupByMonth']);
 
-            //Sub Module
-            Route::post('upload-image', [SubModuleController::class, 'uploadImage']);
 
             Route::get('sub-modules/{sub_module}/edit', [SubModuleController::class, 'edit']);
             Route::post('sub-modules-update/{sub_module}', [SubModuleController::class, 'update']);
