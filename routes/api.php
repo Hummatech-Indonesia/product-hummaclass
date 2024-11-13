@@ -231,6 +231,7 @@ Route::middleware('enable.cors')->group(function () {
 
             //Modules
             Route::resource('modules', ModuleController::class)->only(['update', 'destroy']);
+            Route::post('modules/{slug}', [ModuleController::class, 'store']);
 
             //Sub Category
             Route::resource('sub-categories', SubCategoryController::class)->only(['update', 'destroy']);
