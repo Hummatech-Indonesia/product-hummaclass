@@ -22,7 +22,8 @@ trait ValidationStudentTrait
             'email' => ['required', 'email', 'max:255', Rule::unique('users', 'email')],
             'alamat' => 'required',
             'no_hp' => 'required',
-            'jenis_kelamin' => 'required'
+            'jenis_kelamin' => 'required',
+            'kelas' => 'nullable'
         ];
     }
 

@@ -42,7 +42,8 @@ class User extends Authenticatable implements HasUserCourses, HasSocialAccount, 
         'gender',
         'phone_number',
         'address',
-        'photo'
+        'photo',
+        'email_verified_at'
     ];
 
     /**

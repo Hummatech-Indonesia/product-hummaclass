@@ -3,6 +3,8 @@
 namespace App\Helpers\Excel;
 
 use App\Enums\RoleEnum;
+use App\Models\Student;
+use App\Models\StudentClassroom;
 use App\Models\User;
 
 class ImportStudentHelper
@@ -16,6 +18,7 @@ class ImportStudentHelper
      */
     public static function import(array $data): mixed
     {
+        $data['email_verified_at'] = now();
         $student = User::query()
             ->create($data);
 
@@ -23,6 +26,8 @@ class ImportStudentHelper
 
         $student->assignRole(RoleEnum::STUDENT->value);
 
-        return $student;
+        $datas['data'] = $data;
+        $datas['student'] = $student;
+        return $datas;
     }
 }

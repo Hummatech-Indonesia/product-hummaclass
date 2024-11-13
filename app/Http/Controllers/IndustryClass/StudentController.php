@@ -98,9 +98,10 @@ class StudentController extends Controller
      * @param  mixed $request
      * @return JsonResponse
      */
-    public function import(ImportRequest $request): JsonResponse
+    public function import(ImportRequest $request, string $slug): JsonResponse
     {
-        Excel::import(new StudentsImport, $request->file('file'));
+        $school = $this->school->showWithSlug($slug);
+        Excel::import(new StudentsImport($school->id), $request->file('file'));
         return ResponseHelper::success(null, trans('alert.add_success'));
     }
 }
