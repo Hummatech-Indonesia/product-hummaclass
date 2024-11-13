@@ -181,6 +181,9 @@ Route::middleware('enable.cors')->group(function () {
 
         Route::get('submission-tasks/detail/{submissionTask}', [SubmissionTaskController::class, 'show']);
 
+        Route::post('user-courses-check', [UserCourseController::class, 'checkPayment']);
+
+
         Route::middleware(['is_admin'])->group(function () {
 
             //Module Question
@@ -308,7 +311,6 @@ Route::middleware('enable.cors')->group(function () {
 
             // UserCourse
             Route::put('user-courses/{slug}/{sub_module}', [UserCourseController::class, 'userLastStep']);
-            Route::post('user-courses-check', [UserCourseController::class, 'checkPayment']);
 
             //User Event Attendance
             Route::get('user-event-attendances/{user_event}', [UserEventAttendanceController::class, 'index']);
