@@ -184,6 +184,13 @@ Route::middleware('enable.cors')->group(function () {
         Route::post('user-courses-check', [UserCourseController::class, 'checkPayment']);
 
 
+        //User Event
+        Route::get('user-events', [UserEventController::class, 'index']);
+        Route::get('user-events/{slug}', [UserEventController::class, 'show']);
+
+        //UserCourse
+        Route::get('user-courses', [UserCourseController::class, 'index']);
+
         Route::middleware(['is_admin'])->group(function () {
 
             //Module Question
@@ -229,9 +236,6 @@ Route::middleware('enable.cors')->group(function () {
             //Event
             Route::resource('events', EventController::class)->except('show');
 
-            //User Event
-            Route::get('user-events', [UserEventController::class, 'index']);
-            Route::get('user-events/{slug}', [UserEventController::class, 'show']);
 
             //Modules
             Route::resource('modules', ModuleController::class)->only(['update', 'destroy']);
@@ -256,8 +260,7 @@ Route::middleware('enable.cors')->group(function () {
             Route::delete('course-vouchers/{courseVoucher}', [CourseVoucherController::class, 'destroy']);
 
 
-            //UserCourse
-            Route::get('user-courses', [UserCourseController::class, 'index']);
+
             ROute::get('get-courses-by-user/{user}', [UserCourseController::class, 'getByUser']);
 
             //FAQ & Tag
