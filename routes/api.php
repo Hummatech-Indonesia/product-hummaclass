@@ -37,6 +37,7 @@ use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserEventAttendanceController;
 use App\Http\Controllers\UserEventController;
 use App\Http\Controllers\UserRewardController;
+use App\Http\Resources\UserResource;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -317,6 +318,10 @@ Route::middleware('enable.cors')->group(function () {
         });
         Route::get('/user', function (Request $request) {
             return \App\Models\User::with('roles')->find($request->user()->id);
+        });
+        Route::get('/profile', function (Request $request) {
+            $user = \App\Models\User::with('roles')->find($request->user()->id);
+            return UserResource::make($user);
         });
     });
 });
