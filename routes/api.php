@@ -236,6 +236,8 @@ Route::middleware('enable.cors')->group(function () {
 
             //Sub Category
             Route::resource('sub-categories', SubCategoryController::class)->only(['update', 'destroy']);
+            Route::patch('modules-forward/{module}', [ModuleController::class, 'forward']);
+            Route::patch('modules-backward/{module}', [ModuleController::class, 'backward']);
             Route::post('sub-categories/{category}', [SubCategoryController::class, 'store']);
 
             //Course
