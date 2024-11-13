@@ -18,7 +18,8 @@ class CheckLastStepMiddleware
     public function handle(Request $request, Closure $next): Response
     {
 
-        if(auth()->user()->hasRole('admin')) {
+        dd(auth()->user());
+        if (auth()->user()->hasRole('admin')) {
             return $next($request);
         }
         $slug_sub_module = $request->route('slug');
