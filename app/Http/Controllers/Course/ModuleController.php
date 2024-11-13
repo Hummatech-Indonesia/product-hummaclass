@@ -54,9 +54,9 @@ class ModuleController extends Controller
      *
      * @return JsonResponse
      */
-    public function store(string $slug, ModuleRequest $request, Request $requestDefault): JsonResponse
+    public function store(string $slug, ModuleRequest $request): JsonResponse
     {
-        $course = $this->course->showWithSlug($requestDefault ,$slug);
+        $course = $this->course->showWithSlugWithoutRequest($slug);
         $data = $request->validated();
         $data['course_id'] = $course->id;
 

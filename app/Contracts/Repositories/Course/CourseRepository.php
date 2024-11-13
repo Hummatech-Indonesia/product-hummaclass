@@ -169,6 +169,17 @@ class CourseRepository extends BaseRepository implements CourseInterface
                 $query->with('transactions');
             })->firstOrFail();
     }
+    
+    /**
+     * showWithSlugWithoutRequest
+     *
+     * @param  mixed $slug
+     * @return mixed
+     */
+    public function showWithSlugWithoutRequest(string $slug): mixed
+    {
+        return $this->model->query()->where(['slug' => $slug])->firstOrFail();
+    }
     /**
      * Method update
      *
