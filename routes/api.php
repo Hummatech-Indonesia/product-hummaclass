@@ -1,46 +1,48 @@
 <?php
 
 
+use Illuminate\Http\Request;
+use App\Http\Resources\UserResource;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\FaqController;
+use App\Http\Controllers\TagController;
+use App\Http\Controllers\BlogController;
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\RewardController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\Auth\UserController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\UserEventController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\DiscussionController;
+use App\Http\Controllers\UserRewardController;
+use App\Http\Controllers\CertificateController;
+use App\Http\Controllers\Course\QuizController;
 use App\Http\Controllers\Auth\ProfileController;
 use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\Auth\SocialiteController;
-use App\Http\Controllers\Auth\UserController;
-use App\Http\Controllers\BlogController;
-use App\Http\Controllers\CertificateController;
-use App\Http\Controllers\ContactController;
-use App\Http\Controllers\Course\CategoryController;
 use App\Http\Controllers\Course\CourseController;
-use App\Http\Controllers\Course\CourseReviewController;
-use App\Http\Controllers\Course\CourseTestController;
-use App\Http\Controllers\Course\CourseVoucherController;
-use App\Http\Controllers\Course\CourseVoucherUserController;
 use App\Http\Controllers\Course\ModuleController;
-use App\Http\Controllers\Course\ModuleQuestionController;
-use App\Http\Controllers\Course\ModuleTaskController;
-use App\Http\Controllers\Course\QuizController;
-use App\Http\Controllers\Course\SubCategoryController;
-use App\Http\Controllers\Course\SubmissionTaskController;
-use App\Http\Controllers\Course\SubModuleController;
-use App\Http\Controllers\Course\UserCourseController;
-use App\Http\Controllers\Course\UserCourseTestController;
+use App\Http\Controllers\Auth\SocialiteController;
+use App\Http\Controllers\UpdatePasswordController;
+use App\Http\Controllers\Course\CategoryController;
 use App\Http\Controllers\Course\UserQuizController;
-use App\Http\Controllers\CourseTestQuestionController;
-use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Course\SubModuleController;
 use App\Http\Controllers\DiscussionAnswerController;
-use App\Http\Controllers\DiscussionController;
-use App\Http\Controllers\EventController;
-use App\Http\Controllers\FaqController;
+use App\Http\Controllers\Course\CourseTestController;
+use App\Http\Controllers\Course\ModuleTaskController;
+use App\Http\Controllers\Course\UserCourseController;
+use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\Course\SubCategoryController;
+use App\Http\Controllers\CourseTestQuestionController;
+use App\Http\Controllers\Course\CourseReviewController;
 use App\Http\Controllers\Payment\TransactionController;
-use App\Http\Controllers\RewardController;
-use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserEventAttendanceController;
-use App\Http\Controllers\UserEventController;
-use App\Http\Controllers\UserRewardController;
-use App\Http\Resources\UserResource;
+use App\Http\Controllers\Course\CourseVoucherController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Course\ModuleQuestionController;
+use App\Http\Controllers\Course\SubmissionTaskController;
+use App\Http\Controllers\Course\UserCourseTestController;
+use App\Http\Controllers\Course\CourseVoucherUserController;
 
 Route::get('test-email', [TransactionController::class, 'testEmail']);
 Route::get('submission-tasks/download/{submissionTask}', [SubmissionTaskController::class, 'download']);
@@ -315,6 +317,8 @@ Route::middleware('enable.cors')->group(function () {
             Route::post('{type}/certificates/{slug}', [CertificateController::class, 'store']);
             Route::get('{type}/certificates/{slug}', [CertificateController::class, 'show']);
         });
+
+
         Route::get('/user', function (Request $request) {
             return \App\Models\User::with('roles')->find($request->user()->id);
         });
@@ -322,6 +326,16 @@ Route::middleware('enable.cors')->group(function () {
             $user = \App\Models\User::with('roles')->find($request->user()->id);
             return UserResource::make($user);
         });
+    });
+
+    /**
+     * Password Reset
+     */
+    Route::post('/forgot-password', [ResetPasswordController::class, 'sendEmail'])->middleware('guest')->name('password.email');
+    Route::middleware('throttle:10,1')->prefix('password')->group(function () {
+        Route::get('reset/{token}', [ResetPasswordController::class, 'resetToken'])->name('password.reset');
+        Route::post('reset', [ResetPasswordController::class, 'reset']);
+        Route::patch('update', [UpdatePasswordController::class, 'update'])->middleware('auth:sanctum');
     });
 });
 require_once('api/tripay.php');
