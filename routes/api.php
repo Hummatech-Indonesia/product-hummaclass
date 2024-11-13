@@ -301,7 +301,7 @@ Route::middleware('enable.cors')->group(function () {
             Route::get('transactions-user', [TransactionController::class, 'getByUser']);
 
             //Sub Module
-            Route::get('sub-modules/detail/{slug}', [SubModuleController::class, 'show'])->middleware('check_last_step_user');
+            Route::get('sub-modules/detail/{slug}', [SubModuleController::class, 'show']);
             Route::get('sub-modules/next/{slug}', [SubModuleController::class, 'next']);
             Route::get('sub-modules/prev/{slug}', [SubModuleController::class, 'prev']);
 
