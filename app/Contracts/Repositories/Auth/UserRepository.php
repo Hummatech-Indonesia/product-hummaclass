@@ -93,9 +93,7 @@ class UserRepository extends BaseRepository implements UserInterface
 
     public function update(mixed $id, array $data): mixed
     {
-        return auth()->user()->forceFill([
-            'password' => Hash::make($data['password'])
-        ]);
+        return $this->show($id)->update($data);
     }
     /**
      * Method customUpdate

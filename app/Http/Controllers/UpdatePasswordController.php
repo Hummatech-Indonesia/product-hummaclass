@@ -20,6 +20,8 @@ class UpdatePasswordController extends Controller
     public function update(UpdatePasswordRequest $request)
     {
         $updated = $this->user->update(auth()->user()->id, ['password' => \Illuminate\Support\Facades\Hash::make($request->password)]);
+
+        // dd($updated);
         if($updated) {
             return ResponseHelper::success(null, "Password berhasil diperbarui");
         } else {
