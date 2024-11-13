@@ -193,6 +193,11 @@ Route::middleware('enable.cors')->group(function () {
         //UserCourse
         Route::get('user-courses', [UserCourseController::class, 'index']);
 
+        //Sub Module
+        Route::get('sub-modules/detail/{slug}', [SubModuleController::class, 'show'])->middleware('check_last_step_user');
+        Route::get('sub-modules/next/{slug}', [SubModuleController::class, 'next']);
+        Route::get('sub-modules/prev/{slug}', [SubModuleController::class, 'prev']);
+
         Route::middleware(['is_admin'])->group(function () {
 
             //Module Question
@@ -302,10 +307,6 @@ Route::middleware('enable.cors')->group(function () {
             //Transaction    
             Route::get('transactions-user', [TransactionController::class, 'getByUser']);
 
-            //Sub Module
-            Route::get('sub-modules/detail/{slug}', [SubModuleController::class, 'show']);
-            Route::get('sub-modules/next/{slug}', [SubModuleController::class, 'next']);
-            Route::get('sub-modules/prev/{slug}', [SubModuleController::class, 'prev']);
 
             //Event
             Route::get('event-attendance/{event_attendance}/{date}', [EventController::class, 'attendance'])->name('event-attendance.store');
