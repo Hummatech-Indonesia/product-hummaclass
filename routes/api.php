@@ -61,6 +61,8 @@ Route::middleware('enable.cors')->group(function () {
         return response()->json(['message' => 'Email verified successfully']);
     })->middleware('signed')->name('verification.verify');
 
+    Route::post('upload-image', [SubModuleController::class, 'uploadImage']);
+
     /**
      * Authentication
      */
@@ -181,6 +183,16 @@ Route::middleware('enable.cors')->group(function () {
 
         Route::get('submission-tasks/detail/{submissionTask}', [SubmissionTaskController::class, 'show']);
 
+        Route::post('user-courses-check', [UserCourseController::class, 'checkPayment']);
+
+
+        //User Event
+        Route::get('user-events', [UserEventController::class, 'index']);
+        Route::get('user-events/{slug}', [UserEventController::class, 'show']);
+
+        //UserCourse
+        Route::get('user-courses', [UserCourseController::class, 'index']);
+
         Route::middleware(['is_admin'])->group(function () {
 
             //Module Question
@@ -210,8 +222,6 @@ Route::middleware('enable.cors')->group(function () {
             Route::get('latest-transactions', [TransactionController::class, 'getLatest']);
             Route::get('transaction/statistic', [TransactionController::class, 'groupByMonth']);
 
-            //Sub Module
-            Route::post('upload-image', [SubModuleController::class, 'uploadImage']);
 
             Route::get('sub-modules/{sub_module}/edit', [SubModuleController::class, 'edit']);
             Route::post('sub-modules-update/{sub_module}', [SubModuleController::class, 'update']);
@@ -228,15 +238,15 @@ Route::middleware('enable.cors')->group(function () {
             //Event
             Route::resource('events', EventController::class)->except('show');
 
-            //User Event
-            Route::get('user-events', [UserEventController::class, 'index']);
-            Route::get('user-events/{slug}', [UserEventController::class, 'show']);
 
             //Modules
             Route::resource('modules', ModuleController::class)->only(['update', 'destroy']);
+            Route::post('modules/{slug}', [ModuleController::class, 'store']);
 
             //Sub Category
             Route::resource('sub-categories', SubCategoryController::class)->only(['update', 'destroy']);
+            Route::patch('modules-forward/{module}', [ModuleController::class, 'forward']);
+            Route::patch('modules-backward/{module}', [ModuleController::class, 'backward']);
             Route::post('sub-categories/{category}', [SubCategoryController::class, 'store']);
 
             //Course
@@ -252,8 +262,7 @@ Route::middleware('enable.cors')->group(function () {
             Route::delete('course-vouchers/{courseVoucher}', [CourseVoucherController::class, 'destroy']);
 
 
-            //UserCourse
-            Route::get('user-courses', [UserCourseController::class, 'index']);
+
             ROute::get('get-courses-by-user/{user}', [UserCourseController::class, 'getByUser']);
 
             //FAQ & Tag
@@ -294,7 +303,7 @@ Route::middleware('enable.cors')->group(function () {
             Route::get('transactions-user', [TransactionController::class, 'getByUser']);
 
             //Sub Module
-            Route::get('sub-modules/detail/{slug}', [SubModuleController::class, 'show'])->middleware('check_last_step_user');
+            Route::get('sub-modules/detail/{slug}', [SubModuleController::class, 'show']);
             Route::get('sub-modules/next/{slug}', [SubModuleController::class, 'next']);
             Route::get('sub-modules/prev/{slug}', [SubModuleController::class, 'prev']);
 
@@ -307,7 +316,6 @@ Route::middleware('enable.cors')->group(function () {
 
             // UserCourse
             Route::put('user-courses/{slug}/{sub_module}', [UserCourseController::class, 'userLastStep']);
-            Route::post('user-courses-check', [UserCourseController::class, 'checkPayment']);
 
             //User Event Attendance
             Route::get('user-event-attendances/{user_event}', [UserEventAttendanceController::class, 'index']);

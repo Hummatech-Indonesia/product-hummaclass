@@ -27,6 +27,15 @@ interface CourseInterface extends CustomPaginationInterface, StoreInterface, Upd
      * @return mixed
      */
     public function showWithSlug(Request $request, string $slug): mixed;
+
+    /**
+     * showWithSlug
+     *
+     * @param  mixed $request
+     * @param  mixed $slug
+     * @return mixed
+     */
+    public function showWithSlugWithoutRequest(string $slug): mixed;
     /**
      * Method getTop
      *
