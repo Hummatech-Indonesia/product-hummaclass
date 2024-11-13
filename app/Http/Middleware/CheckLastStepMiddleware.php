@@ -18,7 +18,6 @@ class CheckLastStepMiddleware
     public function handle(Request $request, Closure $next): Response
     {
 
-        dd(auth()->user());
         if (auth()->user()->hasRole('admin')) {
             return $next($request);
         }
