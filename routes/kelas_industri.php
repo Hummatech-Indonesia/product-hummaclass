@@ -12,6 +12,7 @@ use App\Http\Controllers\IndustryClass\TeacherController;
 Route::middleware('auth:sanctum')->group(function () {
     Route::middleware(['is_admin'])->group(function () {
 
+
         Route::post('student-classrooms', [StudentClassroomController::class, 'store']);
 
         // school

@@ -41,7 +41,7 @@ class StudentsImport implements ToModel, WithHeadingRow, WithValidation
             $gender = "female";
         }
 
-        $data = ImportStudentHelper::import([
+        ImportStudentHelper::import([
             'name' => $row['nama'],
             'email' => $row['email'],
             'phone_number' => $row['no_hp'],
@@ -50,23 +50,5 @@ class StudentsImport implements ToModel, WithHeadingRow, WithValidation
             'school_id' => $this->school_id,
             'classroom_id' => $classroom->id
         ]);
-
-        $this->studentClassroom($data);
-    }
-
-    /**
-     * studentClassroom
-     *
-     * @param  mixed $data
-     * @return void
-     */
-    public function studentClassroom($data): void
-    {
-        if ($data['data']['classroom_id'] != null) {
-            StudentClassroom::query()->create([
-                'student_id' => $data['student']->id,
-                'classroom_id' => $data['data']['classroom_id']
-            ]);
-        }
     }
 }

@@ -19,15 +19,17 @@ class ImportStudentHelper
     public static function import(array $data): mixed
     {
         $data['email_verified_at'] = now();
-        $student = User::query()
+        $user = User::query()
             ->create($data);
 
-        $student->student()->create($data);
+        $student = $user->student()->create($data);
 
-        $student->assignRole(RoleEnum::STUDENT->value);
+        $user->assignRole(RoleEnum::STUDENT->value);
 
-        $datas['data'] = $data;
-        $datas['student'] = $student;
-        return $datas;
+        if ($data['classroom_id'] != null) {
+            $student->studentClassrooms()->create($data);
+        }
+
+        return $data;
     }
 }
