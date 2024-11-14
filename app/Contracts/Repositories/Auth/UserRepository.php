@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Contracts\Repositories\BaseRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Contracts\Interfaces\Auth\UserInterface;
+use Illuminate\Database\Eloquent\Model;
 
 class UserRepository extends BaseRepository implements UserInterface
 {
@@ -101,6 +102,14 @@ class UserRepository extends BaseRepository implements UserInterface
         return auth()->user()->forceFill([
             'password' => Hash::make($data['password'])
         ]);
+    }
+    public function store(array $data): mixed
+    {
+        return $this->model->query()->create($data);
+    }
+    public function delete(mixed $id): mixed
+    {
+        return $this->model->show($id)->delete();
     }
     /**
      * Method customUpdate

@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\IndustryClass;
 
+use App\Contracts\Interfaces\Auth\UserInterface;
 use App\Contracts\Interfaces\IndustryClass\SchoolInterface;
 use App\Contracts\Interfaces\IndustryClass\StudentInterface;
+use App\Enums\RoleEnum;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ImportRequest;
 use App\Http\Requests\StudentRequest;
+use App\Http\Requests\UserStudentRequest;
 use App\Http\Resources\StudentResource;
 use App\Imports\StudentsImport;
 use App\Models\School;
@@ -20,10 +23,12 @@ class StudentController extends Controller
 {
     private StudentInterface $student;
     private SchoolInterface $school;
-    public function __construct(StudentInterface $student, SchoolInterface $school)
+    private UserInterface $user;
+    public function __construct(StudentInterface $student, SchoolInterface $school, UserInterface $user)
     {
         $this->student = $student;
         $this->school = $school;
+        $this->user = $user;
     }
     /**
      * Display a listing of the resource.
@@ -46,11 +51,18 @@ class StudentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StudentRequest $request, School $school): JsonResponse
+    public function store(UserStudentRequest $request, School $school): JsonResponse
     {
-        $data = $request->validated();
-        $data['school_id'] = $school->id;
-        $this->student->store($data);
+        $userData = $request->validated();
+        $user = $this->user->store($userData);
+        $user->assignRole(RoleEnum::STUDENT->value);
+
+        $studentData['school_id'] = $school->id;
+        $studentData['user_id'] = $user->id;
+        $student = $this->student->store($studentData);
+        if (!$student) {
+            $this->user->delete($user->id);
+        }
         return ResponseHelper::success(null, trans('alert.add_success'));
     }
 
