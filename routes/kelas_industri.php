@@ -16,8 +16,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('student-classrooms', [StudentClassroomController::class, 'store']);
 
         // school
-        Route::resource('schools', SchoolController::class)->only(['index', 'store', 'update', 'delete']);
-        Route::get('school-detail/{slug}', [SchoolController::class, 'show']);
+        Route::resource('schools', SchoolController::class)->only(['index', 'store', 'show', 'update', 'delete']);
 
         // classroom
         Route::get('classrooms/{slug}', [ClassroomController::class, 'index']);

@@ -18,6 +18,8 @@ class SchoolResource extends JsonResource
             'id' => $this->id,
             'slug' => $this->slug,
             'name' => $this->name,
+            'npsn' => $this->npsn,
+            'email' => $this->email,
             'address' => $this->address,
             'head_master' => $this->head_master,
             'photo' => url('storage/' . $this->photo),
