@@ -199,6 +199,10 @@ Route::middleware('enable.cors')->group(function () {
         Route::get('sub-modules/prev/{slug}', [SubModuleController::class, 'prev']);
 
         Route::middleware(['is_admin'])->group(function () {
+            Route::get('module-tasks/{module}', [ModuleTaskController::class, 'index']);
+            Route::post('module-tasks/{module}', [ModuleTaskController::class, 'store']);
+            Route::get('module-tasks-detail/{module_task}', [ModuleTaskController::class, 'show']);
+            Route::resource('module-tasks', moduletaskcontroller::class)->only(['update', 'destroy']);
 
             //Module Question
             Route::post('module-questions/{module}', [ModuleQuestionController::class, 'store']);
