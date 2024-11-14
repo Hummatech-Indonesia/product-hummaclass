@@ -7,7 +7,6 @@ use App\Contracts\Interfaces\BlogViewInterface;
 use App\Enums\UploadDiskEnum;
 use App\Http\Requests\BlogRequest;
 use App\Http\Requests\IndustryClass\SchoolRequest;
-use App\Http\Requests\IndustryClass\SchoolUpdateRequest;
 use App\Models\Blog;
 use App\Models\School;
 use App\Traits\UploadTrait;
@@ -40,7 +39,7 @@ class SchoolService implements ShouldHandleFileUpload
      * @param  mixed $school
      * @return array
      */
-    public function update(SchoolUpdateRequest $request, School $school): array|bool
+    public function update(SchoolRequest $request, School $school): array|bool
     {
         $data = $request->validated();
         $photo = $school->photo;

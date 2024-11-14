@@ -6,7 +6,6 @@ use App\Contracts\Interfaces\IndustryClass\SchoolInterface;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\IndustryClass\SchoolRequest;
-use App\Http\Requests\IndustryClass\SchoolUpdateRequest;
 use App\Http\Resources\DetailSchoolResource;
 use App\Http\Resources\IndustryClass\SchoolResource;
 use App\Models\School;
@@ -55,7 +54,7 @@ class SchoolController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(SchoolUpdateRequest $request, School $school)
+    public function update(SchoolRequest $request, School $school)
     {
         $this->school->update($school->id, $this->service->update($request, $school));
         return ResponseHelper::success(null, trans('alert.update_success'));
