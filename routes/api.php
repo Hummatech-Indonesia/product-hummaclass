@@ -351,4 +351,9 @@ Route::middleware('enable.cors')->group(function () {
         Route::patch('update', [UpdatePasswordController::class, 'update'])->middleware('auth:sanctum');
     });
 });
+
+Route::post('login', fn() => response()->json([
+    'message' => 'Unauthenticated',
+]))->name('login');
+
 require_once('api/tripay.php');
