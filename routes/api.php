@@ -285,6 +285,8 @@ Route::middleware('enable.cors')->group(function () {
 
         Route::middleware(['guest'])->group(function () {
 
+            Route::get('user-courses-guest', [UserCourseController::class, 'guest']);
+
             Route::post('submission-tasks/{moduleTask}', [SubmissionTaskController::class, 'store']);
 
             //Discussion

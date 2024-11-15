@@ -47,6 +47,28 @@ class UserCourseController extends Controller
         return ResponseHelper::success($data, trans('alert.fetch_success'));
     }
 
+    /**
+     * guest
+     *
+     * @param  mixed $request
+     * @return JsonResponse
+     */
+    public function guest(Request $request): JsonResponse
+    {
+        $request->merge(['user_id' => auth()->user()->id]);
+        $userCourses = $this->userCourse->customPaginate($request);
+        $data['paginate'] = $this->customPaginate($userCourses->currentPage(), $userCourses->lastPage());
+        $data['data'] = UserCourseResource::collection($userCourses);
+        return ResponseHelper::success($data, trans('alert.fetch_success'));
+    }
+
+    /**
+     * getByUser
+     *
+     * @param  mixed $request
+     * @param  mixed $user
+     * @return JsonResponse
+     */
     public function getByUser(Request $request, User $user): JsonResponse
     {
         $request->merge(['user_id' => $user->id]);
