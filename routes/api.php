@@ -352,7 +352,7 @@ Route::middleware('enable.cors')->group(function () {
     });
 });
 
-Route::post('login', fn() => response()->json([
+Route::get('login', fn() => response()->json([
     'message' => 'Unauthenticated',
 ]))->name('login');
 
