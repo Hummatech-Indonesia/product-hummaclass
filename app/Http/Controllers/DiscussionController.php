@@ -31,7 +31,7 @@ class DiscussionController extends Controller
      */
     public function index(Request $request, string $slug): JsonResponse
     {
-        $course = $this->course->showWithSlug($slug);
+        $course = $this->course->showWithSlugWithoutRequest($slug);
         // dd($course);
         $discussions = $this->discussion->getWhere($request, ['course_id' => $course->id]);
         // dd($discussions);
@@ -47,7 +47,7 @@ class DiscussionController extends Controller
      */
     public function store(DiscussionRequest $request, string $slug): JsonResponse
     {
-        $course = $this->course->showWithSlug($slug);
+        $course = $this->course->showWithSlugWithoutRequest($slug);
 
         $this->service->store($request, $course);
         return ResponseHelper::success(true, trans('alert.add_success'));

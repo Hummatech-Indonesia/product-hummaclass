@@ -85,7 +85,7 @@ class UserCourseController extends Controller
      */
     public function userLastStep(string $slug, SubModule $subModule): JsonResponse
     {
-        $course = $this->course->showWithSlug($slug);
+        $course = $this->course->showWithSlugWithoutRequest($slug);
         $userCourse = UserCourseResource::make($this->userCourse->showByCourse($course->id));
         $userCourse->course->test_id = $course->courseTest->id;
         $this->service->userLastStep($course, $subModule);

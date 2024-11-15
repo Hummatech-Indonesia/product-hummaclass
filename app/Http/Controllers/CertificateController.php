@@ -44,7 +44,7 @@ class CertificateController extends Controller
     public function show(string $type, $slug): mixed
     {
         if ($type == 'course') {
-            $course = $this->course->showWithSlug($slug);
+            $course = $this->course->showWithSlugWithoutRequest($slug);
             $userCourse = $this->userCourse->showByCourse($course->id);
             $certificate = $this->certificate->showWithCourse($userCourse->id);
             return ResponseHelper::success(CertificateResource::make($certificate), trans('alert.fetch_success'));
