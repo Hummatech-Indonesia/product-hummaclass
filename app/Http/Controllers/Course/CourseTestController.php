@@ -153,7 +153,7 @@ class CourseTestController extends Controller
      */
     public function store(CourseTestRequest $request, string $slug): JsonResponse
     {
-        $course = $this->course->showWithSlug($slug);
+        $course = $this->course->showWithSlugWithoutRequest($slug);
         $data = $request->validated();
         $data['course_id'] = $course->id;
         $courseTest = $this->courseTest->store($data);
