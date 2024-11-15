@@ -40,11 +40,13 @@ class TransactionService
     public function handleCerateUserCourse($product, $transaction): mixed
     {
         if (is_object($product) && get_class($product) == Course::class) {
-            return $this->userCourse->store([
+            $data = $this->userCourse->store([
                 'user_id' => $transaction->user_id,
                 'course_id' => $transaction->course_id,
                 'sub_module_id' => Module::where('course_id', $product->id)->whereHas('subModules')->orderBy('step', 'asc')->first()->subModules->first()->id
             ]);
+            $data->test_id = $product->courseTest->id;
+            return $data;
         } else {
             return $this->userEvent->store([
                 'user_id' => $transaction->user_id,
