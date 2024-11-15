@@ -97,7 +97,8 @@ class StudentController extends Controller
     public function destroy(Student $student)
     {
         try {
-            $this->student->delete($student->id);
+            $user = $student->user;
+            $this->user->delete($user->id);
         } catch (\Throwable $e) {
             return ResponseHelper::error(null, trans('alert.delete_constrained'));
         }
