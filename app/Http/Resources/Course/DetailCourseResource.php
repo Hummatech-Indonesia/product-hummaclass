@@ -34,7 +34,7 @@ class DetailCourseResource extends JsonResource
         });
 
         $userCource = $this->userCourses()?->where('user_id', $user?->id)->with('subModule')->first();
-        if ($userCource) {
+        if ($userCource && $user) {
             $completed = CourcePercentaceHelper::getPercentace($userCource);
         } else {
             $completed = null;
