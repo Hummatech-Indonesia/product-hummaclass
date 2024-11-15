@@ -1,6 +1,6 @@
 <?php
 
-
+use App\Helpers\ResponseHelper;
 use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Route;
@@ -63,6 +63,9 @@ Route::middleware('enable.cors')->group(function () {
 
     Route::post('upload-image', [SubModuleController::class, 'uploadImage']);
 
+    Route::get('unauthorize', function () {
+        return ResponseHelper::success(null, 'Anda Belum Login', 401);
+    })->name('login');
     /**
      * Authentication
      */
