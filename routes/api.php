@@ -65,7 +65,7 @@ Route::middleware('enable.cors')->group(function () {
 
     Route::get('unauthorize', function () {
         return ResponseHelper::success(null, 'Anda Belum Login', 401);
-    })->name('login');
+    })->name('unauthorize');
     /**
      * Authentication
      */
