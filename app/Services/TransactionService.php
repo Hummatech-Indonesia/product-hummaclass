@@ -44,7 +44,7 @@ class TransactionService
                 'user_id' => $transaction->user_id,
                 'course_id' => $transaction->course_id,
                 'sub_module_id' => Module::where('course_id', $product->id)->whereHas('subModules')->orderBy('step', 'asc')->first()->subModules->first()->id,
-                'test_id' => $product->courseTest
+                'test_id' => $product->courseTest->id
             ]);
         } else {
             return $this->userEvent->store([
