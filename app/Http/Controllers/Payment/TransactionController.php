@@ -101,10 +101,10 @@ class TransactionController extends Controller
      */
     public function store(Request $request, $productType, string $id): mixed
     {
-        if ($course = $this->course->show($id)->currentUserCourse->user->id == auth()->user()->id) {
-            return  ResponseHelper::error(null, "anda sudah membeli kursus ini");
-        } else if ($course = $this->course->show($id)->currentUserCourse->user->id == auth()->user()->id) {
-            return  ResponseHelper::error(null, "anda sudah bergabung event ini");
+        if ($course = $this->course->show($id)->currentUserCourse?->user?->id == auth()->user()->id) {
+            return ResponseHelper::error(null, "anda sudah membeli kursus ini");
+        } else if ($course = $this->course->show($id)->currentUserCourse?->user?->id == auth()->user()->id) {
+            return ResponseHelper::error(null, "anda sudah bergabung event ini");
         }
 
         $voucher = $this->courseVoucher->getByCode($request->voucher_code);
