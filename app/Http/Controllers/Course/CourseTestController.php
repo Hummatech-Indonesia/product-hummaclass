@@ -89,7 +89,7 @@ class CourseTestController extends Controller
     public function preTest(CourseTest $courseTest, Request $request): JsonResponse
     {
         $preTest = $this->service->preTest($courseTest);
-        if ($preTest == 'samean sampun ngrampungaken pre-test') {
+        if ($preTest == 'anda sudah mengerjakan pre-test') {
             return ResponseHelper::error(null, trans('alert.fetch_failed'));
         }
         $request->merge(['id' => $preTest['questions']]);

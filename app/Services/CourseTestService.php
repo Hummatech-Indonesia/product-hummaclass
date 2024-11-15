@@ -97,7 +97,6 @@ class CourseTestService implements ShouldHandleFileUpload
                 $module_question_id = implode(',', $questions->pluck('id')->toArray());
             }
 
-            dd($module_question_id, $total_question);
 
             $data = [];
             $data['module_question_id'] = $module_question_id;
