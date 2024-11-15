@@ -33,10 +33,11 @@ class DetailCourseResource extends JsonResource
             return [$rating => $totalReviews > 0 ? round(($count / $totalReviews) * 100, 2) : 0];
         });
 
+        $userCource = $this->userCourses()?->where('user_id', $user?->id)->with('subModule')->first();
         return [
             'id' => $this->id,
-            'user_course' => $this->userCourses()?->where('user_id', $user?->id)->with('subModule')->first(),
-            'completed' => CourcePercentaceHelper::getPercentace($this),
+            'user_course' => $userCource,
+            'completed' => CourcePercentaceHelper::getPercentace($userCource),
             'course_test_id' => $this->courseTest?->id,
             'sub_category' => SubCategoryResource::make($this->subCategory),
             'category' => CategoryResource::make($this->subCategory->category),
