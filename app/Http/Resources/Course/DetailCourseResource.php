@@ -36,7 +36,7 @@ class DetailCourseResource extends JsonResource
         return [
             'id' => $this->id,
             'user_course' => $this->userCourses()?->where('user_id', $user?->id)->with('subModule')->first(),
-            'completed' => CourcePercentaceHelper::getPercentace($this->id),
+            'completed' => CourcePercentaceHelper::getPercentace($this),
             'course_test_id' => $this->courseTest?->id,
             'sub_category' => SubCategoryResource::make($this->subCategory),
             'category' => CategoryResource::make($this->subCategory->category),
