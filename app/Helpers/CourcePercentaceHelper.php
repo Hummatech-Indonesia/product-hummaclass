@@ -10,7 +10,9 @@ class CourcePercentaceHelper
             'total_sub_module' => 0,
             'total_quiz' => 0,
             'total_submission_quiz' => 0,
-            'sub_module_step' => $userCource->subModule?->step == 1 ? 0 : $userCource->subModule->step,
+            'sub_module_step' => $userCource && $userCource->subModule ?
+                ($userCource->subModule->step == 1 ? 0 : $userCource->subModule->step) :
+                null,
         ];
 
         foreach ($userCource->course->modules as $module) {
