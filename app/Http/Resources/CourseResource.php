@@ -31,7 +31,7 @@ class CourseResource extends JsonResource
             'promotional_price' => $this->promotional_price,
             'photo' => url('storage/' . $this->photo),
             'modules_count' => $this->modules->count(),
-            'rating' => $this->courseReviews->avg('rating'),
+            'rating' => number_format($this->courseReviews->avg('rating'), 1) ?? 0,
             'course_reviews' => CourseReviewResource::collection($this->courseReviews),
             'course_review_count' => $this->courseReviews->count(),
             'user_courses_count' => $this->userCourses->count(),
