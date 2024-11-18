@@ -56,7 +56,7 @@ class DetailCourseResource extends JsonResource
             'promotional_price' => $this->promotional_price,
             'ratings' => $ratingsCount,
             'ratings_percentage' => $ratingsPercentage,
-            'rating' => $this->courseReviews->avg('rating') ?? 0,
+            'rating' => number_format($this->courseReviews->avg('rating'), 1) ?? 0,
             'photo' => url('storage/' . $this->photo),
             'modules' => ModuleResource::collection($this->modules),
             'modules_count' => $this->modules->count(),
