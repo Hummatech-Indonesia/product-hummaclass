@@ -40,7 +40,7 @@ class CertificateService
     {
         $data = $request->validated();
 
-        $course = $this->course->showWithSlug($slug);
+        $course = $this->course->showWithSlugWithoutRequest($slug);
 
         $userCourse = UserCourse::where([
             'user_id' => auth()->user()->id,
@@ -81,7 +81,7 @@ class CertificateService
     public function download($type, string $slug, string $user_id)
     {
         if ($type == 'course') {
-            $course = $this->course->showWithSlug($slug);
+            $course = $this->course->showWithSlugWithoutRequest($slug);
             $userCourse = UserCourse::query()
                 ->where([
                     'course_id' => $course->id,

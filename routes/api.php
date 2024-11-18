@@ -131,7 +131,6 @@ Route::middleware('enable.cors')->group(function () {
 
         Route::get('user-quizzes', [UserQuizController::class, 'getByUser']);
 
-
         Route::get('course-tests-get', [CourseTestController::class, 'get']);
         Route::get('course-pre-test/{course_test}', [CourseTestController::class, 'preTest']);
         Route::get('course-post-test/{course_test}', [CourseTestController::class, 'postTest']);
@@ -223,9 +222,6 @@ Route::middleware('enable.cors')->group(function () {
 
             Route::get('dashboard-api', [DashboardController::class, 'index']);
 
-            //User
-            Route::get('users', [UserController::class, 'index']);
-            Route::get('users/{user}', [UserController::class, 'show']);
 
             //Transaction
             Route::get('latest-transactions', [TransactionController::class, 'getLatest']);
@@ -283,7 +279,9 @@ Route::middleware('enable.cors')->group(function () {
             ]);
         });
 
-        Route::middleware(['guest'])->group(function () {
+        Route::middleware(['is_guest'])->group(function () {
+
+            Route::get('user-courses-guest', [UserCourseController::class, 'guest']);
 
             Route::post('submission-tasks/{moduleTask}', [SubmissionTaskController::class, 'store']);
 

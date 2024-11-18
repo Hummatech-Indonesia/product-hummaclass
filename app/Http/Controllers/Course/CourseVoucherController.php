@@ -52,7 +52,7 @@ class CourseVoucherController extends Controller
      */
     public function store(CourseVoucherRequest $request, string $courseSlug): JsonResponse
     {
-        $course = $this->course->showWithSlug($courseSlug);
+        $course = $this->course->showWithSlugWithoutRequest($courseSlug);
         $data = $request->validated();
         $data['course_id'] = $course->id;
         $this->courseVoucher->store($data);

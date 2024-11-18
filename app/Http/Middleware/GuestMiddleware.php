@@ -16,7 +16,7 @@ class GuestMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(auth()->user()->hasRole('guest')) {
+        if (auth()->user()->hasRole('guest')) {
             return $next($request);
         }
 
