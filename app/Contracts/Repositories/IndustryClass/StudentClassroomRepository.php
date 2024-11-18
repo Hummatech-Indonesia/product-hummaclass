@@ -26,7 +26,7 @@ class StudentClassroomRepository extends BaseRepository implements StudentClassr
     public function customPaginate(Request $request, int $pagination = 10): LengthAwarePaginator
     {
         return $this->model->query()->when($request->name, function ($query) use ($request) {
-            $query->whereRelation('user', 'name', $request->name);
+            $query->whereRelation('student.user', 'name', 'like', '%' . strtolower($request->name) . '%');
         })->when($request->classroom_id, function ($query) use ($request) {
             $query->where('classroom_id', $request->classroom_id);
         })->fastPaginate($pagination);

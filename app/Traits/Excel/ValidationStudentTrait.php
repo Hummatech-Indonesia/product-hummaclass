@@ -23,7 +23,9 @@ trait ValidationStudentTrait
             'alamat' => 'required',
             'no_hp' => 'required',
             'jenis_kelamin' => 'required',
-            'kelas' => 'nullable'
+            'kelas' => 'nullable',
+            'nisn' => 'required|max:12',
+            'tanggal_lahir' => 'required|date'
         ];
     }
 

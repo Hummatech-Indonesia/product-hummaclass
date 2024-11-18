@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use App\Base\Interfaces\HasClassroom;
+use App\Base\Interfaces\HasStudent;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class StudentClassroom extends Model
+class StudentClassroom extends Model implements HasClassroom, HasStudent
 {
     use HasFactory;
     public $incrementing = false;
@@ -17,14 +19,16 @@ class StudentClassroom extends Model
         'student_id',
         'classroom_id'
     ];
+
+
     /**
-     * Get the user that owns the StudentClassroom
+     * student
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
-    public function user(): BelongsTo
+    public function student(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Student::class);
     }
     /**
      * Get the classroom that owns the StudentClassroom

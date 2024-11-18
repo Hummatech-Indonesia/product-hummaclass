@@ -19,7 +19,9 @@ class Student extends Model implements HasUser, HasSchool, HasStudentClassrooms
     protected $table = 'students';
     protected $fillable = [
         'user_id',
-        'school_id'
+        'school_id',
+        'nisn',
+        'date_birth'
     ];
     /**
      * Get the user that owns the Student

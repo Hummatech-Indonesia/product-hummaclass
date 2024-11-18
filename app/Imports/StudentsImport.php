@@ -47,6 +47,8 @@ class StudentsImport implements ToModel, WithHeadingRow, WithValidation
             'phone_number' => $row['no_hp'],
             'address' => $row['alamat'],
             'gender' => $gender,
+            'nisn' => $row['nisn'],
+            'date_birth' => $row['tanggal_lahir'],
             'school_id' => $this->school_id,
             'classroom_id' => $classroom->id
         ]);
