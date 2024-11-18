@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Enums\TestEnum;
+use App\Models\UserCourse;
 use App\Models\UserCourseTest;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -58,16 +59,39 @@ class CourseStatisticResource extends JsonResource
                     ->map(fn($group) => $group->count())
             );
 
+        $totalUsers = usercourse::where('course_id', $this->id)->count();
+        $completedCount = UserCourse::where('course_id', $this->id)->where('has_post_test', true)->count();
+        $uncompletedCount = UserCourse::where('course_id', $this->id)->where('has_post_test', false)->count();
+        $completedPercentage = $completedCount / $totalUsers * 100;
+        $uncompletedPercentage = $uncompletedCount / $totalUsers * 100;
+
         // Calculate percentage distribution for each rating
         $ratingsPercentageDistribution = $ratingsDistribution->map(function ($count) use ($totalRatings) {
             return $totalRatings > 0 ? round(($count / $totalRatings) * 100, 2) : 0;
         });
+
+        // Completed distribution by month
+        $completedByMonth = UserCourse::where('course_id', $this->id)
+            ->where('has_post_test', true)
+            ->get()
+            ->groupBy(function ($date) {
+                return Carbon::parse($date->created_at)->format('m');
+            })
+            ->mapWithKeys(function ($items, $key) {
+                $monthName = Carbon::createFromFormat('m', $key)->locale('id')->isoFormat('MMMM');
+                $monthNameLowerCase = strtolower($monthName);
+                return [$monthNameLowerCase => $items->count()];
+            });
 
         return [
             'total_purchases' => $this->userCourses ? $this->userCourses()->count() : 0,
             'total_revenue' => optional($this->userCourses->first())->course->price ?? 0,
             'total_tasks' => $this->modules()->withCount('moduleTasks'),
             'completed' => $this->userCourses()->whereNotNull('has_post_test')->count(),
+            'completed_by_month' => $completedByMonth->all(),
+
+            'complete_percentage' => number_format($completedPercentage),
+            'uncomplete_percentage' => number_format($uncompletedPercentage),
 
             'transaction' => $groupedTransactionsWithMonthName,
 

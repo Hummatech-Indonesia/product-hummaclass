@@ -16,9 +16,20 @@ class StudentClassroomRepository extends BaseRepository implements StudentClassr
         $this->model = $model;
     }
 
+    /**
+     * customPaginate
+     *
+     * @param  mixed $request
+     * @param  mixed $pagination
+     * @return LengthAwarePaginator
+     */
     public function customPaginate(Request $request, int $pagination = 10): LengthAwarePaginator
     {
-        return $this->model->query()->fastPaginate($pagination);
+        return $this->model->query()->when($request->name, function ($query) use ($request) {
+            $query->whereRelation('user', 'name', $request->name);
+        })->when($request->classroom_id, function ($query) use ($request) {
+            $query->where('classroom_id', $request->classroom_id);
+        })->fastPaginate($pagination);
     }
 
     /**
