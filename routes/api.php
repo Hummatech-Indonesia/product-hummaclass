@@ -74,6 +74,7 @@ Route::middleware('enable.cors')->group(function () {
 
     //Blog
     Route::get('blogs', [BlogController::class, 'index']);
+    Route::get('blogs/{blog}', [BlogController::class, 'show']);
     Route::get('blog-detail/{slug}', [BlogController::class, 'showLanding']);
 
     //Category
@@ -235,7 +236,7 @@ Route::middleware('enable.cors')->group(function () {
             Route::get('sub-modules/detail/admin/{slug}', [SubModuleController::class, 'showAdmin']);
 
             //Blog
-            Route::resource('blogs', BlogController::class)->only(['store', 'update', 'destroy', 'show']);
+            Route::resource('blogs', BlogController::class)->only(['store', 'update', 'destroy']);
 
             //Category
             Route::resource('categories', CategoryController::class)->except('index');

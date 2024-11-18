@@ -28,6 +28,7 @@ class QuizResource extends JsonResource
             'retry_delay' => $this->retry_delay,
             'user_quizzes' => $this->userQuizzes->sortByDesc('created_at')->first(),
             'is_submited' => $this->is_submited,
+            'created_at' => $this->created_at
         ];
     }
 }

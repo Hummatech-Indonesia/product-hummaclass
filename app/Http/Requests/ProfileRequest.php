@@ -32,8 +32,8 @@ class ProfileRequest extends ApiRequest
                 Rule::unique('users')->ignore($userId),
             ],
             'phone_number' => 'required|string|max:20',
-            'address' => 'required|string',
-            'gender' => 'required',
+            'address' => 'nullable|string',
+            'gender' => 'nullable',
             'banner' => 'nullable|mimes:png,jpg,jpeg|image',
             'photo' => 'nullable|mimes:png,jpg,jpeg|image',
         ];
