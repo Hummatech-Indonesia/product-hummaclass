@@ -28,7 +28,7 @@ class ResetPasswordController extends Controller
 
         return $status === Password::RESET_LINK_SENT
             ? ResponseHelper::success(null, "Link reset sudah dikirim, mohon cek email anda")
-            : ResponseHelper::error(null, "Terjadi kesalahan");
+            : ResponseHelper::error($status, "Terjadi kesalahan");
     }
 
 
