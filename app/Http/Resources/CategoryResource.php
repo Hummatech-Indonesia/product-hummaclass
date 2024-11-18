@@ -16,7 +16,7 @@ class CategoryResource extends JsonResource
     {
         $course_item_count = 0;
         foreach ($this->subCategories as $subCategories) {
-            $course_item_count += $subCategories->courses->count();
+            $course_item_count += $subCategories->courses->where('is_ready', true)->count();
         }
         return [
             'id' => $this->id,
