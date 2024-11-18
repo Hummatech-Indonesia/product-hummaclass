@@ -70,7 +70,8 @@ Route::middleware('enable.cors')->group(function () {
     Route::post('register', [RegisterController::class, 'register']);
 
     //contact
-    Route::get('contact', [ContactController::class, 'index']);
+    Route::get('contact', [ContactController::class, 'show']);
+    Route::patch('contact', [ContactController::class, 'update']);
 
     //Blog
     Route::get('blogs', [BlogController::class, 'index']);

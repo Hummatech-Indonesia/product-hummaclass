@@ -8,4 +8,20 @@ use App\Contracts\Interfaces\Eloquent\ShowInterface;
 use App\Contracts\Interfaces\Eloquent\StoreInterface;
 use App\Contracts\Interfaces\Eloquent\UpdateInterface;
 
-interface ContactInterface extends StoreInterface, GetInterface, ShowInterface {}
+interface ContactInterface
+{
+    /**
+     * Method show
+     *
+     * @return mixed
+     */
+    public function show(): mixed;
+    /**
+     * Method update
+     *
+     * @param array $data [explicite description]
+     *
+     * @return mixed
+     */
+    public function update(array $data): mixed;
+}
