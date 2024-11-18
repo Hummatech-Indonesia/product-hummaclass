@@ -31,7 +31,7 @@ class SubModuleService
     {
         $subModuleNext = $this->subModule->nextSubModule($subModule->step, $subModule->module_id);
         $firstModuleNext = $this->module->moduleNextStep($subModule->module->step);
-        $quiz = $this->quiz->show($subModuleNext->module->id);
+        $quiz = $this->quiz->show($subModule->module->id);
         dd($quiz);
         $subModuleInNextModule = $this->subModule->nextSubModule(1, $firstModuleNext);
         if ($subModuleNext) {
