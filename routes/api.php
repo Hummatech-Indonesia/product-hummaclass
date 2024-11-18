@@ -104,8 +104,8 @@ Route::middleware('enable.cors')->group(function () {
 
     //FAQ
     Route::get('faqs/{faq}', [FaqController::class, 'show']);
-    Route::get('faq-user', [FaqController::class, 'indexUser']);
     Route::get('faqs', [FaqController::class, 'index']);
+    Route::get('faq-user', [FaqController::class, 'indexUser']);
 
     //Reward
     Route::get('rewards', [RewardController::class, 'index']);
@@ -200,6 +200,7 @@ Route::middleware('enable.cors')->group(function () {
         Route::get('sub-modules/prev/{slug}', [SubModuleController::class, 'prev']);
 
         Route::middleware(['is_admin'])->group(function () {
+            Route::resource('faqs', FaqController::class)->only(['store', 'update', 'destroy']);
             Route::get('module-tasks/{module}', [ModuleTaskController::class, 'index']);
             Route::post('module-tasks/{module}', [ModuleTaskController::class, 'store']);
             Route::get('module-tasks-detail/{module_task}', [ModuleTaskController::class, 'show']);
@@ -274,7 +275,6 @@ Route::middleware('enable.cors')->group(function () {
 
             //FAQ & Tag
             Route::resources([
-                'faqs' => FaqController::class,
                 'tags' => TagController::class
             ], [
                 'except' => ['edit', 'create']
