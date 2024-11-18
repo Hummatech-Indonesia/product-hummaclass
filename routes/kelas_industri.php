@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\IndustryClass\SchoolController;
 use App\Http\Controllers\IndustryClass\StudentController;
 use App\Http\Controllers\IndustryClass\ClassroomController;
-use App\Http\Controllers\StudentClassroomController;
+use App\Http\Controllers\IndustryClass\StudentClassroomController;
 use App\Http\Controllers\IndustryClass\TeacherController;
 
 
@@ -12,12 +12,8 @@ use App\Http\Controllers\IndustryClass\TeacherController;
 Route::middleware('auth:sanctum')->group(function () {
     Route::middleware(['is_admin'])->group(function () {
 
-
-        Route::post('student-classrooms', [StudentClassroomController::class, 'store']);
-
         // school
-        Route::resource('schools', SchoolController::class)->only(['index', 'store', 'update', 'delete']);
-        Route::get('school-detail/{slug}', [SchoolController::class, 'show']);
+        Route::resource('schools', SchoolController::class)->only(['index', 'store', 'update', 'delete', 'show']);
 
         // classroom
         Route::get('classrooms/{slug}', [ClassroomController::class, 'index']);
@@ -32,6 +28,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::resource('students', StudentController::class)->only(['update', 'destroy']);
         Route::post('import-student/{slug}', [StudentController::class, 'import']);
 
+        // student classroom
+        Route::get('student-classrooms/{classroom}', [StudentClassroomController::class, 'byClassroom']);
 
         // teacher
         Route::get('teachers/{slug}', [TeacherController::class, 'index']);

@@ -23,6 +23,7 @@ class SchoolResource extends JsonResource
             'photo' => url('storage/' . $this->photo),
             'description' => $this->description,
             'phone_number' => $this->phone_number,
+            'npsn' => $this->npsn,
             'classrooms' => ClassroomResource::collection($this->classrooms)
         ];
     }
