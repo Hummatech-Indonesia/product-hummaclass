@@ -17,7 +17,7 @@ class SubCategoryResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'course_count' => $this->courses->count(),
+            'course_count' => $this->courses->where('is_ready', true)->count(),
         ];
     }
 }
