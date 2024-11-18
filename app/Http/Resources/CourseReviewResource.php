@@ -19,7 +19,7 @@ class CourseReviewResource extends JsonResource
 
         return [
             'user' => $this->user,
-            'user_photo' => asset('storage/' . $this->user->photo),
+            'user_photo' => url('storage/' . $this->user->photo),
             'course' => $this->course,
             'rating' => $this->rating,
             'review' => $this->review,
