@@ -23,11 +23,14 @@ class DetailCourseResource extends JsonResource
         $user = \Laravel\Sanctum\PersonalAccessToken::findToken(substr($request->header('authorization'), 7, 100))?->tokenable()->first();
 
         $totalReviews = $this->courseReviews->count();
-        $ratingsCount = collect([1 => 0, 2 => 0, 3 => 0, 4 => 0, 5 => 0])
-            ->merge(
-                $this->courseReviews->groupBy('rating')
-                    ->map(fn($group) => $group->count())
-            );
+
+        $ratingsCount = collect([
+            5 => $this->courseReviews->where('rating', 5)->count(),
+            4 => $this->courseReviews->where('rating', 4)->count(),
+            3 => $this->courseReviews->where('rating', 3)->count(),
+            2 => $this->courseReviews->where('rating', 2)->count(),
+            1 => $this->courseReviews->where('rating', 1)->count(),
+        ]);
 
         $ratingsPercentage = $ratingsCount->mapWithKeys(function ($count, $rating) use ($totalReviews) {
             return [$rating => $totalReviews > 0 ? round(($count / $totalReviews) * 100, 2) : 0];
