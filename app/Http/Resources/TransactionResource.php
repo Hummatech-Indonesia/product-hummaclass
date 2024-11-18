@@ -28,7 +28,7 @@ class TransactionResource extends JsonResource
             'payment_method' => $this->payment_method,  // Metode pembayaran
             'invoice_status' => $this->invoice_status,  // Status invoice
             'course_voucher' => $this->courseVoucher,  // Relasi ke voucher course (jika ada)
-            'created_at' => $this->created_at,
+            'created_at' => $this->created_at->format('j F Y')
         ];
     }
 }
