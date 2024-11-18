@@ -15,12 +15,14 @@ use App\Http\Resources\StudentResource;
 use App\Imports\StudentsImport;
 use App\Models\School;
 use App\Models\Student;
+use App\Traits\PaginationTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
 class StudentController extends Controller
 {
+    use PaginationTrait;
     private StudentInterface $student;
     private SchoolInterface $school;
     private UserInterface $user;
@@ -33,11 +35,15 @@ class StudentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(string $slug)
+    public function index(Request $request, string $slug)
     {
         $school = $this->school->showWithSlug($slug);
-        $students = $this->student->getWhere(['school_id' => $school->id]);
-        return ResponseHelper::success(StudentResource::collection($students), trans('alert.fetch_success'));
+        $request->merge(['school_id' => $school->id]);
+        $students = $this->student->customPaginate($request);
+
+        $data['paginate'] = $this->customPaginate($students->currentPage(), $students->lastPage());
+        $data['data'] = StudentResource::collection($students);
+        return ResponseHelper::success($data, trans('alert.fetch_success'));
     }
 
     /**
