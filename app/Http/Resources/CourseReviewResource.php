@@ -19,11 +19,11 @@ class CourseReviewResource extends JsonResource
 
         return [
             'user' => $this->user,
+            'user_photo' => url('storage/' . $this->user->photo),
             'course' => $this->course,
             'rating' => $this->rating,
             'review' => $this->review,
             'created' => $createdAt->diffForHumans(), // Menampilkan tanggal dalam format "X hari yang lalu"
         ];
-
     }
 }
