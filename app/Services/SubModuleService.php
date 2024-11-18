@@ -38,6 +38,8 @@ class SubModuleService
             return SubModuleResource::make($subModuleNext);
         } else if ($subModuleInNextModule) {
             return SubModuleResource::make($subModuleInNextModule);
+        } else if ($quiz) {
+            return $quiz;
         } else {
             return false;
         }
