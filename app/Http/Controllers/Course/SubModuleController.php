@@ -67,7 +67,13 @@ class SubModuleController extends Controller
             return ResponseHelper::error(null, 'Anda sudah pada halaman terakhir');
         }
     }
-
+    
+    /**
+     * prev
+     *
+     * @param  mixed $slug
+     * @return JsonResponse
+     */
     public function prev(string $slug): JsonResponse
     {
         $subModule = $this->subModule->showWithSlug($slug);

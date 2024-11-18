@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Contracts\Interfaces\Course\ModuleInterface;
+use App\Contracts\Interfaces\Course\QuizInterface;
 use App\Contracts\Interfaces\Course\SubModuleInterface;
 use App\Http\Resources\SubModuleResource;
 use App\Traits\UploadTrait;
@@ -12,16 +13,26 @@ class SubModuleService
 {
     private SubModuleInterface $subModule;
     private ModuleInterface $module;
-    public function __construct(SubModuleInterface $subModule, ModuleInterface $module)
+    private QuizInterface $quiz;
+    public function __construct(SubModuleInterface $subModule, ModuleInterface $module, QuizInterface $quiz)
     {
         $this->subModule = $subModule;
         $this->module = $module;
+        $this->quiz = $quiz;
     }
 
+    /**
+     * next
+     *
+     * @param  mixed $subModule
+     * @return mixed
+     */
     public function next(mixed $subModule): mixed
     {
         $subModuleNext = $this->subModule->nextSubModule($subModule->step, $subModule->module_id);
         $firstModuleNext = $this->module->moduleNextStep($subModule->module->step);
+        $quiz = $this->quiz->show($firstModuleNext->id);
+        dd($quiz);
         $subModuleInNextModule = $this->subModule->nextSubModule(1, $firstModuleNext);
         if ($subModuleNext) {
             return SubModuleResource::make($subModuleNext);
@@ -31,6 +42,13 @@ class SubModuleService
             return false;
         }
     }
+
+    /**
+     * prev
+     *
+     * @param  mixed $subModule
+     * @return mixed
+     */
     public function prev(mixed $subModule): mixed
     {
         $subModulePrev = $this->subModule->prevSubModule($subModule->step, $subModule->module_id);
