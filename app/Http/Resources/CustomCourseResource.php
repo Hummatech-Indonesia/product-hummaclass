@@ -31,7 +31,7 @@ class CustomCourseResource extends JsonResource
                     $this->courseReviews->groupBy('rating')
                         ->map(fn($group) => $group->count())
                 ),
-            'rating' => $this->courseReviews->avg('rating') ?? 0,
+            'rating' => round($this->courseReviews->avg('rating') ?? 0, 1),
         ];
     }
 }
