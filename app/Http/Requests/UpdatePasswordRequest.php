@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Hash;
 
 class UpdatePasswordRequest extends ApiRequest
 {
@@ -22,21 +23,28 @@ class UpdatePasswordRequest extends ApiRequest
     public function rules(): array
     {
         return [
-            'old_password' => 'required',
+            'old_password' => ['required', function ($attribute, $value, $fail) {
+                // Cek apakah password lama sesuai dengan yang ada di database
+                if (!Hash::check($value, auth()->user()->password)) {
+                    $fail('Password lama yang Anda masukkan tidak sesuai.');
+                }
+            }],
             'password' => 'required|min:8|confirmed',
-            'password_confirmation' => 'required'
+            'password_confirmation' => 'required', // Konfirmasi password sudah otomatis diverifikasi dengan 'confirmed'
         ];
     }
 
+    /**
+     * Custom error messages for validation.
+     */
     public function messages()
     {
         return [
-            'old_password.required' => ":Password lama harus diisi",
-            'password.required' => ":Password baru harus diisi",
-            'password_confirmation.required' => "Konfirmasi password harus diisi",
-            'old_password.current_password' => "Password lama yang anda masukkan salah",
-            'password.min' => ":attribute minimal 8 karakter",
-            'password.confirmed' => ":attribute konfirmasi password harus sama"
+            'old_password.required' => "Password lama harus diisi.",
+            'password.required' => "Password baru harus diisi.",
+            'password_confirmation.required' => "Konfirmasi password harus diisi.",
+            'password.min' => ":attribute minimal 8 karakter.",
+            'password.confirmed' => ":attribute konfirmasi password harus sama.",
         ];
     }
 }

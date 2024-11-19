@@ -22,7 +22,7 @@ class UpdatePasswordController extends Controller
         $updated = $this->user->update(auth()->user()->id, ['password' => \Illuminate\Support\Facades\Hash::make($request->password)]);
 
         // dd($updated);
-        if($updated) {
+        if ($updated) {
             return ResponseHelper::success(null, "Password berhasil diperbarui");
         } else {
             return ResponseHelper::error(null, "Password gagal diperbarui");
