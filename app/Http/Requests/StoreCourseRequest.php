@@ -40,6 +40,7 @@ class StoreCourseRequest extends ApiRequest
     public function messages(): array
     {
         return [
+            'photo.required' => 'Photo wajib diisi',
             'photo.mimes' => 'Photo harus berformat png, jpg, atau jpeg.',
             'photo.max' => 'Ukuran photo maksimal 2MB.',
             'sub_category_id.required' => 'Sub-kategori wajib diisi.',

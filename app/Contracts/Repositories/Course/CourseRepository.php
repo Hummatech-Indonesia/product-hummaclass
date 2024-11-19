@@ -16,6 +16,7 @@ use App\Contracts\Interfaces\Course\CategoryInterface;
 
 class CourseRepository extends BaseRepository implements CourseInterface
 {
+
     /**
      * Method __construct
      *
@@ -37,45 +38,62 @@ class CourseRepository extends BaseRepository implements CourseInterface
      */
     public function customPaginate(Request $request, int $pagination = 9): LengthAwarePaginator
     {
-        $bearerToken = $request->header('Authorization');
-
-        if (!$bearerToken || !preg_match('/Bearer\s(\S+)/', $bearerToken, $matches)) {
-            // return response()->json(['error' => 'Token tidak valid'], 401);
-        }
-        $token = $matches[1] ?? null;
-        $user = PersonalAccessToken::findToken($token)->tokenable ?? null;
         return $this->model->query()
-            ->with('modules')
-            ->when($request->is_ready, function ($query) use ($request) {
-                $query->where('is_ready', $request->is_ready);
-            })
             ->withCount('userCourses')
             ->when($request->title, function ($query) use ($request) {
-                $query->where('title', 'like', '%' . $request->title . '%');
-            })
-            ->when($request->order == "best seller", function ($query) {
-                $query->orderBy('user_courses_count', 'desc');
+                return $query->where('title', 'LIKE', '%' . $request->title . '%');
             })
             ->when($request->categories, function ($query) use ($request) {
-                $query->when($request->categories[0] != null, function ($query) use ($request) {
-                    $query->whereIn('sub_category_id', $request->categories);
-                });
+                return $query->where('sub_category_id', $request->categories);
             })
             ->when($request->status, function ($query) use ($request) {
-                $query->where('is_ready', $request->status);
+                return $query->where('is_ready', $request->status);
             })
-            ->when($request->maximum, function ($query) use ($request) {
-                $query->where('price', '<=', $request->maximum);
-            })
-            ->when($request->minimum, function ($query) use ($request) {
-                $query->where('price', '>=', $request->minimum);
-            })
-            ->when($user?->hasRole('guest') || !$user, function ($query) {
-                $query->where('is_ready', 1);
-            })
-            ->orderBy('created_at', 'desc')
             ->fastPaginate($pagination);
     }
+
+    // public function customPaginate(Request $request, int $pagination = 9): LengthAwarePaginator
+    // {
+    //     $bearerToken = $request->header('Authorization');
+
+    //     if (!$bearerToken || !preg_match('/Bearer\s(\S+)/', $bearerToken, $matches)) {
+    //         // return response()->json(['error' => 'Token tidak valid'], 401);
+    //     }
+    //     $token = $matches[1] ?? null;
+    //     $user = PersonalAccessToken::findToken($token)->tokenable ?? null;
+    //     return $this->model->query()
+    //         ->with('modules')
+    //         ->when($request->is_ready, function ($query) use ($request) {
+    //             $query->where('is_ready', $request->is_ready);
+    //         })
+    //         ->withCount('userCourses')
+    //         ->when($request->title, function ($query) use ($request) {
+    //             $query->where('title', 'like', '%' . $request->title . '%');
+    //         })
+    //         ->when($request->order == "best seller", function ($query) {
+    //             $query->orderBy('user_courses_count', 'desc');
+    //         })
+    //         ->when($request->categories, function ($query) use ($request) {
+    //             $query->when($request->categories[0] != null, function ($query) use ($request) {
+    //                 $query->whereIn('sub_category_id', $request->categories);
+    //             });
+    //         })
+    //         ->when($request->status, function ($query) use ($request) {
+    //             $query->where('is_ready', $request->status);
+    //         })
+    //         ->when($request->maximum, function ($query) use ($request) {
+    //             $query->where('price', '<=', $request->maximum);
+    //         })
+    //         ->when($request->minimum, function ($query) use ($request) {
+    //             $query->where('price', '>=', $request->minimum);
+    //         })
+    //         ->when($user?->hasRole('guest') || !$user, function ($query) {
+    //             $query->where('is_ready', 1);
+    //         })
+    //         ->orderBy('created_at', 'desc')
+    //         ->fastPaginate($pagination);
+    // }
+
     /**
      * Method getTop
      *
@@ -169,7 +187,7 @@ class CourseRepository extends BaseRepository implements CourseInterface
                 $query->with('transactions');
             })->firstOrFail();
     }
-    
+
     /**
      * showWithSlugWithoutRequest
      *
