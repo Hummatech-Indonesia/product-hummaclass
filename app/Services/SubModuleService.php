@@ -29,17 +29,13 @@ class SubModuleService
      */
     public function next(mixed $subModule): mixed
     {
-        $subModuleNext = $this->subModule->nextSubModule($subModule->step, $subModule->module_id);
+        $subModuleNext = $this->subModule->nextSubModule($subModule->step + 1, $subModule->module_id);
         $firstModuleNext = $this->module->moduleNextStep($subModule->module->step);
-        $quiz = $this->quiz->show($subModule->module->id);
-        dd($quiz);
         $subModuleInNextModule = $this->subModule->nextSubModule(1, $firstModuleNext);
         if ($subModuleNext) {
             return SubModuleResource::make($subModuleNext);
         } else if ($subModuleInNextModule) {
             return SubModuleResource::make($subModuleInNextModule);
-        } else if ($quiz) {
-            return $quiz;
         } else {
             return false;
         }
@@ -53,7 +49,7 @@ class SubModuleService
      */
     public function prev(mixed $subModule): mixed
     {
-        $subModulePrev = $this->subModule->prevSubModule($subModule->step, $subModule->module_id);
+        $subModulePrev = $this->subModule->prevSubModule($subModule->step - 1, $subModule->module_id);
         $firstModulePrev = $this->module->modulePrevStep($subModule->module->step);
         $subModuleInPrevModule = $this->subModule->prevSubModule(1, $firstModulePrev);
         if ($subModulePrev) {

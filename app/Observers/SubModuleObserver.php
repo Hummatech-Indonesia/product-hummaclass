@@ -5,6 +5,7 @@ namespace App\Observers;
 use App\Models\SubModule;
 use Faker\Provider\Uuid;
 use Illuminate\Support\Str;
+
 class SubModuleObserver
 {
     /**
@@ -16,8 +17,11 @@ class SubModuleObserver
      */
     public function creating(SubModule $subModule): void
     {
+        $sub_module_slug = Str::slug($subModule->title);
+        $module_slug = Str::slug($subModule->module->title);
+        $course_slug = Str::slug($subModule->course->title);
         $subModule->id = Uuid::uuid();
-        $subModule->slug = Str::slug($subModule->title);
+        $subModule->slug = $course_slug . $module_slug . $sub_module_slug;
     }
     /**
      * Method updating
@@ -28,6 +32,9 @@ class SubModuleObserver
      */
     public function updating(SubModule $subModule): void
     {
-        $subModule->slug = Str::slug($subModule->title);
+        $sub_module_slug = Str::slug($subModule->title);
+        $module_slug = Str::slug($subModule->module->title);
+        $course_slug = Str::slug($subModule->course->title);
+        $subModule->slug = $course_slug . $module_slug . $sub_module_slug;
     }
 }

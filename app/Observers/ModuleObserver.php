@@ -17,9 +17,11 @@ class ModuleObserver
      */
     public function creating(Module $module): void
     {
+        $course_slug = Str::slug($module->course->title);
+        $module_slug = Str::slug($module->title);
         $module->id = Uuid::uuid();
-        $module->slug = Str::slug($module->title);
-    }    
+        $module->slug = $course_slug . $module_slug;
+    }
     /**
      * Method updating
      *
@@ -29,6 +31,8 @@ class ModuleObserver
      */
     public function updating(Module $module): void
     {
-        $module->slug = Str::slug($module->title);
+        $course_slug = Str::slug($module->course->title);
+        $module_slug = Str::slug($module->title);
+        $module->slug = $course_slug . $module_slug;
     }
 }

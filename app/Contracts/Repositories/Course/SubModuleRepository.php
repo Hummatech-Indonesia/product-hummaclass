@@ -111,7 +111,7 @@ class SubModuleRepository extends BaseRepository implements SubModuleInterface
     public function showWithSlug(string $slug): mixed
     {
         return $this->model->query()
-            ->where('slug', $slug)->firstOrFail();
+            ->where('slug', $slug)->first();
     }
 
     /**
@@ -121,7 +121,7 @@ class SubModuleRepository extends BaseRepository implements SubModuleInterface
      */
     public function nextSubModule(mixed $step, mixed $module_id): mixed
     {
-        return $this->model->query()->where('module_id', $module_id)->where('step', $step + 1)->first();
+        return $this->model->query()->where('module_id', $module_id)->where('step', $step)->first();
     }
     /**
      * Method prevSubModule
@@ -133,7 +133,7 @@ class SubModuleRepository extends BaseRepository implements SubModuleInterface
      */
     public function prevSubModule(mixed $step, mixed $module_id): mixed
     {
-        return $this->model->query()->where('module_id', $module_id)->where('step', $step - 1)->first();
+        return $this->model->query()->where('module_id', $module_id)->where('step', $step)->first();
     }
 
 

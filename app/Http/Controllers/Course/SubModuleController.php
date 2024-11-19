@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Course;
 
+use App\Contracts\Interfaces\Course\ModuleInterface;
 use App\Contracts\Interfaces\Course\SubModuleInterface;
 use App\Contracts\Interfaces\Course\UserCourseInterface;
 use App\Contracts\Interfaces\UserQuizInterface;
@@ -22,12 +23,14 @@ class SubModuleController extends Controller
     use UploadTrait;
     private SubModuleInterface $subModule;
     private SubModuleService $service;
+    private ModuleInterface $module;
     private UserCourseInterface $userCourse;
-    public function __construct(SubModuleInterface $subModule, SubModuleService $service, UserCourseInterface $userCourse)
+    public function __construct(SubModuleInterface $subModule, SubModuleService $service, UserCourseInterface $userCourse, ModuleInterface $module)
     {
         $this->subModule = $subModule;
         $this->service = $service;
         $this->userCourse = $userCourse;
+        $this->module = $module;
     }
 
     /**
@@ -60,14 +63,23 @@ class SubModuleController extends Controller
     public function next(string $slug)
     {
         $subModule = $this->subModule->showWithSlug($slug);
-        $service = $this->service->next($subModule);
+        $service = null;
+        if ($subModule) {
+            $service = $this->service->next($subModule);
+        } else {
+            $module = $this->module->showWithSlug($slug);
+            $firstModuleNext = $this->module->moduleNextStep($module->step);
+            $subModuleInNextModule = $this->subModule->nextSubModule(1, $firstModuleNext->id);
+        }
         if ($service) {
             return ResponseHelper::success($service, trans('alert.fetch_success'));
+        } else if ($subModuleInNextModule) {
+            return ResponseHelper::success(SubModuleResource::make($subModuleInNextModule));
         } else {
-            return ResponseHelper::error(null, 'Anda sudah pada halaman terakhir');
+            return ResponseHelper::error($subModule->module->slug, 'Anda sudah pada halaman terakhir');
         }
     }
-    
+
     /**
      * prev
      *
@@ -77,9 +89,18 @@ class SubModuleController extends Controller
     public function prev(string $slug): JsonResponse
     {
         $subModule = $this->subModule->showWithSlug($slug);
-        $service = $this->service->prev($subModule);
+        $service = null;
+        if ($subModule) {
+            $service = $this->service->prev($subModule);
+        } else {
+            $module = $this->module->showWithSlug($slug);
+            $subModuleInPrevModule = $this->subModule->getOneByModul($module->id);
+        }
+
         if ($service) {
             return ResponseHelper::success($service, trans('alert.fetch_success'));
+        } else if ($subModuleInPrevModule) {
+            return ResponseHelper::success(SubModuleResource::make($subModuleInPrevModule));
         } else {
             return ResponseHelper::error(null, 'Anda sudah pada halaman pertama');
         }
