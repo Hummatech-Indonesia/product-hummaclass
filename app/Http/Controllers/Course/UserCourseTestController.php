@@ -37,7 +37,7 @@ class UserCourseTestController extends Controller
     }
     public function getByCourse(Request $request, string $slug): JsonResponse
     {
-        $course = $this->course->showWithSlug($request, $slug); 
+        $course = $this->course->showWithSlug($request, $slug);
         $request->merge(['course_id' => $course->id]);
         $userCourseTests = $this->userCourseTest->customPaginate($request);
         $data['paginate'] = $this->customPaginate($userCourseTests->currentPage(), $userCourseTests->lastPage());

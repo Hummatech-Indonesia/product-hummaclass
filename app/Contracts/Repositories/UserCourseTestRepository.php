@@ -36,7 +36,7 @@ class UserCourseTestRepository extends BaseRepository implements UserCourseTestI
     {
         return $this->model->query()->get();
     }
-    
+
     /**
      * customPaginate
      *
@@ -46,10 +46,19 @@ class UserCourseTestRepository extends BaseRepository implements UserCourseTestI
      */
     public function customPaginate(Request $request, int $pagination = 10): LengthAwarePaginator
     {
-        return $this->model->query()->when($request->quiz_id, function ($query) use ($request) {
-            $query->where(['quiz_id' => $request->quiz_id]);
-        })->fastPaginate($pagination);
-    } 
+        return $this->model->newQuery()
+            ->with('courseTest')
+            ->when($request->quiz_id, function ($query) use ($request) {
+                $query->where('quiz_id', $request->quiz_id);
+            })
+            ->when($request->course_id, function ($query) use ($request) {
+                $query->whereHas('courseTest', function ($query) use ($request) {
+                    $query->where('course_id', $request->course_id);
+                });
+            })
+            ->fastPaginate($pagination);
+    }
+
     /**
      * Method store
      *
