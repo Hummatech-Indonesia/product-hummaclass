@@ -73,7 +73,7 @@ class UserController extends Controller
     public function courseActivity(): JsonResponse
     {
         $user = $this->user->show(auth()->user()->id);
-        return ResponseHelper::success(UserCourseResource::collection($user->userCourses), trans('alert.fetch_success'));
+        return ResponseHelper::success(UserCourseResource::collection($user->userCourses()->latest()->limit(9)->get()), trans('alert.fetch_success'));
     }
     /**
      * Method aventActivity
@@ -94,7 +94,7 @@ class UserController extends Controller
     {
         $user = $this->user->show(auth()->user()->id);
         return ResponseHelper::success(UserResource::make($user), trans('alert.fetch_success'));
-    }    
+    }
     /**
      * Method newestCount
      *
