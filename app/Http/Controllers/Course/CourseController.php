@@ -54,7 +54,7 @@ class CourseController extends Controller
             $data['paginate'] = $this->customPaginate($courses->currentPage(), $courses->lastPage());
             $data['data'] = CourseResource::collection($courses);
         } else {
-            $courses = $this->course->search($request);
+            $courses = $this->course->customPaginate($request);
             $data['data'] = CourseResource::collection($courses);
         }
         return ResponseHelper::success($data, trans('alert.fetch_success'));
