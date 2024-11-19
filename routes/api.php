@@ -215,6 +215,7 @@ Route::middleware('enable.cors')->group(function () {
 
             //User Course Test
             Route::get('user-course-tests', [UserCourseTestController::class, 'index']);
+            Route::get('user-course-tests/{slug}', [UserCourseTestController::class, 'getByCourse']);
 
             //Reward
             Route::resource('rewards', RewardController::class)->only(['store', 'update', 'destroy']);

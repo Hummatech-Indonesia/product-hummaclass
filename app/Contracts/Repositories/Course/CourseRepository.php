@@ -39,16 +39,29 @@ class CourseRepository extends BaseRepository implements CourseInterface
     public function customPaginate(Request $request, int $pagination = 9): LengthAwarePaginator
     {
         return $this->model->query()
+            ->with('modules')
             ->withCount('userCourses')
             ->when($request->title, function ($query) use ($request) {
                 return $query->where('title', 'LIKE', '%' . $request->title . '%');
             })
             ->when($request->categories, function ($query) use ($request) {
-                return $query->where('sub_category_id', $request->categories);
+                $query->when($request->categories[0] != null, function ($query) use ($request) {
+                    $query->whereIn('sub_category_id', $request->categories);
+                });
+            })
+            ->when($request->category, function ($query) use ($request) {
+                return $query->where('sub_category_id', $request->category);
             })
             ->when($request->status, function ($query) use ($request) {
                 return $query->where('is_ready', $request->status);
             })
+            ->when($request->minimum, function ($query) use ($request) {
+                $query->where('price', '>=', $request->minimum);
+            })
+            ->when($request->maximum, function ($query) use ($request) {
+                $query->where('price', '<=', $request->maximum);
+            })
+            ->orderByDesc('created_at')
             ->fastPaginate($pagination);
     }
 
@@ -73,17 +86,17 @@ class CourseRepository extends BaseRepository implements CourseInterface
     //         ->when($request->order == "best seller", function ($query) {
     //             $query->orderBy('user_courses_count', 'desc');
     //         })
-    //         ->when($request->categories, function ($query) use ($request) {
-    //             $query->when($request->categories[0] != null, function ($query) use ($request) {
-    //                 $query->whereIn('sub_category_id', $request->categories);
-    //             });
-    //         })
+    // ->when($request->categories, function ($query) use ($request) {
+    //     $query->when($request->categories[0] != null, function ($query) use ($request) {
+    //         $query->whereIn('sub_category_id', $request->categories);
+    //     });
+    // })
     //         ->when($request->status, function ($query) use ($request) {
     //             $query->where('is_ready', $request->status);
     //         })
-    //         ->when($request->maximum, function ($query) use ($request) {
-    //             $query->where('price', '<=', $request->maximum);
-    //         })
+    // ->when($request->maximum, function ($query) use ($request) {
+    //     $query->where('price', '<=', $request->maximum);
+    // })
     //         ->when($request->minimum, function ($query) use ($request) {
     //             $query->where('price', '>=', $request->minimum);
     //         })
