@@ -23,7 +23,7 @@ class CourseReviewRequest extends ApiRequest
     {
         return [
             'rating' => 'required|integer|between:1,5',
-            'review' => 'nullable|string|max:500',
+            'review' => 'nullable|string|max:1000',
         ];
     }
     /**
