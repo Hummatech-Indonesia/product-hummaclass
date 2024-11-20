@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DivisionController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\IndustryClass\SchoolController;
 use App\Http\Controllers\IndustryClass\StudentController;
@@ -14,6 +15,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
         // school
         Route::resource('schools', SchoolController::class)->only(['index', 'store', 'update', 'delete', 'show']);
+
+        // division
+        Route::resource('divisions', DivisionController::class);
 
         // classroom
         Route::get('classrooms/{slug}', [ClassroomController::class, 'index']);

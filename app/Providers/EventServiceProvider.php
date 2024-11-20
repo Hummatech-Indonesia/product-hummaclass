@@ -8,6 +8,7 @@ use App\Models\Course;
 use App\Models\CourseTask;
 use App\Models\CourseTest;
 use App\Models\CourseVoucher;
+use App\Models\Division;
 use App\Models\Event as ModelsEvent;
 use App\Models\Modul;
 use App\Models\Module;
@@ -31,6 +32,7 @@ use App\Observers\CourseObserver;
 use App\Observers\CourseTaskObserver;
 use App\Observers\CourseTestObserver;
 use App\Observers\CourseVoucherObserver;
+use App\Observers\DivisionObserver;
 use App\Observers\EventObserver;
 use App\Observers\ModuleObserver;
 use App\Observers\ModuleQuestionObserver;
@@ -92,6 +94,7 @@ class EventServiceProvider extends ServiceProvider
         TeacherClassroom::observe(TeacherClassroomObserver::class);
         Student::observe(StudentObserver::class);
         StudentClassroom::observe(StudentClassroomObserver::class);
+        Division::observe(DivisionObserver::class);
     }
 
     /**

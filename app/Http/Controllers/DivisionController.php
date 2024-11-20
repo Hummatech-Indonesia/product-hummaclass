@@ -2,17 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\Interfaces\IndustryClass\DivisionInterface;
+use App\Helpers\ResponseHelper;
+use App\Http\Requests\DivisionRequest;
+use App\Http\Resources\DivisionResource;
 use App\Models\Division;
 use Illuminate\Http\Request;
 
 class DivisionController extends Controller
 {
+    private DivisionInterface $division;
+    public function __construct(DivisionInterface $division)
+    {
+        $this->division = $division;
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $divisions = $this->division->get();
+        return ResponseHelper::success(DivisionResource::collection($divisions), trans('alert.fetch_success'));
     }
 
     /**
@@ -26,9 +36,10 @@ class DivisionController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(DivisionRequest $request)
     {
-        //
+        $this->division->store($request->validated());
+        return ResponseHelper::success(null, trans('alert.add_success'));
     }
 
     /**
@@ -36,7 +47,7 @@ class DivisionController extends Controller
      */
     public function show(Division $division)
     {
-        //
+        return ResponseHelper::success(DivisionResource::make($division), trans('alert.fetch_success'));
     }
 
     /**
@@ -50,9 +61,10 @@ class DivisionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Division $division)
+    public function update(DivisionRequest $request, Division $division)
     {
-        //
+        $this->division->update($division->id, $request->validated());
+        return ResponseHelper::success(null, trans('alert.update_success'));
     }
 
     /**
@@ -60,6 +72,11 @@ class DivisionController extends Controller
      */
     public function destroy(Division $division)
     {
-        //
+        try {
+            $this->division->delete($division->id);
+        } catch (\Throwable $e) {
+            return ResponseHelper::error(null, trans('alert.delete_constrained'));
+        }
+        return ResponseHelper::success(null, trans('alert.delete_success'));
     }
 }

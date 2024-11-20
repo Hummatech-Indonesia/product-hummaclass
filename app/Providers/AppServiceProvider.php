@@ -59,6 +59,7 @@ use App\Contracts\Interfaces\DiscussionInterface;
 use App\Contracts\Interfaces\DiscussionTagInterface;
 use App\Contracts\Interfaces\FaqInterface;
 use App\Contracts\Interfaces\IndustryClass\ClassroomInterface;
+use App\Contracts\Interfaces\IndustryClass\DivisionInterface;
 use App\Contracts\Interfaces\IndustryClass\SchoolInterface;
 use App\Contracts\Interfaces\IndustryClass\StudentClassroomInterface;
 use App\Contracts\Interfaces\IndustryClass\StudentInterface;
@@ -81,6 +82,7 @@ use App\Contracts\Repositories\DiscussionTagRepository;
 use App\Contracts\Repositories\EventAttendanceRepository;
 use App\Contracts\Repositories\FaqRepository;
 use App\Contracts\Repositories\IndustryClass\ClassroomRepository;
+use App\Contracts\Repositories\IndustryClass\DivisionRepository;
 use App\Contracts\Repositories\IndustryClass\SchoolRepository;
 use App\Contracts\Repositories\IndustryClass\StudentClassroomRepository;
 use App\Contracts\Repositories\IndustryClass\StudentRepository;
@@ -135,6 +137,7 @@ class AppServiceProvider extends ServiceProvider
         ClassroomInterface::class => ClassroomRepository::class,
         StudentInterface::class => StudentRepository::class,
         StudentClassroomInterface::class => StudentClassroomRepository::class,
+        DivisionInterface::class => DivisionRepository::class,
         TeacherInterface::class => TeacherRepository::class,
         TeacherClassroomInterface::class => TeacherClassroomRepository::class
     ];
