@@ -114,6 +114,8 @@ Route::middleware('enable.cors')->group(function () {
     //Module Task
     Route::get('module-tasks/course/{courseSlug}', [ModuleTaskController::class, 'getByCourse']);
 
+    Route::get('tags', [TagController::class, 'index']);
+
 
     /**
      * Socialite Authentication
@@ -278,7 +280,7 @@ Route::middleware('enable.cors')->group(function () {
             Route::resources([
                 'tags' => TagController::class
             ], [
-                'except' => ['edit', 'create']
+                'except' => ['edit', 'create', 'index']
             ]);
         });
 
