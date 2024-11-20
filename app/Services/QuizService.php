@@ -128,9 +128,10 @@ class QuizService implements ShouldHandleFileUpload
     }
 
 
-    public function submit(UserQuizRequest $request, UserQuiz $userQuiz): void
+    public function submit(UserQuizRequest $request, UserQuiz $userQuiz)
     {
         $data = $request->validated();
+
         $answers = array_map(function ($answer) {
             return $answer == "" ? 'null' : $answer;
         }, $data['answer']);
@@ -158,6 +159,18 @@ class QuizService implements ShouldHandleFileUpload
             'retry_delay' => 60,
             'minimum_score' => 60,
         ];
+
+        try {
+            $latestQuiz = UserQuiz::latest()->firstOrFail();
+            $timeAfterDelay = $latestQuiz->created_at->addMinutes($latestQuiz->quiz->retry_delay);
+            if (now() < $timeAfterDelay) {
+                // dd('test');
+                return 'failed';
+            }
+        } catch (\Throwable $e) {
+            return 'failed';
+        }
+
         $this->userQuiz->update($userQuiz->id, $userQuizData);
         $this->quiz->update($quiz->id, $quizData);
     }

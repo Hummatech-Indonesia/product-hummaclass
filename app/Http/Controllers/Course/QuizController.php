@@ -101,7 +101,10 @@ class QuizController extends Controller
      */
     public function submit(UserQuizRequest $request, UserQuiz $userQuiz): JsonResponse
     {
-        $this->service->submit($request, $userQuiz);
+        $submit = $this->service->submit($request, $userQuiz);
+        if ($submit == 'failed') {
+            return ResponseHelper::error(null, 'masih ada delay waktu tersisa');
+        }
         return ResponseHelper::success(true, trans('alert.fetch_success'));
     }
 
