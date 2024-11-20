@@ -25,9 +25,11 @@ class UserStudentRequest extends ApiRequest
         return [
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
-            'phone_number' => 'required|integer',
+            'phone_number' => 'required',
             'gender' => ['required', new GenderRule()],
             'address' => 'required',
+            'nisn' => 'required',
+            'date_birth' => 'required'
         ];
     }
 

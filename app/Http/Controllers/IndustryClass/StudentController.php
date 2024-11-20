@@ -65,6 +65,8 @@ class StudentController extends Controller
 
         $studentData['school_id'] = $school->id;
         $studentData['user_id'] = $user->id;
+        $studentData['nisn'] = $userData['nisn'];
+        $studentData['date_birth'] = $userData['date_birth'];
         $student = $this->student->store($studentData);
         if (!$student) {
             $this->user->delete($user->id);

@@ -11,7 +11,7 @@ class TeacherRequest extends ApiRequest
      */
     public function authorize(): bool
     {
-        return T_REQUIRE;
+        return true;
     }
 
     /**
