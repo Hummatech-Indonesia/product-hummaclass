@@ -24,7 +24,7 @@ class ResultResource extends JsonResource
 
         return [
             'id' => $this->id,
-            'score' => $this->score,
+            'score' => number_format($this->score, 1),
             'total_fault' => $totalFault,
             'total_correct' => $totalCorrect,
             'status' => $this->score > $this->quiz->minimum_score ? 'Lulus' : 'Tidak lulus',

@@ -22,7 +22,7 @@ class QuestionResultResource extends JsonResource
             'id' => $this->id,
             'questions' => $this->transformQuestions($questions, $userAnswers),
             'answers' => $this->answer, // original answers
-            'score' => $this->score,
+            'score' => number_format($this->score, 1),
         ];
     }
 
@@ -46,5 +46,4 @@ class QuestionResultResource extends JsonResource
             ];
         })->toArray();
     }
-
 }
