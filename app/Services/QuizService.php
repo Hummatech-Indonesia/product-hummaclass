@@ -160,18 +160,25 @@ class QuizService implements ShouldHandleFileUpload
             'minimum_score' => 60,
         ];
 
+        $timeAfterDelay = $userQuiz->updated_at->addMinutes($userQuiz->quiz->retry_delay);
         try {
-            $latestQuiz = UserQuiz::latest()->firstOrFail();
-            $timeAfterDelay = $latestQuiz->created_at->addMinutes($latestQuiz->quiz->retry_delay);
-            if (now() < $timeAfterDelay) {
-                // dd('test');
-                return 'failed';
+            UserQuiz::where([
+                'quiz_id' => $quiz->id,
+                'user_id' => auth()->user()->id
+            ])
+                ->whereNotNull('score')
+                ->latest()
+                ->skip(1)
+                ->firstOrFail();
+            if (now() > $timeAfterDelay) {
+                $this->userQuiz->update($userQuiz->id, $userQuizData);
+                $this->quiz->update($quiz->id, $quizData);
             }
-        } catch (\Throwable $e) {
             return 'failed';
+        } catch (\Throwable $e) {
+            // UserQuiz::where(['quiz_id' => $quiz->id, 'user_id' => auth()->user()->id])->whereNull('score')->latest()->firstOrFail();
+            $this->userQuiz->update($userQuiz->id, $userQuizData);
+            $this->quiz->update($quiz->id, $quizData);
         }
-
-        $this->userQuiz->update($userQuiz->id, $userQuizData);
-        $this->quiz->update($quiz->id, $quizData);
     }
 }
