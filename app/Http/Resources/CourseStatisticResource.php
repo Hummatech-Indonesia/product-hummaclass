@@ -98,7 +98,7 @@ class CourseStatisticResource extends JsonResource
             'pre_test_average' => number_format($preTestAvg, 1),
             'post_test_average' => number_format($postTestAvg, 1),
             'rating_count' => $totalRatings,
-            'average_rating' => $this->courseReviews->avg('rating') ?? 0,
+            'average_rating' => number_format($this->courseReviews->avg('rating'), 1) ?? 0,
 
             'ratings_distribution' => $ratingsDistribution->all(),
             'ratings_percentage_distribution' => $ratingsPercentageDistribution->all(),
