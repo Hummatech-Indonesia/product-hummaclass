@@ -25,4 +25,16 @@ class DiscussionAnswerRequest extends ApiRequest
             'answer' => 'required',
         ];
     }
+
+    /**
+     * messages
+     *
+     * @return void
+     */
+    public function messages()
+    {
+        return [
+            'answer.required' => 'Jawaban wajib dipilih',
+        ];
+    }
 }

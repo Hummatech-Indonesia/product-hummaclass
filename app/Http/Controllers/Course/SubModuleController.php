@@ -73,10 +73,10 @@ class SubModuleController extends Controller
         }
         if ($service) {
             return ResponseHelper::success($service, trans('alert.fetch_success'));
-        } else if ($subModuleInNextModule) {
-            return ResponseHelper::success(SubModuleResource::make($subModuleInNextModule));
-        } else {
+        } else if ($service == false && $subModule) {
             return ResponseHelper::error($subModule->module->slug, 'Anda sudah pada halaman terakhir');
+        } else {
+            return ResponseHelper::success(SubModuleResource::make($subModuleInNextModule));
         }
     }
 
@@ -99,10 +99,11 @@ class SubModuleController extends Controller
 
         if ($service) {
             return ResponseHelper::success($service, trans('alert.fetch_success'));
-        } else if ($subModuleInPrevModule) {
-            return ResponseHelper::success(SubModuleResource::make($subModuleInPrevModule));
+        } else if ($service == false && $subModule) {
+            $module = $this->module->modulePrevStep($subModule->module->step);
+            return ResponseHelper::error($module->slug, 'Anda sudah pada halaman terakhir');
         } else {
-            return ResponseHelper::error(null, 'Anda sudah pada halaman pertama');
+            return ResponseHelper::success(SubModuleResource::make($subModuleInPrevModule));
         }
     }
 

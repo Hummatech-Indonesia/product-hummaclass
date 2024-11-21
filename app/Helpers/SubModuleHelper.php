@@ -31,7 +31,7 @@ class SubModuleHelper
                 return false;
             }
             $userQuiz = UserQuiz::query()->where('user_id', auth()->user()->id)->where('quiz_id', $quiz->id)->get()->contains('score', '>=', $quiz->minimum_score);
-            
+
             if ($userQuiz) {
                 return true;
             }
@@ -58,6 +58,6 @@ class SubModuleHelper
             }
         }
 
-        return 'false';
+        return false;
     }
 }

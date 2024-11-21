@@ -151,6 +151,11 @@ Route::middleware('enable.cors')->group(function () {
         Route::post('discussion-answers/{discussion}/{discussion_answer?}', [DiscussionAnswerController::class, 'store']);
         Route::resource('discussion-answers', DiscussionAnswerController::class)->only(['update', 'destroy']);
 
+        //Discussion
+        Route::get('discussions/course/{slug}', [DiscussionController::class, 'index']);
+        Route::post('discussions/{slug}', [DiscussionController::class, 'store']);
+        Route::get('discussions/{discussion}', [DiscussionController::class, 'show']);
+
         //Quiz
         Route::get('quizzes/{slug}', [QuizController::class, 'index']);
         Route::get('quizzes', [QuizController::class, 'get']);
@@ -224,7 +229,7 @@ Route::middleware('enable.cors')->group(function () {
             Route::get('user-rewards', [UserRewardController::class, 'index']);
 
             //Discussion
-            Route::resource('discussions', DiscussionController::class)->except(['index', 'create', 'edit', 'store']);
+            Route::resource('discussions', DiscussionController::class)->except(['index', 'create', 'edit', 'store', 'show']);
 
             Route::get('dashboard-api', [DashboardController::class, 'index']);
 
@@ -290,9 +295,6 @@ Route::middleware('enable.cors')->group(function () {
 
             Route::post('submission-tasks/{moduleTask}', [SubmissionTaskController::class, 'store']);
 
-            //Discussion
-            Route::get('discussions/course/{slug}', [DiscussionController::class, 'index']);
-            Route::post('discussions/{slug}', [DiscussionController::class, 'store']);
 
 
             //Reward
