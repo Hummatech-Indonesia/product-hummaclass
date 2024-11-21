@@ -108,7 +108,7 @@ Route::middleware('enable.cors')->group(function () {
     Route::resource('events', EventController::class)->except(['show', 'update']);
     Route::patch('events/{slug}', [EventController::class, 'update']);
 
-    
+
 
 
     Route::get('events-user', [EventController::class, 'pageUser']);
@@ -166,7 +166,8 @@ Route::middleware('enable.cors')->group(function () {
         Route::post('rewards-claim/{reward}', [RewardController::class, 'claim']);
         Route::patch('rewards-change/{user_reward}', [RewardController::class, 'change']);
         Route::resource('rewards', RewardController::class)->only(['store', 'update', 'destroy']);
-        Route::resource('discussions', DiscussionController::class)->except(['index', 'create', 'edit', 'store']);
+        Route::resource('discussions', DiscussionController::class)->except(['index', 'create', 'show', 'edit', 'store']);
+        Route::get('discussion-detail/{id}', [DiscussionController::class, 'show']);
         Route::get('discussions/course/{slug}', [DiscussionController::class, 'index']);
         Route::post('discussions/{slug}', [DiscussionController::class, 'store']);
         Route::get('discussion-answers/{discussion}', [DiscussionAnswerController::class, 'index']);
