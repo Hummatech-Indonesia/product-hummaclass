@@ -31,7 +31,7 @@ class DiscussionController extends Controller
      */
     public function index(Request $request, string $slug): JsonResponse
     {
-        $course = $this->course->showWithSlug($slug);
+        $course = $this->course->showWithSlug($request, $slug);
         // dd($course);
         $discussions = $this->discussion->getWhere($request, ['course_id' => $course->id]);
         // dd($discussions);
