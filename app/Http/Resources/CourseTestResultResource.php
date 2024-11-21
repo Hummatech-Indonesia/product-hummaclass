@@ -27,7 +27,7 @@ class CourseTestResultResource extends JsonResource
             'user_name' => $this->user->name,
             'user_email' => $this->user->email,
             'user_photo' => asset('storage/' . $this->user->photo),
-            'score' => $this->score,
+            'score' => number_format($this->score, 1),
             'test_type' => $this->test_type,
             'total_fault' => $totalFault,
             'total_correct' => $totalCorrect,

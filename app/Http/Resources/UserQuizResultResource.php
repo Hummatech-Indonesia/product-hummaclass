@@ -21,7 +21,7 @@ class UserQuizResultResource extends JsonResource
                 ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
                 $this->created_at->format('j M Y H:i')
             ),
-            'score' => $this->score,
+            'score' => number_format($this->score, 1),
             'status' => $this->score > $this->quiz->minimum_score ? 'Lulus' : 'Tidak Lulus',
         ];
     }

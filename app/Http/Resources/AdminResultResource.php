@@ -19,7 +19,7 @@ class AdminResultResource extends JsonResource
         $userAnswers = explode(',', $this->answer);
         return [
             'id' => $this->id,
-            'score' => $this->score,
+            'score' => number_format($this->score, 1),
             'status' => $this->score > $this->quiz->minimum_score ? 'Lulus' : 'Tidak lulus',
             'total_question' => $this->quiz->total_question,
             'questions' => $this->transformQuestions($questions, $userAnswers),
