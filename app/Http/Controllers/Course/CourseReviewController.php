@@ -12,6 +12,7 @@ use App\Models\Course;
 use App\Models\CourseReview;
 use App\Models\User;
 use App\Models\UserCourse;
+use App\Models\UserCourseTest;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -19,7 +20,7 @@ use Illuminate\Http\Request;
 class CourseReviewController extends Controller
 {
     private CourseReviewInterface $courseReview;
-    private UserCourseInterface $userCoruse;
+    private UserCourseInterface $userCourse;
     /**
      * Method __construct
      *
@@ -27,10 +28,10 @@ class CourseReviewController extends Controller
      *
      * @return void
      */
-    public function __construct(CourseReviewInterface $courseReview, UserCourseInterface $userCoruse)
+    public function __construct(CourseReviewInterface $courseReview, UserCourseInterface $userCourse)
     {
         $this->courseReview = $courseReview;
-        $this->userCoruse = $userCoruse;
+        $this->userCourse = $userCourse;
     }
     /**
      * Method index
@@ -65,11 +66,17 @@ class CourseReviewController extends Controller
         $data = $request->validated();
         $data['user_id'] = auth()->user()->id;
         $data['course_id'] = $course->id;
-        $userCourse = $this->userCoruse->showByCourse($course->id);
+        $userCourse = $this->userCourse->showByCourse($course->id);
         $updated_at = Carbon::make($userCourse->updated_at);
         if ($userCourse->has_post_test && $updated_at->diffInMonths(Carbon::now())) {
-            return ResponseHelper::success(false, trans('alert.review_expired'));
+            return ResponseHelper::error(false, trans('alert.review_expired'));
         }
+        try {
+            UserCourse::where(['user_id' => auth()->user()->id, 'course_id' => $course->id, 'has_post_test' => true])->firstOrFail();
+        } catch (\Throwable $e) {
+            return ResponseHelper::error(null, "anda belum menyelesaikan kursus");
+        }
+
         $this->courseReview->store($data);
         return ResponseHelper::success(true, trans('alert.add_success'));
     }
