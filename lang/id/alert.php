@@ -50,5 +50,7 @@ return [
     'voucher_invalid' => 'Kode voucher tidak valid',
     'voucher_valid' => 'Berhasil menggunakan voucher',
 
-    'file_not_found' => 'File tidak ditemukan'
+    'file_not_found' => 'File tidak ditemukan',
+
+    'review_expired' => "Review kadaluarsa"
 ];

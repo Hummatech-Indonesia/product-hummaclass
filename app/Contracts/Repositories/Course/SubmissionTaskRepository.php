@@ -47,7 +47,13 @@ class SubmissionTaskRepository extends BaseRepository implements SubmissionTaskI
      */
     public function store(array $data): mixed
     {
-        return $this->model->query()->updateOrCreate($data);
+        if ($submissionTask = $this->model->query()->where('user_id', $data['user_id'])->where('module_task_id', $data['module_task_id'])->first()) {
+            $updated = $this->model->query()->update($data);
+            return $updated ? ['status' => "updated", 'data' => $submissionTask] : "failed";
+        } else {
+            $created = $this->model->query()->create($data);
+            return $created ? ["status" => "created"] : "failed";
+        }
     }
     /**
      * Method show

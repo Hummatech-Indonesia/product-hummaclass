@@ -55,17 +55,21 @@ class SubmissionTaskController extends Controller
      *
      * @return JsonResponse
      */
-    public function store(SubmissionTaskRequest $request, ModuleTask $moduleTask): JsonResponse
+    public function store(SubmissionTaskRequest $request, ModuleTask $moduleTask)
     {
         $data = $request->validated();
         $data['module_task_id'] = $moduleTask->id;
         $data['user_id'] = auth()->user()->id;
         $data['file'] = $this->service->handleStoreFile($request);
         $stored = $this->submissionTask->store($data);
-        if (!$stored) {
+        if ($stored['status'] == "failed") {
             $this->service->handleRemoveFile($data['file']);
         } else {
-            $this->service->handleAddPoint();
+            if ($stored['status'] == "created") {
+                $this->service->handleAddPoint();
+            } else {
+                $this->service->handleRemoveFile($data['file']);
+            }
         }
         return ResponseHelper::success(true, trans('alert.add_success'));
     }

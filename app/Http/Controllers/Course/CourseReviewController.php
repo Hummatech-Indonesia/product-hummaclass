@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Course;
 
 use App\Contracts\Interfaces\Course\CourseReviewInterface;
+use App\Contracts\Interfaces\Course\UserCourseInterface;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CourseReviewRequest;
@@ -11,12 +12,14 @@ use App\Models\Course;
 use App\Models\CourseReview;
 use App\Models\User;
 use App\Models\UserCourse;
+use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class CourseReviewController extends Controller
 {
     private CourseReviewInterface $courseReview;
+    private UserCourseInterface $userCoruse;
     /**
      * Method __construct
      *
@@ -24,9 +27,10 @@ class CourseReviewController extends Controller
      *
      * @return void
      */
-    public function __construct(CourseReviewInterface $courseReview)
+    public function __construct(CourseReviewInterface $courseReview, UserCourseInterface $userCoruse)
     {
         $this->courseReview = $courseReview;
+        $this->userCoruse = $userCoruse;
     }
     /**
      * Method index
@@ -51,6 +55,11 @@ class CourseReviewController extends Controller
         $data = $request->validated();
         $data['user_id'] = auth()->user()->id;
         $data['course_id'] = $course->id;
+        $userCourse = $this->userCoruse->showByUserCourse($course->id);
+        $updated_at = Carbon::make($userCourse->updated_at);
+        if ($userCourse->has_post_test && $updated_at->diffInMonths(Carbon::now())) {
+            return ResponseHelper::success(false, trans('alert.review_expired'));
+        }
         $this->courseReview->store($data);
         return ResponseHelper::success(true, trans('alert.add_success'));
     }
