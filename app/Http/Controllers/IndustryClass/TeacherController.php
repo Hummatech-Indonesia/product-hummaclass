@@ -2,24 +2,30 @@
 
 namespace App\Http\Controllers\IndustryClass;
 
+use App\Contracts\Interfaces\Auth\UserInterface;
 use App\Contracts\Interfaces\IndustryClass\SchoolInterface;
 use App\Contracts\Interfaces\IndustryClass\TeacherInterface;
+use App\Enums\RoleEnum;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TeacherRequest;
+use App\Http\Requests\UserTeacherRequest;
 use App\Http\Resources\TeacherResource;
 use App\Models\School;
 use App\Models\Teacher;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class TeacherController extends Controller
 {
     private TeacherInterface $teacher;
+    private UserInterface $user;
     private SchoolInterface $school;
-    public function __construct(TeacherInterface $teacher, SchoolInterface $school)
+    public function __construct(TeacherInterface $teacher, SchoolInterface $school, UserInterface $user)
     {
         $this->teacher = $teacher;
+        $this->user = $user;
         $this->school = $school;
     }
     public function index(string $slug): JsonResponse
@@ -28,10 +34,13 @@ class TeacherController extends Controller
         $teachers = $this->teacher->getWhere(['school_id' => $school->id]);
         return ResponseHelper::success(TeacherResource::collection($teachers), trans('alert.fetch_success'));
     }
-    public function store(TeacherRequest $request, School $school): JsonResponse
+    public function store(UserTeacherRequest $request, School $school): JsonResponse
     {
         $data = $request->validated();
         $data['school_id'] = $school->id;
+        $user = $this->user->store($data)->assignRole(RoleEnum::STUDENT->value);
+        $data['user_id'] = $user->id;
+        $teacherData = $data;
         $this->teacher->store($data);
         return ResponseHelper::success(null, trans('alert.add_success'));
     }

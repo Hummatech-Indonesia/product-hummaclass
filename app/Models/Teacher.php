@@ -15,7 +15,9 @@ class Teacher extends Model
     protected $table = 'teachers';
     protected $fillable = [
         'school_id',
-        'user_id'
+        'user_id',
+        'date_birth',
+        'nip'
     ];
     /**
      * Get the school that owns the Teacher

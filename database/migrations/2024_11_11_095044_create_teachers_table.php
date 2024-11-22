@@ -14,6 +14,8 @@ return new class extends Migration {
             $table->uuid('id')->primary();
             $table->foreignUuid('school_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignUuid('user_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->date('date_birth');
+            $table->string('nip')->unique();
             $table->timestamps();
         });
     }
