@@ -38,6 +38,14 @@ class CourseRepository extends BaseRepository implements CourseInterface
      */
     public function customPaginate(Request $request, int $pagination = 9): LengthAwarePaginator
     {
+        $authorizationHeader = $request->header('Authorization');
+        if ($authorizationHeader && str_starts_with($authorizationHeader, 'Bearer ')) {
+            $token = substr($authorizationHeader, 7); // Ekstrak token dari header
+        } else {
+            $token = null;
+        }
+        $user = $token ? PersonalAccessToken::findToken($token)?->tokenable : null;
+
         return $this->model->query()
             ->with('modules')
             ->withCount('userCourses')
@@ -59,15 +67,18 @@ class CourseRepository extends BaseRepository implements CourseInterface
                 return $query->where(function ($q) use ($request) {
                     $q->where('promotional_price', '>=', intval($request->minimum))
                         ->orWhereNull('promotional_price')
-                        ->where('price', '>=', intval($request->minimum));  
+                        ->where('price', '>=', intval($request->minimum));
                 });
             })
             ->when($request->maximum, function ($query) use ($request) {
                 return $query->where(function ($q) use ($request) {
                     $q->where('promotional_price', '<=', intval($request->maximum))
                         ->orWhereNull('promotional_price')
-                        ->where('price', '<=', intval($request->maximum));  
+                        ->where('price', '<=', intval($request->maximum));
                 });
+            })
+            ->when($user?->hasRole('guest') || !$user, function ($query) {
+                $query->where('is_ready', 1);
             })
             ->orderByDesc('created_at')
             ->fastPaginate($pagination);
@@ -95,8 +106,14 @@ class CourseRepository extends BaseRepository implements CourseInterface
      */
     public function search(Request $request): mixed
     {
-        $token = $matches[1] ?? null;
-        $user = PersonalAccessToken::findToken($token)->tokenable ?? null;
+        $authorizationHeader = $request->header('Authorization');
+        if ($authorizationHeader && str_starts_with($authorizationHeader, 'Bearer ')) {
+            $token = substr($authorizationHeader, 7); // Ekstrak token dari header
+        } else {
+            $token = null;
+        }
+        $user = $token ? PersonalAccessToken::findToken($token)?->tokenable : null;
+
         return $this->model->query()
             ->with('modules')
             ->when($request->is_ready, function ($query) use ($request) {
@@ -106,7 +123,7 @@ class CourseRepository extends BaseRepository implements CourseInterface
             ->when($request->title, function ($query) use ($request) {
                 $query->where('title', 'like', '%' . $request->title . '%');
             })
-            ->when($request->order == "best seller", function ($query) {
+            ->when($request->order === "best seller", function ($query) {
                 $query->orderBy('user_courses_count', 'desc');
             })
             ->when($request->status, function ($query) use ($request) {
@@ -118,12 +135,14 @@ class CourseRepository extends BaseRepository implements CourseInterface
             ->when($request->minimum, function ($query) use ($request) {
                 $query->where('price', '>=', $request->minimum);
             })
+            // Tambahkan filter untuk guest
             ->when($user?->hasRole('guest') || !$user, function ($query) {
                 $query->where('is_ready', 1);
             })
             ->orderBy('created_at', 'desc')
             ->get();
     }
+
 
     public function count(): mixed
     {

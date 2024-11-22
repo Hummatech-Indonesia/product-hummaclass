@@ -19,9 +19,9 @@ class SubModuleObserver
     {
         $sub_module_slug = Str::slug($subModule->title);
         $module_slug = Str::slug($subModule->module->title);
-        $course_slug = Str::slug($subModule->course->title);
+        $course_slug = Str::slug($subModule->module->course->title);
         $subModule->id = Uuid::uuid();
-        $subModule->slug = $course_slug . $module_slug . $sub_module_slug;
+        $subModule->slug = $course_slug .'-'. $module_slug.'-' .'-'. $sub_module_slug;
     }
     /**
      * Method updating
@@ -34,7 +34,7 @@ class SubModuleObserver
     {
         $sub_module_slug = Str::slug($subModule->title);
         $module_slug = Str::slug($subModule->module->title);
-        $course_slug = Str::slug($subModule->course->title);
-        $subModule->slug = $course_slug . $module_slug . $sub_module_slug;
+        $course_slug = Str::slug($subModule->module->course->title);
+        $subModule->slug = $course_slug .'-'. $module_slug.'-' .'-'. $sub_module_slug;
     }
 }
