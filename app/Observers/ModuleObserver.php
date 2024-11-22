@@ -20,7 +20,7 @@ class ModuleObserver
         $course_slug = Str::slug($module->course->title);
         $module_slug = Str::slug($module->title);
         $module->id = Uuid::uuid();
-        $module->slug = $course_slug . $module_slug;
+        $module->slug = $course_slug .'-'.$module_slug;
     }
     /**
      * Method updating
@@ -33,6 +33,6 @@ class ModuleObserver
     {
         $course_slug = Str::slug($module->course->title);
         $module_slug = Str::slug($module->title);
-        $module->slug = $course_slug . $module_slug;
+        $module->slug = $course_slug .'-'. $module_slug;
     }
 }
