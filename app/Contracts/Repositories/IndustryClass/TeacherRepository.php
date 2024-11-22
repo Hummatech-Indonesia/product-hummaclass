@@ -18,6 +18,19 @@ class TeacherRepository extends BaseRepository implements TeacherInterface
     {
         $this->model = $teacher;
     }
+    public function customPaginate(Request $request, int $pagination = 8): LengthAwarePaginator
+    {
+        return $this->model->query()
+            ->where(['school_id' => $request->school_id])
+            ->with('user') // Load relationship
+            ->when($request->search, function ($query) use ($request) {
+                return $query->whereHas('user', function ($query) use ($request) {
+                    $query->where('name', 'like', '%' . $request->search . '%');
+                });
+            })
+            ->fastPaginate($pagination);
+    }
+
 
     /**
      * getWhere

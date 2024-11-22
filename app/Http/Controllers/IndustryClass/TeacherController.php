@@ -14,11 +14,13 @@ use App\Http\Resources\TeacherResource;
 use App\Models\School;
 use App\Models\Teacher;
 use App\Models\User;
+use App\Traits\PaginationTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class TeacherController extends Controller
 {
+    use PaginationTrait;
     private TeacherInterface $teacher;
     private UserInterface $user;
     private SchoolInterface $school;
@@ -28,11 +30,14 @@ class TeacherController extends Controller
         $this->user = $user;
         $this->school = $school;
     }
-    public function index(string $slug): JsonResponse
+    public function index(Request $request, string $slug): JsonResponse
     {
         $school = $this->school->showWithSlug($slug);
-        $teachers = $this->teacher->getWhere(['school_id' => $school->id]);
-        return ResponseHelper::success(TeacherResource::collection($teachers), trans('alert.fetch_success'));
+        $request->merge(['school_id' => $school->id]);
+        $teachers = $this->teacher->customPaginate($request);
+        $data['paginate'] = $this->customPaginate($teachers->currentPage(), $teachers->lastPage());
+        $data['data'] = TeacherResource::collection($teachers);
+        return ResponseHelper::success($data, trans('alert.fetch_success'));
     }
     public function store(UserTeacherRequest $request, School $school): JsonResponse
     {
