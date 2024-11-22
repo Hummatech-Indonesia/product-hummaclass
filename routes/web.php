@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\Auth\SocialiteController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\ContactMailController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,3 +32,5 @@ Route::get('certificate-pdf', function () {
 
 Route::get('/login/{provider}', [SocialiteController::class, 'redirectToProvider']);
 Route::get('/login/{provider}/callback', [SocialiteController::class, 'handleProvideCallback']);
+
+Route::get('contact-email', [ContactMailController::class, 'index']);
