@@ -22,6 +22,7 @@ class UserTeacherRequest extends ApiRequest
     public function rules(): array
     {
         return [
+            'photo' => 'nullable',
             'name' => 'required',
             'email' => 'required',
             'nip' => 'required',
