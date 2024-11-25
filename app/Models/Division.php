@@ -25,4 +25,13 @@ class Division extends Model
     {
         return $this->hasMany(Classroom::class);
     }
+    /**
+     * Get all of the learningPaths for the Division
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function learningPaths(): HasMany
+    {
+        return $this->hasMany(LearningPath::class);
+    }
 }

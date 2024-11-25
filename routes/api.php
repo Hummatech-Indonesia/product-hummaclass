@@ -338,6 +338,7 @@ Route::middleware('enable.cors')->group(function () {
         Route::get('quizzes-result/{user_quiz}', [QuizController::class, 'result']);
         Route::post('quizzes', [QuizController::class, 'store']);
         Route::post('quizzes-submit/{user_quiz}', [QuizController::class, 'submit']);
+        Route::get('user-module-quizzes', [QuizController::class, 'getByAuthModule']);
 
         Route::get('user-quizzes', [UserQuizController::class, 'getByUser']);
 

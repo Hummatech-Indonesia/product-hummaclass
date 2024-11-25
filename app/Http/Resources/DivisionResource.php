@@ -14,6 +14,11 @@ class DivisionResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'classroom_count' => $this->classrooms->count(),
+            'learning_path_count' => $this->learningPaths->count(),
+        ];
     }
 }

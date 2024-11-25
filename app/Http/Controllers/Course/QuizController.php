@@ -66,7 +66,7 @@ class QuizController extends Controller
         } else {
             return ResponseHelper::error(null, 'Quiz belum ada');
         }
-    }
+    } 
 
     /**
      * show
