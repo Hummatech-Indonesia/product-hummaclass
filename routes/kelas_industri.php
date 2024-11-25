@@ -14,7 +14,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::middleware(['is_admin'])->group(function () {
 
         // school
-        Route::resource('schools', SchoolController::class)->only(['index', 'store', 'update', 'delete', 'show']);
+        Route::resource('schools', SchoolController::class)->only(['index', 'store', 'update', 'delete']);
+        Route::get('schools/{slug}', [SchoolController::class, 'show']);
 
         // division
         Route::resource('divisions', DivisionController::class);
@@ -22,7 +23,7 @@ Route::middleware('auth:sanctum')->group(function () {
         // classroom
         Route::get('classrooms/{slug}', [ClassroomController::class, 'index']);
         Route::post('classrooms/{school}', [ClassroomController::class, 'store']);
-        Route::get('classroom-detail', [ClassroomController::class, 'show']);
+        Route::get('classroom-detail/{classroom}', [ClassroomController::class, 'show']);
         Route::resource('classrooms', ClassroomController::class)->only(['update', 'destroy']);
 
         // student
