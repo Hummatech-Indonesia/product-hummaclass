@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
             VoucherSeeder::class,
             RewardSeeder::class,
             BlogSeeder::class,
+            SchoolYearSeeder::class
         ]);
     }
 }

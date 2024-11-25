@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\IndustryClass\SchoolController;
 use App\Http\Controllers\IndustryClass\StudentController;
 use App\Http\Controllers\IndustryClass\ClassroomController;
+use App\Http\Controllers\IndustryClass\SchoolYearController;
 use App\Http\Controllers\IndustryClass\StudentClassroomController;
 use App\Http\Controllers\IndustryClass\TeacherController;
 
@@ -25,6 +26,9 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('classrooms/{school}', [ClassroomController::class, 'store']);
         Route::get('classroom-detail/{classroom}', [ClassroomController::class, 'show']);
         Route::resource('classrooms', ClassroomController::class)->only(['update', 'destroy']);
+
+        //school year
+        Route::resource('school-years', SchoolYearController::class);
 
         // student
         Route::get('students/{slug}', [StudentController::class, 'index']);

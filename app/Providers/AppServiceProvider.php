@@ -61,9 +61,9 @@ use App\Contracts\Interfaces\FaqInterface;
 use App\Contracts\Interfaces\IndustryClass\ClassroomInterface;
 use App\Contracts\Interfaces\IndustryClass\DivisionInterface;
 use App\Contracts\Interfaces\IndustryClass\SchoolInterface;
+use App\Contracts\Interfaces\IndustryClass\SchoolYearInterface;
 use App\Contracts\Interfaces\IndustryClass\StudentClassroomInterface;
 use App\Contracts\Interfaces\IndustryClass\StudentInterface;
-use App\Contracts\Interfaces\IndustryClass\TeacherClassroomInterface;
 use App\Contracts\Interfaces\IndustryClass\TeacherInterface;
 use App\Contracts\Interfaces\RewardInterface;
 use App\Contracts\Interfaces\TagInterface;
@@ -84,9 +84,9 @@ use App\Contracts\Repositories\FaqRepository;
 use App\Contracts\Repositories\IndustryClass\ClassroomRepository;
 use App\Contracts\Repositories\IndustryClass\DivisionRepository;
 use App\Contracts\Repositories\IndustryClass\SchoolRepository;
+use App\Contracts\Repositories\IndustryClass\SchoolYearRepository;
 use App\Contracts\Repositories\IndustryClass\StudentClassroomRepository;
 use App\Contracts\Repositories\IndustryClass\StudentRepository;
-use App\Contracts\Repositories\IndustryClass\TeacherClassroomRepository;
 use App\Contracts\Repositories\IndustryClass\TeacherRepository;
 use App\Contracts\Repositories\RewardRepository;
 use App\Contracts\Repositories\TagRepository;
@@ -139,7 +139,7 @@ class AppServiceProvider extends ServiceProvider
         StudentClassroomInterface::class => StudentClassroomRepository::class,
         DivisionInterface::class => DivisionRepository::class,
         TeacherInterface::class => TeacherRepository::class,
-        TeacherClassroomInterface::class => TeacherClassroomRepository::class
+        SchoolYearInterface::class => SchoolYearRepository::class
     ];
 
     /**

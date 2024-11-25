@@ -30,7 +30,6 @@ class UserStudentRequest extends ApiRequest
             'gender' => ['required', new GenderRule()],
             'address' => 'required',
             'nisn' => 'required',
-            'religion' => 'required',
             'date_birth' => 'required'
         ];
     }
@@ -46,7 +45,6 @@ class UserStudentRequest extends ApiRequest
             'phone_number.integer' => 'Nomor telepon harus berupa angka',
             'phone_number.max' => 'Nomor telepon maksimal 15 karakter',
             'gender.required' => 'Jenis kelamin harus diisi',
-            'religion.required' => 'agama wajib diisi',
             'address.required' => 'Alamat harus diisi',
             'gender.in' => 'Jenis kelamin haruslah laki-laki atau perempuan',
         ];
