@@ -97,7 +97,9 @@ class CertificateController extends Controller
     {
         $certificate = $this->service->download($type, $slug, $user_id);
 
-        if($type == 'course') return $certificate['pdf']->download($certificate['userCourse']->course->title . ' - ' . $certificate['userCourse']->certificate->username . '.pdf');
-        else return $certificate['pdf']->download($certificate['userEvent']->event->title . ' - ' . $certificate['userEvent']->certificate->username . '.pdf');
+        // if ($type == 'course') return $certificate['pdf']->download($certificate['userCourse']->course->title . ' - ' . $certificate['userCourse']->certificate->username . '.pdf');
+        // else return $certificate['pdf']->download($certificate['userEvent']->event->title . ' - ' . $certificate['userEvent']->certificate->username . '.pdf');
+
+        return $certificate['pdf'];
     }
 }

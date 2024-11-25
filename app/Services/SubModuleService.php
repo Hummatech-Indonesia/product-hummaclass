@@ -6,6 +6,7 @@ use App\Contracts\Interfaces\Course\ModuleInterface;
 use App\Contracts\Interfaces\Course\QuizInterface;
 use App\Contracts\Interfaces\Course\SubModuleInterface;
 use App\Http\Resources\SubModuleResource;
+use App\Models\ContentImage;
 use App\Traits\UploadTrait;
 use Illuminate\Http\Request;
 
@@ -58,6 +59,37 @@ class SubModuleService
             return SubModuleResource::make($subModuleInPrevModule);
         } else {
             return false;
+        }
+    }
+
+    public function getImages($content): mixed
+    {
+        $data = json_decode($content, true);
+
+        $imageBlocks = array_filter($data['blocks'], function ($block) {
+            return $block['type'] === 'image';
+        });
+
+        return $imageFilenames = array_map(function ($block) {
+            return $imageName = basename($block['data']['file']['url']);
+        }, $imageBlocks);
+    }
+
+    public function updateUsedImage($imageFilenames, $subModule): void
+    {
+        $imageQuery = ContentImage::query();
+
+        if (count($imageFilenames) > 0) {
+            foreach ($imageFilenames as $fileName) {
+                $imageQuery->orWhere('path', "LIKE", "%$fileName%");
+            }
+            $images = $imageQuery->get();
+        } else {
+            $images = [];
+        }
+        ContentImage::where('sub_module_id', $subModule->id)->update(['used' => false]);
+        foreach ($images as $image) {
+            $image->update(['used' => true, 'sub_module_id' => $subModule->id]);
         }
     }
 }

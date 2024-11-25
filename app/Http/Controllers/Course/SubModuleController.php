@@ -11,24 +11,29 @@ use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SubModuleRequest;
 use App\Http\Resources\SubModuleResource;
+use App\Models\ContentImage;
 use App\Models\Module;
 use App\Models\SubModule;
+use App\Services\Course\ContentImageService;
 use App\Services\SubModuleService;
 use App\Traits\UploadTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class SubModuleController extends Controller
 {
     use UploadTrait;
     private SubModuleInterface $subModule;
     private SubModuleService $service;
+    private ContentImageService $contentImageService;
     private ModuleInterface $module;
     private UserCourseInterface $userCourse;
-    public function __construct(SubModuleInterface $subModule, SubModuleService $service, UserCourseInterface $userCourse, ModuleInterface $module)
+    public function __construct(SubModuleInterface $subModule, SubModuleService $service, UserCourseInterface $userCourse, ModuleInterface $module, ContentImageService $contentImageService)
     {
         $this->subModule = $subModule;
         $this->service = $service;
+        $this->contentImageService = $contentImageService;
         $this->userCourse = $userCourse;
         $this->module = $module;
     }
@@ -42,6 +47,7 @@ class SubModuleController extends Controller
      */
     public function store(SubModuleRequest $request, Module $module): JsonResponse
     {
+        return response()->json(json_decode($request->content), 400);
         $data = $request->validated();
         $data['module_id'] = $module->id;
         $subModule = $this->subModule->getOneByModul($module->id);
@@ -50,8 +56,36 @@ class SubModuleController extends Controller
         } else {
             $data['step'] = 1;
         }
+
+        
+        $imageFilenames = $this->service->getImages($request->content);
+        $this->service->updateUsedImage($imageFilenames, $subModule);
+
+        $unusedImage = ContentImage::where('sub_module_id', $subModule->id)->where('used', false)->get();
+        $this->contentImageService->delete($unusedImage);
+
         $subModule = $this->subModule->store($data);
         return ResponseHelper::success(SubModuleResource::make($subModule), trans('alert.add_success'));
+    }
+
+    /**
+     * Method update
+     *
+     * @param SubModuleRequest $request [explicite description]
+     * @param SubModule $subModule [explicite description]
+     *
+     * @return JsonResponse
+     */
+    public function update(SubModuleRequest $request, SubModule $subModule): JsonResponse
+    {
+        $imageFilenames = $this->service->getImages($request->content);
+        $this->service->updateUsedImage($imageFilenames, $subModule);
+
+        $unusedImage = ContentImage::where('sub_module_id', $subModule->id)->where('used', false)->get();
+        $this->contentImageService->delete($unusedImage);
+
+        $this->subModule->update($subModule->id, $request->validated());
+        return ResponseHelper::success(SubModuleResource::make($subModule), trans('alert.update_success'));
     }
 
     /**
@@ -136,19 +170,6 @@ class SubModuleController extends Controller
     {
         return ResponseHelper::success(SubModuleResource::make($subModule));
     }
-    /**
-     * Method update
-     *
-     * @param SubModuleRequest $request [explicite description]
-     * @param SubModule $subModule [explicite description]
-     *
-     * @return JsonResponse
-     */
-    public function update(SubModuleRequest $request, SubModule $subModule): JsonResponse
-    {
-        $this->subModule->update($subModule->id, $request->validated());
-        return ResponseHelper::success(SubModuleResource::make($subModule), trans('alert.update_success'));
-    }
 
     /**
      * Method destroy
@@ -181,6 +202,7 @@ class SubModuleController extends Controller
 
         if ($request->file('image')) {
             $url = $this->upload(UploadDiskEnum::IMAGE->value, $request->file('image'));
+            ContentImage::create(['path' => $url]);
 
             return response()->json(['success' => 1, 'file' => ['url' => url('storage/' . $url)]]);
         }

@@ -26,7 +26,7 @@ class CourcePercentaceHelper
             // }
         }
         // return $data;
-        $percentace = ($data->total_submission_quiz + $data->sub_module_step) * 100 / ($data->total_sub_module + $data->total_quiz);
+        $percentace = $data->total_submission_quiz + $data->sub_module_step == 0 ? 0 : ($data->total_submission_quiz + $data->sub_module_step) * 100 / ($data->total_sub_module + $data->total_quiz);
         return $percentace;
     }
 }
