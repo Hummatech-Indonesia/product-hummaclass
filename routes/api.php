@@ -122,7 +122,7 @@ Route::middleware('enable.cors')->group(function () {
     // Tags
     Route::get('tags', [TagController::class, 'index']);
 
-    Route::get('superior-feature', [SuperiorFeatureController::class, 'index']);
+    Route::get('superior-features', [SuperiorFeatureController::class, 'index']);
 
 
     /**
@@ -215,7 +215,7 @@ Route::middleware('enable.cors')->group(function () {
         Route::get('sub-modules/prev/{slug}', [SubModuleController::class, 'prev']);
 
         Route::middleware(['is_admin'])->group(function () {
-            Route::post('superior-feature', [SuperiorFeatureController::class, 'store']);
+            Route::patch('superior-features', [SuperiorFeatureController::class, 'update']);
 
             Route::resource('faqs', FaqController::class)->only(['store', 'update', 'destroy']);
 

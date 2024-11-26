@@ -47,7 +47,10 @@ class CourseRepository extends BaseRepository implements CourseInterface
         $user = $token ? PersonalAccessToken::findToken($token)?->tokenable : null;
 
         return $this->model->query()
-            ->with('modules')
+            ->with(['modules', 'subCategory.category'])
+            ->when($request->is_ready, function ($query) use ($request) {
+                $query->where('is_ready', $request->is_ready);
+            })
             ->withCount('userCourses')
             ->when($request->title, function ($query) use ($request) {
                 return $query->where('title', 'LIKE', '%' . $request->title . '%');
@@ -93,6 +96,8 @@ class CourseRepository extends BaseRepository implements CourseInterface
     {
         return $this->model
             ->withCount('userCourses')
+            ->with('subCategory')
+            ->where('is_ready', true)
             ->limit(4)
             ->get();
     }
@@ -136,7 +141,7 @@ class CourseRepository extends BaseRepository implements CourseInterface
                 $query->where('price', '>=', $request->minimum);
             })
             // Tambahkan filter untuk guest
-            ->when($user?->hasRole('guest') || !$user, function ($query) {
+            ->when($user?->hasRole('guest') || !$user || $request->order === "best seller", function ($query) {
                 $query->where('is_ready', 1);
             })
             ->orderBy('created_at', 'desc')

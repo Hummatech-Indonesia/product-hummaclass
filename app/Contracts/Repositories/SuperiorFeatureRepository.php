@@ -19,17 +19,17 @@ class SuperiorFeatureRepository extends BaseRepository implements SuperiorFeatur
      */
     public function get(): mixed
     {
-        return $this->model->query()->first();
+        return $this->model->query()->firstOrFail();
     }
     /**
-     * Method store
+     * Method update
      *
      * @param array $data [explicite description]
      *
      * @return mixed
      */
-    public function store(array $data): mixed
+    public function update(array $data): mixed
     {
-        return $this->model->query()->updateOrCreate(['id' => 1], $data);
+        return $this->get()->update($data);
     }
 }
