@@ -28,6 +28,8 @@ class DatabaseSeeder extends Seeder
             // VoucherSeeder::class,
             // RewardSeeder::class,
             // BlogSeeder::class,
+            HeaderSeeder::class,
+            SuperiorFeatureSeeder::class
         ]);
     }
 }

@@ -43,6 +43,7 @@ use App\Http\Controllers\Course\ModuleQuestionController;
 use App\Http\Controllers\Course\SubmissionTaskController;
 use App\Http\Controllers\Course\UserCourseTestController;
 use App\Http\Controllers\Course\CourseVoucherUserController;
+use App\Http\Controllers\HeaderController;
 
 Route::get('test-email', [TransactionController::class, 'testEmail']);
 Route::get('submission-tasks/download/{submissionTask}', [SubmissionTaskController::class, 'download']);
@@ -106,6 +107,9 @@ Route::middleware('enable.cors')->group(function () {
     Route::get('faqs/{faq}', [FaqController::class, 'show']);
     Route::get('faqs', [FaqController::class, 'index']);
     Route::get('faq-user', [FaqController::class, 'indexUser']);
+
+    // Header
+    Route::get('headers', [HeaderController::class, 'index']);
 
     //Reward
     Route::get('rewards', [RewardController::class, 'index']);
@@ -208,6 +212,8 @@ Route::middleware('enable.cors')->group(function () {
 
         Route::middleware(['is_admin'])->group(function () {
             Route::resource('faqs', FaqController::class)->only(['store', 'update', 'destroy']);
+
+            Route::post('headers', [HeaderController::class, 'post']);
             Route::get('module-tasks/{module}', [ModuleTaskController::class, 'index']);
             Route::post('module-tasks/{module}', [ModuleTaskController::class, 'store']);
             Route::get('module-tasks-detail/{module_task}', [ModuleTaskController::class, 'show']);
@@ -344,7 +350,6 @@ Route::middleware('enable.cors')->group(function () {
             $user = \App\Models\User::with('roles')->find($request->user()->id);
             return UserResource::make($user);
         });
-
     });
 
     /**
