@@ -44,6 +44,7 @@ use App\Http\Controllers\Course\SubmissionTaskController;
 use App\Http\Controllers\Course\UserCourseTestController;
 use App\Http\Controllers\Course\CourseVoucherUserController;
 use App\Http\Controllers\HeaderController;
+use App\Http\Controllers\SuperiorFeatureController;
 
 Route::get('test-email', [TransactionController::class, 'testEmail']);
 Route::get('submission-tasks/download/{submissionTask}', [SubmissionTaskController::class, 'download']);
@@ -118,7 +119,10 @@ Route::middleware('enable.cors')->group(function () {
     //Module Task
     Route::get('module-tasks/course/{courseSlug}', [ModuleTaskController::class, 'getByCourse']);
 
+    // Tags
     Route::get('tags', [TagController::class, 'index']);
+
+    Route::get('superior-feature', [SuperiorFeatureController::class, 'index']);
 
 
     /**
@@ -211,6 +215,8 @@ Route::middleware('enable.cors')->group(function () {
         Route::get('sub-modules/prev/{slug}', [SubModuleController::class, 'prev']);
 
         Route::middleware(['is_admin'])->group(function () {
+            Route::post('superior-feature', [SuperiorFeatureController::class, 'store']);
+
             Route::resource('faqs', FaqController::class)->only(['store', 'update', 'destroy']);
 
             Route::patch('headers', [HeaderController::class, 'update']);

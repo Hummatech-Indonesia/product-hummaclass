@@ -28,7 +28,13 @@ class SuperiorFeatureController extends Controller
         $superFeature = $this->superFeature->get();
         return ResponseHelper::success(SuperiorFeatureResource::make($superFeature));
     }
-
+    
+    /**
+     * store
+     *
+     * @param  mixed $request
+     * @return JsonResponse
+     */
     public function store(SuperiorFeatureRequest $request): JsonResponse
     {
         $this->superFeature->store($request->validated());
