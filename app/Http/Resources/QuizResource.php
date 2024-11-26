@@ -26,6 +26,7 @@ class QuizResource extends JsonResource
             'minimum_score' => $this->minimum_score,
             'duration' => $this->duration,
             'retry_delay' => $this->retry_delay,
+            'user_quiz_me' => $this->userQuizzes->where('user_id', auth()->user()->id)->first(),
             'user_quizzes' => $this->userQuizzes->sortByDesc('created_at')->first(),
             'is_submited' => $this->is_submited,
             'created_at' => $this->created_at
