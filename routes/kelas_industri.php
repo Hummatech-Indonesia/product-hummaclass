@@ -8,8 +8,7 @@ use App\Http\Controllers\IndustryClass\ClassroomController;
 use App\Http\Controllers\IndustryClass\SchoolYearController;
 use App\Http\Controllers\IndustryClass\StudentClassroomController;
 use App\Http\Controllers\IndustryClass\TeacherController;
-
-
+use App\Http\Requests\IndustryClass\TeacherClassroomRequest;
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::middleware(['is_admin'])->group(function () {
@@ -25,6 +24,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('classrooms/{slug}', [ClassroomController::class, 'index']);
         Route::post('classrooms/{school}', [ClassroomController::class, 'store']);
         Route::get('classroom-detail/{classroom}', [ClassroomController::class, 'show']);
+        Route::put('teacher-classrooms', [ClassroomController::class, 'teacherClassroom']);
+        Route::put('mentor-classrooms', [ClassroomController::class, 'mentorClassroom']);
         Route::resource('classrooms', ClassroomController::class)->only(['update', 'destroy']);
 
         //school year

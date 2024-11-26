@@ -25,7 +25,19 @@ class ClassroomRequest extends ApiRequest
         return [
             'division_id' => 'required',
             'name' => 'required',
-            'class_level' => 'required'
+            'class_level' => 'required',
+            'school_year_id' => 'required|exists:school_years,id'
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'division_id.required' => 'Divisi harus diisi.',
+            'name.required' => 'Nama harus diisi.',
+            'class_level.required' => 'Tingkat kelas harus diisi.',
+            'school_year_id.required' => 'Tahun ajaran harus diisi.',
+            'school_year_id.exists' => 'Tahun ajaran yang dipilih tidak valid.'
         ];
     }
 }

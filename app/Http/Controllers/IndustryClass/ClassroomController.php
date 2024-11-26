@@ -7,10 +7,14 @@ use App\Contracts\Interfaces\IndustryClass\SchoolInterface;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\IndustryClass\ClassroomRequest;
+use App\Http\Requests\IndustryClass\MentorClassroomRequest;
+use App\Http\Requests\IndustryClass\TeacherClassroomRequest;
 use App\Http\Resources\IndustryClass\ClassroomResource;
 use App\Models\Classroom;
 use App\Models\School;
+use App\Models\User;
 use App\Traits\PaginationTrait;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class ClassroomController extends Controller
@@ -82,7 +86,7 @@ class ClassroomController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Classroom $classroom)
+    public function destroy(Classroom $classroom): JsonResponse
     {
         try {
             $this->classroom->delete($classroom->id);
@@ -90,5 +94,31 @@ class ClassroomController extends Controller
             return ResponseHelper::error(null, trans('alert.delete_constrained'));
         }
         return ResponseHelper::success(null, trans('alert.delete_success'));
+    }
+
+    /**
+     * teacherClassroom
+     *
+     * @param  mixed $classroom
+     * @param  mixed $teacherClassroomRequest
+     * @return JsonResponse
+     */
+    public function teacherClassroom(Classroom $classroom, TeacherClassroomRequest $teacherClassroomRequest): JsonResponse
+    {
+        $this->classroom->update($classroom->id, $teacherClassroomRequest->validated());
+        return ResponseHelper::success(null, trans('alert.add_success'));
+    }
+
+    /**
+     * mentorClassroom
+     *
+     * @param  mixed $user
+     * @param  mixed $request
+     * @return JsonResponse
+     */
+    public function mentorClassroom(Classroom $classroom, MentorClassroomRequest $mentorClassroomRequest): JsonResponse
+    {
+        $this->classroom->update($classroom->id, $mentorClassroomRequest->validated());
+        return ResponseHelper::success(null, trans('alert.add_success'));
     }
 }
