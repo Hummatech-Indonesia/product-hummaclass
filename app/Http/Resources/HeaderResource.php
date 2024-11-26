@@ -17,7 +17,7 @@ class HeaderResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
-            'descriprion' => $this->description
+            'description' => $this->description
         ];
     }
 }
