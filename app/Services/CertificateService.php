@@ -2,27 +2,14 @@
 
 namespace App\Services;
 
-use App\Base\Interfaces\uploads\ShouldHandleFileUpload;
-use App\Contracts\Interfaces\BlogInterface;
-use App\Contracts\Interfaces\BlogViewInterface;
 use App\Contracts\Interfaces\CertificateInterface;
 use App\Contracts\Interfaces\Course\CourseInterface;
-use App\Contracts\Interfaces\EventDetailInterface;
 use App\Contracts\Interfaces\EventInterface;
-use App\Enums\UploadDiskEnum;
-use App\Http\Requests\BlogRequest;
 use App\Http\Requests\CertificateRequest;
-use App\Http\Requests\CourseRequest;
-use App\Http\Requests\EventRequest;
-use App\Http\Requests\ProfileRequest;
-use App\Models\Blog;
 use App\Models\Certificate;
-use App\Models\Event;
-use App\Models\EventDetail;
-use App\Models\User;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use App\Models\UserCourse;
 use App\Models\UserEvent;
-use App\Traits\UploadTrait;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 class CertificateService
@@ -80,7 +67,7 @@ class CertificateService
 
     public function download($type, string $slug, string $user_id)
     {
-        if ($type == 'course') {
+        if ($type == 'courses') {
             $course = $this->course->showWithSlugWithoutRequest($slug);
             $userCourse = UserCourse::query()
                 ->where([
@@ -89,6 +76,7 @@ class CertificateService
                 ])
                 ->firstOrFail();
             $userCourse->update(['has_downloaded' => 1]);
+
             $pdf = Pdf::loadView('certificate', compact('userCourse'))->setPaper('A4', 'landscape');
             return [
                 'pdf' => $pdf,

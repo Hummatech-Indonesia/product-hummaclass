@@ -43,7 +43,7 @@ class CertificateController extends Controller
      */
     public function show(string $type, $slug): mixed
     {
-        if ($type == 'course') {
+        if ($type == 'courses') {
             $course = $this->course->showWithSlugWithoutRequest($slug);
             $userCourse = $this->userCourse->showByCourse($course->id);
             $certificate = $this->certificate->showWithCourse($userCourse->id);
@@ -55,6 +55,7 @@ class CertificateController extends Controller
             return ResponseHelper::success(EventCertivicateResource::make($certificate), trans('alert.fetch_success'));
         }
     }
+
     /**
      * Method store
      *
@@ -63,9 +64,9 @@ class CertificateController extends Controller
      *
      * @return JsonResponse
      */
-    public function store(CertificateRequest $request, $type, string $slug): mixed
+    public function store(CertificateRequest $request, string $type, string $slug): mixed
     {
-        if ($type == 'course') {
+        if ($type == 'courses') {
             $this->service->store($request, $slug);
         } else {
             $this->service->storeEvent($request, $slug);
@@ -93,13 +94,20 @@ class CertificateController extends Controller
             return ResponseHelper::error(null, trans('alert.update_failed'));
         }
     }
-    public function download($type, string $slug, string $user_id)
+
+    /**
+     * download
+     *
+     * @param  mixed $type
+     * @param  mixed $slug
+     * @param  mixed $user_id
+     * @return void
+     */
+    public function download(string $type, string $slug, string $user_id)
     {
         $certificate = $this->service->download($type, $slug, $user_id);
 
-        // if ($type == 'course') return $certificate['pdf']->download($certificate['userCourse']->course->title . ' - ' . $certificate['userCourse']->certificate->username . '.pdf');
-        // else return $certificate['pdf']->download($certificate['userEvent']->event->title . ' - ' . $certificate['userEvent']->certificate->username . '.pdf');
-
-        return $certificate['pdf'];
+        if ($type == 'courses') return $certificate['pdf']->download($certificate['userCourse']->course->title . ' - ' . $certificate['userCourse']->certificate->username . '.pdf');
+        else return $certificate['pdf']->download($certificate['userEvent']->event->title . ' - ' . $certificate['userEvent']->certificate->username . '.pdf');
     }
 }

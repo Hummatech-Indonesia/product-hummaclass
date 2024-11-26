@@ -59,7 +59,8 @@
             letter-spacing: 3px;
             color: #3b3a3a;
             line-height: 25px;
-            font-family: 'Great Vibes', cursive; /* Menggunakan font Great Vibes */
+            font-family: 'Great Vibes', cursive;
+            /* Menggunakan font Great Vibes */
         }
 
         .course-title {
@@ -68,7 +69,8 @@
             left: 49%;
             transform: translate(-50%, -50%);
             font-size: 16px;
-            font-family: 'Poppins', sans-serif; /* Menggunakan Poppins untuk judul kursus */
+            font-family: 'Poppins', sans-serif;
+            /* Menggunakan Poppins untuk judul kursus */
             font-weight: 700;
             color: #555;
         }
@@ -104,7 +106,8 @@
             position: absolute;
             left: -33.9%;
             bottom: 29%;
-            font-family: 'Poppins', sans-serif; /* Menggunakan Poppins untuk tanggal */
+            font-family: 'Poppins', sans-serif;
+            /* Menggunakan Poppins untuk tanggal */
             font-weight: 700;
             font-size: 11px;
             color: #333;
@@ -124,10 +127,11 @@
     <div class="certificate-container">
         <div class="certificate-number" id="code">12202410250002</div>
         <div class="name-people" id="username">Mohamad Arif</div>
-        <div class="course-title d-flex justify-content-center text-center" id="course_title">Belajar Membuat Aplikasi Kognitif</div>
+        <div class="course-title d-flex justify-content-center text-center" id="course_title">Belajar Membuat Aplikasi
+            Kognitif</div>
         <div class="date" id="date">Jakarta, 28 Agustus 2024</div>
         <div class="qr-code">
-            <img src="{{ public_path('certificate/qr.png') }}" alt="">
+            <img src="{{ public_path($qr_code) }}" alt="QR Code">
             <div class="verifikasi"><b>Verifikasi Sertifikat</b></div>
             <div class="link">class.hummatech.com/sertifikat/example</div>
             <div class="valid"><i>Berlaku hingga 28 Agustus 2024</i></div>
