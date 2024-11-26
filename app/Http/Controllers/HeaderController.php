@@ -30,15 +30,9 @@ class HeaderController extends Controller
         return ResponseHelper::success(HeaderResource::make($header));
     }
 
-    /**
-     * store
-     *
-     * @param  mixed $request
-     * @return JsonResponse
-     */
-    public function store(HeaderRequest $request): JsonResponse
+    public function update(HeaderRequest $request): JsonResponse
     {
-        $this->header->store($request->validated());
+        $this->header->update($request->validated());
         return ResponseHelper::success(null, trans('alert.update_success'));
     }
 }

@@ -213,7 +213,7 @@ Route::middleware('enable.cors')->group(function () {
         Route::middleware(['is_admin'])->group(function () {
             Route::resource('faqs', FaqController::class)->only(['store', 'update', 'destroy']);
 
-            Route::post('headers', [HeaderController::class, 'post']);
+            Route::patch('headers', [HeaderController::class, 'update']);
             Route::get('module-tasks/{module}', [ModuleTaskController::class, 'index']);
             Route::post('module-tasks/{module}', [ModuleTaskController::class, 'store']);
             Route::get('module-tasks-detail/{module_task}', [ModuleTaskController::class, 'show']);
