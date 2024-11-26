@@ -43,14 +43,16 @@ class UserQuizRepository extends BaseRepository implements UserQuizInterface
      */
     public function getWhere(array $data): mixed
     {
-        return $this->model->query()
-            ->where(['user_id' => auth()->user()->id])
+        $dataQuery = $this->model->query()
+            ->where('user_id', auth()->user()->id)
             ->whereNotNull('score')
-            ->whereHas('quiz', function ($query) use ($data) {
-                $query->where('module_id', $data['module_id']);
-            })
+            ->with('quiz')
+            ->whereRelation('quiz', 'module_id', $data['module_id'])
             ->get();
+
+        return $dataQuery;
     }
+
 
 
     /**

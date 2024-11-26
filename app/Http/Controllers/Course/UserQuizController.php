@@ -34,8 +34,8 @@ class UserQuizController extends Controller
     }
     public function getByUser(string $slug): JsonResponse
     {
-        $moduleId = $this->module->showWithSlug($slug);
-        $userQuizzes = $this->userQuiz->getWhere(['module_id' => $moduleId]);
+        $module = $this->module->showWithSlug($slug);
+        $userQuizzes = $this->userQuiz->getWhere(['module_id' => $module->id]);
         return ResponseHelper::success(UserQuizResultResource::collection($userQuizzes), trans('alert.fetch_success'));
     }
     /**
