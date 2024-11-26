@@ -28,6 +28,9 @@ class CertificateResource extends JsonResource
                 'has_downloaded' => $this->userCourse->has_downloaded,
             ],
             'created_at' => $this->created_at,
+            'expired' => $this->created_at instanceof \Carbon\Carbon
+                ? $this->created_at->copy()->addYears(4)
+                : null,
         ];
     }
 }
