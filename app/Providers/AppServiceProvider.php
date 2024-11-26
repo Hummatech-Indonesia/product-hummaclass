@@ -60,6 +60,7 @@ use App\Contracts\Interfaces\DiscussionTagInterface;
 use App\Contracts\Interfaces\FaqInterface;
 use App\Contracts\Interfaces\HeaderInterface;
 use App\Contracts\Interfaces\RewardInterface;
+use App\Contracts\Interfaces\SuperiorFeatureInterface;
 use App\Contracts\Interfaces\TagInterface;
 use App\Contracts\Interfaces\UserRewardInterface;
 use App\Contracts\Repositories\CertificateRepository;
@@ -77,6 +78,7 @@ use App\Contracts\Repositories\EventAttendanceRepository;
 use App\Contracts\Repositories\FaqRepository;
 use App\Contracts\Repositories\HeaderRepository;
 use App\Contracts\Repositories\RewardRepository;
+use App\Contracts\Repositories\SuperiorFeatureRepository;
 use App\Contracts\Repositories\TagRepository;
 use App\Contracts\Repositories\UserRewardRepository;
 use Carbon\Carbon;
@@ -121,7 +123,8 @@ class AppServiceProvider extends ServiceProvider
         UserRewardInterface::class => UserRewardRepository::class,
         EventAttendanceInterface::class => EventAttendanceRepository::class,
         UserEventAttendanceInterface::class => UserEventAttendanceRepository::class,
-        HeaderInterface::class => HeaderRepository::class
+        HeaderInterface::class => HeaderRepository::class,
+        SuperiorFeatureInterface::class => SuperiorFeatureRepository::class
     ];
 
     /**
