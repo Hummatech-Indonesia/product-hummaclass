@@ -14,6 +14,18 @@ class TopCourseResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'sub_category' => $this->subCategory->name,
+            'category' => $this->subCategory->category->name,
+            'title' => $this->title,
+            'sub_title' => $this->sub_title,
+            'description' => $this->description,
+            'slug' => $this->slug,
+            'is_premium' => $this->is_premium,
+            'price' => $this->price,
+            'promotional_price' => $this->promotional_price,
+            'photo' => url('storage/' . $this->photo),
+            'rating' => $this->courseReviews->avg('rating'),
+        ];
     }
 }
