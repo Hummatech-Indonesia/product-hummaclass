@@ -18,7 +18,7 @@ use App\Http\Controllers\ContactMailController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return phpinfo();
 });
 
 
