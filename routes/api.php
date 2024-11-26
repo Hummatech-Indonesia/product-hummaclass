@@ -345,7 +345,6 @@ Route::middleware('enable.cors')->group(function () {
             return UserResource::make($user);
         });
 
-        Route::get('{type}/certificate-download/{slug}/{user_id}', [CertificateController::class, 'download']);
     });
 
     /**

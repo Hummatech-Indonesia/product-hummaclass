@@ -24,6 +24,8 @@ Route::get('/', function () {
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+Route::get('{type}/certificate-download/{slug}/{user_id}', [CertificateController::class, 'download']);
+
 Route::get('certificate-pdf', function () {
     return view('certificate');
 })->name('certificate.index');

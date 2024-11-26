@@ -1,3 +1,6 @@
+@php
+    use Carbon\Carbon;
+@endphp
 <!DOCTYPE html>
 <html lang="en">
 
@@ -125,16 +128,17 @@
 
 <body>
     <div class="certificate-container">
-        <div class="certificate-number" id="code">12202410250002</div>
-        <div class="name-people" id="username">Mohamad Arif</div>
-        <div class="course-title d-flex justify-content-center text-center" id="course_title">Belajar Membuat Aplikasi
-            Kognitif</div>
-        <div class="date" id="date">Jakarta, 28 Agustus 2024</div>
+        <div class="certificate-number" style="margin-left: 20px" id="code">{{ $userCourse->certificate->code }}</div>
+        <div class="name-people" id="username">{{ $userCourse->user->name }}</div>
+        <div class="course-title d-flex justify-content-center text-center" id="course_title">
+            {{ $userCourse->course->title }}</div>
+        <div class="date" id="date">{{ \Carbon\Carbon::parse($userCourse->created_at)->format('d F Y') }}</div>
         <div class="qr-code">
-            <img src="{{ public_path($qr_code) }}" alt="QR Code">
+            <img src="" alt="QR Code">
             <div class="verifikasi"><b>Verifikasi Sertifikat</b></div>
-            <div class="link">class.hummatech.com/sertifikat/example</div>
-            <div class="valid"><i>Berlaku hingga 28 Agustus 2024</i></div>
+            <div class="link">{{ env('WEB_URL') . '/' . $type . '/pre-download-certificate/' . $slug }}</div>
+            <div class="valid"><i>Berlaku hingga
+                    {{ \Carbon\Carbon::parse($userCourse->created_at)->addYears(4)->format('d F Y') }}</i></div>
         </div>
     </div>
 </body>

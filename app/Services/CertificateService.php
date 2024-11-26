@@ -77,7 +77,7 @@ class CertificateService
                 ->firstOrFail();
             $userCourse->update(['has_downloaded' => 1]);
 
-            $pdf = Pdf::loadView('certificate', compact('userCourse'))->setPaper('A4', 'landscape');
+            $pdf = Pdf::loadView('certificate', compact('userCourse', 'type', 'slug'))->setPaper('A4', 'landscape');
             return [
                 'pdf' => $pdf,
                 'userCourse' => $userCourse

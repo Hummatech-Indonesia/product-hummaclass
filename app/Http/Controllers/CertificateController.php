@@ -12,12 +12,9 @@ use App\Http\Requests\CertificateRequest;
 use App\Http\Resources\CertificateResource;
 use App\Http\Resources\EventCertivicateResource;
 use App\Models\Certificate;
-use App\Models\Course;
 use App\Models\UserCourse;
 use App\Services\CertificateService;
-use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class CertificateController extends Controller
 {
