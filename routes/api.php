@@ -137,7 +137,7 @@ Route::middleware('enable.cors')->group(function () {
         Route::post('course-test-questions/{course_test}', [CourseTestQuestionController::class, 'store']);
         Route::resource('course-test-questions', CourseTestQuestionController::class)->only(['show', 'update', 'destroy']);
 
-        Route::get('user-quizzes', [UserQuizController::class, 'getByUser']);
+        Route::get('user-quizzes/{slug}', [UserQuizController::class, 'getByUser']);
 
         Route::get('course-tests-get', [CourseTestController::class, 'get']);
         Route::get('course-pre-test/{course_test}', [CourseTestController::class, 'preTest']);

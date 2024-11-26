@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Course;
 
+use App\Contracts\Interfaces\Course\ModuleInterface;
 use App\Contracts\Interfaces\UserQuizInterface;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
@@ -15,9 +16,11 @@ use Illuminate\Http\Request;
 class UserQuizController extends Controller
 {
     private UserQuizInterface $userQuiz;
-    public function __construct(UserQuizInterface $userQuiz)
+    private ModuleInterface $module;
+    public function __construct(UserQuizInterface $userQuiz, ModuleInterface $module)
     {
         $this->userQuiz = $userQuiz;
+        $this->module = $module;
     }
     /**
      * Method index
@@ -29,9 +32,10 @@ class UserQuizController extends Controller
         $userQuizzes = $this->userQuiz->get();
         return ResponseHelper::success(UserQuizResource::collection($userQuizzes), trans('alert.fetch_success'));
     }
-    public function getByUser(): JsonResponse
+    public function getByUser(string $slug): JsonResponse
     {
-        $userQuizzes = $this->userQuiz->getWhere(['user_id' => auth()->user()->id]);
+        $moduleId = $this->module->showWithSlug($slug);
+        $userQuizzes = $this->userQuiz->getWhere(['module_id' => $moduleId]);
         return ResponseHelper::success(UserQuizResultResource::collection($userQuizzes), trans('alert.fetch_success'));
     }
     /**
