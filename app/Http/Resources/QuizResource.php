@@ -14,6 +14,11 @@ class QuizResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        if (auth()->check()) {
+            $auth = $this->userQuizzes->where('user_id', auth()->user()->id)->first();
+        } else {
+            $auth = null;
+        }
         return [
             'id' => $this->id,
             'module_id' => $this->module_id,
@@ -26,7 +31,7 @@ class QuizResource extends JsonResource
             'minimum_score' => $this->minimum_score,
             'duration' => $this->duration,
             'retry_delay' => $this->retry_delay,
-            'user_quiz_me' => $this->userQuizzes->where('user_id', auth()->user()->id)->first(),
+            'user_quiz_me' => $auth,
             'user_quizzes' => $this->userQuizzes->sortByDesc('created_at')->first(),
             'is_submited' => $this->is_submited,
             'created_at' => $this->created_at
