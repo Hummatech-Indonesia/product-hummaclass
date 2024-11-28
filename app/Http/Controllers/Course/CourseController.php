@@ -125,6 +125,11 @@ class CourseController extends Controller
         $courses = $this->course->getTop();
         return ResponseHelper::success(TopCourseResource::collection($courses), trans('alert.fetch_success'));
     }
+    public function topRatings(): JsonResponse
+    {
+        $courses = $this->course->topRatings();
+        return ResponseHelper::success(TopCourseResource::collection($courses, trans('alert.fetch_success')));
+    }
     /**
      * Method readyToUse
      *

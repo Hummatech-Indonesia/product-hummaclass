@@ -18,6 +18,7 @@ use Illuminate\Http\Request;
 interface CourseInterface extends CustomPaginationInterface, StoreInterface, UpdateInterface, ShowInterface, DeleteInterface, SearchInterface, GetInterface
 {
     public function count(): mixed;
+    public function topRatings(): mixed;
 
     /**
      * showWithSlug

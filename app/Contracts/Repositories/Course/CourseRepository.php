@@ -95,9 +95,21 @@ class CourseRepository extends BaseRepository implements CourseInterface
     public function getTop(): mixed
     {
         return $this->model
-            ->withCount('userCourses')
             ->with('subCategory')
+            ->withCount('userCourses')
             ->where('is_ready', true)
+            ->orderBy('user_courses_count', 'desc') // Mengurutkan berdasarkan userCourses count
+            ->limit(4)
+            ->get();
+    }
+
+    public function topRatings(): mixed
+    {
+        return $this->model
+            ->with('subCategory')
+            ->withCount('courseReviews')
+            ->where('is_ready', true)
+            ->orderBy('course_reviews_count', 'desc') // Mengurutkan berdasarkan courseReviews count
             ->limit(4)
             ->get();
     }

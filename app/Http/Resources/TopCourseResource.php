@@ -15,6 +15,8 @@ class TopCourseResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id' => $this->id,
+            'user' => $this->user,
             'sub_category' => $this->subCategory->name,
             'category' => $this->subCategory->category->name,
             'title' => $this->title,
