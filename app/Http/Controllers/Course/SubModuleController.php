@@ -47,7 +47,6 @@ class SubModuleController extends Controller
      */
     public function store(SubModuleRequest $request, Module $module): JsonResponse
     {
-        return response()->json(json_decode($request->content), 400);
         $data = $request->validated();
         $data['module_id'] = $module->id;
         $subModule = $this->subModule->getOneByModul($module->id);
