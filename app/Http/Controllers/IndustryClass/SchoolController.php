@@ -46,6 +46,12 @@ class SchoolController extends Controller
         return ResponseHelper::success(null, trans('alert.add_success'));
     }
 
+    /**
+     * show
+     *
+     * @param  mixed $slug
+     * @return void
+     */
     public function show(string $slug)
     {
         $school = $this->school->showWithSlug($slug);

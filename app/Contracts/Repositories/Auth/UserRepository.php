@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Contracts\Repositories\BaseRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Contracts\Interfaces\Auth\UserInterface;
+use App\Enums\RoleEnum;
 use Illuminate\Database\Eloquent\Model;
 
 class UserRepository extends BaseRepository implements UserInterface
@@ -18,7 +19,6 @@ class UserRepository extends BaseRepository implements UserInterface
     }
     public function countUsersByMonth(): array
     {
-        // Nama bulan dalam format singkat
         $months = [
             1 => 'Jan',
             2 => 'Feb',
@@ -34,7 +34,6 @@ class UserRepository extends BaseRepository implements UserInterface
             12 => 'Dec'
         ];
 
-        // Menghitung pengguna per bulan dari Januari hingga Desember untuk satu tahun terakhir
         $userCounts = $this->model->query()
             ->where('email', '!=', 'admin@gmail.com')
             ->where('created_at', '>=', now()->subYear())
@@ -121,5 +120,15 @@ class UserRepository extends BaseRepository implements UserInterface
     public function customUpdate(mixed $id, array $data): mixed
     {
         return $this->show($id)->update($data);
+    }
+    
+    /**
+     * getMentor
+     *
+     * @return mixed
+     */
+    public function getMentor(): mixed
+    {
+        return $this->model->query()->hasRole(RoleEnum::MENTOR->value)->get();
     }
 }

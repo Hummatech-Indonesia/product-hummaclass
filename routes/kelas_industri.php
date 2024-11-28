@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\DivisionController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\IndustryClass\SchoolController;
@@ -27,6 +28,9 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('teacher-classrooms', [ClassroomController::class, 'teacherClassroom']);
         Route::put('mentor-classrooms', [ClassroomController::class, 'mentorClassroom']);
         Route::resource('classrooms', ClassroomController::class)->only(['update', 'destroy']);
+
+        //Mentor
+        Route::get('get-mentors', [UserController::class, 'getMentor']);
 
         //school year
         Route::resource('school-years', SchoolYearController::class);
