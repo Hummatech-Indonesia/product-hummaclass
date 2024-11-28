@@ -57,13 +57,13 @@ class SubModuleController extends Controller
         }
 
         
+        $subModule = $this->subModule->store($data);
         $imageFilenames = $this->service->getImages($request->content);
         $this->service->updateUsedImage($imageFilenames, $subModule);
 
         $unusedImage = ContentImage::where('sub_module_id', $subModule->id)->where('used', false)->get();
         $this->contentImageService->delete($unusedImage);
 
-        $subModule = $this->subModule->store($data);
         return ResponseHelper::success(SubModuleResource::make($subModule), trans('alert.add_success'));
     }
 
