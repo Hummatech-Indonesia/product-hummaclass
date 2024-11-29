@@ -23,10 +23,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
         // classroom
         Route::get('classrooms/{slug}', [ClassroomController::class, 'index']);
-        Route::post('classrooms/{school}', [ClassroomController::class, 'store']);
+        Route::post('classrooms/{slug}', [ClassroomController::class, 'store']);
         Route::get('classroom-detail/{classroom}', [ClassroomController::class, 'show']);
         Route::put('teacher-classrooms', [ClassroomController::class, 'teacherClassroom']);
-        Route::put('mentor-classrooms', [ClassroomController::class, 'mentorClassroom']);
+        Route::put('mentor-classrooms/{classroom}', [ClassroomController::class, 'mentorClassroom']);
         Route::resource('classrooms', ClassroomController::class)->only(['update', 'destroy']);
 
         //Mentor

@@ -2,11 +2,16 @@
 
 namespace App\Models;
 
+use App\Base\Interfaces\HasDivision;
+use App\Base\Interfaces\HasSchool;
+use App\Base\Interfaces\HasSchoolYear;
+use App\Base\Interfaces\HasTeacher;
+use App\Base\Interfaces\HasUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Classroom extends Model
+class Classroom extends Model implements HasSchool, HasDivision, HasUser, HasTeacher, HasSchoolYear
 {
     use HasFactory;
     public $incrementing = false;
@@ -39,5 +44,35 @@ class Classroom extends Model
     public function division(): BelongsTo
     {
         return $this->belongsTo(Division::class);
+    }
+
+    /**
+     * user
+     *
+     * @return BelongsTo
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * teacher
+     *
+     * @return BelongsTo
+     */
+    public function teacher(): BelongsTo
+    {
+        return $this->belongsTo(Teacher::class);
+    }
+
+    /**
+     * schoolYear
+     *
+     * @return BelongsTo
+     */
+    public function schoolYear(): BelongsTo
+    {
+        return $this->belongsTo(SchoolYear::class);
     }
 }

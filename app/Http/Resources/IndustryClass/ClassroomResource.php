@@ -18,7 +18,11 @@ class ClassroomResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'division' => $this->division,
-            'school' => $this->school
+            'class_level' => $this->class_level,
+            'school' => $this->school,
+            'school_year' => $this->schoolYear,
+            'teacher' => $this->teacher,
+            'mentor' => $this->user,
         ];
     }
 }

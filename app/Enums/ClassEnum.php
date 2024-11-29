@@ -4,7 +4,7 @@ namespace App\Enums;
 
 enum ClassEnum: string
 {
-    case TEN = 'ten';
-    case ELEVEN = 'eleven';
-    case TWELVE = 'twelve';
+    case TEN = 10;
+    case ELEVEN = 11;
+    case TWELVE = 12;
 }

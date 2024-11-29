@@ -50,8 +50,9 @@ class ClassroomController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(ClassroomRequest $request, School $school)
+    public function store(ClassroomRequest $request, string $slug)
     {
+        $school = $this->school->showWithSlug($slug);
         $data = $request->validated();
         $data['school_id'] = $school->id;
         $this->classroom->store($data);

@@ -121,7 +121,7 @@ class UserRepository extends BaseRepository implements UserInterface
     {
         return $this->show($id)->update($data);
     }
-    
+
     /**
      * getMentor
      *
@@ -129,6 +129,8 @@ class UserRepository extends BaseRepository implements UserInterface
      */
     public function getMentor(): mixed
     {
-        return $this->model->query()->hasRole(RoleEnum::MENTOR->value)->get();
+        return $this->model->whereHas('roles', function ($q) {
+            $q->where('name', RoleEnum::MENTOR->value);
+        })->get();
     }
 }
