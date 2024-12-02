@@ -59,8 +59,8 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::resource('challenges', ChallengeController::class);
-    Route::resource('challenges', ChallengeController::class);
-    
+    Route::get('student/challenges/{classroomSlug}', [Challenge::class, 'getByClassroom']);
+
     Route::resource('challenge-submits', ChallengeSubmitController::class)->only(['update', 'destroy']);
     Route::post('challenge-submits/{challenge}', [ChallengeSubmitController::class, 'store']);
 
