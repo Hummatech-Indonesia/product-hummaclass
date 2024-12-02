@@ -4,6 +4,7 @@ namespace App\Contracts\Repositories\IndustryClass;
 
 use App\Contracts\Interfaces\IndustryClass\SchoolYearInterface;
 use App\Contracts\Repositories\BaseRepository;
+use App\Enums\SchoolYearStatusEnum;
 use App\Models\SchoolYear;
 
 class SchoolYearRepository extends BaseRepository implements SchoolYearInterface
@@ -24,25 +25,42 @@ class SchoolYearRepository extends BaseRepository implements SchoolYearInterface
     }
 
     /**
-     * store
+     * Method store
      *
-     * @param  mixed $data
      * @return mixed
      */
-    public function store(array $data): mixed
+    public function store(): mixed
     {
-        return $this->model->query()->create($data);
+
+        try {
+
+            $current = $this->model->query()->latest()->firstOrFail();
+            $schoolYear = explode('/', $current->school_year);
+            $newSchoolYear = intval($schoolYear[1]) . '/' . intval($schoolYear[1] + 1);
+            $current->update(['status' => SchoolYearStatusEnum::INACTIVE->value]);
+        } catch (\Throwable $e) {
+            $currentYear = now()->year;
+            $currentYearInc = $currentYear + 1;
+            $schoolYear = $currentYear . '/' . $currentYearInc;
+            return $this->model->query()->create([
+                'school_year' => $schoolYear,
+                'status' => SchoolYearStatusEnum::ACTIVE->value
+            ]);
+        }
+        return $this->model->query()->create(['school_year' => $newSchoolYear, 'status' => SchoolYearStatusEnum::ACTIVE->value]);
     }
 
+
+
+
     /**
-     * delete
+     * Method delete
      *
-     * @param  mixed $id
      * @return mixed
      */
-    public function delete(mixed $id): mixed
+    public function delete(): mixed
     {
-        return $this->model->query()->findOrFail($id)->delete();
+        return $this->model->latest()->firstOrFail()->delete();
     }
 
     /**

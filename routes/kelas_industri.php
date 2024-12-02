@@ -37,7 +37,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('get-teachers/{slug}', [UserController::class, 'getTeacher']);
 
         //school year
-        Route::resource('school-years', SchoolYearController::class);
+        Route::resource('school-years', SchoolYearController::class)->except('destroy');
+        Route::delete('school-years', [SchoolYearController::class, 'destroy']);
 
         // student
         Route::get('students/{slug}', [StudentController::class, 'index']);
