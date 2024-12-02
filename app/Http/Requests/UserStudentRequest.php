@@ -34,6 +34,11 @@ class UserStudentRequest extends ApiRequest
         ];
     }
 
+    /**
+     * message
+     *
+     * @return void
+     */
     public function message()
     {
         return [

@@ -6,6 +6,7 @@ use App\Contracts\Interfaces\IndustryClass\ClassroomInterface;
 use App\Contracts\Interfaces\IndustryClass\StudentClassroomInterface;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\IndustryClass\StudentClassroomRequest;
 use App\Http\Resources\IndustryClass\StudentClassroomResource;
 use App\Models\Classroom;
 use App\Traits\PaginationTrait;
@@ -34,5 +35,19 @@ class StudentClassroomController extends Controller
         $data['paginate'] = $this->customPaginate($studentClassrooms->currentPage(), $studentClassrooms->lastPage());
         $data['data'] = StudentClassroomResource::collection($studentClassrooms);
         return ResponseHelper::success($data);
+    }
+
+    /**
+     * store
+     *
+     * @param  mixed $request
+     * @return JsonResponse
+     */
+    public function store(StudentClassroomRequest $request, Classroom $classroom): JsonResponse
+    {
+        foreach ($request->student_id as $student_id) {
+            $this->studentClassroom->store(['classroom_id' => $classroom->id, 'student_id' => $student_id]);
+        }
+        return ResponseHelper::success();
     }
 }

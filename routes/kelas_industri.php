@@ -50,6 +50,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
         // student classroom
         Route::get('student-classrooms/{classroom}', [StudentClassroomController::class, 'byClassroom']);
+        Route::post('student-classrooms/{classroom}', [StudentClassroomController::class, 'store']);
 
         // teacher
         Route::get('teachers/{slug}', [TeacherController::class, 'index']);
