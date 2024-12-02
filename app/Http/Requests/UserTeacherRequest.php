@@ -33,4 +33,20 @@ class UserTeacherRequest extends ApiRequest
             'address' => 'required',
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'photo.nullable' => 'Foto tidak wajib diisi.',
+            'name.required' => 'Nama wajib diisi.',
+            'email.required' => 'Email wajib diisi.',
+            'nip.required' => 'NIP wajib diisi.',
+            'date_birth.required' => 'Tanggal lahir wajib diisi.',
+            'religion.required' => 'Agama wajib diisi.',
+            'phone_number.required' => 'Nomor telepon wajib diisi.',
+            'gender.required' => 'Jenis kelamin wajib diisi.',
+            'address.required' => 'Alamat wajib diisi.',
+        ];
+    }
+
 }
