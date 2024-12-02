@@ -9,6 +9,7 @@ use App\Enums\RoleEnum;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TeacherRequest;
+use App\Http\Requests\UpdateUserTeacherRequest;
 use App\Http\Requests\UserTeacherRequest;
 use App\Http\Resources\TeacherResource;
 use App\Models\School;
@@ -52,7 +53,7 @@ class TeacherController extends Controller
         $school = $this->school->showWithSlug($slug);
         $data = $request->validated();
         $data['school_id'] = $school->id;
-        $user = $this->user->store($data)->assignRole(RoleEnum::STUDENT->value);
+        $user = $this->user->store($data)->assignRole(RoleEnum::TEACHER->value);
         $data['user_id'] = $user->id;
         $this->teacher->store($data);
         return ResponseHelper::success(null, trans('alert.add_success'));
@@ -71,14 +72,16 @@ class TeacherController extends Controller
     /**
      * Method update
      *
-     * @param TeacherRequest $request [explicite description]
+     * @param UpdateUserTeacherRequest $request [explicite description]
      * @param Teacher $teacher [explicite description]
      *
      * @return JsonResponse
      */
-    public function update(TeacherRequest $request, Teacher $teacher): JsonResponse
+    public function update(UpdateUserTeacherRequest $request, Teacher $teacher): JsonResponse
     {
-        $this->teacher->update($teacher->id, $request->validated());
+        $data = $request->validated();
+        $this->user->customUpdate($teacher->user->id, $data);
+        $this->teacher->update($teacher->id, $data);
         return ResponseHelper::success(null, trans('alert.update_success'));
     }
     /**

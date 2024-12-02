@@ -17,6 +17,8 @@ class TeacherResource extends JsonResource
         return [
             'id' => $this->id,
             'user' => UserResource::make($this->user),
+            'date_birth' => $this->date_birth,
+            'nip' => $this->nip,
             'school' => $this->school,
         ];
     }
