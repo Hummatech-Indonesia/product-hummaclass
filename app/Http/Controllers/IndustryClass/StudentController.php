@@ -57,8 +57,9 @@ class StudentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(UserStudentRequest $request, School $school): JsonResponse
+    public function store(UserStudentRequest $request, string $slug): JsonResponse
     {
+        $school = $this->school->showWithSlug($slug);
         $userData = $request->validated();
         $user = $this->user->store($userData);
         $user->assignRole(RoleEnum::STUDENT->value);
@@ -93,7 +94,7 @@ class StudentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(StudentRequest $request, Student $student)
+    public function update(UserStudentRequest $request, Student $student)
     {
         $this->student->update($student->id, $request->validated());
         return ResponseHelper::success(null, trans('alert.update_success'));

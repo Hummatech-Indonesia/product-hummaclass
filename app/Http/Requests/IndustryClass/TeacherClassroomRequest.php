@@ -20,4 +20,12 @@ class TeacherClassroomRequest extends ApiRequest
             'teacher_id' => 'required|exists:teachers,id'
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'teacher_id.required' => 'Guru wajib diisi',
+            'teacher_id.exists' => 'Id Guru tidak sesuai'
+        ];
+    }
 }

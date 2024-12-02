@@ -20,9 +20,9 @@ class ClassroomResource extends JsonResource
             'division' => $this->division,
             'class_level' => $this->class_level,
             'school' => $this->school,
-            'school_year' => $this->schoolYear,
-            'teacher' => $this->teacher,
             'mentor' => $this->user,
+            'teacher' => $this->teacher,
+            'school_year' => $this->schoolYear,
         ];
     }
 }

@@ -26,19 +26,22 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('classrooms/{slug}', [ClassroomController::class, 'index']);
         Route::post('classrooms/{slug}', [ClassroomController::class, 'store']);
         Route::get('classroom-detail/{classroom}', [ClassroomController::class, 'show']);
-        Route::post('teacher-classrooms/{classroom}', [ClassroomController::class, 'teacherClassroom']);
-        Route::post('mentor-classrooms/{classroom}', [ClassroomController::class, 'mentorClassroom']);
+        Route::patch('teacher-classrooms/{classroom}', [ClassroomController::class, 'teacherClassroom']);
+        Route::patch('mentor-classrooms/{classroom}', [ClassroomController::class, 'mentorClassroom']);
         Route::resource('classrooms', ClassroomController::class)->only(['update', 'destroy']);
 
         //Mentor
         Route::get('get-mentors', [UserController::class, 'getMentor']);
+
+        //Teacher
+        Route::get('get-teachers', [UserController::class, 'getTeacher']);
 
         //school year
         Route::resource('school-years', SchoolYearController::class);
 
         // student
         Route::get('students/{slug}', [StudentController::class, 'index']);
-        Route::post('students/{school}', [StudentController::class, 'store']);
+        Route::post('students/{slug}', [StudentController::class, 'store']);
         Route::get('student-detail/{student}', [StudentController::class, 'show']);
         Route::resource('students', StudentController::class)->only(['update', 'destroy']);
         Route::post('import-student/{slug}', [StudentController::class, 'import']);
@@ -48,7 +51,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
         // teacher
         Route::get('teachers/{slug}', [TeacherController::class, 'index']);
-        Route::post('teachers/{school}', [TeacherController::class, 'store']);
+        Route::post('teachers/{slug}', [TeacherController::class, 'store']);
         Route::get('teacher-detail/{teacher}', [TeacherController::class, 'show']);
         Route::resource('teachers', TeacherController::class)->only(['update', 'destroy']);
     });

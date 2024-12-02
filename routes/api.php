@@ -107,10 +107,6 @@ Route::middleware('enable.cors')->group(function () {
 
     Route::resource('events', EventController::class)->except(['show', 'update']);
     Route::patch('events/{slug}', [EventController::class, 'update']);
-
-
-
-
     Route::get('events-user', [EventController::class, 'pageUser']);
     Route::get('events/{slug}', [EventController::class, 'show']);
 

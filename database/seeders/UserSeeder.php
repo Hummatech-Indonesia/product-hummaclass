@@ -17,7 +17,7 @@ class UserSeeder extends Seeder
 {
     public function run(): void
     {
-        $roles = Role::all();
+        $roles = Role::query()->where('name', RoleEnum::ADMIN->value)->orWhere('name', RoleEnum::GUEST->value)->get();
 
         foreach ($roles as $role) {
             $user = User::create([

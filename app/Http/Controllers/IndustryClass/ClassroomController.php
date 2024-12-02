@@ -120,6 +120,6 @@ class ClassroomController extends Controller
     public function mentorClassroom(Classroom $classroom, MentorClassroomRequest $mentorClassroomRequest): JsonResponse
     {
         $this->classroom->update($classroom->id, $mentorClassroomRequest->validated());
-        return ResponseHelper::success(null, trans('alert.add_success'));
+        return ResponseHelper::success(null, 'Berhasil menambahkan mentor');
     }
 }

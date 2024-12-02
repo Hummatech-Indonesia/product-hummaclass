@@ -39,16 +39,31 @@ class TeacherController extends Controller
         $data['data'] = TeacherResource::collection($teachers);
         return ResponseHelper::success($data, trans('alert.fetch_success'));
     }
-    public function store(UserTeacherRequest $request, School $school): JsonResponse
+
+    /**
+     * store
+     *
+     * @param  mixed $request
+     * @param  mixed $school
+     * @return JsonResponse
+     */
+    public function store(UserTeacherRequest $request, string $slug): JsonResponse
     {
+        $school = $this->school->showWithSlug($slug);
         $data = $request->validated();
         $data['school_id'] = $school->id;
         $user = $this->user->store($data)->assignRole(RoleEnum::STUDENT->value);
         $data['user_id'] = $user->id;
-        $teacherData = $data;
         $this->teacher->store($data);
         return ResponseHelper::success(null, trans('alert.add_success'));
     }
+
+    /**
+     * show
+     *
+     * @param  mixed $teacher
+     * @return JsonResponse
+     */
     public function show(Teacher $teacher): JsonResponse
     {
         return ResponseHelper::success(TeacherResource::make($teacher), trans('alert.fetch_success'));

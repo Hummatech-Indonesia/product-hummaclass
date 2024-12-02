@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Auth;
 
 use App\Contracts\Interfaces\Auth\UserInterface;
 use App\Contracts\Interfaces\Course\UserCourseInterface;
+use App\Contracts\Interfaces\IndustryClass\TeacherInterface;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
 use App\Http\Resources\AuthResource;
 use App\Http\Resources\CustomUserEventResource;
+use App\Http\Resources\TeacherResource;
 use App\Http\Resources\UserCourseActivityResource;
 use App\Http\Resources\UserCourseResource;
 use App\Http\Resources\UserEventResource;
@@ -24,11 +26,13 @@ class UserController extends Controller
 {
     use PaginationTrait;
     private UserInterface $user;
+    private TeacherInterface $teacher;
     private UserService $service;
     private UserCourseInterface $userCourse;
-    public function __construct(UserInterface $user, UserCourseInterface $userCourse, UserService $service)
+    public function __construct(UserInterface $user, UserCourseInterface $userCourse, UserService $service, TeacherInterface $teacher)
     {
         $this->user = $user;
+        $this->teacher = $teacher;
         $this->service = $service;
         $this->userCourse = $userCourse;
     }
@@ -112,9 +116,20 @@ class UserController extends Controller
      *
      * @return void
      */
-    public function getMentor()
+    public function getMentor(): JsonResponse
     {
         $mentors = $this->user->getMentor();
         return ResponseHelper::success(UserResource::collection($mentors));
+    }
+
+    /**
+     * getTeacher
+     *
+     * @return JsonResponse
+     */
+    public function getTeacher(): JsonResponse
+    {
+        $teachers = $this->teacher->get();
+        return ResponseHelper::success(TeacherResource::collection($teachers));
     }
 }

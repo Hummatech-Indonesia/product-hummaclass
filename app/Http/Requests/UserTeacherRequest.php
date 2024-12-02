@@ -22,12 +22,10 @@ class UserTeacherRequest extends ApiRequest
     public function rules(): array
     {
         return [
-            'photo' => 'nullable',
             'name' => 'required',
             'email' => 'required',
             'nip' => 'required',
             'date_birth' => 'required',
-            'religion' => 'required',
             'phone_number' => 'required',
             'gender' => 'required',
             'address' => 'required',
@@ -42,11 +40,9 @@ class UserTeacherRequest extends ApiRequest
             'email.required' => 'Email wajib diisi.',
             'nip.required' => 'NIP wajib diisi.',
             'date_birth.required' => 'Tanggal lahir wajib diisi.',
-            'religion.required' => 'Agama wajib diisi.',
             'phone_number.required' => 'Nomor telepon wajib diisi.',
             'gender.required' => 'Jenis kelamin wajib diisi.',
             'address.required' => 'Alamat wajib diisi.',
         ];
     }
-
 }
