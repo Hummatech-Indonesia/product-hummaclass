@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Resources\IndustryClass;
+namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class SchoolYearResource extends JsonResource
+class ChallengeSubmitResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,10 +14,6 @@ class SchoolYearResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
-            'id' => $this->id,
-            'school_year' => $this->school_year,
-            'status' => $this->status,
-        ];
+        return parent::toArray($request);
     }
 }

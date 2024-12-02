@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\ChallengeController;
+use App\Http\Controllers\ChallengeSubmitController;
 use App\Http\Controllers\DivisionController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\IndustryClass\SchoolController;
@@ -37,7 +38,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('get-teachers/{slug}', [UserController::class, 'getTeacher']);
 
         //school year
-        Route::resource('school-years', SchoolYearController::class);
+        Route::resource('school-years', SchoolYearController::class)->except('destroy');
+        Route::delete('school-years', [SchoolYearController::class, 'destroy']);
 
         // student
         Route::get('students/{slug}', [StudentController::class, 'index']);
@@ -55,8 +57,15 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('teacher-detail/{teacher}', [TeacherController::class, 'show']);
         Route::resource('teachers', TeacherController::class)->only(['update', 'destroy']);
     });
-Route::resource('challenges', ChallengeController::class);
-Route::get('student/challenges/{classroomSlug}', [Challenge::class, 'getByClassroom']);
+
+    Route::resource('challenges', ChallengeController::class);
+    Route::resource('challenges', ChallengeController::class);
     
+    Route::resource('challenge-submits', ChallengeSubmitController::class)->only(['update', 'destroy']);
+    Route::post('challenge-submits/{challenge}', [ChallengeSubmitController::class, 'store']);
+
+    Route::get('student/challenge-submits/{challenge}', [ChallengeSubmitController::class, 'index']);
+    Route::get('mentor/challenge-submits/{challenge}', [ChallengeSubmitController::class, 'get_by_mentor']);
+    Route::put('mentor/challenge-add-point/{challengeSubmit}', [ChallengeSubmitController::class, 'add_point']);
 });
 
