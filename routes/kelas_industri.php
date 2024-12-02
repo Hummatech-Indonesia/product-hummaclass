@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\UserController;
+use App\Http\Controllers\ChallengeController;
 use App\Http\Controllers\DivisionController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\IndustryClass\SchoolController;
@@ -51,4 +52,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('teacher-detail/{teacher}', [TeacherController::class, 'show']);
         Route::resource('teachers', TeacherController::class)->only(['update', 'destroy']);
     });
+
+    Route::resource('challenges', ChallengeController::class);
 });
+
+

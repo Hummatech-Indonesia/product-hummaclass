@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\Interfaces\ChallengeInterface;
+use App\Http\Resources\ChallengeResource;
 use App\Http\Requests\ChallengeRequest;
 use App\Services\ChallengeService;
 use App\Helpers\ResponseHelper;
-use App\Http\Resources\ChallengeResource;
 use Illuminate\Http\Request;
+use App\Models\Challenge;
 
 class ChallengeController extends Controller
 {
@@ -25,12 +26,12 @@ class ChallengeController extends Controller
      */
     public function index()
     {
-        try {
+        // try {
             $challenges = $this->challenge->get();
-            return ResponseHelper::success(ChallengeResource::make($challenges), trans('alert.fetch_success'));
-        } catch (\Throwable $th) {
-            return ResponseHelper::success(null, trans('alert.fetch_failed'));
-        }
+            return ResponseHelper::success(ChallengeResource::collection($challenges), trans('alert.fetch_success'));
+        // } catch (\Throwable $th) {
+        //     return ResponseHelper::success(null, trans('alert.fetch_failed'));
+        // }
     }
 
     /**
@@ -74,11 +75,11 @@ class ChallengeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(ChallengeRequest $request, string $id)
+    public function update(ChallengeRequest $request, Challenge $challenge)
     {
         try {
             $data = $this->service->store($request);
-            $this->challenge->update($id, $data);
+            $this->challenge->update($challenge->id, $data);
             return ResponseHelper::success(null, trans('alert.update_success'));
         } catch (\Throwable $th) {
             return ResponseHelper::success(null, trans('alert.update_failed'));
@@ -88,10 +89,10 @@ class ChallengeController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Challenge $challenge)
     {
         try {
-            $this->challenge->delete($id);
+            $this->challenge->delete($challenge->id);
             return ResponseHelper::success(null, trans('alert.delete_success'));
         } catch (\Throwable $th) {
             return ResponseHelper::success(null, trans('alert.delete_failed'));

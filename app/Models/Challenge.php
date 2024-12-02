@@ -11,7 +11,7 @@ class Challenge extends Model
     use HasFactory;
     public $incrementing = false;
     public $keyType = 'char';
-    protected $table = 'blogs';
+    protected $table = 'challenges';
     protected $primaryKey = 'id';
     protected $fillable = [
         'user_id',

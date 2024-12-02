@@ -24,7 +24,7 @@ class ChallengeRepository extends BaseRepository implements ChallengeInterface
      */
     public function store(array $data): mixed
     {
-        return $this->model->query()->store($data);
+        return $this->model->query()->create($data);
     }
     /**
      * Method show
