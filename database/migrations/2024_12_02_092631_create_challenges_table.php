@@ -17,6 +17,9 @@ return new class extends Migration
             $table->foreignUuid('classroom_id')->constrained();
             $table->string('title');
             $table->longText('description');
+            $table->boolean('image_active')->default(false);
+            $table->boolean('file_active')->default(false);
+            $table->boolean('link_active')->default(false);
             $table->timestamp('start_date');
             $table->timestamp('end_date');
             $table->timestamps();
