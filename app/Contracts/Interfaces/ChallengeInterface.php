@@ -10,5 +10,5 @@ use App\Contracts\Interfaces\Eloquent\UpdateInterface;
 
 interface ChallengeInterface extends GetInterface, ShowInterface, StoreInterface, UpdateInterface, DeleteInterface
 {
-    //
+    public function getByClassroom(string $classroomSlug): mixed;
 }

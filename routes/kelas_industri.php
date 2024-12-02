@@ -55,6 +55,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('teacher-detail/{teacher}', [TeacherController::class, 'show']);
         Route::resource('teachers', TeacherController::class)->only(['update', 'destroy']);
     });
-
-    Route::resource('challenges', ChallengeController::class);
+Route::resource('challenges', ChallengeController::class);
+Route::get('student/challenges/{classroomSlug}', [Challenge::class, 'getByClassroom']);
+    
 });
+

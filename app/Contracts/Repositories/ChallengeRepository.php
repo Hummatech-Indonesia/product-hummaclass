@@ -15,6 +15,10 @@ class ChallengeRepository extends BaseRepository implements ChallengeInterface
     {
         return $this->model->query()->where('user_id', auth()->user()->id)->get();
     }
+    public function getByClassroom(string $classroomSlug): mixed
+    {
+        return $this->model->query()->whereRelation('classroom', 'slug', $classroomSlug)->get();
+    }
     /**
      * Method store
      *
