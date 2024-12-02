@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\ChallengeController;
+use App\Http\Controllers\ChallengeSubmitController;
 use App\Http\Controllers\DivisionController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\IndustryClass\SchoolController;
@@ -58,4 +59,11 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::resource('challenges', ChallengeController::class);
+    
+    Route::resource('challenge-submits', ChallengeSubmitController::class)->only(['update', 'destroy']);
+    Route::post('challenge-submits/{challenge}', [ChallengeSubmitController::class, 'store']);
+
+    Route::get('student/challenge-submits/{challenge}', [ChallengeSubmitController::class, 'index']);
+    Route::get('mentor/challenge-submits/{challenge}', [ChallengeSubmitController::class, 'get_by_mentor']);
+    Route::put('mentor/challenge-add-point/{challengeSubmit}', [ChallengeSubmitController::class, 'add_point']);
 });

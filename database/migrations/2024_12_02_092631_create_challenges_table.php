@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignUuid('user_id')->constrained();
             $table->foreignUuid('classroom_id')->constrained();
             $table->string('title');
+            $table->string('slug');
             $table->longText('description');
             $table->boolean('image_active')->default(false);
             $table->boolean('file_active')->default(false);
