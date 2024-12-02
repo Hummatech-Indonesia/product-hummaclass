@@ -2,12 +2,8 @@
 
 namespace App\Contracts\Repositories\IndustryClass;
 
-use App\Contracts\Interfaces\IndustryClass\ClassroomInterface;
-use App\Contracts\Interfaces\IndustryClass\SchoolInterface;
 use App\Contracts\Interfaces\IndustryClass\TeacherInterface;
 use App\Contracts\Repositories\BaseRepository;
-use App\Models\Classroom;
-use App\Models\School;
 use App\Models\Teacher;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -48,9 +44,11 @@ class TeacherRepository extends BaseRepository implements TeacherInterface
      *
      * @return mixed
      */
-    public function get(): mixed
+    public function search(Request $request): mixed
     {
-        return $this->model->query()->get();
+        return $this->model->query()->when($request->school_id, function ($query) use ($request) {
+            $query->where('school_id', $request->school_id);
+        })->get();
     }
 
     /**

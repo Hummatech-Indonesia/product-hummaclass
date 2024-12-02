@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Contracts\Interfaces\Auth\UserInterface;
 use App\Contracts\Interfaces\Course\UserCourseInterface;
+use App\Contracts\Interfaces\IndustryClass\SchoolInterface;
 use App\Contracts\Interfaces\IndustryClass\TeacherInterface;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
@@ -27,10 +28,12 @@ class UserController extends Controller
     use PaginationTrait;
     private UserInterface $user;
     private TeacherInterface $teacher;
+    private SchoolInterface $school;
     private UserService $service;
     private UserCourseInterface $userCourse;
-    public function __construct(UserInterface $user, UserCourseInterface $userCourse, UserService $service, TeacherInterface $teacher)
+    public function __construct(UserInterface $user, UserCourseInterface $userCourse, UserService $service, TeacherInterface $teacher, SchoolInterface $school)
     {
+        $this->school = $school;
         $this->user = $user;
         $this->teacher = $teacher;
         $this->service = $service;
@@ -127,9 +130,11 @@ class UserController extends Controller
      *
      * @return JsonResponse
      */
-    public function getTeacher(): JsonResponse
+    public function getTeacher(Request $request, string $slug): JsonResponse
     {
-        $teachers = $this->teacher->get();
+        $school = $this->school->showWithSlug($slug);
+        $request->merge(['school_id' => $school->id]);
+        $teachers = $this->teacher->search($request);
         return ResponseHelper::success(TeacherResource::collection($teachers));
     }
 }

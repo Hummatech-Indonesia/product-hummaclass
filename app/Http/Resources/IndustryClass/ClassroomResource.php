@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\IndustryClass;
 
+use App\Http\Resources\TeacherResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -21,7 +22,7 @@ class ClassroomResource extends JsonResource
             'class_level' => $this->class_level,
             'school' => $this->school,
             'mentor' => $this->user,
-            'teacher' => $this->teacher,
+            'teacher' => TeacherResource::make($this->teacher),
             'school_year' => $this->schoolYear,
         ];
     }

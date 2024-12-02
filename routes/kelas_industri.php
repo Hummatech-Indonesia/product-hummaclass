@@ -34,7 +34,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('get-mentors', [UserController::class, 'getMentor']);
 
         //Teacher
-        Route::get('get-teachers', [UserController::class, 'getTeacher']);
+        Route::get('get-teachers/{slug}', [UserController::class, 'getTeacher']);
 
         //school year
         Route::resource('school-years', SchoolYearController::class);
@@ -58,5 +58,3 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::resource('challenges', ChallengeController::class);
 });
-
-
