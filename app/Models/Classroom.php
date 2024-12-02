@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Base\Interfaces\HasChallenges;
 use App\Base\Interfaces\HasDivision;
 use App\Base\Interfaces\HasSchool;
 use App\Base\Interfaces\HasSchoolYear;
@@ -10,8 +11,9 @@ use App\Base\Interfaces\HasUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Classroom extends Model implements HasSchool, HasDivision, HasUser, HasTeacher, HasSchoolYear
+class Classroom extends Model implements HasSchool, HasDivision, HasUser, HasTeacher, HasSchoolYear, HasChallenges
 {
     use HasFactory;
     public $incrementing = false;
@@ -74,5 +76,15 @@ class Classroom extends Model implements HasSchool, HasDivision, HasUser, HasTea
     public function schoolYear(): BelongsTo
     {
         return $this->belongsTo(SchoolYear::class);
+    }
+
+    /**
+     * schoolYear
+     *
+     * @return BelongsTo
+     */
+    public function challenges(): HasMany
+    {
+        return $this->hasMany(Challenge::class);
     }
 }

@@ -22,6 +22,7 @@ use App\Contracts\Repositories\RegisterRepository;
 use App\Contracts\Repositories\UserQuizRepository;
 use App\Contracts\Interfaces\Auth\ProfileInterface;
 use App\Contracts\Interfaces\CertificateInterface;
+use App\Contracts\Interfaces\ChallengeInterface;
 use App\Contracts\Repositories\Auth\UserRepository;
 use App\Contracts\Repositories\UserEventRepository;
 use App\Contracts\Interfaces\Course\CourseInterface;
@@ -69,6 +70,7 @@ use App\Contracts\Interfaces\RewardInterface;
 use App\Contracts\Interfaces\TagInterface;
 use App\Contracts\Interfaces\UserRewardInterface;
 use App\Contracts\Repositories\CertificateRepository;
+use App\Contracts\Repositories\ChallengeRepository;
 use App\Contracts\Repositories\Course\SubCategoryRepository;
 use App\Contracts\Repositories\Course\CourseReviewRepository;
 use App\Contracts\Repositories\Course\CourseVoucherRepository;
@@ -139,7 +141,8 @@ class AppServiceProvider extends ServiceProvider
         StudentClassroomInterface::class => StudentClassroomRepository::class,
         DivisionInterface::class => DivisionRepository::class,
         TeacherInterface::class => TeacherRepository::class,
-        SchoolYearInterface::class => SchoolYearRepository::class
+        SchoolYearInterface::class => SchoolYearRepository::class,
+        ChallengeInterface::class => ChallengeRepository::class,
     ];
 
     /**
