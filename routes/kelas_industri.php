@@ -74,3 +74,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('mentor/challenge-submits/{challenge}', [ChallengeSubmitController::class, 'get_by_mentor']);
     Route::put('mentor/challenge-add-point/{challengeSubmit}', [ChallengeSubmitController::class, 'add_point']);
 });
+
+Route::get('challenge/download-zip/{challenge}', [ChallengeController::class, 'download_zip']);

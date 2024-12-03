@@ -7,7 +7,6 @@ use App\Http\Resources\ChallengeResource;
 use App\Http\Requests\ChallengeRequest;
 use App\Services\ChallengeService;
 use App\Helpers\ResponseHelper;
-use Illuminate\Http\Request;
 use App\Models\Challenge;
 
 class ChallengeController extends Controller
@@ -102,6 +101,18 @@ class ChallengeController extends Controller
             return ResponseHelper::success(null, trans('alert.delete_success'));
         } catch (\Throwable $th) {
             return ResponseHelper::success(null, trans('alert.delete_failed'));
+        }
+    }
+
+    public function download_zip(Challenge $challenge)
+    {
+        try {
+            $folderPath = public_path('storage/challenge/'. $challenge->slug);
+            $zipFilePath = storage_path("app/public/{$challenge->slug}.zip");
+            $this->service->download_zip($folderPath, $zipFilePath);
+            return response()->download($zipFilePath)->deleteFileAfterSend(true);
+        } catch (\Throwable $th) {
+            return ResponseHelper::error(null, trans('alert.download_failed'));
         }
     }
 }
