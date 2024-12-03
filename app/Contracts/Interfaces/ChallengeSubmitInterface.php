@@ -9,7 +9,7 @@ use App\Contracts\Interfaces\Eloquent\ShowInterface;
 use App\Contracts\Interfaces\Eloquent\StoreInterface;
 use App\Contracts\Interfaces\Eloquent\UpdateInterface;
 
-interface ChallengeSubmitInterface extends GetInterface, ShowInterface, StoreInterface, UpdateInterface, DeleteInterface
+interface ChallengeSubmitInterface extends GetInterface, ShowInterface, StoreInterface, UpdateInterface, DeleteInterface, GetWhereInterface
 {
     public function getByStudent(array $data): mixed;
     public function getByMentor(mixed $id): mixed;

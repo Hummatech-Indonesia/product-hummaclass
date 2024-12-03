@@ -11,9 +11,15 @@ class ChallengeSubmitRepository extends BaseRepository implements ChallengeSubmi
     {
         $this->model = $challengeSubmit;
     }
+
     public function get(): mixed
     {
         return $this->model->query()->get();
+    }
+
+    public function getWhere(array $data): mixed
+    {
+        return $this->model->query()->where('challenge_id', $data)->get();
     }
 
     public function getByStudent(array $data): mixed
