@@ -83,13 +83,6 @@ class StudentController extends Controller
         return ResponseHelper::success(StudentResource::make($student), trans('alert.fetch_success'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Student $student)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -126,5 +119,17 @@ class StudentController extends Controller
         $school = $this->school->showWithSlug($slug);
         Excel::import(new StudentsImport($school->id), $request->file('file'));
         return ResponseHelper::success(null, trans('alert.add_success'));
+    }
+
+    /**
+     * withoutClassroom
+     *
+     * @return JsonResponse
+     */
+    public function withoutClassroom(string $slugSchool): JsonResponse
+    {
+        $school = $this->school->showWithSlug($slugSchool);
+        $students = $this->student->getWithout($school->id);
+        return ResponseHelper::success(StudentResource::collection($students));
     }
 }

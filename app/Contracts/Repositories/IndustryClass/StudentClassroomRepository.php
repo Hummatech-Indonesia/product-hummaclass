@@ -42,4 +42,15 @@ class StudentClassroomRepository extends BaseRepository implements StudentClassr
     {
         return $this->model->query()->create($data);
     }
+
+    /**
+     * delete_all
+     *
+     * @param  mixed $classroom_id
+     * @return mixed
+     */
+    public function delete_all(string $classroom_id): mixed
+    {
+        return $this->model->query()->where('classroom_id', $classroom_id)->delete();
+    }
 }
