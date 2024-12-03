@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\IndustryClass\SchoolController;
 use App\Http\Controllers\IndustryClass\StudentController;
 use App\Http\Controllers\IndustryClass\ClassroomController;
+use App\Http\Controllers\IndustryClass\LearningPathController;
 use App\Http\Controllers\IndustryClass\SchoolYearController;
 use App\Http\Controllers\IndustryClass\StudentClassroomController;
 use App\Http\Controllers\IndustryClass\TeacherController;
@@ -21,6 +22,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
         // school
         Route::resource('schools', SchoolController::class)->only(['index', 'store', 'update', 'delete']);
+        Route::resource('learning-paths', LearningPathController::class);
         Route::get('schools/{slug}', [SchoolController::class, 'show']);
 
         // division
