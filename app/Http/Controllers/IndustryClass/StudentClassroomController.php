@@ -45,6 +45,7 @@ class StudentClassroomController extends Controller
      */
     public function store(StudentClassroomRequest $request, Classroom $classroom): JsonResponse
     {
+        $this->studentClassroom->delete_all($classroom->id);
         foreach ($request->student_id as $student_id) {
             $this->studentClassroom->store(['classroom_id' => $classroom->id, 'student_id' => $student_id]);
         }

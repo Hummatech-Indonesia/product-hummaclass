@@ -94,4 +94,14 @@ class StudentRepository extends BaseRepository implements StudentInterface
     {
         return $this->show($id)->delete();
     }
+
+    /**
+     * getWithout
+     *
+     * @return mixed
+     */
+    public function getWithout(string $school_id): mixed
+    {
+        return $this->model->query()->where('school_id', $school_id)->get();
+    }
 }

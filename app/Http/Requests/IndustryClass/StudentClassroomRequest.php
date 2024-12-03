@@ -28,7 +28,7 @@ class StudentClassroomRequest extends ApiRequest
     {
         return [
             'student_id.required' => 'Siswa wajib diisi',
-            'student_id.array' => 'Siswa wajib bertiper array',
+            'student_id.array' => 'Siswa wajib bertipe array',
             'student_id.*' => 'Id Siswa tidak sesuai'
         ];
     }
