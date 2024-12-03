@@ -143,4 +143,10 @@ class UserRepository extends BaseRepository implements UserInterface
             ->role(RoleEnum::MENTOR->value)
             ->fastPaginate($pagination);
     }
+
+    public function createMentor($data) : mixed {
+        $user = $this->model->query()->create($data);
+        $user->assignRole(RoleEnum::MENTOR->value);
+        return $user;
+    }
 }

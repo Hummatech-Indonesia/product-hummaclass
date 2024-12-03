@@ -8,6 +8,7 @@ use App\Contracts\Interfaces\IndustryClass\SchoolInterface;
 use App\Contracts\Interfaces\IndustryClass\TeacherInterface;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreMentorRequest;
 use App\Http\Requests\UserRequest;
 use App\Http\Resources\AuthResource;
 use App\Http\Resources\CustomUserEventResource;
@@ -123,6 +124,13 @@ class UserController extends Controller
     {
         $mentors = $this->user->getMentor();
         return ResponseHelper::success(UserResource::collection($mentors));
+    }
+
+    public function createMentor(StoreMentorRequest $request): mixed
+    {
+        $data = $request->validated();
+        $mentor = $this->user->createMentor($data);
+        return ResponseHelper::success(UserResource::make($mentor));
     }
 
     /**

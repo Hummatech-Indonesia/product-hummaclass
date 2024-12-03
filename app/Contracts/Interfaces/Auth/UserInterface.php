@@ -39,4 +39,5 @@ interface UserInterface extends CustomPaginationInterface, ShowInterface, Update
      */
     public function getMentor(): mixed;
     public function getMentorPaginate(Request $request, int $pagination = 10): LengthAwarePaginator;
+    public function createMentor($data): mixed;
 }

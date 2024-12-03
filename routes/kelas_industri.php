@@ -34,6 +34,7 @@ Route::middleware('auth:sanctum')->group(function () {
         //Mentor
         Route::get('get-mentors', [UserController::class, 'getMentor']);
         Route::get('mentors', [UserController::class, 'getMentorAdmin']);
+        Route::post('mentors', [UserController::class, 'createMentor']);
 
         //Teacher
         Route::get('get-teachers/{slug}', [UserController::class, 'getTeacher']);
@@ -61,7 +62,7 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::resource('challenges', ChallengeController::class);
-    Route::get('student/challenges/{classroomSlug}', [Challenge::class, 'getByClassroom']);
+    Route::get('student/challenges/{classroomSlug}', [ChallengeController::class, 'getByClassroom']);
 
     Route::resource('challenge-submits', ChallengeSubmitController::class)->only(['update', 'destroy']);
     Route::post('challenge-submits/{challenge}', [ChallengeSubmitController::class, 'store']);
