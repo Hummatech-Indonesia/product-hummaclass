@@ -33,18 +33,15 @@ class SchoolYearRepository extends BaseRepository implements SchoolYearInterface
     {
 
         try {
-
             $current = $this->model->query()->latest()->firstOrFail();
             $schoolYear = explode('/', $current->school_year);
             $newSchoolYear = intval($schoolYear[1]) . '/' . intval($schoolYear[1] + 1);
-            $current->update(['status' => SchoolYearStatusEnum::INACTIVE->value]);
         } catch (\Throwable $e) {
             $currentYear = now()->year;
             $currentYearInc = $currentYear + 1;
             $schoolYear = $currentYear . '/' . $currentYearInc;
             return $this->model->query()->create([
                 'school_year' => $schoolYear,
-                'status' => SchoolYearStatusEnum::ACTIVE->value
             ]);
         }
         return $this->model->query()->create(['school_year' => $newSchoolYear, 'status' => SchoolYearStatusEnum::ACTIVE->value]);
@@ -60,7 +57,12 @@ class SchoolYearRepository extends BaseRepository implements SchoolYearInterface
      */
     public function delete(): mixed
     {
-        return $this->model->latest()->firstOrFail()->delete();
+        $modelCount = $this->model->count();
+        if ($modelCount > 1) {
+            return $this->model->query()->latest()->firstOrFail()->delete();
+        } else {
+            return false;
+        }
     }
 
     /**

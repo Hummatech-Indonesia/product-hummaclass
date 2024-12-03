@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class SchoolYear extends Model implements HasClassrooms
 {
     use HasFactory;
-    protected $fillable = ['school_year', 'status'];
+    protected $fillable = ['school_year'];
 
     /**
      * classrooms

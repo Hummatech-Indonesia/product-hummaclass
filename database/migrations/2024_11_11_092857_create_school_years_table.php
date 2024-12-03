@@ -14,7 +14,6 @@ return new class extends Migration {
         Schema::create('school_years', function (Blueprint $table) {
             $table->id();
             $table->string('school_year')->unique();
-            $table->enum('status', [SchoolYearStatusEnum::ACTIVE->value, SchoolYearStatusEnum::INACTIVE->value]);
             $table->timestamps();
         });
     }
