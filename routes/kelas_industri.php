@@ -34,6 +34,7 @@ Route::middleware('auth:sanctum')->group(function () {
         //Mentor
         Route::get('get-mentors', [UserController::class, 'getMentor']);
         Route::get('mentors', [UserController::class, 'getMentorAdmin']);
+        Route::post('mentors', [UserController::class, 'createMentor']);
 
         //Teacher
         Route::get('get-teachers/{slug}', [UserController::class, 'getTeacher']);
