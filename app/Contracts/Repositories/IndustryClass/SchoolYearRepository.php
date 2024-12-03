@@ -6,6 +6,7 @@ use App\Contracts\Interfaces\IndustryClass\SchoolYearInterface;
 use App\Contracts\Repositories\BaseRepository;
 use App\Enums\SchoolYearStatusEnum;
 use App\Models\SchoolYear;
+use Exception;
 
 class SchoolYearRepository extends BaseRepository implements SchoolYearInterface
 {
@@ -58,11 +59,10 @@ class SchoolYearRepository extends BaseRepository implements SchoolYearInterface
     public function delete(): mixed
     {
         $modelCount = $this->model->count();
-        if ($modelCount > 1) {
-            return $this->model->query()->latest()->firstOrFail()->delete();
-        } else {
-            return false;
+        if ($modelCount < 2) {
+            throw new Exception();
         }
+        return $this->model->query()->latest()->firstOrFail()->delete();
     }
 
     /**

@@ -49,7 +49,6 @@ class SchoolYearController extends Controller
     public function destroy(): JsonResponse
     {
         try {
-
             $this->schoolYear->delete();
         } catch (\Throwable $e) {
             return ResponseHelper::error(null, trans('alert.delete_failed'));
