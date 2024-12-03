@@ -36,6 +36,12 @@ class SchoolController extends Controller
         return ResponseHelper::success($data, trans('alert.fetch_success'));
     }
 
+    public function getAll(Request $request)
+    {
+        $schools = $this->school->get();
+        return ResponseHelper::success(SchoolResource::collection($schools), trans('alert.fetch_success'));
+    }
+
     /**
      * Store a newly created resource in storage.
      */

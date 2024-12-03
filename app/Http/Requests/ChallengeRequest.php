@@ -27,9 +27,9 @@ class ChallengeRequest extends FormRequest
             'start_date' => 'required',
             'end_date' => 'required',
             'classroom_id' => 'required',
-            'image_active' => 'required',
-            'file_active' => 'required',
-            'link_active' => 'required'
+            'image_active' => 'nullable',
+            'file_active' => 'nullable',
+            'link_active' => 'nullable'
         ];
     }
 }

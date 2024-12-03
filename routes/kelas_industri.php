@@ -14,6 +14,7 @@ use App\Http\Controllers\IndustryClass\TeacherController;
 use App\Http\Requests\IndustryClass\TeacherClassroomRequest;
 
 Route::middleware('auth:sanctum')->group(function () {
+    Route::get('classrooms/{slug}', [ClassroomController::class, 'index']);
     Route::middleware(['is_admin'])->group(function () {
 
         // school
@@ -24,7 +25,6 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::resource('divisions', DivisionController::class);
 
         // classroom
-        Route::get('classrooms/{slug}', [ClassroomController::class, 'index']);
         Route::post('classrooms/{slug}', [ClassroomController::class, 'store']);
         Route::get('classroom-detail/{classroom}', [ClassroomController::class, 'show']);
         Route::patch('teacher-classrooms/{classroom}', [ClassroomController::class, 'teacherClassroom']);
@@ -63,6 +63,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('teacher-detail/{teacher}', [TeacherController::class, 'show']);
         Route::resource('teachers', TeacherController::class)->only(['update', 'destroy']);
     });
+
+    Route::get('schools-all', [SchoolController::class, 'getAll']);
 
     Route::resource('challenges', ChallengeController::class);
     Route::get('student/challenges/{classroomSlug}', [ChallengeController::class, 'getByClassroom']);
