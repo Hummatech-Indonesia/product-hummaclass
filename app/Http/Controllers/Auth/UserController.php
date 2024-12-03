@@ -133,6 +133,14 @@ class UserController extends Controller
         return ResponseHelper::success(UserResource::make($mentor));
     }
 
+    public function updateMentor(StoreMentorRequest $request, User $mentor): mixed
+    {
+        $data = $request->validated();
+        $mentor = $this->user->updateMentor($mentor->id, $data);
+        if ($mentor) return ResponseHelper::success(trans('alert.update_success'));
+        else return ResponseHelper::error(null, trans('alert.update_failed'));
+    }
+
     /**
      * getMentor
      *

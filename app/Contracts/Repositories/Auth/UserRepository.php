@@ -102,6 +102,10 @@ class UserRepository extends BaseRepository implements UserInterface
             'password' => Hash::make($data['password'])
         ]);
     }
+    public function updateMentor(mixed $id, array $data): mixed
+    {
+        return $this->show($id)->update($data);
+    }
     public function store(array $data): mixed
     {
         return $this->model->query()->create($data);
