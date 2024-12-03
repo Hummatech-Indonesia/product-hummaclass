@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Base\Interfaces\HasAttendances;
 use App\Base\Interfaces\HasChallenges;
 use App\Base\Interfaces\HasDivision;
 use App\Base\Interfaces\HasSchool;
@@ -13,7 +14,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Classroom extends Model implements HasSchool, HasDivision, HasUser, HasTeacher, HasSchoolYear, HasChallenges
+class Classroom extends Model implements HasSchool, HasDivision, HasUser, HasTeacher, HasSchoolYear, HasChallenges, HasAttendances
 {
     use HasFactory;
     public $incrementing = false;
@@ -86,5 +87,15 @@ class Classroom extends Model implements HasSchool, HasDivision, HasUser, HasTea
     public function challenges(): HasMany
     {
         return $this->hasMany(Challenge::class);
+    }
+
+    /**
+     * Get all of the attendances for the Classroom
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function attendances(): HasMany
+    {
+        return $this->hasMany(Attendance::class);
     }
 }

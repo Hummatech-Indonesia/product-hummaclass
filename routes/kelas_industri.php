@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\AttendanceStudentController;
 use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\ChallengeController;
 use App\Http\Controllers\ChallengeSubmitController;
@@ -73,6 +75,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('student/challenge-submits/{challenge}', [ChallengeSubmitController::class, 'index']);
     Route::get('mentor/challenge-submits/{challenge}', [ChallengeSubmitController::class, 'get_by_mentor']);
     Route::put('mentor/challenge-add-point/{challengeSubmit}', [ChallengeSubmitController::class, 'add_point']);
+
+    Route::resource('attendances', AttendanceController::class);
+    Route::get('attendance/student/{attendance}', [AttendanceStudentController::class, 'store']);
 });
 
 Route::get('challenge/download-zip/{challenge}', [ChallengeController::class, 'download_zip']);
