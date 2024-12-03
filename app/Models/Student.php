@@ -51,4 +51,14 @@ class Student extends Model implements HasUser, HasSchool, HasStudentClassrooms
     {
         return $this->hasMany(StudentClassroom::class);
     }
+
+    /**
+     * Get all of the attenanceStudents for the Student
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function attendanceStudents(): HasMany
+    {
+        return $this->hasMany(AttendanceStudent::class);
+    }
 }

@@ -20,6 +20,7 @@ class StudentResource extends JsonResource
         } else {
             $gender = 'Perempuan';
         }
+        
         return [
             'id' => $this->id,
             'name' => $this->user->name,

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ChallengeRequest extends FormRequest
+class AttendanceRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,13 +23,7 @@ class ChallengeRequest extends FormRequest
     {
         return [
             'title' => 'required',
-            'description' => 'required',
-            'start_date' => 'required',
-            'end_date' => 'required',
-            'classroom_id' => 'required',
-            'image_active' => 'nullable',
-            'file_active' => 'nullable',
-            'link_active' => 'nullable'
+            'classroom_id' => 'required'
         ];
     }
 
@@ -42,13 +36,7 @@ class ChallengeRequest extends FormRequest
     {
         return [
             'title.required' => 'Judul wajib diisi.',
-            'description.required' => 'Deskripsi wajib diisi.',
-            'start_date.required' => 'Tanggal mulai wajib diisi.',
-            'end_date.required' => 'Tanggal selesai wajib diisi.',
             'classroom_id.required' => 'Kelas wajib dipilih.',
-            'image_active.required' => 'Gambar aktif wajib diunggah.',
-            'file_active.required' => 'File aktif wajib diunggah.',
-            'link_active.required' => 'Tautan aktif wajib diisi.',
         ];
     }
 

@@ -60,6 +60,8 @@ use App\Contracts\Interfaces\DiscussionAnswerInterface;
 use App\Contracts\Interfaces\DiscussionInterface;
 use App\Contracts\Interfaces\DiscussionTagInterface;
 use App\Contracts\Interfaces\FaqInterface;
+use App\Contracts\Interfaces\IndustryClass\AttendanceInterface;
+use App\Contracts\Interfaces\IndustryClass\AttendanceStudentInterface;
 use App\Contracts\Interfaces\IndustryClass\ClassroomInterface;
 use App\Contracts\Interfaces\IndustryClass\DivisionInterface;
 use App\Contracts\Interfaces\IndustryClass\SchoolInterface;
@@ -85,6 +87,8 @@ use App\Contracts\Repositories\DiscussionRepository;
 use App\Contracts\Repositories\DiscussionTagRepository;
 use App\Contracts\Repositories\EventAttendanceRepository;
 use App\Contracts\Repositories\FaqRepository;
+use App\Contracts\Repositories\IndustryClass\AttendanceRepository;
+use App\Contracts\Repositories\IndustryClass\AttendanceStudentRepository;
 use App\Contracts\Repositories\IndustryClass\ClassroomRepository;
 use App\Contracts\Repositories\IndustryClass\DivisionRepository;
 use App\Contracts\Repositories\IndustryClass\SchoolRepository;
@@ -146,6 +150,8 @@ class AppServiceProvider extends ServiceProvider
         SchoolYearInterface::class => SchoolYearRepository::class,
         ChallengeInterface::class => ChallengeRepository::class,
         ChallengeSubmitInterface::class => ChallengeSubmitRepository::class,
+        AttendanceInterface::class => AttendanceRepository::class,
+        AttendanceStudentInterface::class => AttendanceStudentRepository::class,
     ];
 
     /**
