@@ -158,4 +158,9 @@ class UserController extends Controller
         $teachers = $this->teacher->search($request);
         return ResponseHelper::success(TeacherResource::collection($teachers));
     }
+
+    public function destroy(User $user)
+    {
+        return $this->user->delete($user->id);
+    }
 }
