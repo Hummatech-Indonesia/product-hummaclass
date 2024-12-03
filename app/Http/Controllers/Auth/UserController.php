@@ -126,6 +126,19 @@ class UserController extends Controller
     }
 
     /**
+     * getMentor
+     *
+     * @return void
+     */
+    public function getMentorAdmin(Request $request)
+    {
+        $mentors = $this->user->getMentorPaginate($request);
+        $data['paginate'] = $this->customPaginate($mentors->currentPage(), $mentors->lastPage());
+        $data['data'] = UserResource::collection($mentors);
+        return ResponseHelper::success($data);
+    }
+
+    /**
      * getTeacher
      *
      * @return JsonResponse

@@ -20,10 +20,14 @@ class UserSeeder extends Seeder
         $roles = Role::query()->where('name', RoleEnum::ADMIN->value)->orWhere('name', RoleEnum::GUEST->value)->get();
 
         foreach ($roles as $role) {
-            $user = User::create([
+            $user = User::updateOrCreate([
+                'id' => Uuid::uuid(),
+                'name' => $role->name,
+            ], [
                 'id' => Uuid::uuid(),
                 'name' => $role->name,
                 'phone_number' => "08912345678",
+                'photo' => 'profile/user-1.jpg',
                 'gender' => GenderEnum::FEMALE->value,
                 'address' => "lorem ipsum dolor sit amet is simply dummy text for industrial",
                 'email' => str_replace(' ', '', $role->name) . "@gmail.com",

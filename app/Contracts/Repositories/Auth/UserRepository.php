@@ -133,4 +133,14 @@ class UserRepository extends BaseRepository implements UserInterface
             $q->where('name', RoleEnum::MENTOR->value);
         })->get();
     }
+    public function getMentorPaginate(Request $request, int $pagination = 10): LengthAwarePaginator
+    {
+        return $this->model->query()->when($request->name, function ($query) use ($request) {
+            $query->where('name', 'LIKE', '%' . $request->name . '%');
+        })
+            ->where('email', '!=', 'admin@gmail.com')
+            // ->whereRelation('roles', 'name', RoleEnum::MENTOR->value)
+            ->role(RoleEnum::MENTOR->value)
+            ->fastPaginate($pagination);
+    }
 }
