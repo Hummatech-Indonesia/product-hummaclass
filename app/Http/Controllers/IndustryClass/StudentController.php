@@ -96,6 +96,7 @@ class StudentController extends Controller
      */
     public function update(UserStudentRequest $request, Student $student)
     {
+        $this->user->customUpdate($student->user->id, $request->validated());
         $this->student->update($student->id, $request->validated());
         return ResponseHelper::success(null, trans('alert.update_success'));
     }

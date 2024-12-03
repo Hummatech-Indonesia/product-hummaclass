@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Rules\GenderRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UserStudentRequest extends ApiRequest
 {
@@ -22,24 +23,31 @@ class UserStudentRequest extends ApiRequest
      */
     public function rules(): array
     {
+        $userId = $this->route('student')->user->id ?? null; // Ambil ID dari route (pastikan menggunakan model binding)
+
         return [
             'photo' => 'nullable',
             'name' => 'required',
-            'email' => 'required|email|unique:users,email',
+            'email' => [
+                'required',
+                'email',
+                Rule::unique('users', 'email')->ignore($userId), // Abaikan validasi unique untuk ID pengguna saat ini
+            ],
             'phone_number' => 'required',
             'gender' => ['required', new GenderRule()],
             'address' => 'required',
             'nisn' => 'required',
-            'date_birth' => 'required'
+            'date_birth' => 'required',
         ];
     }
 
+
     /**
-     * message
+     * Method message
      *
-     * @return void
+     * @return array
      */
-    public function message()
+    public function message(): array
     {
         return [
             'name.required' => 'Nama harus diisi',

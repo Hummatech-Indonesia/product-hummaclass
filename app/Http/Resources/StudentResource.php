@@ -22,12 +22,16 @@ class StudentResource extends JsonResource
         }
         return [
             'id' => $this->id,
-            'student' => $this->user->name,
+            'name' => $this->user->name,
             'email' => $this->user->email,
             'gender' => $gender,
+            'default_gender' => $this->user->gender,
             'photo' => url('storage/' . $this->user->photo),
             'nisn' => $this->nisn,
-            'school' => $this->school->name,
+            'phone_number' => $this->user->phone_number,
+            'date_birth' => $this->date_birth,
+            'address' => $this->user->address,
+            'school' => $this->school,
         ];
     }
 }

@@ -108,7 +108,7 @@ class UserRepository extends BaseRepository implements UserInterface
     }
     public function delete(mixed $id): mixed
     {
-        return $this->model->show($id)->delete();
+        return $this->show($id)->delete();
     }
     /**
      * Method customUpdate
