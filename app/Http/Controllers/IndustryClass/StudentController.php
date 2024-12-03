@@ -40,18 +40,9 @@ class StudentController extends Controller
         $school = $this->school->showWithSlug($slug);
         $request->merge(['school_id' => $school->id]);
         $students = $this->student->customPaginate($request);
-
         $data['paginate'] = $this->customPaginate($students->currentPage(), $students->lastPage());
         $data['data'] = StudentResource::collection($students);
         return ResponseHelper::success($data, trans('alert.fetch_success'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -61,6 +52,7 @@ class StudentController extends Controller
     {
         $school = $this->school->showWithSlug($slug);
         $userData = $request->validated();
+        $userData['password'] = bcrypt('password');
         $user = $this->user->store($userData);
         $user->assignRole(RoleEnum::STUDENT->value);
 
