@@ -25,7 +25,7 @@ trait ValidationStudentTrait
             'jenis_kelamin' => 'required',
             'kelas' => 'nullable',
             'nisn' => 'required|max:12',
-            'tanggal_lahir' => 'required|date'
+            'tanggal_lahir' => 'required',
         ];
     }
 

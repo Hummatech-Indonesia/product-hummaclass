@@ -4,6 +4,7 @@ namespace App\Imports;
 
 use App\Helpers\Excel\ImportStudentHelper;
 use App\Models\Classroom;
+use Carbon\Carbon;
 use App\Models\School;
 use App\Models\StudentClassroom;
 use App\Models\User;
@@ -29,17 +30,22 @@ class StudentsImport implements ToModel, WithHeadingRow, WithValidation
      *
      * @return \Illuminate\Database\Eloquent\Model|null
      */
+
+
     public function model(array $row)
     {
         if (isset($row['kelas'])) {
             $classroom = Classroom::query()->where('school_id', $this->school_id)->where('name', $row['kelas'])->first();
         }
 
-        if (strtolower($row['jenis_kelamin']) == "laki-laki" || strtolower($row['jenis_kelamin']) == "male") {
-            $gender = "male";
-        } else {
-            $gender = "female";
+        // Normalize the gender input
+        $gender = strtolower($row['jenis_kelamin']) === "laki-laki" || strtolower($row['jenis_kelamin']) === "male" ? "male" : "female";
+
+        $date_birth = null;
+        if (!empty($row['tanggal_lahir'])) {
+            $date_birth = Carbon::createFromFormat('Y-m-d', '1900-01-01')->addDays($row['tanggal_lahir'] - 2)->format('Y-m-d');
         }
+
 
         ImportStudentHelper::import([
             'name' => $row['nama'],
@@ -48,9 +54,13 @@ class StudentsImport implements ToModel, WithHeadingRow, WithValidation
             'address' => $row['alamat'],
             'gender' => $gender,
             'nisn' => $row['nisn'],
-            'date_birth' => $row['tanggal_lahir'],
+            'date_birth' => $date_birth,
             'school_id' => $this->school_id,
-            'classroom_id' => $classroom->id
+            'classroom_id' => $classroom->id ?? null
         ]);
     }
+
+
+
+
 }
