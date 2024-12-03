@@ -69,6 +69,11 @@ class ChallengeSubmitRepository extends BaseRepository implements ChallengeSubmi
         return $this->model->query()->findOrFail($id)->update($data);
     }
 
+    public function updateByChallenge(mixed $challenge_id, mixed $student_id, array $data): mixed
+    {
+        return $this->model->query()->where('challenge_id', $challenge_id)->where('student_id', $student_id)->update($data);
+    }
+
     /**
      * showWithCourse
      *

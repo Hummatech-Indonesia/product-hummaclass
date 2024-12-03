@@ -38,10 +38,9 @@ class ChallengeSubmitController extends Controller
         }
     }
 
-    public function add_point(PointChallengeSubmitRequest $request, ChallengeSubmit $challengeSubmit)
+    public function add_point(PointChallengeSubmitRequest $request, Challenge $challenge)
     {
-        $data = $this->service->add_point($request);
-        $this->challengeSubmit->update($challengeSubmit->id, $data);
+        $this->service->add_point($request, $challenge);
         return ResponseHelper::success(null, trans('alert.update_success'));
     }
 

@@ -22,7 +22,9 @@ class PointChallengeSubmitRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'point' => 'required',
+            'challenge_submit' => 'required|array',
+            'challenge_submit.*.student_id' => 'required|exists:students,id',
+            'challenge_submit.*.point' => 'required',
         ];
     }
 }

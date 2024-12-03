@@ -3,19 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\Interfaces\IndustryClass\AttendanceInterface;
+use App\Contracts\Interfaces\IndustryClass\AttendanceStudentInterface;
 use App\Helpers\ResponseHelper;
 use App\Http\Requests\AttendanceRequest;
+use App\Http\Resources\AttendanceStudentResource;
 use App\Models\Attendance;
 use App\Services\IndustryClass\AttendanceService;
 use Illuminate\Http\Request;
 
 class AttendanceController extends Controller
 {
+    private AttendanceStudentInterface $attendanceStudent;
     private AttendanceInterface $attendance;
     private AttendanceService $service;
 
-    public function __construct(AttendanceInterface $attendance, AttendanceService $service)
+    public function __construct(AttendanceStudentInterface $attendanceStudent, AttendanceInterface $attendance, AttendanceService $service)
     {
+        $this->attendanceStudent = $attendanceStudent;
         $this->attendance = $attendance;
         $this->service = $service;
     }
@@ -54,7 +58,12 @@ class AttendanceController extends Controller
      */
     public function show(Attendance $attendance)
     {
-        //
+        try {
+            $attendanceStudents = $this->attendanceStudent->getWhere(['attendance_id' => $attendance->id]);
+            return ResponseHelper::success(AttendanceStudentResource::collection($attendanceStudents), trans('alert.fetch_success'));
+        } catch (\Throwable $th) {
+            return ResponseHelper::success(null, trans('alert.fetch_failed'));
+        }
     }
 
     /**
