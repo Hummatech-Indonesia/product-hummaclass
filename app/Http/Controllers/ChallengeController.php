@@ -3,21 +3,26 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\Interfaces\ChallengeInterface;
+use App\Contracts\Interfaces\ChallengeSubmitInterface;
 use App\Http\Resources\ChallengeResource;
 use App\Http\Requests\ChallengeRequest;
 use App\Services\ChallengeService;
 use App\Helpers\ResponseHelper;
+use App\Http\Resources\ChallengeSubmitResource;
+use App\Http\Resources\DetailChallengeResource;
 use App\Models\Challenge;
 
 class ChallengeController extends Controller
 {
     private ChallengeInterface $challenge;
+    private ChallengeSubmitInterface $challengeSubmit;
     private ChallengeService $service;
 
-    public function __construct(ChallengeInterface $challenge, ChallengeService $service)
+    public function __construct(ChallengeInterface $challenge, ChallengeService $service, ChallengeSubmitInterface $challengeSubmit)
     {
         $this->challenge = $challenge;
         $this->service = $service;
+        $this->challengeSubmit = $challengeSubmit;
     }
 
     /**
@@ -64,9 +69,10 @@ class ChallengeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $slug)
     {
-        //
+        $challenge = $this->challenge->showWithSlug($slug);
+        return ResponseHelper::success(DetailChallengeResource::make($challenge), trans('alert.fetch_success'));
     }
 
     /**
