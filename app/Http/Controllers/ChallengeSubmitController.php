@@ -38,12 +38,6 @@ class ChallengeSubmitController extends Controller
         }
     }
 
-    public function get_by_mentor(Challenge $challenge)
-    {
-        $challengeSubmits = $this->challengeSubmit->getByMentor($challenge->id);
-        return ResponseHelper::success(ChallengeSubmitResource::collection($challengeSubmits), trans('alert.fetch_success'));
-    }
-
     public function add_point(PointChallengeSubmitRequest $request, ChallengeSubmit $challengeSubmit)
     {
         $data = $this->service->add_point($request);

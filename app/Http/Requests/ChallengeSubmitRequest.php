@@ -22,8 +22,8 @@ class ChallengeSubmitRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'image' => 'nullable|image|mimes:png,jpg',
-            'file' => 'nullable|file|mimes:zip',
+            'image' => 'nullable|image',
+            'file' => 'nullable|file',
             'link' => 'nullable'
         ];
     }

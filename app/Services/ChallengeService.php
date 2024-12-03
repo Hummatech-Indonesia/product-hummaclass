@@ -16,7 +16,6 @@ class ChallengeService implements ShouldHandleFileUpload
     {
         $data = $request->validated();
         $data['user_id'] = auth()->user()->id;
-        $data['slug'] = Str::slug($data['title']);
         return $data;
     }
 
@@ -24,7 +23,6 @@ class ChallengeService implements ShouldHandleFileUpload
     {
         $data = $request->validated();
         $data['user_id'] = auth()->user()->id;
-        $data['slug'] = Str::slug($data['title']);
         return $data;
     }
 

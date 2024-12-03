@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Blog;
 use App\Models\Challenge;
+use App\Models\ChallengeSubmit;
 use App\Models\Classroom;
 use App\Models\Course;
 use App\Models\CourseTask;
@@ -28,6 +29,7 @@ use App\Models\UserCourseTest;
 use App\Models\UserQuiz;
 use App\Observers\BlogObserver;
 use App\Observers\ChallengeObserver;
+use App\Observers\ChallengeSubmitObserver;
 use App\Observers\ClassroomObserver;
 use App\Observers\CourseObserver;
 use App\Observers\CourseTaskObserver;
@@ -95,6 +97,7 @@ class EventServiceProvider extends ServiceProvider
         StudentClassroom::observe(StudentClassroomObserver::class);
         Division::observe(DivisionObserver::class);
         Challenge::observe(ChallengeObserver::class);
+        ChallengeSubmit::observe(ChallengeSubmitObserver::class);
     }
 
     /**

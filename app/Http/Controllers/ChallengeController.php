@@ -36,12 +36,8 @@ class ChallengeController extends Controller
     
     public function getByClassroom(string $studentSlug)
     {
-        // try {
-            $challenges = $this->challenge->getByClassroom($studentSlug);
-            return ResponseHelper::success(ChallengeResource::collection($challenges), trans('alert.fetch_success'));
-        // } catch (\Throwable $th) {
-        //     return ResponseHelper::success(null, trans('alert.fetch_failed'));
-        // }
+        $challenges = $this->challenge->getByClassroom($studentSlug);
+        return ResponseHelper::success(ChallengeResource::collection($challenges), trans('alert.fetch_success'));
     }
 
     /**

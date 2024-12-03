@@ -61,13 +61,12 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::resource('challenges', ChallengeController::class);
-    Route::get('student/challenges/{classroomSlug}', [Challenge::class, 'getByClassroom']);
+    Route::get('student/challenges/{classroomSlug}', [ChallengeController::class, 'getByClassroom']);
 
-    Route::resource('challenge-submits', ChallengeSubmitController::class)->only(['update', 'destroy']);
+    Route::resource('challenge-submits', ChallengeSubmitController::class)->only(['destroy']);
     Route::post('challenge-submits/{challenge}', [ChallengeSubmitController::class, 'store']);
+    Route::post('update-challenge-submits/{challenge_submit}', [ChallengeSubmitController::class, 'update']);
 
-    Route::get('student/challenge-submits/{challenge}', [ChallengeSubmitController::class, 'index']);
-    Route::get('mentor/challenge-submits/{challenge}', [ChallengeSubmitController::class, 'get_by_mentor']);
     Route::put('mentor/challenge-add-point/{challengeSubmit}', [ChallengeSubmitController::class, 'add_point']);
 });
 
