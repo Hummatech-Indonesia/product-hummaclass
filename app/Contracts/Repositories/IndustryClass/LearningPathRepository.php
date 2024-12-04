@@ -18,7 +18,7 @@ class LearningPathRepository extends BaseRepository implements LearningPathInter
     public function search(Request $request): mixed
     {
 
-        $model = $this->model->query()
+        return $this->model->query()
             ->when($request->division_id, function ($query) use ($request) {
                 return $query->where(['division_id' => $request->division_id]);
             })
@@ -26,7 +26,6 @@ class LearningPathRepository extends BaseRepository implements LearningPathInter
                 return $query->where(['class_level' => $request->class_level]);
             })
             ->get();
-        dd($model);
     }
     public function store(array $data): mixed
     {
