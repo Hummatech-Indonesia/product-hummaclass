@@ -24,7 +24,7 @@ class PointChallengeSubmitRequest extends FormRequest
         return [
             'challenge_submit' => 'required|array',
             'challenge_submit.*.student_id' => 'required|exists:students,id',
-            'challenge_submit.*.point' => 'required',
+            'challenge_submit.*.point' => 'required|min:1|max:3',
         ];
     }
 }
