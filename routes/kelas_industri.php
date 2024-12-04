@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\ChallengeController;
 use App\Http\Controllers\ChallengeSubmitController;
 use App\Http\Controllers\DivisionController;
+use App\Http\Controllers\IndustryClass\AssesmentFormController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\IndustryClass\SchoolController;
 use App\Http\Controllers\IndustryClass\StudentController;
@@ -54,6 +55,9 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::resource('students', StudentController::class)->only(['update', 'destroy']);
         Route::post('import-student/{slug}', [StudentController::class, 'import']);
         Route::get('student-without-classroom/{slugSchool}', [StudentController::class, 'withoutClassroom']);
+
+        // Assesment Form
+        Route::post('assesment-form/{type}', [AssesmentFormController::class, 'store']);
 
         // student classroom
         Route::get('student-classrooms/{classroom}', [StudentClassroomController::class, 'byClassroom']);
