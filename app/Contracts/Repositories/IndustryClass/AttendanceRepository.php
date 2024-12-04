@@ -5,6 +5,8 @@ namespace App\Contracts\Repositories\IndustryClass;
 use App\Contracts\Interfaces\IndustryClass\AttendanceInterface;
 use App\Contracts\Repositories\BaseRepository;
 use App\Models\Attendance;
+use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class AttendanceRepository extends BaseRepository implements AttendanceInterface
 {
@@ -22,6 +24,17 @@ class AttendanceRepository extends BaseRepository implements AttendanceInterface
     public function getWhere(array $data): mixed
     {
         return $this->model->query()->where($data)->get();
+    }
+
+    public function paginateAttendance(Request $request, mixed $id, int $pagination = 10): LengthAwarePaginator
+    {
+        return $this->model->query()
+            ->where('user_id', $id)
+            ->when($request->search, function($query) use ($request){
+                $query->where('title', 'LIKE', '%' . $request->search . '%')
+                    ->orWhereRelation('classroom', 'name', 'LIKE', '%' . $request->search . '%');
+            })
+            ->fastPaginate($pagination);
     }
 
     /**

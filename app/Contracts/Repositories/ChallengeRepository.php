@@ -4,6 +4,8 @@ namespace App\Contracts\Repositories;
 
 use App\Contracts\Interfaces\ChallengeInterface;
 use App\Models\Challenge;
+use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class ChallengeRepository extends BaseRepository implements ChallengeInterface
 {
@@ -15,6 +17,18 @@ class ChallengeRepository extends BaseRepository implements ChallengeInterface
     public function get(): mixed
     {
         return $this->model->query()->where('user_id', auth()->user()->id)->get();
+    }
+    
+    public function customPaginate(Request $request, int $pagination = 10): LengthAwarePaginator
+    {
+        return $this->model->query()
+            ->where('user_id', auth()->user()->id)
+            ->when($request->search, function($query) use ($request) {
+                $query->where('title', 'LIKE', '%' . $request->search . '%')
+                    ->orWhereRelation('classroom', 'name', 'LIKE', '%' . $request->search . '%')
+                    ->orWhereRelation('classroom.school', 'name', 'LIKE', '%' . $request->search . '%');
+            })  
+            ->fastPaginate($pagination);
     }
 
     public function getByClassroom(string $classroomSlug): mixed

@@ -4,6 +4,8 @@ namespace App\Contracts\Repositories;
 
 use App\Contracts\Interfaces\ChallengeSubmitInterface;
 use App\Models\ChallengeSubmit;
+use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class ChallengeSubmitRepository extends BaseRepository implements ChallengeSubmitInterface
 {
@@ -38,6 +40,18 @@ class ChallengeSubmitRepository extends BaseRepository implements ChallengeSubmi
     public function getByTeacher(mixed $id): mixed
     {
         return $this->model->query()->whereRelation('challenge', 'classroom_id', $id)->get();
+    }
+
+    public function paginateSubmit(Request $request, mixed $id, int $pagination = 10): LengthAwarePaginator
+    {
+        return $this->model->query()
+            ->where('challenge_id', $id)
+            ->when($request->search, function($query) use ($request){
+                $query->whereRelation('student.user', 'name', 'LIKE', '%' . $request->search . '%')
+                    ->orWhereRelation('student.studentClassrooms.classroom', 'name', 'LIKE', '%' . $request->search . '%')
+                    ->orWhere('point',  'LIKE', '%' . $request->search . '%');
+            })
+            ->fastPaginate($pagination);
     }
 
     /**

@@ -78,6 +78,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('student/challenges/{classroomSlug}', [ChallengeController::class, 'getByClassroom']);
 
     Route::resource('challenges', ChallengeController::class);
+    Route::get('submit-challenge/{challenge}', [ChallengeController::class, 'showChallengeSubmit']);
+
     Route::resource('challenge-submits', ChallengeSubmitController::class)->only(['update', 'destroy']);
     Route::post('challenge-submits/{challenge}', [ChallengeSubmitController::class, 'store']);
 
@@ -87,6 +89,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('mentor/challenge-add-point/{challenge}', [ChallengeSubmitController::class, 'add_point']);
     Route::get('mentor/classrooms', [ClassroomController::class, 'listClassroom']);
     Route::get('mentor/dashboard/classrooms', [ClassroomController::class, 'listClassroomDashboard']);
+
     Route::get('mentor/detail/classroom/{slug}', [ClassroomController::class, 'showDetailClassroom']);
     Route::get('mentor/detail-student/classroom', [ClassroomController::class, 'showDetailStudent']);
 

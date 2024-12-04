@@ -11,6 +11,7 @@ use App\Helpers\ResponseHelper;
 use App\Http\Resources\ChallengeSubmitResource;
 use App\Http\Resources\DetailChallengeResource;
 use App\Models\Challenge;
+use Illuminate\Http\Request;
 
 class ChallengeController extends Controller
 {
@@ -28,10 +29,10 @@ class ChallengeController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $challenges = $this->challenge->get();
+            $challenges = $this->challenge->customPaginate($request);
             return ResponseHelper::success(ChallengeResource::collection($challenges), trans('alert.fetch_success'));
         } catch (\Throwable $th) {
             return ResponseHelper::success(null, trans('alert.fetch_failed'));
@@ -73,6 +74,20 @@ class ChallengeController extends Controller
     {
         $challenge = $this->challenge->showWithSlug($slug);
         return ResponseHelper::success(DetailChallengeResource::make($challenge), trans('alert.fetch_success'));
+    }
+
+    public function showChallengeSubmit(Request $request, Challenge $challenge)
+    {
+        if ($request->has('page')) {
+            $challengeSubmits = $this->challengeSubmit->paginateSubmit($request, $challenge->id);
+            $data['paginate'] = $this->customPaginate($challengeSubmits->currentPage(), $challengeSubmits->lastPage());
+            $data['data'] = ChallengeSubmitResource::collection($challengeSubmits);
+        } else {
+            $challengeSubmits = $this->challengeSubmit->paginateSubmit($request, $challenge->id);
+            $data['data'] = ChallengeSubmitResource::collection($challengeSubmits);
+        }
+        
+        return ResponseHelper::success($data, trans('alert.fetch_success'));
     }
 
     /**

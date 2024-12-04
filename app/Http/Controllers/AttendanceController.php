@@ -6,6 +6,7 @@ use App\Contracts\Interfaces\IndustryClass\AttendanceInterface;
 use App\Contracts\Interfaces\IndustryClass\AttendanceStudentInterface;
 use App\Helpers\ResponseHelper;
 use App\Http\Requests\AttendanceRequest;
+use App\Http\Resources\AttendanceResource;
 use App\Http\Resources\AttendanceStudentResource;
 use App\Models\Attendance;
 use App\Services\IndustryClass\AttendanceService;
@@ -26,9 +27,17 @@ class AttendanceController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        if ($request->has('page')) {
+            $attendances = $this->attendance->paginateAttendance($request, auth()->user()->id);
+            $data['paginate'] = $this->customPaginate($attendances->currentPage(), $attendances->lastPage());
+            $data['data'] = AttendanceResource::collection($attendances);
+        } else {
+            $attendances = $this->attendance->paginateAttendance($request, auth()->user()->id);
+            $data['data'] = AttendanceResource::collection($attendances);
+        }
+        return ResponseHelper::success($data, trans('alert.fetch_success'));
     }
 
     /**
