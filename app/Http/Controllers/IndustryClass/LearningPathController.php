@@ -48,6 +48,6 @@ class LearningPathController extends Controller
         } catch (\Throwable $e) {
             return ResponseHelper::error(null, trans('alert.delete_constrained'));
         }
-        return ResponseHelper::success(null, trans('alert.delete_failed'));
+        return ResponseHelper::success(null, trans('alert.delete_success'));
     }
 }
