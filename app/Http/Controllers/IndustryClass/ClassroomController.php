@@ -4,12 +4,15 @@ namespace App\Http\Controllers\IndustryClass;
 
 use App\Contracts\Interfaces\IndustryClass\ClassroomInterface;
 use App\Contracts\Interfaces\IndustryClass\SchoolInterface;
+use App\Contracts\Interfaces\IndustryClass\StudentClassroomInterface;
+use App\Contracts\Interfaces\IndustryClass\StudentInterface;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\IndustryClass\ClassroomRequest;
 use App\Http\Requests\IndustryClass\MentorClassroomRequest;
 use App\Http\Requests\IndustryClass\TeacherClassroomRequest;
 use App\Http\Resources\IndustryClass\ClassroomResource;
+use App\Http\Resources\IndustryClass\StudentClassroomResource;
 use App\Models\Classroom;
 use App\Models\School;
 use App\Models\User;
@@ -22,11 +25,15 @@ class ClassroomController extends Controller
     use PaginationTrait;
     private ClassroomInterface $classroom;
     private SchoolInterface $school;
+    private StudentInterface $student;
+    private StudentClassroomInterface $studentClassroom;
 
-    public function __construct(ClassroomInterface $classroom, SchoolInterface $school)
+    public function __construct(ClassroomInterface $classroom, SchoolInterface $school, StudentInterface $student, StudentClassroomInterface $studentClassroom)
     {
         $this->classroom = $classroom;
         $this->school = $school;
+        $this->student = $student;
+        $this->studentClassroom = $studentClassroom;
     }
 
     /**
@@ -121,5 +128,57 @@ class ClassroomController extends Controller
     {
         $this->classroom->update($classroom->id, $mentorClassroomRequest->validated());
         return ResponseHelper::success(null, 'Berhasil menambahkan mentor');
+    }
+
+    /**
+     * mentorClassroom
+     *
+     * @param  mixed $user
+     * @param  mixed $request
+     * @return JsonResponse
+     */
+    public function listClassroom(Request $request): JsonResponse
+    {
+        $classrooms = $this->classroom->search(auth()->user()->id, $request);
+        return ResponseHelper::success(ClassroomResource::collection($classrooms), trans('alert.fetch_success'));
+    }
+
+    /**
+     * mentorClassroom
+     *
+     * @param  mixed $user
+     * @param  mixed $request
+     * @return JsonResponse
+     */
+    public function listClassroomDashboard(): JsonResponse
+    {
+        $classrooms = $this->classroom->take(['user_id' => auth()->user()->id], 8);
+        return ResponseHelper::success(ClassroomResource::collection($classrooms), trans('alert.fetch_success'));
+    }
+
+    /**
+     * mentorClassroom
+     *
+     * @param  mixed $user
+     * @param  mixed $request
+     * @return JsonResponse
+     */
+    public function showDetailClassroom(Request $request, string $slug): JsonResponse
+    {
+        $classroom = $this->classroom->showWithSlug($slug);
+        return ResponseHelper::success(ClassroomResource::make($classroom), trans('alert.fetch_success'));
+    }
+
+    /**
+     * mentorClassroom
+     *
+     * @param  mixed $user
+     * @param  mixed $request
+     * @return JsonResponse
+     */
+    public function showDetailStudent(Request $request): JsonResponse
+    {
+        $students = $this->studentClassroom->customPaginate($request);
+        return ResponseHelper::success(StudentClassroomResource::collection($students), trans('alert.fetch_success'));
     }
 }

@@ -7,6 +7,7 @@ use App\Contracts\Interfaces\IndustryClass\SchoolInterface;
 use App\Contracts\Repositories\BaseRepository;
 use App\Models\Classroom;
 use App\Models\School;
+use FontLib\Table\Type\maxp;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -28,6 +29,24 @@ class ClassroomRepository extends BaseRepository implements ClassroomInterface
         return $this->model->query()->where($data)->get();
     }
 
+    public function search(mixed $query, Request $request): mixed
+    {
+        return $this->model->query()
+            ->where('user_id', $query)
+            ->when($request->search, function ($query) use ($request) {
+                $query->where('name', 'like', '%' . $request->search . '%')
+                    ->orWhere('class_level', 'like', '%' . $request->search . '%')
+                    ->orWhereRelation('teacher.user', 'name', 'like', '%' . $request->search . '%')
+                    ->orWhereRelation('school', 'name', 'like', '%' . $request->search . '%');
+            })
+            ->get();
+    }
+
+    public function take(mixed $query, mixed $count): mixed
+    {
+        return $this->model->query()->where($query)->take($count)->get();
+    }
+
     /**
      * Method get
      *
@@ -36,6 +55,11 @@ class ClassroomRepository extends BaseRepository implements ClassroomInterface
     public function get(): mixed
     {
         return $this->model->query()->get();
+    }
+
+    public function showWithSlug(string $slug): mixed
+    {
+        return $this->model->query()->where('slug', $slug)->first();
     }
 
     /**

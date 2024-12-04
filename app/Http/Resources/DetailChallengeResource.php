@@ -17,6 +17,7 @@ class DetailChallengeResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
+            'slug' => $this->slug,
             'description' => $this->description,
             'challenge_submit' => ChallengeSubmitResource::collection($this->challengeSubmits),
         ];

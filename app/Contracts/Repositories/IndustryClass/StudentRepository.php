@@ -40,6 +40,7 @@ class StudentRepository extends BaseRepository implements StudentInterface
             $query->whereRelation('user', 'name', 'LIKE', '%' . $request->name . '%');
         })->fastPaginate($pagination);
     }
+
     /**
      * get
      *

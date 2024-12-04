@@ -16,12 +16,14 @@ class ChallengeResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id' => $this->id,
             'school' => $this->classroom->school->name,
             'classroom' => $this->classroom->name,
             'description' => $this->description,
             'start_date' => Carbon::parse($this->start_date)->translatedFormat('d F Y - H:i'),
             'end_date' => Carbon::parse($this->end_date)->translatedFormat('d F Y - H:i'),
             'title' => $this->title,
+            'slug' => $this->slug,
         ];
     }
 }
