@@ -26,8 +26,12 @@ class JournalController extends Controller
      */
     public function index(Request $request)
     {
-        $journals = $this->journal->search(['user_id' => auth()->user()->id], $request);
-        return ResponseHelper::success(JournalResource::collection($journals), trans('alert.fetch_success'));
+        try {
+            $journals = $this->journal->search(['user_id' => auth()->user()->id], $request);
+            return ResponseHelper::success(JournalResource::collection($journals), trans('alert.fetch_success'));
+        } catch (\Throwable $th) {
+            return ResponseHelper::success(null, trans('alert.fetch_failed'));
+        }
     }
 
     /**
@@ -43,9 +47,13 @@ class JournalController extends Controller
      */
     public function store(JournalRequest $request)
     {
-        $data = $this->service->store($request);
-        $this->journal->store($data);
-        return ResponseHelper::success(null, trans('alert.add_success'));
+        try {
+            $data = $this->service->store($request);
+            $this->journal->store($data);
+            return ResponseHelper::success(null, trans('alert.add_success'));
+        } catch (\Throwable $th) {
+            return ResponseHelper::success(null, trans('alert.add_failed'));
+        }
     }
 
     /**
@@ -69,9 +77,13 @@ class JournalController extends Controller
      */
     public function update(JournalRequest $request, Journal $journal)
     {
-        $data = $this->service->update($request, $journal);
-        $this->journal->update($journal->id, $data);
-        return ResponseHelper::success(null, trans('alert.update_success'));
+        try {
+            $data = $this->service->update($request, $journal);
+            $this->journal->update($journal->id, $data);
+            return ResponseHelper::success(null, trans('alert.update_success'));
+        } catch (\Throwable $th) {
+            return ResponseHelper::success(null, trans('alert.update_failed'));
+        }
     }
 
     /**
@@ -79,8 +91,12 @@ class JournalController extends Controller
      */
     public function destroy(Journal $journal)
     {
-        $this->service->delete($journal);
-        $this->journal->delete($journal->id);
-        return ResponseHelper::success(null, trans('alert.delete_success'));
+        try {
+            $this->service->delete($journal);
+            $this->journal->delete($journal->id);
+            return ResponseHelper::success(null, trans('alert.delete_success'));
+        } catch (\Throwable $th) {
+            return ResponseHelper::success(null, trans('alert.delete_failed'));
+        }
     }
 }

@@ -124,4 +124,21 @@ class StudentController extends Controller
         $students = $this->student->getWithout($school->id);
         return ResponseHelper::success(StudentResource::collection($students));
     }
+
+    public function listRangeStudent(Request $request): JsonResponse
+    {
+        try {
+            if ($request->has('page')) {
+                $students = $this->student->listRangePoint($request);
+                $data['paginate'] = $this->customPaginate($students->currentPage(), $students->lastPage());
+                $data['data'] = StudentResource::collection($students);
+            } else {
+                $students = $this->student->listRangePoint($request);
+                $data['data'] = StudentResource::collection($students);
+            }
+            return ResponseHelper::success($data, trans('alert.fetch_success'));
+        } catch (\Throwable $th) {
+            return ResponseHelper::success(null, trans('alert.fetch_failed'));
+        }
+    }
 }

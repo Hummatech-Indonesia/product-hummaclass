@@ -23,6 +23,7 @@ class StudentResource extends JsonResource
         
         return [
             'id' => $this->id,
+            'point' => $this->user->point,
             'name' => $this->user->name,
             'email' => $this->user->email,
             'gender' => $gender,
@@ -33,6 +34,7 @@ class StudentResource extends JsonResource
             'date_birth' => $this->date_birth,
             'address' => $this->user->address,
             'school' => $this->school,
+            'classroom' => $this->studentClassrooms()->latest()->first()->classroom,
         ];
     }
 }

@@ -7,13 +7,18 @@ use Illuminate\Http\Request;
 use App\Models\StudentClassroom;
 use App\Contracts\Repositories\BaseRepository;
 use App\Models\Student;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class StudentRepository extends BaseRepository implements StudentInterface
 {
-    public function __construct(Student $student)
+    public Model $tb_user;
+
+    public function __construct(Student $student, User $user)
     {
         $this->model = $student;
+        $this->tb_user = $user;
     }
     /**
      * getWhere
@@ -25,6 +30,7 @@ class StudentRepository extends BaseRepository implements StudentInterface
     {
         return $this->model->where($data)->get();
     }
+
     /**
      * customPaginate
      *
@@ -39,6 +45,27 @@ class StudentRepository extends BaseRepository implements StudentInterface
         })->when($request->name, function ($query) use ($request) {
             $query->whereRelation('user', 'name', 'LIKE', '%' . $request->name . '%');
         })->fastPaginate($pagination);
+    }
+
+    public function userPoint(): mixed
+    {
+        return $this->tb_user->select('point')->whereColumn('users.id', 'students.user_id')->limit(1);
+    }
+
+    public function listRangePoint(Request $request, int $pagination = 10): LengthAwarePaginator
+    {
+        return $this->model->when($request->school_id, function ($query) use ($request) {
+            $query->where('school_id', $request->school_id);
+        })->when($request->classroom_id, function($query) use ($request) {
+            $query->whereRelation('studentClassrooms.classroom', 'id' , $request->classroom_id);
+        })->when($request->name, function ($query) use ($request) {
+            $query->whereRelation('user', 'name', 'LIKE', '%' . $request->name . '%');
+        })
+        ->with('user')
+        ->orderByDesc(
+            $this->userPoint()
+        )
+        ->fastPaginate($pagination);
     }
 
     /**

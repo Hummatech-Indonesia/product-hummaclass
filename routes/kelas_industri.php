@@ -87,11 +87,13 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('mentor/challenge-add-point/{challenge}', [ChallengeSubmitController::class, 'add_point']);
     Route::get('mentor/classrooms', [ClassroomController::class, 'listClassroom']);
     Route::get('mentor/dashboard/classrooms', [ClassroomController::class, 'listClassroomDashboard']);
-    Route::get('mentor/detil/classroom/{slug}', [ClassroomController::class, 'showDetailClassroom']);
-    Route::get('mentor/detil-student/classroom', [ClassroomController::class, 'showDetailStudent']);
+    Route::get('mentor/detail/classroom/{slug}', [ClassroomController::class, 'showDetailClassroom']);
+    Route::get('mentor/detail-student/classroom', [ClassroomController::class, 'showDetailStudent']);
 
     Route::resource('journals', JournalController::class)->except(['update']);
     Route::post('journals/{journal}', [JournalController::class, 'update']);
+
+    Route::get('mentor/student/list', [StudentController::class, 'listRangeStudent']);
 });
 
 Route::get('challenge/download-zip/{challenge}', [ChallengeController::class, 'download_zip']);
