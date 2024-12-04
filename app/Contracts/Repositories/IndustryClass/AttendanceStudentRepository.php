@@ -24,4 +24,9 @@ class AttendanceStudentRepository extends BaseRepository implements AttendanceSt
     {
         return $this->model->query()->create($data);
     }
+
+    public function getWhere(array $data): mixed
+    {
+        return $this->model->query()->where('attendance_id', $data['attendance_id'])->get();
+    }
 }

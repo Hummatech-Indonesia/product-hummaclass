@@ -11,14 +11,17 @@ class ChallengeRepository extends BaseRepository implements ChallengeInterface
     {
         $this->model = $challenge;
     }
+
     public function get(): mixed
     {
         return $this->model->query()->where('user_id', auth()->user()->id)->get();
     }
+
     public function getByClassroom(string $classroomSlug): mixed
     {
         return $this->model->query()->whereRelation('classroom', 'slug', $classroomSlug)->get();
     }
+
     /**
      * Method store
      *
@@ -30,6 +33,7 @@ class ChallengeRepository extends BaseRepository implements ChallengeInterface
     {
         return $this->model->query()->create($data);
     }
+
     /**
      * Method show
      *
@@ -41,6 +45,12 @@ class ChallengeRepository extends BaseRepository implements ChallengeInterface
     {
         return $this->model->query()->findOrFail($id);
     }
+
+    public function showWithSlug(string $slug): mixed
+    {
+        return $this->model->query()->where('slug', $slug)->first();
+    }
+
     /**
      * Method update
      *

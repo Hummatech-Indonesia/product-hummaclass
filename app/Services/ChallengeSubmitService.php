@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Contracts\Interfaces\Auth\UserInterface;
+use App\Contracts\Interfaces\ChallengeSubmitInterface;
 use App\Contracts\Interfaces\IndustryClass\StudentInterface;
 use App\Http\Requests\PointChallengeSubmitRequest;
 use App\Http\Requests\ChallengeSubmitRequest;
@@ -15,10 +17,14 @@ class ChallengeSubmitService
 {  
     use ChallengeTrait;
     private StudentInterface $student;
+    private UserInterface $user;
+    private ChallengeSubmitInterface $challengeSubmit;
 
-    public function __construct(StudentInterface $student)
+    public function __construct(StudentInterface $student, UserInterface $user, ChallengeSubmitInterface $challengeSubmit)
     {
+        $this->challengeSubmit = $challengeSubmit;
         $this->student = $student;
+        $this->user = $user;
     }
 
     public function store(ChallengeSubmitRequest $request, Challenge $challenge)
@@ -85,10 +91,14 @@ class ChallengeSubmitService
         $this->remove($challengeSubmit->file);
     }
 
-    public function add_point(PointChallengeSubmitRequest $request)
+    public function add_point(PointChallengeSubmitRequest $request, Challenge $challenge)
     {
         $data = $request->validated();
-        $data['status'] = ChallengeSubmitEnum::CONFIRMED->value;
-        return $data;
+
+        foreach ($data['challenge_submit'] as $challenge_submit) {
+            $student = Student::where('id', $challenge_submit['student_id'])->first();
+            $this->user->updateMentor($student->user_id, ['point' => ($student->user->point + $challenge_submit['point'])]);
+            $this->challengeSubmit->updateByChallenge($challenge->id, $student->id, ['point' => $challenge_submit['point'], 'status' => ChallengeSubmitEnum::CONFIRMED->value]);
+        }
     }
 }

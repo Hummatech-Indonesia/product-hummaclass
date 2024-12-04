@@ -11,9 +11,15 @@ class ChallengeSubmitRepository extends BaseRepository implements ChallengeSubmi
     {
         $this->model = $challengeSubmit;
     }
+
     public function get(): mixed
     {
         return $this->model->query()->get();
+    }
+
+    public function getWhere(array $data): mixed
+    {
+        return $this->model->query()->where('challenge_id', $data)->get();
     }
 
     public function getByStudent(array $data): mixed
@@ -67,6 +73,11 @@ class ChallengeSubmitRepository extends BaseRepository implements ChallengeSubmi
     public function update(mixed $id, array $data): mixed
     {
         return $this->model->query()->findOrFail($id)->update($data);
+    }
+
+    public function updateByChallenge(mixed $challenge_id, mixed $student_id, array $data): mixed
+    {
+        return $this->model->query()->where('challenge_id', $challenge_id)->where('student_id', $student_id)->update($data);
     }
 
     /**

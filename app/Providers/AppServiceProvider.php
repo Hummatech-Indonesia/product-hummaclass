@@ -64,7 +64,9 @@ use App\Contracts\Interfaces\IndustryClass\AssesmentFormInterface;
 use App\Contracts\Interfaces\IndustryClass\AttendanceInterface;
 use App\Contracts\Interfaces\IndustryClass\AttendanceStudentInterface;
 use App\Contracts\Interfaces\IndustryClass\ClassroomInterface;
+use App\Contracts\Interfaces\IndustryClass\CourseLearningPathInterface;
 use App\Contracts\Interfaces\IndustryClass\DivisionInterface;
+use App\Contracts\Interfaces\IndustryClass\LearningPathInterface;
 use App\Contracts\Interfaces\IndustryClass\SchoolInterface;
 use App\Contracts\Interfaces\IndustryClass\SchoolYearInterface;
 use App\Contracts\Interfaces\IndustryClass\StudentClassroomInterface;
@@ -92,7 +94,9 @@ use App\Contracts\Repositories\IndustryClass\AssesmentFormRepository;
 use App\Contracts\Repositories\IndustryClass\AttendanceRepository;
 use App\Contracts\Repositories\IndustryClass\AttendanceStudentRepository;
 use App\Contracts\Repositories\IndustryClass\ClassroomRepository;
+use App\Contracts\Repositories\IndustryClass\CourseLearningPathRepository;
 use App\Contracts\Repositories\IndustryClass\DivisionRepository;
+use App\Contracts\Repositories\IndustryClass\LearningPathRepository;
 use App\Contracts\Repositories\IndustryClass\SchoolRepository;
 use App\Contracts\Repositories\IndustryClass\SchoolYearRepository;
 use App\Contracts\Repositories\IndustryClass\StudentClassroomRepository;
@@ -150,6 +154,8 @@ class AppServiceProvider extends ServiceProvider
         DivisionInterface::class => DivisionRepository::class,
         TeacherInterface::class => TeacherRepository::class,
         SchoolYearInterface::class => SchoolYearRepository::class,
+        LearningPathInterface::class => LearningPathRepository::class,
+        CourseLearningPathInterface::class => CourseLearningPathRepository::class,
         ChallengeInterface::class => ChallengeRepository::class,
         ChallengeSubmitInterface::class => ChallengeSubmitRepository::class,
         AttendanceInterface::class => AttendanceRepository::class,

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AttendanceRequest extends ApiRequest
+class LearningPathRequest extends ApiRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,21 +22,23 @@ class AttendanceRequest extends ApiRequest
     public function rules(): array
     {
         return [
-            'title' => 'required',
-            'classroom_id' => 'required'
+            'division_id' => 'required',
+            'class_level' => 'required',
+            'course_id' => 'required|array',
         ];
     }
-
     /**
-     * Get the error messages for the defined validation rules.
+     * Method messages
      *
-     * @return array<string, string>
+     * @return array
      */
     public function messages(): array
     {
         return [
-            'title.required' => 'Judul wajib diisi.',
-            'classroom_id.required' => 'Kelas wajib dipilih.',
+            'division_id.required' => 'divisi wajib diisi',
+            'class_level.required' => 'kelas wajib diisi',
+            'course_id.required' => 'kursus wajib diisi',
+            'course_id.array' => 'kursus wajib berupa array'
         ];
     }
 

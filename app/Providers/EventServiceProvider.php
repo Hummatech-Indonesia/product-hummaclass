@@ -9,11 +9,13 @@ use App\Models\Challenge;
 use App\Models\ChallengeSubmit;
 use App\Models\Classroom;
 use App\Models\Course;
+use App\Models\CourseLearningPath;
 use App\Models\CourseTask;
 use App\Models\CourseTest;
 use App\Models\CourseVoucher;
 use App\Models\Division;
 use App\Models\Event as ModelsEvent;
+use App\Models\LearningPath;
 use App\Models\Modul;
 use App\Models\Module;
 use App\Models\ModuleQuestion;
@@ -35,12 +37,14 @@ use App\Observers\BlogObserver;
 use App\Observers\ChallengeObserver;
 use App\Observers\ChallengeSubmitObserver;
 use App\Observers\ClassroomObserver;
+use App\Observers\CourseLearningPathObserver;
 use App\Observers\CourseObserver;
 use App\Observers\CourseTaskObserver;
 use App\Observers\CourseTestObserver;
 use App\Observers\CourseVoucherObserver;
 use App\Observers\DivisionObserver;
 use App\Observers\EventObserver;
+use App\Observers\LearningPathObserver;
 use App\Observers\ModuleObserver;
 use App\Observers\ModuleQuestionObserver;
 use App\Observers\ModuleTaskObserver;
@@ -95,6 +99,7 @@ class EventServiceProvider extends ServiceProvider
         UserCourseTest::observe(UserCourseTestObserver::class);
         Reward::observe(RewardObserver::class);
         School::observe(SchoolObserver::class);
+        LearningPath::observe(LearningPathObserver::class);
         Classroom::observe(ClassroomObserver::class);
         Teacher::observe(TeacherObserver::class);
         Student::observe(StudentObserver::class);
@@ -104,6 +109,7 @@ class EventServiceProvider extends ServiceProvider
         ChallengeSubmit::observe(ChallengeSubmitObserver::class);
         Attendance::observe(AttendanceObserver::class);
         AttendanceStudent::observe(AttendanceStudentObserver::class);
+        CourseLearningPath::observe(CourseLearningPathObserver::class);
     }
 
     /**

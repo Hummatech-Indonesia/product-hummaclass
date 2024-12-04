@@ -12,8 +12,8 @@ return new class extends Migration {
     {
         Schema::create('course_learning_paths', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('course_id')->constrained();
-            $table->foreignUuid('learning_path_id')->constrained();
+            $table->foreignUuid('course_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignUuid('learning_path_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->integer('step');
             $table->timestamps();
         });

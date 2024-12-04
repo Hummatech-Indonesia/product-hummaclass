@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\IndustryClass\SchoolController;
 use App\Http\Controllers\IndustryClass\StudentController;
 use App\Http\Controllers\IndustryClass\ClassroomController;
+use App\Http\Controllers\IndustryClass\LearningPathController;
 use App\Http\Controllers\IndustryClass\SchoolYearController;
 use App\Http\Controllers\IndustryClass\StudentClassroomController;
 use App\Http\Controllers\IndustryClass\TeacherController;
@@ -22,6 +23,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
         // school
         Route::resource('schools', SchoolController::class)->only(['index', 'store', 'update', 'delete']);
+        Route::resource('learning-paths', LearningPathController::class);
         Route::get('schools/{slug}', [SchoolController::class, 'show']);
 
         // division
@@ -79,8 +81,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('challenge-submits/{challenge}', [ChallengeSubmitController::class, 'store']);
 
     Route::get('student/challenge-submits/{challenge}', [ChallengeSubmitController::class, 'index']);
-    Route::get('mentor/challenge-submits/{challenge}', [ChallengeSubmitController::class, 'get_by_mentor']);
-    Route::put('mentor/challenge-add-point/{challengeSubmit}', [ChallengeSubmitController::class, 'add_point']);
+
+    Route::put('mentor/challenge-add-point/{challenge}', [ChallengeSubmitController::class, 'add_point']);
 
     Route::resource('attendances', AttendanceController::class);
     Route::get('attendance/student/{attendance}', [AttendanceStudentController::class, 'store']);
