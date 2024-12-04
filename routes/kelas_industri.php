@@ -73,19 +73,22 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::get('schools-all', [SchoolController::class, 'getAll']);
-
-    Route::resource('challenges', ChallengeController::class);
+    Route::get('student/challenge-submits/{challenge}', [ChallengeSubmitController::class, 'index']);
     Route::get('student/challenges/{classroomSlug}', [ChallengeController::class, 'getByClassroom']);
 
+    Route::resource('challenges', ChallengeController::class);
     Route::resource('challenge-submits', ChallengeSubmitController::class)->only(['update', 'destroy']);
     Route::post('challenge-submits/{challenge}', [ChallengeSubmitController::class, 'store']);
 
-    Route::get('student/challenge-submits/{challenge}', [ChallengeSubmitController::class, 'index']);
-
-    Route::put('mentor/challenge-add-point/{challenge}', [ChallengeSubmitController::class, 'add_point']);
-
     Route::resource('attendances', AttendanceController::class);
     Route::get('attendance/student/{attendance}', [AttendanceStudentController::class, 'store']);
+    
+    Route::put('mentor/challenge-add-point/{challenge}', [ChallengeSubmitController::class, 'add_point']);
+    Route::get('mentor/classrooms', [ClassroomController::class, 'listClassroom']);
+    Route::get('mentor/dashboard/classrooms', [ClassroomController::class, 'listClassroomDashboard']);
+    Route::get('mentor/detil/classroom/{slug}', [ClassroomController::class, 'showDetailClassroom']);
+    Route::get('mentor/detil-student/classroom', [ClassroomController::class, 'showDetailStudent']);
+
 });
 
 Route::get('challenge/download-zip/{challenge}', [ChallengeController::class, 'download_zip']);
