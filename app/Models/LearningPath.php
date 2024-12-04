@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class LearningPath extends Model
 {
@@ -25,5 +26,14 @@ class LearningPath extends Model
     public function division(): BelongsTo
     {
         return $this->belongsTo(Division::class);
+    }
+    /**
+     * Get all of the courseLearningPaths for the LearningPath
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function courseLearningPaths(): HasMany
+    {
+        return $this->hasMany(CourseLearningPath::class);
     }
 }

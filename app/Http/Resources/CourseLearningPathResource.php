@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class LearningPathResource extends JsonResource
+class CourseLearningPathResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,9 +16,8 @@ class LearningPathResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'course_learning_paths' => CourseLearningPathResource::collection($this->courseLearningPaths),
-            'division' => $this->division,
-            'class_level' => $this->class_level
+            'course' => $this->course,
+            'learning_path' => $this->learningPath
         ];
     }
 }

@@ -21,9 +21,9 @@ class LearningPathController extends Controller
         $this->learningPath = $learningPath;
         $this->service = $service;
     }
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        $learningPaths = $this->learningPath->get();
+        $learningPaths = $this->learningPath->search($request);
         return ResponseHelper::success(LearningPathResource::collection($learningPaths), trans('alert.fetch_success'));
     }
     public function store(LearningPathRequest $request): JsonResponse

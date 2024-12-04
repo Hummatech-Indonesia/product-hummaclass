@@ -7,6 +7,7 @@ use App\Contracts\Interfaces\IndustryClass\LearningPathInterface;
 use App\Contracts\Repositories\BaseRepository;
 use App\Models\Attendance;
 use App\Models\LearningPath;
+use Illuminate\Http\Request;
 
 class LearningPathRepository extends BaseRepository implements LearningPathInterface
 {
@@ -14,9 +15,18 @@ class LearningPathRepository extends BaseRepository implements LearningPathInter
     {
         $this->model = $learningPath;
     }
-    public function get(): mixed
+    public function search(Request $request): mixed
     {
-        return $this->model->query()->get();
+
+        $model = $this->model->query()
+            ->when($request->division_id, function ($query) use ($request) {
+                return $query->where(['division_id' => $request->division_id]);
+            })
+            ->when($request->class_level, function ($query) use ($request) {
+                return $query->where(['class_level' => $request->class_level]);
+            })
+            ->get();
+        dd($model);
     }
     public function store(array $data): mixed
     {
