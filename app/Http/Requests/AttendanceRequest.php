@@ -23,7 +23,7 @@ class AttendanceRequest extends ApiRequest
     {
         return [
             'title' => 'required',
-            'classroom_id' => 'required'
+            'classroom_id' => 'required|exists:classrooms,id'
         ];
     }
 

@@ -15,6 +15,7 @@ use App\Http\Controllers\IndustryClass\LearningPathController;
 use App\Http\Controllers\IndustryClass\SchoolYearController;
 use App\Http\Controllers\IndustryClass\StudentClassroomController;
 use App\Http\Controllers\IndustryClass\TeacherController;
+use App\Http\Controllers\JournalController;
 use App\Http\Requests\IndustryClass\TeacherClassroomRequest;
 
 Route::middleware('auth:sanctum')->group(function () {
@@ -89,6 +90,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('mentor/detil/classroom/{slug}', [ClassroomController::class, 'showDetailClassroom']);
     Route::get('mentor/detil-student/classroom', [ClassroomController::class, 'showDetailStudent']);
 
+    Route::resource('journals', JournalController::class)->except(['update']);
+    Route::post('journals/{journal}', [JournalController::class, 'update']);
 });
 
 Route::get('challenge/download-zip/{challenge}', [ChallengeController::class, 'download_zip']);

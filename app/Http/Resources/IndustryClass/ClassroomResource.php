@@ -18,6 +18,7 @@ class ClassroomResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'slug' => $this->slug,
             'division' => $this->division,
             'class_level' => $this->class_level,
             'school' => $this->school,

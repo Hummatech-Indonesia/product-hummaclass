@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Base\Interfaces\HasAttendances;
 use App\Base\Interfaces\HasChallenges;
 use App\Base\Interfaces\HasDivision;
+use App\Base\Interfaces\HasJournals;
 use App\Base\Interfaces\HasSchool;
 use App\Base\Interfaces\HasSchoolYear;
 use App\Base\Interfaces\HasStudentClassrooms;
@@ -15,7 +16,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Classroom extends Model implements HasSchool, HasDivision, HasUser, HasTeacher, HasSchoolYear, HasChallenges, HasAttendances, HasStudentClassrooms
+class Classroom extends Model implements HasSchool, HasDivision, HasUser, HasTeacher, HasSchoolYear, HasChallenges, HasAttendances, HasStudentClassrooms, HasJournals
 {
     use HasFactory;
     public $incrementing = false;
@@ -108,5 +109,15 @@ class Classroom extends Model implements HasSchool, HasDivision, HasUser, HasTea
     public function studentClassrooms(): HasMany
     {
         return $this->hasMany(StudentClassroom::class);
+    }
+    
+    /**
+     * Get all of the journals for the Classroom
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function journals(): HasMany
+    {
+        return $this->hasMany(Journal::class);
     }
 }
