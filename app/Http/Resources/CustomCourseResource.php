@@ -16,12 +16,14 @@ class CustomCourseResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'module_count' => $this->modules->count(),
             'sub_category' => $this->subCategory,
             'title' => $this->title,
             'sub_title' => $this->sub_title,
             'description' => $this->description,
             'is_premium' => $this->is_premium,
             'price' => $this->price,
+            'promotional_price' => $this->promotional_price,
             'slug' => $this->slug,
             'photo' => $this->photo,
             'user' => $this->user,
