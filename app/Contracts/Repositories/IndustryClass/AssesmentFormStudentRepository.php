@@ -2,13 +2,11 @@
 
 namespace App\Contracts\Repositories\IndustryClass;
 
-use App\Contracts\Interfaces\IndustryClass\AssesmentFormInterface;
-use Illuminate\Http\Request;
+use App\Contracts\Interfaces\IndustryClass\AssesmentFormStudentInterface;
 use App\Contracts\Repositories\BaseRepository;
 use App\Models\AssessmentForm;
-use Illuminate\Pagination\LengthAwarePaginator;
 
-class AssesmentFormRepository extends BaseRepository implements AssesmentFormInterface
+class AssesmentFormStudentRepository extends BaseRepository implements AssesmentFormStudentInterface
 {
     public function __construct(AssessmentForm $assessmentForm)
     {

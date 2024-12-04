@@ -22,6 +22,7 @@ class ClassroomResource extends JsonResource
             'class_level' => $this->class_level,
             'school' => $this->school,
             'mentor' => $this->user,
+            'student_classrooms' => StudentClassroomResource::collection($this->studentClassrooms),
             'teacher' => TeacherResource::make($this->teacher),
             'school_year' => $this->schoolYear,
         ];

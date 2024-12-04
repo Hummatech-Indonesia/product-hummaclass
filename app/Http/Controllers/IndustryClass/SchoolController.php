@@ -38,7 +38,7 @@ class SchoolController extends Controller
 
     public function getAll(Request $request)
     {
-        $schools = $this->school->get();
+        $schools = $this->school->search($request);
         return ResponseHelper::success(SchoolResource::collection($schools), trans('alert.fetch_success'));
     }
 

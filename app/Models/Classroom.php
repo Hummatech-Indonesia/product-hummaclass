@@ -7,6 +7,7 @@ use App\Base\Interfaces\HasChallenges;
 use App\Base\Interfaces\HasDivision;
 use App\Base\Interfaces\HasSchool;
 use App\Base\Interfaces\HasSchoolYear;
+use App\Base\Interfaces\HasStudentClassrooms;
 use App\Base\Interfaces\HasTeacher;
 use App\Base\Interfaces\HasUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -14,7 +15,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Classroom extends Model implements HasSchool, HasDivision, HasUser, HasTeacher, HasSchoolYear, HasChallenges, HasAttendances
+class Classroom extends Model implements HasSchool, HasDivision, HasUser, HasTeacher, HasSchoolYear, HasChallenges, HasAttendances, HasStudentClassrooms
 {
     use HasFactory;
     public $incrementing = false;
@@ -97,5 +98,15 @@ class Classroom extends Model implements HasSchool, HasDivision, HasUser, HasTea
     public function attendances(): HasMany
     {
         return $this->hasMany(Attendance::class);
+    }
+
+    /**
+     * studentClassrooms
+     *
+     * @return HasMany
+     */
+    public function studentClassrooms(): HasMany
+    {
+        return $this->hasMany(StudentClassroom::class);
     }
 }

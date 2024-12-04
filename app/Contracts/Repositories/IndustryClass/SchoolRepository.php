@@ -36,9 +36,11 @@ class SchoolRepository extends BaseRepository implements SchoolInterface
      *
      * @return mixed
      */
-    public function get(): mixed
+    public function search(Request $request): mixed
     {
-        return $this->model->query()->get();
+        return $this->model->query()->when($request->name, function ($query) use ($request) {
+            $query->where('name', 'LIKE', '%' . $request->name . '%');
+        })->get();
     }
 
     /**
