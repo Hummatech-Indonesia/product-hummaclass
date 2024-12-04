@@ -21,6 +21,7 @@ class Attendance extends Model implements HasUser, HasClassroom
         'slug',
         'user_id',
         'classroom_id',
+        'status',
     ];
 
     public function user(): BelongsTo

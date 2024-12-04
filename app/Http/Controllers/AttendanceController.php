@@ -80,7 +80,8 @@ class AttendanceController extends Controller
      */
     public function edit(Attendance $attendance)
     {
-        //
+        $this->attendance->update($attendance->id, ['status' => $attendance->status == true ? false : true]);
+        return ResponseHelper::success(null, trans('alert.update_success'));
     }
 
     /**

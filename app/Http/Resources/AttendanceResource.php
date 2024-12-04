@@ -21,6 +21,7 @@ class AttendanceResource extends JsonResource
             'school' => $this->classroom->school->name,
             'classroom' => $this->classroom->name,
             'date' => Carbon::parse($this->created_at)->translatedFormat('d F Y'),
+            'status' => $this->status,
         ];
     }
 }
