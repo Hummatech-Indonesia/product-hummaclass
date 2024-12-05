@@ -233,6 +233,7 @@ Route::middleware('enable.cors')->group(function () {
         Route::get('user-courses', [UserCourseController::class, 'index']);
         Route::put('user-courses/{slug}/{sub_module}', [UserCourseController::class, 'userLastStep']);
         Route::post('user-courses-check', [UserCourseController::class, 'checkPayment']);
+        Route::get('get-some-course', [CourseController::class, 'getSome']);
 
         Route::get('transaction/statistic', [TransactionController::class, 'groupByMonth']);
         Route::get('transactions-user', [TransactionController::class, 'getByUser']);

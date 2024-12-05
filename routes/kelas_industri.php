@@ -19,6 +19,9 @@ use App\Http\Controllers\JournalController;
 use App\Http\Requests\IndustryClass\TeacherClassroomRequest;
 
 Route::middleware('auth:sanctum')->group(function () {
+
+    Route::get('get-classrooms', [ClassroomController::class, 'getAll']);
+
     Route::get('classrooms/{slug}', [ClassroomController::class, 'index']);
     Route::middleware(['is_admin'])->group(function () {
 

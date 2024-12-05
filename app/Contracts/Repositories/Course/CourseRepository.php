@@ -88,6 +88,10 @@ class CourseRepository extends BaseRepository implements CourseInterface
             ->limit(4)
             ->get();
     }
+    public function getSome(): mixed
+    {
+        return $this->model->query()->whereDoesntHave('courseLearningPaths')->get();
+    }
 
 
     /**

@@ -46,6 +46,12 @@ class ClassroomController extends Controller
         return ResponseHelper::success(ClassroomResource::collection($classrooms));
     }
 
+    public function getAll(): JsonResponse
+    {
+        $classrooms = $this->classroom->get();
+        return ResponseHelper::success(ClassroomResource::collection($classrooms), trans('alert.fetch_success'));
+    }
+
     /**
      * Show the form for creating a new resource.
      */

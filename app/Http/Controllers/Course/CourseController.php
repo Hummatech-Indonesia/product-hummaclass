@@ -13,6 +13,7 @@ use App\Http\Requests\UpdateCourseRequest;
 use App\Http\Resources\Course\DetailCourseResource;
 use App\Http\Resources\CourseResource;
 use App\Http\Resources\CourseStatisticResource;
+use App\Http\Resources\CustomCourseResource;
 use App\Http\Resources\QuizResource;
 use App\Http\Resources\TopCourseResource;
 use App\Http\Resources\UserCourseResource;
@@ -45,6 +46,11 @@ class CourseController extends Controller
         $this->course = $course;
         $this->service = $service;
         $this->module = $module;
+    }
+    public function getSome(): JsonResponse
+    {
+        $courses = $this->course->getSome();
+        return ResponseHelper::success(CustomCourseResource::collection($courses), trans('alert.fetch_success'));
     }
 
     public function index(Request $request): JsonResponse
