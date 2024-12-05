@@ -24,7 +24,7 @@ class JournalRequest extends ApiRequest
         return [
             'title' => 'required',
             'description' => 'required',
-            'image' => 'required',
+            'image' => 'nullable|image',
             'classroom_id' => 'required|exists:classrooms,id',
         ];
     }
@@ -38,8 +38,7 @@ class JournalRequest extends ApiRequest
     {
         return [
             'title.required' => 'Judul wajib diisi.',
-            'description.required' => 'Deskripsi wajib diisi.',
-            'image.required' => 'Gambar wajib diunggah.',
+            'description.required' => 'Deskripsi wajib diisi.', 
             'classroom_id.required' => 'Kelas wajib dipilih.',
             'classroom_id.exists' => 'Kelas yang dipilih tidak valid.',
         ];
