@@ -14,6 +14,11 @@ class AssesmentFormResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'class_level' => $this->class_level,
+            'division_id' => $this->division_id,
+            'indicator' => $this->indicator
+        ];
     }
 }

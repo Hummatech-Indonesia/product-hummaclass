@@ -30,8 +30,8 @@ class AssesmentFormController extends Controller
      */
     public function index(Division $division, string $classLevel): JsonResponse
     {
-        $data['assementFormAttitudes'] = AssesmentFormResource::collection($this->assementForm->getWhere(['divison_id' => $division->id, 'class_level' => $classLevel, 'type' => TypeAssesmentEnum::ATTITUDE->value]));
-        $data['assementFormSkills'] = AssesmentFormResource::collection($this->assementForm->getWhere(['divison_id' => $division->id, 'class_level' => $classLevel, 'type' => TypeAssesmentEnum::SKILL->value]));
+        $data['assementFormAttitudes'] = AssesmentFormResource::collection($this->assementForm->getWhere(['division_id' => $division->id, 'class_level' => $classLevel, 'type' => TypeAssesmentEnum::ATTITUDE->value]));
+        $data['assementFormSkills'] = AssesmentFormResource::collection($this->assementForm->getWhere(['division_id' => $division->id, 'class_level' => $classLevel, 'type' => TypeAssesmentEnum::SKILL->value]));
         return ResponseHelper::success($data);
     }
 
@@ -40,10 +40,14 @@ class AssesmentFormController extends Controller
      *
      * @return JsonResponse
      */
-    public function store(AssesmentFormRequest $request, string $type): JsonResponse
+    public function store(AssesmentFormRequest $request, Division $division, string $classLevel, string $type): JsonResponse
     {
+        $assementForm = $this->assementForm->deleteWhere(['class_level' => $classLevel, 'division_id' => $division->id, 'type' => $type]);
+
         foreach ($request->indicator as $indicator) {
             $this->assementForm->store([
+                'class_level' => $classLevel,
+                'division_id' => $division->id,
                 'indicator' => $indicator,
                 'type' => $type
             ]);

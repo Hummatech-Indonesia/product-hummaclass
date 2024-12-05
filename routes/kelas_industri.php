@@ -60,7 +60,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('student-without-classroom/{slugSchool}', [StudentController::class, 'withoutClassroom']);
 
         // Assesment Form
-        Route::post('assesment-form/{type}', [AssesmentFormController::class, 'store']);
+        Route::post('assesment-form/{division}/{classLevel}/{type}', [AssesmentFormController::class, 'store']);
+        Route::get('assesment-form/{division}/{classLevel}', [AssesmentFormController::class, 'index']);
 
         // student classroom
         Route::get('student-classrooms/{classroom}', [StudentClassroomController::class, 'byClassroom']);
@@ -83,12 +84,15 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::resource('challenge-submits', ChallengeSubmitController::class)->only(['update', 'destroy']);
     Route::get('submit-challenge/{challenge}', [ChallengeController::class, 'showChallengeSubmit']);
     
+
+    Route::resource('attendances', AttendanceController::class)->except(['edit']);
+
     Route::resource('attendances', AttendanceController::class)->except(['edit', 'show']);
     Route::get('attendances/{slug}', [AttendanceController::class, 'show']);
     Route::put('attendances-status/{attendance}', [AttendanceController::class, 'edit']);
 
     Route::get('attendance/student/{attendance}', [AttendanceStudentController::class, 'store']);
-    
+
     Route::put('mentor/challenge-add-point/{challenge}', [ChallengeSubmitController::class, 'add_point']);
     Route::get('mentor/classrooms', [ClassroomController::class, 'listClassroom']);
     Route::get('mentor/dashboard/classrooms', [ClassroomController::class, 'listClassroomDashboard']);
@@ -105,6 +109,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('student/dashboard', [StudentController::class, 'detailStudent']);
     Route::get('student/list-student', [StudentClassroomController::class, 'listStudent']);
     Route::get('student/list-range', [StudentController::class, 'listRangeStudent']);
+    Route::get('mentor/detil/classroom/{slug}', [ClassroomController::class, 'showDetailClassroom']);
+    Route::get('mentor/detil-student/classroom', [ClassroomController::class, 'showDetailStudent']);
 });
 
 Route::get('challenge/download-zip/{challenge}', [ChallengeController::class, 'download_zip']);
