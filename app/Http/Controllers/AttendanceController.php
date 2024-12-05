@@ -60,7 +60,7 @@ class AttendanceController extends Controller
             $this->attendance->store($data);
             return ResponseHelper::success(null, trans('alert.add_success'));
         } catch (\Throwable $th) {
-            return ResponseHelper::success(null, trans('alert.add_failed'));
+            return ResponseHelper::error(null, trans('alert.add_failed'));
         }
     }
 
@@ -81,7 +81,7 @@ class AttendanceController extends Controller
             }
             return ResponseHelper::success($data, trans('alert.fetch_success'));
         } catch (\Throwable $th) {
-            return ResponseHelper::success(null, trans('alert.fetch_failed'));
+            return ResponseHelper::error(null, trans('alert.fetch_failed'));
         }
     }
 
@@ -104,7 +104,7 @@ class AttendanceController extends Controller
             $this->attendance->update($attendance->id, $data);
             return ResponseHelper::success(null, trans('alert.update_success'));
         } catch (\Throwable $th) {
-            return ResponseHelper::success(null, trans('alert.update_failed'));
+            return ResponseHelper::error(null, trans('alert.update_failed'));
         }
     }
 
@@ -117,7 +117,7 @@ class AttendanceController extends Controller
             $this->attendance->delete($attendance->id);
             return ResponseHelper::success(null, trans('alert.delete_success'));
         } catch (\Throwable $th) {
-            return ResponseHelper::success(null, trans('alert.delete_failed'));
+            return ResponseHelper::error(null, trans('alert.delete_failed'));
         }
     }
 }
