@@ -134,19 +134,27 @@ class StudentController extends Controller
 
     public function listRangeStudent(Request $request): JsonResponse
     {
-        try {
+        // try {
             if ($request->has('page')) {
                 $students = $this->student->listRangePoint($request);
                 $data['paginate'] = $this->customPaginate($students->currentPage(), $students->lastPage());
-                $data['data'] = StudentResource::collection($students);
+                $studentRank = $students->map(function ($student, $index) {
+                    $student->rank = $index + 1; // Menambahkan properti rank
+                    return $student;
+                });
+                $data['data'] = StudentResource::collection($studentRank);
             } else {
                 $students = $this->student->listRangePoint($request);
-                $data['data'] = StudentResource::collection($students);
+                $studentRank = $students->map(function ($student, $index) {
+                    $student->rank = $index + 1; // Menambahkan properti rank
+                    return $student;
+                });
+                $data['data'] = StudentResource::collection($studentRank);
             }
             return ResponseHelper::success($data, trans('alert.fetch_success'));
-        } catch (\Throwable $th) {
-            return ResponseHelper::success(null, trans('alert.fetch_failed'));
-        }
+        // } catch (\Throwable $th) {
+        //     return ResponseHelper::success(null, trans('alert.fetch_failed'));
+        // }
     }
 
     public function detailStudent()

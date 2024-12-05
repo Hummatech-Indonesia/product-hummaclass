@@ -22,6 +22,7 @@ class StudentResource extends JsonResource
         }
         
         return [
+            'rank' => $this->rank ?? null,
             'id' => $this->id,
             'point' => $this->user->point,
             'name' => $this->user->name,
