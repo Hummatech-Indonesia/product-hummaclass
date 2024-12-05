@@ -6,6 +6,7 @@ use App\Contracts\Interfaces\IndustryClass\JournalInterface;
 use App\Services\IndustryClass\JournalService;
 use App\Http\Requests\JournalRequest;
 use App\Helpers\ResponseHelper;
+use App\Http\Requests\JournalUpdateRequest;
 use App\Http\Resources\JournalResource;
 use Illuminate\Http\Request;
 use App\Models\Journal;
@@ -75,7 +76,7 @@ class JournalController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(JournalRequest $request, Journal $journal)
+    public function update(JournalUpdateRequest $request, Journal $journal)
     {
         try {
             $data = $this->service->update($request, $journal);

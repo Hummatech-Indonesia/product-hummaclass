@@ -4,6 +4,7 @@ namespace App\Services\IndustryClass;
 
 use App\Enums\UploadDiskEnum;
 use App\Http\Requests\JournalRequest;
+use App\Http\Requests\JournalUpdateRequest;
 use App\Models\Journal;
 use App\Traits\UploadTrait;
 
@@ -36,7 +37,7 @@ class JournalService
      * @param  mixed $school
      * @return array
      */
-    public function update(JournalRequest $request, Journal $journal): array|bool
+    public function update(JournalUpdateRequest $request, Journal $journal): array|bool
     {
         $data = $request->validated();
         $data['user_id'] = auth()->user()->id;
