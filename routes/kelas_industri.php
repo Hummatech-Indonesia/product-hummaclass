@@ -112,8 +112,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('student/dashboard', [StudentController::class, 'detailStudent']);
     Route::get('student/list-student', [StudentClassroomController::class, 'listStudent']);
     Route::get('student/list-range', [StudentController::class, 'listRangeStudent']);
-    Route::get('mentor/detil/classroom/{slug}', [ClassroomController::class, 'showDetailClassroom']);
-    Route::get('mentor/detil-student/classroom', [ClassroomController::class, 'showDetailStudent']);
+    Route::get('student/challenge', [StudentController::class, 'showChallenge']);
 });
 
 Route::get('challenge/download-zip/{challenge}', [ChallengeController::class, 'download_zip']);

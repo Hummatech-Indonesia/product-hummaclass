@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\IndustryClass;
 
 use App\Contracts\Interfaces\Auth\UserInterface;
+use App\Contracts\Interfaces\ChallengeInterface;
 use App\Contracts\Interfaces\IndustryClass\SchoolInterface;
 use App\Contracts\Interfaces\IndustryClass\StudentInterface;
 use App\Enums\RoleEnum;
@@ -11,6 +12,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ImportRequest;
 use App\Http\Requests\StudentRequest;
 use App\Http\Requests\UserStudentRequest;
+use App\Http\Resources\ChallengeResource;
 use App\Http\Resources\StudentDashboardResource;
 use App\Http\Resources\StudentResource;
 use App\Imports\StudentsImport;
@@ -27,12 +29,14 @@ class StudentController extends Controller
     private StudentInterface $student;
     private SchoolInterface $school;
     private UserInterface $user;
+    private ChallengeInterface $challenge;
 
-    public function __construct(StudentInterface $student, SchoolInterface $school, UserInterface $user)
+    public function __construct(StudentInterface $student, SchoolInterface $school, UserInterface $user, ChallengeInterface $challenge)
     {
         $this->student = $student;
         $this->school = $school;
         $this->user = $user;
+        $this->challenge = $challenge;
     }
 
     /**
@@ -150,6 +154,17 @@ class StudentController extends Controller
         try {
             $student = $this->student->first(['user_id' => auth()->user()->id]);
             return ResponseHelper::success(StudentDashboardResource::make($student), trans('alert.fetch_success'));
+        } catch (\Throwable $th) {
+            return ResponseHelper::success(null, trans('alert.fetch_failed'));
+        }
+    }
+
+    public function showChallenge()
+    {
+        try {
+            $student = $this->student->first(['user_id' => auth()->user()->id]);
+            $challenges = $this->challenge->getByClassroom($student->studentClassrooms()->latest()->first()->classroom->slug);
+            return ResponseHelper::success(ChallengeResource::collection($challenges), trans('alert.fetch_success'));
         } catch (\Throwable $th) {
             return ResponseHelper::success(null, trans('alert.fetch_failed'));
         }
