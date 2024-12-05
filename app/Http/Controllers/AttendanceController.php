@@ -10,10 +10,12 @@ use App\Http\Resources\AttendanceResource;
 use App\Http\Resources\AttendanceStudentResource;
 use App\Models\Attendance;
 use App\Services\IndustryClass\AttendanceService;
+use App\Traits\PaginationTrait;
 use Illuminate\Http\Request;
 
 class AttendanceController extends Controller
 {
+    use PaginationTrait;
     private AttendanceStudentInterface $attendanceStudent;
     private AttendanceInterface $attendance;
     private AttendanceService $service;

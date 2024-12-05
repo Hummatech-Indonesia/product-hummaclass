@@ -11,10 +11,12 @@ use App\Helpers\ResponseHelper;
 use App\Http\Resources\ChallengeSubmitResource;
 use App\Http\Resources\DetailChallengeResource;
 use App\Models\Challenge;
+use App\Traits\PaginationTrait;
 use Illuminate\Http\Request;
 
 class ChallengeController extends Controller
 {
+    use PaginationTrait;
     private ChallengeInterface $challenge;
     private ChallengeSubmitInterface $challengeSubmit;
     private ChallengeService $service;

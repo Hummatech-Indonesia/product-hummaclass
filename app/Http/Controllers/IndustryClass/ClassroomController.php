@@ -178,16 +178,14 @@ class ClassroomController extends Controller
      */
     public function showDetailStudent(Request $request): JsonResponse
     {
-        $students = $this->studentClassroom->customPaginate($request);
-        // if ($request->has('page')) {
-        //     $courses = $this->course->customPaginate($request);
-        //     $data['paginate'] = $this->customPaginate($courses->currentPage(), $courses->lastPage());
-        //     $data['data'] = CourseResource::collection($courses);
-        // } else {
-        //     $courses = $this->course->search($request);
-        //     $data['data'] = CourseResource::collection($courses);
-        // }
-        // return ResponseHelper::success($data, trans('alert.fetch_success'));
-        return ResponseHelper::success(StudentClassroomResource::collection($students), trans('alert.fetch_success'));
+        if ($request->has('page')) {
+            $students = $this->studentClassroom->customPaginate($request);
+            $data['paginate'] = $this->customPaginate($students->currentPage(), $students->lastPage());
+            $data['data'] = StudentClassroomResource::collection($students);
+        } else {
+            $students = $this->studentClassroom->customPaginate($request);
+            $data['data'] = StudentClassroomResource::collection($students);
+        }
+        return ResponseHelper::success($data, trans('alert.fetch_success'));
     }
 }
