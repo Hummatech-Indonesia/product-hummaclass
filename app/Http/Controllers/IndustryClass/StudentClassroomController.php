@@ -58,15 +58,19 @@ class StudentClassroomController extends Controller
 
     public function listStudent(Request $request)
     {
-        $student = $this->student->first(['user_id' => auth()->user()->id]);
-        if ($request->has('page')) {
-            $students = $this->studentClassroom->listStudentPaginate($request, $student->studentClassrooms()->latest()->first()->classroom->id);
-            $data['paginate'] = $this->customPaginate($students->currentPage(), $students->lastPage());
-            $data['data'] = StudentClassroomResource::collection($students);
-        } else {
-            $students = $this->studentClassroom->listStudentPaginate($request, $student->studentClassrooms()->latest()->first()->classroom->id);
-            $data['data'] = StudentClassroomResource::collection($students);
+        try {
+            $student = $this->student->first(['user_id' => auth()->user()->id]);
+            if ($request->has('page')) {
+                $students = $this->studentClassroom->listStudentPaginate($request, $student->studentClassrooms()->latest()->first()->classroom->id);
+                $data['paginate'] = $this->customPaginate($students->currentPage(), $students->lastPage());
+                $data['data'] = StudentClassroomResource::collection($students);
+            } else {
+                $students = $this->studentClassroom->listStudentPaginate($request, $student->studentClassrooms()->latest()->first()->classroom->id);
+                $data['data'] = StudentClassroomResource::collection($students);
+            }
+            return ResponseHelper::success($data, trans('alert.fetch_success'));
+        } catch (\Throwable $th) {
+            return ResponseHelper::success(null, trans('alert.fetch_failed'));
         }
-        return ResponseHelper::success($data, trans('alert.fetch_success'));
     }
 }

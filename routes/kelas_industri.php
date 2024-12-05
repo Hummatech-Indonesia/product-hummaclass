@@ -104,6 +104,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('challenge-submits/{challenge}', [ChallengeSubmitController::class, 'store']);
     Route::get('student/dashboard', [StudentController::class, 'detailStudent']);
     Route::get('student/list-student', [StudentClassroomController::class, 'listStudent']);
+    Route::get('student/list-range', [StudentController::class, 'listRangeStudent']);
 });
 
 Route::get('challenge/download-zip/{challenge}', [ChallengeController::class, 'download_zip']);
