@@ -67,12 +67,19 @@ class AttendanceController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $slug)
+    public function show(Request $request, string $slug)
     {
         try {
             $attendance = $this->attendance->showWithSlug($slug);
-            $attendanceStudents = $this->attendanceStudent->getWhere(['attendance_id' => $attendance->id]);
-            return ResponseHelper::success(AttendanceStudentResource::collection($attendanceStudents), trans('alert.fetch_success'));
+            if ($request->has('page')) {
+                $attendanceStudents = $this->attendanceStudent->customPaginate($request, $attendance->id);
+                $data['paginate'] = $this->customPaginate($attendanceStudents->currentPage(), $attendanceStudents->lastPage());
+                $data['data'] = AttendanceStudentResource::collection($attendanceStudents);
+            } else {
+                $attendanceStudents = $this->attendanceStudent->customPaginate($request, $attendance->id);
+                $data['data'] = AttendanceStudentResource::collection($attendanceStudents);
+            }
+            return ResponseHelper::success($data, trans('alert.fetch_success'));
         } catch (\Throwable $th) {
             return ResponseHelper::success(null, trans('alert.fetch_failed'));
         }
