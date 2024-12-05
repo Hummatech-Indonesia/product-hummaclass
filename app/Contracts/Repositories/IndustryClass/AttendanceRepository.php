@@ -47,6 +47,11 @@ class AttendanceRepository extends BaseRepository implements AttendanceInterface
         return $this->model->query()->get();
     }
 
+    public function showWithSlug(string $slug): mixed
+    {
+        return $this->model->query()->where('slug', $slug)->first();
+    }
+
     /**
      * Method store
      *

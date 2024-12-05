@@ -67,9 +67,10 @@ class AttendanceController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Attendance $attendance)
+    public function show(string $slug)
     {
         try {
+            $attendance = $this->attendance->showWithSlug($slug);
             $attendanceStudents = $this->attendanceStudent->getWhere(['attendance_id' => $attendance->id]);
             return ResponseHelper::success(AttendanceStudentResource::collection($attendanceStudents), trans('alert.fetch_success'));
         } catch (\Throwable $th) {

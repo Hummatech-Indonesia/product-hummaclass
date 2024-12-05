@@ -83,7 +83,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::resource('challenge-submits', ChallengeSubmitController::class)->only(['update', 'destroy']);
     Route::get('submit-challenge/{challenge}', [ChallengeController::class, 'showChallengeSubmit']);
     
-    Route::resource('attendances', AttendanceController::class)->except(['edit']);
+    Route::resource('attendances', AttendanceController::class)->except(['edit', 'show']);
+    Route::get('attendances/{slug}', [AttendanceController::class, 'show']);
     Route::put('attendances-status/{attendance}', [AttendanceController::class, 'edit']);
 
     Route::get('attendance/student/{attendance}', [AttendanceStudentController::class, 'store']);
