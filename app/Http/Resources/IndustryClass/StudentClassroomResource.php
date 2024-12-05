@@ -26,6 +26,7 @@ class StudentClassroomResource extends JsonResource
             'student_id' => $this->student->id,
             'photo' => url('storage/' . $this->student->user->photo),
             'email' => $this->student->user->email,
+            'address' => $this->student->user->address,
             'gender' => $gender,
             'nisn' => $this->student->nisn
         ];

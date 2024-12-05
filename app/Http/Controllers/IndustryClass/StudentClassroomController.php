@@ -4,6 +4,7 @@ namespace App\Http\Controllers\IndustryClass;
 
 use App\Contracts\Interfaces\IndustryClass\ClassroomInterface;
 use App\Contracts\Interfaces\IndustryClass\StudentClassroomInterface;
+use App\Contracts\Interfaces\IndustryClass\StudentInterface;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\IndustryClass\StudentClassroomRequest;
@@ -17,9 +18,12 @@ class StudentClassroomController extends Controller
 {
     use PaginationTrait;
     private StudentClassroomInterface $studentClassroom;
-    public function __construct(StudentClassroomInterface $studentClassroom)
+    private StudentInterface $student;
+
+    public function __construct(StudentClassroomInterface $studentClassroom, StudentInterface $student)
     {
         $this->studentClassroom = $studentClassroom;
+        $this->student = $student;
     }
 
     /**
@@ -50,5 +54,19 @@ class StudentClassroomController extends Controller
             $this->studentClassroom->store(['classroom_id' => $classroom->id, 'student_id' => $student_id]);
         }
         return ResponseHelper::success();
+    }
+
+    public function listStudent(Request $request)
+    {
+        $student = $this->student->first(['user_id' => auth()->user()->id]);
+        if ($request->has('page')) {
+            $students = $this->studentClassroom->listStudentPaginate($request, $student->studentClassrooms()->latest()->first()->classroom->id);
+            $data['paginate'] = $this->customPaginate($students->currentPage(), $students->lastPage());
+            $data['data'] = StudentClassroomResource::collection($students);
+        } else {
+            $students = $this->studentClassroom->listStudentPaginate($request, $student->studentClassrooms()->latest()->first()->classroom->id);
+            $data['data'] = StudentClassroomResource::collection($students);
+        }
+        return ResponseHelper::success($data, trans('alert.fetch_success'));
     }
 }

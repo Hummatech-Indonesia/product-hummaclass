@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ImportRequest;
 use App\Http\Requests\StudentRequest;
 use App\Http\Requests\UserStudentRequest;
+use App\Http\Resources\StudentDashboardResource;
 use App\Http\Resources\StudentResource;
 use App\Imports\StudentsImport;
 use App\Models\School;
@@ -26,12 +27,14 @@ class StudentController extends Controller
     private StudentInterface $student;
     private SchoolInterface $school;
     private UserInterface $user;
+
     public function __construct(StudentInterface $student, SchoolInterface $school, UserInterface $user)
     {
         $this->student = $student;
         $this->school = $school;
         $this->user = $user;
     }
+
     /**
      * Display a listing of the resource.
      */
@@ -137,6 +140,16 @@ class StudentController extends Controller
                 $data['data'] = StudentResource::collection($students);
             }
             return ResponseHelper::success($data, trans('alert.fetch_success'));
+        } catch (\Throwable $th) {
+            return ResponseHelper::success(null, trans('alert.fetch_failed'));
+        }
+    }
+
+    public function detailStudent()
+    {
+        try {
+            $student = $this->student->first(['user_id' => auth()->user()->id]);
+            return ResponseHelper::success(StudentDashboardResource::make($student), trans('alert.fetch_success'));
         } catch (\Throwable $th) {
             return ResponseHelper::success(null, trans('alert.fetch_failed'));
         }

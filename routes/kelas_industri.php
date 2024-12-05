@@ -74,17 +74,18 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::get('schools-all', [SchoolController::class, 'getAll']);
+
+    //Mentor
     Route::get('student/challenge-submits/{challenge}', [ChallengeSubmitController::class, 'index']);
     Route::get('student/challenges/{classroomSlug}', [ChallengeController::class, 'getByClassroom']);
 
     Route::resource('challenges', ChallengeController::class);
-    Route::get('submit-challenge/{challenge}', [ChallengeController::class, 'showChallengeSubmit']);
-
     Route::resource('challenge-submits', ChallengeSubmitController::class)->only(['update', 'destroy']);
-    Route::post('challenge-submits/{challenge}', [ChallengeSubmitController::class, 'store']);
-
+    Route::get('submit-challenge/{challenge}', [ChallengeController::class, 'showChallengeSubmit']);
+    
     Route::resource('attendances', AttendanceController::class)->except(['edit']);
     Route::put('attendances-status/{attendance}', [AttendanceController::class, 'edit']);
+
     Route::get('attendance/student/{attendance}', [AttendanceStudentController::class, 'store']);
     
     Route::put('mentor/challenge-add-point/{challenge}', [ChallengeSubmitController::class, 'add_point']);
@@ -96,8 +97,13 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::resource('journals', JournalController::class)->except(['update']);
     Route::post('journals/{journal}', [JournalController::class, 'update']);
-
     Route::get('mentor/student/list', [StudentController::class, 'listRangeStudent']);
+    
+    
+    //Student
+    Route::post('challenge-submits/{challenge}', [ChallengeSubmitController::class, 'store']);
+    Route::get('student/dashboard', [StudentController::class, 'detailStudent']);
+    Route::get('student/list-student', [StudentClassroomController::class, 'listStudent']);
 });
 
 Route::get('challenge/download-zip/{challenge}', [ChallengeController::class, 'download_zip']);

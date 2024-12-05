@@ -31,6 +31,24 @@ class StudentClassroomRepository extends BaseRepository implements StudentClassr
             $query->where('classroom_id', $request->classroom_id);
         })->fastPaginate($pagination);
     }
+    
+    /**
+     * customPaginate
+     *
+     * @param  mixed $request
+     * @param  mixed $pagination
+     * @return LengthAwarePaginator
+     */
+    public function listStudentPaginate(Request $request, mixed $id, int $pagination = 10): LengthAwarePaginator
+    {
+        return $this->model->query()
+        ->where('classroom_id', $id)
+        ->when($request->search, function ($query) use ($request) {
+            $query->whereRelation('student.user', 'name', 'like', '%' . strtolower($request->search) . '%')
+                ->orWhereRelation('student.user', 'phone_number', 'like', '%' . strtolower($request->search) . '%')
+                ->orWhereRelation('student.user', 'email', 'like', '%' . strtolower($request->search) . '%');
+        })->fastPaginate($pagination);
+    }
 
     /**
      * store

@@ -4,11 +4,12 @@ namespace App\Contracts\Interfaces\IndustryClass;
 
 use App\Contracts\Interfaces\Eloquent\BaseInterface;
 use App\Contracts\Interfaces\Eloquent\CustomPaginationInterface;
+use App\Contracts\Interfaces\Eloquent\FirstInterface;
 use App\Contracts\Interfaces\Eloquent\GetWhereInterface;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-interface StudentInterface extends GetWhereInterface, BaseInterface, CustomPaginationInterface
+interface StudentInterface extends GetWhereInterface, BaseInterface, CustomPaginationInterface, FirstInterface
 {
 
     /**

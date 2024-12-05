@@ -20,6 +20,7 @@ class StudentRepository extends BaseRepository implements StudentInterface
         $this->model = $student;
         $this->tb_user = $user;
     }
+
     /**
      * getWhere
      *
@@ -30,6 +31,17 @@ class StudentRepository extends BaseRepository implements StudentInterface
     {
         return $this->model->where($data)->get();
     }
+
+    /**
+     * getWhere
+     *
+     * @param  mixed $data
+     * @return mixed
+     */
+    public function first(mixed $query): mixed
+    {
+        return $this->model->where($query)->first();
+    }    
 
     /**
      * customPaginate
