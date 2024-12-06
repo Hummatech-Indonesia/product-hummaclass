@@ -17,8 +17,8 @@ class DivisionResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'classroom_count' => $this->classrooms->count(),
-            'learning_path_count' => $this->learningPaths->count(),
+            'classroom_count' => $this->classrooms ? $this->classrooms->count() : null,
+            'learning_path_count' => $this->learningPaths ? $this->learningPaths->count() : null,
         ];
     }
 }
