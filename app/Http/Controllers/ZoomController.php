@@ -7,12 +7,14 @@ use App\Helpers\ResponseHelper;
 use App\Http\Requests\ZoomRequest;
 use App\Http\Resources\ZoomResource;
 use App\Models\Zoom;
+use App\Traits\PaginationTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ZoomController extends Controller
 {
+    use PaginationTrait;
     private ZoomInterface $zoom;
 
     public function __construct(ZoomInterface $zoom)
