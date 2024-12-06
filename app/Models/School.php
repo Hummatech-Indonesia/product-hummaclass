@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use App\Base\Interfaces\HasClassrooms;
+use App\Base\Interfaces\HasZooms;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class School extends Model
+class School extends Model implements HasZooms, HasClassrooms
 {
     use HasFactory;
     public $incrementing = false;
@@ -31,5 +33,15 @@ class School extends Model
     public function classrooms(): HasMany
     {
         return $this->hasMany(Classroom::class);
+    }
+
+    /**
+     * Get all of the comments for the School
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function zooms(): HasMany
+    {
+        return $this->hasMany(Zoom::class);
     }
 }

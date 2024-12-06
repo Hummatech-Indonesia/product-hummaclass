@@ -11,12 +11,13 @@ use App\Base\Interfaces\HasSchoolYear;
 use App\Base\Interfaces\HasStudentClassrooms;
 use App\Base\Interfaces\HasTeacher;
 use App\Base\Interfaces\HasUser;
+use App\Base\Interfaces\HasZooms;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Classroom extends Model implements HasSchool, HasDivision, HasUser, HasTeacher, HasSchoolYear, HasChallenges, HasAttendances, HasStudentClassrooms, HasJournals
+class Classroom extends Model implements HasSchool, HasDivision, HasUser, HasTeacher, HasSchoolYear, HasChallenges, HasAttendances, HasStudentClassrooms, HasJournals, HasZooms
 {
     use HasFactory;
     public $incrementing = false;
@@ -119,5 +120,15 @@ class Classroom extends Model implements HasSchool, HasDivision, HasUser, HasTea
     public function journals(): HasMany
     {
         return $this->hasMany(Journal::class);
+    }
+
+    /**
+     * Get all of the zooms for the Classroom
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function zooms(): HasMany
+    {
+        return $this->hasMany(Zoom::class);
     }
 }

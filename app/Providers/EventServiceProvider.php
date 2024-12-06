@@ -33,6 +33,7 @@ use App\Models\Teacher;
 use App\Models\User;
 use App\Models\UserCourseTest;
 use App\Models\UserQuiz;
+use App\Models\Zoom;
 use App\Observers\AssesmentFormObserver;
 use App\Observers\AttendanceObserver;
 use App\Observers\AttendanceStudentObserver;
@@ -64,6 +65,7 @@ use App\Observers\TeacherObserver;
 use App\Observers\UserCourseTestObserver;
 use App\Observers\UserObserver;
 use App\Observers\UserQuizObserver;
+use App\Observers\ZoomObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -116,6 +118,7 @@ class EventServiceProvider extends ServiceProvider
         CourseLearningPath::observe(CourseLearningPathObserver::class);
         Journal::observe(JournalObserver::class);
         AssessmentForm::observe(AssesmentFormObserver::class);
+        Zoom::observe(ZoomObserver::class);
     }
 
     /**

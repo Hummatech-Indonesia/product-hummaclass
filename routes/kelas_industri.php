@@ -16,6 +16,7 @@ use App\Http\Controllers\IndustryClass\SchoolYearController;
 use App\Http\Controllers\IndustryClass\StudentClassroomController;
 use App\Http\Controllers\IndustryClass\TeacherController;
 use App\Http\Controllers\JournalController;
+use App\Http\Controllers\ZoomController;
 use App\Http\Requests\IndustryClass\TeacherClassroomRequest;
 
 Route::middleware('auth:sanctum')->group(function () {
@@ -75,6 +76,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('teachers/{slug}', [TeacherController::class, 'store']);
         Route::get('teacher-detail/{teacher}', [TeacherController::class, 'show']);
         Route::resource('teachers', TeacherController::class)->only(['update', 'destroy']);
+
+        Route::resource('zooms', ZoomController::class);
     });
 
     Route::get('schools-all', [SchoolController::class, 'getAll']);

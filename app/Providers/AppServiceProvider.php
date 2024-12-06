@@ -73,6 +73,7 @@ use App\Contracts\Interfaces\IndustryClass\SchoolYearInterface;
 use App\Contracts\Interfaces\IndustryClass\StudentClassroomInterface;
 use App\Contracts\Interfaces\IndustryClass\StudentInterface;
 use App\Contracts\Interfaces\IndustryClass\TeacherInterface;
+use App\Contracts\Interfaces\IndustryClass\ZoomInterface;
 use App\Contracts\Interfaces\RewardInterface;
 use App\Contracts\Interfaces\TagInterface;
 use App\Contracts\Interfaces\UserRewardInterface;
@@ -104,6 +105,7 @@ use App\Contracts\Repositories\IndustryClass\SchoolYearRepository;
 use App\Contracts\Repositories\IndustryClass\StudentClassroomRepository;
 use App\Contracts\Repositories\IndustryClass\StudentRepository;
 use App\Contracts\Repositories\IndustryClass\TeacherRepository;
+use App\Contracts\Repositories\IndustryClass\ZoomRepository;
 use App\Contracts\Repositories\RewardRepository;
 use App\Contracts\Repositories\TagRepository;
 use App\Contracts\Repositories\UserRewardRepository;
@@ -164,6 +166,7 @@ class AppServiceProvider extends ServiceProvider
         AttendanceStudentInterface::class => AttendanceStudentRepository::class,
         AssesmentFormInterface::class => AssesmentFormRepository::class,
         JournalInterface::class => JournalRepository::class,
+        ZoomInterface::class => ZoomRepository::class,
     ];
 
     /**
