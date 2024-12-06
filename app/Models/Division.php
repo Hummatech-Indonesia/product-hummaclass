@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Division extends Model
 {
@@ -26,12 +27,12 @@ class Division extends Model
         return $this->hasMany(Classroom::class);
     }
     /**
-     * Get all of the learningPaths for the Division
+     * Get the learningPath associated with the Division
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function learningPaths(): HasMany
+    public function learningPath(): HasOne
     {
-        return $this->hasMany(LearningPath::class);
+        return $this->hasOne(LearningPath::class);
     }
 }
