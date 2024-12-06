@@ -40,6 +40,17 @@ class TeacherRepository extends BaseRepository implements TeacherInterface
     }
 
     /**
+     * getWhere
+     *
+     * @param  mixed $data
+     * @return mixed
+     */
+    public function first(mixed $query): mixed
+    {
+        return $this->model->query()->where($query)->first();
+    }
+
+    /**
      * Method get
      *
      * @return mixed

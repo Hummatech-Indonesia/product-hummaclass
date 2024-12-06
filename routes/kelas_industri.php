@@ -82,6 +82,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('schools-all', [SchoolController::class, 'getAll']);
 
+    //Teacher
+    Route::get('teacher/classrooms', [ClassroomController::class, 'showClassroomTeacher']);
+
     //Mentor
     Route::get('student/challenge-submits/{challenge}', [ChallengeSubmitController::class, 'index']);
     Route::get('student/challenges/{classroomSlug}', [ChallengeController::class, 'getByClassroom']);

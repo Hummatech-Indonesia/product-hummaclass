@@ -107,4 +107,17 @@ class ClassroomRepository extends BaseRepository implements ClassroomInterface
     {
         return $this->show($id)->delete();
     }
+
+    public function customPaginate(Request $request, mixed $query, int $pagination = 9): LengthAwarePaginator
+    {
+        return $this->model->query()
+            ->where($query)
+            ->when($request->search, function($query) use ($request){
+                $query->where('name', 'LIKE', '%' . $request->search .'%');
+            })->when($request->school, function($query) use ($request){
+                $query->where('school_id', 'LIKE', '%'. $request->school . '%');
+            })->when($request->classroom, function($query) use ($request){
+                $query->where('classroom_id', 'LIKE', '%'. $request->classroom . '%');
+            })->fastPaginate($pagination);
+    }
 }

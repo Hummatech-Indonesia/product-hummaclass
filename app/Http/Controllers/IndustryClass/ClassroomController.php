@@ -6,6 +6,7 @@ use App\Contracts\Interfaces\IndustryClass\ClassroomInterface;
 use App\Contracts\Interfaces\IndustryClass\SchoolInterface;
 use App\Contracts\Interfaces\IndustryClass\StudentClassroomInterface;
 use App\Contracts\Interfaces\IndustryClass\StudentInterface;
+use App\Contracts\Interfaces\IndustryClass\TeacherInterface;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\IndustryClass\ClassroomRequest;
@@ -23,17 +24,19 @@ use Illuminate\Http\Request;
 class ClassroomController extends Controller
 {
     use PaginationTrait;
+    private TeacherInterface $teacher;
     private ClassroomInterface $classroom;
     private SchoolInterface $school;
     private StudentInterface $student;
     private StudentClassroomInterface $studentClassroom;
 
-    public function __construct(ClassroomInterface $classroom, SchoolInterface $school, StudentInterface $student, StudentClassroomInterface $studentClassroom)
+    public function __construct(TeacherInterface $teacher, ClassroomInterface $classroom, SchoolInterface $school, StudentInterface $student, StudentClassroomInterface $studentClassroom)
     {
         $this->classroom = $classroom;
         $this->school = $school;
         $this->student = $student;
         $this->studentClassroom = $studentClassroom;
+        $this->teacher = $teacher;
     }
 
     /**
@@ -195,5 +198,17 @@ class ClassroomController extends Controller
         return ResponseHelper::success($data, trans('alert.fetch_success'));
     }
 
-    
+    public function showClassroomTeacher(Request $request): JsonResponse
+    {
+        $teacher = $this->teacher->first(['user_id' => auth()->user()->id]);
+        if ($request->has('page')) {
+            $classrooms = $this->classroom->customPaginate($request, ['teacher_id' => $teacher->id]);
+            $data['paginate'] = $this->customPaginate($classrooms->currentPage(), $classrooms->lastPage());
+            $data['data'] = ClassroomResource::collection($classrooms);
+        } else {
+            $classrooms = $this->classroom->customPaginate($request, ['teacher_id' => $teacher->id]);
+            $data['data'] = ClassroomResource::collection($classrooms);
+        }
+        return ResponseHelper::success($data, trans('alert.fetch_success'));
+    }
 }

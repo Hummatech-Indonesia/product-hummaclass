@@ -12,9 +12,11 @@ use App\Contracts\Interfaces\Eloquent\ShowSlugInterface;
 use App\Contracts\Interfaces\Eloquent\StoreInterface;
 use App\Contracts\Interfaces\Eloquent\UpdateInterface;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 interface ClassroomInterface extends GetInterface, StoreInterface, ShowInterface, UpdateInterface, DeleteInterface, GetWhereInterface, ShowSlugInterface
 {
+    public function customPaginate(Request $request, mixed $query, int $pagination = 9): LengthAwarePaginator;
     public function search(mixed $query, Request $request): mixed;
     public function take(mixed $query, mixed $count): mixed;
 }
