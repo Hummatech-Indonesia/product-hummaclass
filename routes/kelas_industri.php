@@ -83,7 +83,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::resource('zooms', ZoomController::class);
     });
 
-    Route::get('course-user', [CourseTestController::class, 'getByTeacher']);
+    Route::get('course-teacher', [CourseTestController::class, 'getByTeacher']);
 
     Route::get('schools-all', [SchoolController::class, 'getAll']);
     Route::get('detail/classroom/{slug}', [ClassroomController::class, 'showDetailClassroom']);

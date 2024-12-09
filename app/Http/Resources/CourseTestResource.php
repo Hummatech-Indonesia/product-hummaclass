@@ -19,6 +19,7 @@ class CourseTestResource extends JsonResource
             'duration' => $this->duration,
             'total_question' => $this->total_question,
             'is_submitted' => $this->is_submitted,
+            'course' => $this->course,
             'courseTestQuestions' => CourseTestQuestionResource::collection($this->courseTestQuestions)
         ];
     }

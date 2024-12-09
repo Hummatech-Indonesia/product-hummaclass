@@ -8,9 +8,11 @@ use App\Contracts\Interfaces\Eloquent\GetWhereInterface;
 use App\Contracts\Interfaces\Eloquent\ShowInterface;
 use App\Contracts\Interfaces\Eloquent\StoreInterface;
 use App\Contracts\Interfaces\Eloquent\UpdateInterface;
+use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 interface CourseTestInterface extends GetInterface, StoreInterface, ShowInterface,DeleteInterface,UpdateInterface
 {
-    public function getByTeacher(mixed $id): mixed;
+    public function getByTeacher(Request $request, mixed $id, int $pagination = 10 ): LengthAwarePaginator;
 }
 

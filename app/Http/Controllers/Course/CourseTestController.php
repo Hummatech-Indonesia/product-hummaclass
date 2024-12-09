@@ -43,6 +43,7 @@ class CourseTestController extends Controller
         $this->courseTestQuestion = $courseTestQuestion;
         $this->service = $service;
     }
+
     public function index(string $slug, Request $request): JsonResponse
     {
         $course = $this->course->showWithSlug($request, $slug);
@@ -198,9 +199,16 @@ class CourseTestController extends Controller
         return ResponseHelper::success(true, trans('alert.delete_success'));
     }
 
-    public function getByTeacher(): JsonResponse
+    public function getByTeacher(Request $request): JsonResponse
     {
-        $courseTests = $this->courseTest->getByTeacher(auth()->user()->id);
-        return ResponseHelper::success(CourseTestResource::collection($courseTests), trans('alert.fetch_success'));
+        if ($request->has('page')) {
+            $courseTests = $this->courseTest->getByTeacher($request, auth()->user()->id);
+            $data['paginate'] = $this->customPaginate($courseTests->currentPage(), $courseTests->lastPage());
+            $data['data'] = CourseTestResource::collection($courseTests);
+        } else {
+            $courseTests = $this->courseTest->getByTeacher($request, auth()->user()->id);
+            $data['data'] = CourseTestResource::collection($courseTests);
+        }
+        return ResponseHelper::success($data, trans('alert.fetch_success'));
     }
 }
