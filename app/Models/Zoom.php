@@ -52,6 +52,6 @@ class Zoom extends Model implements HasSchool, HasClassroom
      */
     public function mentor(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 }
