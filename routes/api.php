@@ -270,6 +270,8 @@ Route::middleware('enable.cors')->group(function () {
         Route::get('/user', function (Request $request) {
             return \App\Models\User::with('roles')->find($request->user()->id);
         });
+        Route::delete('users/{user}', [UserController::class, 'destroy']);
+
 
         /**
          * Email Verification
