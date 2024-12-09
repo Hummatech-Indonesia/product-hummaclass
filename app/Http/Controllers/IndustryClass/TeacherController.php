@@ -53,6 +53,7 @@ class TeacherController extends Controller
         $school = $this->school->showWithSlug($slug);
         $data = $request->validated();
         $data['school_id'] = $school->id;
+        $data['email_verified_at'] = now();
         $user = $this->user->store($data)->assignRole(RoleEnum::TEACHER->value);
         $data['user_id'] = $user->id;
         $this->teacher->store($data);

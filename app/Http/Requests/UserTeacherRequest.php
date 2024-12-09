@@ -23,7 +23,7 @@ class UserTeacherRequest extends ApiRequest
     {
         return [
             'name' => 'required',
-            'email' => 'required',
+            'email' => 'required|email|unique:users',
             'nip' => 'required',
             'date_birth' => 'required',
             'phone_number' => 'required',

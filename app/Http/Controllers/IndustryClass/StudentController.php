@@ -39,6 +39,7 @@ class StudentController extends Controller
         $this->challenge = $challenge;
     }
 
+
     /**
      * Display a listing of the resource.
      */
@@ -80,6 +81,13 @@ class StudentController extends Controller
     public function show(Student $student)
     {
         return ResponseHelper::success(StudentResource::make($student), trans('alert.fetch_success'));
+    }
+
+    public function getByAuth(): JsonResponse
+    {
+        $student = auth()->user()->student;
+        $data = $this->student->show($student->id);
+        return ResponseHelper::success(StudentResource::make($data), trans('alert.fetch_success'));
     }
 
 
@@ -146,7 +154,7 @@ class StudentController extends Controller
             } else {
                 $students = $this->student->listRangePoint($request);
                 $studentRank = $students->map(function ($student, $index) {
-                    $student->rank = $index + 1; 
+                    $student->rank = $index + 1;
                     return $student;
                 });
                 $data['data'] = StudentResource::collection($studentRank);

@@ -25,6 +25,12 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('get-classrooms', [ClassroomController::class, 'getAll']);
     Route::get('classrooms/{slug}', [ClassroomController::class, 'index']);
+
+    Route::get('student-detail/{student}', [StudentController::class, 'show']);
+    Route::get('student-auth', [StudentController::class, 'getByAuth']);
+
+    Route::get('student-classrooms/{classroom}', [StudentClassroomController::class, 'byClassroom']);
+
     Route::get('show/classroom/{classroom}', [ClassroomController::class, 'show']);
 
     Route::middleware(['is_admin'])->group(function () {
@@ -61,7 +67,6 @@ Route::middleware('auth:sanctum')->group(function () {
         // student
         Route::get('students/{slug}', [StudentController::class, 'index']);
         Route::post('students/{slug}', [StudentController::class, 'store']);
-        Route::get('student-detail/{student}', [StudentController::class, 'show']);
         Route::resource('students', StudentController::class)->only(['update', 'destroy']);
         Route::post('import-student/{slug}', [StudentController::class, 'import']);
         Route::get('student-without-classroom/{slugSchool}', [StudentController::class, 'withoutClassroom']);
@@ -71,7 +76,6 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('assesment-form/{division}/{classLevel}', [AssesmentFormController::class, 'index']);
 
         // student classroom
-        Route::get('student-classrooms/{classroom}', [StudentClassroomController::class, 'byClassroom']);
         Route::post('student-classrooms/{classroom}', [StudentClassroomController::class, 'store']);
 
         // teacher
@@ -100,6 +104,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::resource('challenges', ChallengeController::class);
     Route::resource('challenge-submits', ChallengeSubmitController::class)->only(['update', 'destroy']);
     Route::get('submit-challenge/{challenge}', [ChallengeController::class, 'showChallengeSubmit']);
+    
+
     Route::resource('attendances', AttendanceController::class)->except(['edit']);
 
     Route::resource('attendances', AttendanceController::class)->except(['edit', 'show']);

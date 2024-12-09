@@ -111,7 +111,7 @@ class Classroom extends Model implements HasSchool, HasDivision, HasUser, HasTea
     {
         return $this->hasMany(StudentClassroom::class);
     }
-    
+
     /**
      * Get all of the journals for the Classroom
      *
