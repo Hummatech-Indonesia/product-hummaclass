@@ -67,6 +67,7 @@ use App\Contracts\Interfaces\IndustryClass\ClassroomInterface;
 use App\Contracts\Interfaces\IndustryClass\CourseLearningPathInterface;
 use App\Contracts\Interfaces\IndustryClass\DivisionInterface;
 use App\Contracts\Interfaces\IndustryClass\JournalInterface;
+use App\Contracts\Interfaces\IndustryClass\JournalPresenceInterface;
 use App\Contracts\Interfaces\IndustryClass\LearningPathInterface;
 use App\Contracts\Interfaces\IndustryClass\SchoolInterface;
 use App\Contracts\Interfaces\IndustryClass\SchoolYearInterface;
@@ -98,6 +99,7 @@ use App\Contracts\Repositories\IndustryClass\AttendanceStudentRepository;
 use App\Contracts\Repositories\IndustryClass\ClassroomRepository;
 use App\Contracts\Repositories\IndustryClass\CourseLearningPathRepository;
 use App\Contracts\Repositories\IndustryClass\DivisionRepository;
+use App\Contracts\Repositories\IndustryClass\JournalPresenceRepository;
 use App\Contracts\Repositories\IndustryClass\JournalRepository;
 use App\Contracts\Repositories\IndustryClass\LearningPathRepository;
 use App\Contracts\Repositories\IndustryClass\SchoolRepository;
@@ -166,6 +168,7 @@ class AppServiceProvider extends ServiceProvider
         AttendanceStudentInterface::class => AttendanceStudentRepository::class,
         AssesmentFormInterface::class => AssesmentFormRepository::class,
         JournalInterface::class => JournalRepository::class,
+        JournalPresenceInterface::class => JournalPresenceRepository::class,
         ZoomInterface::class => ZoomRepository::class,
     ];
 

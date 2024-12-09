@@ -23,6 +23,7 @@ class JournalResource extends JsonResource
             'user' => $this->user,
             'classroom' => $this->classroom,
             'date' => Carbon::parse($this->created_at)->translatedFormat('d F Y - H:i'),
+            'student_presence' => JournalPresenceResource::collection($this->journalPresences)
         ];
     }
 }
