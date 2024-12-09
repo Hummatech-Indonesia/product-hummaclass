@@ -197,4 +197,10 @@ class CourseTestController extends Controller
         $this->courseTest->delete($courseTest->id);
         return ResponseHelper::success(true, trans('alert.delete_success'));
     }
+
+    public function getByTeacher(): JsonResponse
+    {
+        $courseTests = $this->courseTest->getByTeacher(auth()->user()->id);
+        return ResponseHelper::success(CourseTestResource::collection($courseTests), trans('alert.fetch_success'));
+    }
 }

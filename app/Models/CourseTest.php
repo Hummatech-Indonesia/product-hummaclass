@@ -22,6 +22,7 @@ class CourseTest extends Model implements HasCourse, HasUserCourseTests
         'duration',
         'is_submitted',
     ];
+    
     /**
      * Get the course that owns the CourseTest
      *

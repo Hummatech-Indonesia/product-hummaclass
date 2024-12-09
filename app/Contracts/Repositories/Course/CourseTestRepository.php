@@ -39,6 +39,21 @@ class CourseTestRepository extends BaseRepository implements CourseTestInterface
         return $this->model->query()->get();
     }
 
+    public function getByTeacher(mixed $id): mixed
+    {
+        return $this->model->query()->whereHas('course', function($query) use ($id){
+            $query->whereHas('courseLearningPaths', function($query) use ($id){
+                $query->whereHas('learningPath', function($query) use ($id){
+                    $query->whereHas('division', function($query) use ($id){
+                        $query->whereHas('classrooms', function($query) use ($id){
+                            $query->whereRelation('teacher.user', 'id', $id);
+                        });
+                    });
+                });
+            });
+        })->get();
+    }
+
     /**
      * Method store
      *

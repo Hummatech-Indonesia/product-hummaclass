@@ -5,6 +5,7 @@ use App\Http\Controllers\AttendanceStudentController;
 use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\ChallengeController;
 use App\Http\Controllers\ChallengeSubmitController;
+use App\Http\Controllers\Course\CourseTestController;
 use App\Http\Controllers\DivisionController;
 use App\Http\Controllers\IndustryClass\AssesmentFormController;
 use Illuminate\Support\Facades\Route;
@@ -81,6 +82,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
         Route::resource('zooms', ZoomController::class);
     });
+
+    Route::get('course-user', [CourseTestController::class, 'getByTeacher']);
 
     Route::get('schools-all', [SchoolController::class, 'getAll']);
     Route::get('detail/classroom/{slug}', [ClassroomController::class, 'showDetailClassroom']);
