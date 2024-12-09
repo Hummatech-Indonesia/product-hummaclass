@@ -39,6 +39,13 @@ class CourseTestRepository extends BaseRepository implements CourseTestInterface
         return $this->model->query()->get();
     }
 
+    public function showWithSlug(string $slug): mixed
+    {
+        return $this->model->query()->whereHas('course', function($query) use ($slug){
+            $query->where('slug', $slug);
+        })->first();
+    }
+
     public function getByTeacher(Request $request, mixed $id, int $pagination = 10 ): LengthAwarePaginator
     {
         return $this->model->query()

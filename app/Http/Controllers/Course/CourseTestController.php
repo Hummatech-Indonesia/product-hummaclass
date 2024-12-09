@@ -12,6 +12,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CourseTestRequest;
 use App\Http\Requests\CustomCourseTestRequest;
 use App\Http\Requests\UserCourseTestRequest;
+use App\Http\Resources\CourseTestDetailResource;
 use App\Http\Resources\CourseTestResource;
 use App\Http\Resources\CourseTestResultResource;
 use App\Http\Resources\ModuleQuestionResource;
@@ -210,5 +211,11 @@ class CourseTestController extends Controller
             $data['data'] = CourseTestResource::collection($courseTests);
         }
         return ResponseHelper::success($data, trans('alert.fetch_success'));
+    }
+
+    public function detailCourse(string $slug): JsonResponse
+    {   
+        $courseTest = $this->courseTest->showWithSlug($slug);
+        return ResponseHelper::success(CourseTestDetailResource::make($courseTest), trans('alert.fetch_success'));
     }
 }

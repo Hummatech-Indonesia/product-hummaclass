@@ -44,4 +44,6 @@ class UserCourseTestController extends Controller
         $this->userCourseTest->store($request->validated());
         return ResponseHelper::success(true, trans('alert.add_success'));
     }
+
+    
 }
