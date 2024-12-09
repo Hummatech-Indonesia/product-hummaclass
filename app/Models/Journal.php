@@ -7,6 +7,7 @@ use App\Base\Interfaces\HasUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Journal extends Model implements HasUser, HasClassroom
 {
@@ -41,5 +42,15 @@ class Journal extends Model implements HasUser, HasClassroom
     public function classroom(): BelongsTo
     {
         return $this->belongsTo(Classroom::class);
+    }
+
+    /**
+     * Get all of the journalPresences for the Journal
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function journalPresences(): HasMany
+    {
+        return $this->hasMany(JournalPresence::class);
     }
 }

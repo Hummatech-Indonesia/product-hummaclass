@@ -16,14 +16,16 @@ use App\Http\Controllers\IndustryClass\SchoolYearController;
 use App\Http\Controllers\IndustryClass\StudentClassroomController;
 use App\Http\Controllers\IndustryClass\TeacherController;
 use App\Http\Controllers\JournalController;
+use App\Http\Controllers\JournalPresenceController;
 use App\Http\Controllers\ZoomController;
 use App\Http\Requests\IndustryClass\TeacherClassroomRequest;
 
 Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('get-classrooms', [ClassroomController::class, 'getAll']);
-
     Route::get('classrooms/{slug}', [ClassroomController::class, 'index']);
+    Route::get('show/classroom/{classroom}', [ClassroomController::class, 'show']);
+
     Route::middleware(['is_admin'])->group(function () {
 
         // school
@@ -81,9 +83,12 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::get('schools-all', [SchoolController::class, 'getAll']);
+    Route::get('detail/classroom/{slug}', [ClassroomController::class, 'showDetailClassroom']);
 
     //Teacher
+    Route::get('class-teacher', [ClassroomController::class, 'listClassroomByTeacher']);
     Route::get('teacher/classrooms', [ClassroomController::class, 'showClassroomTeacher']);
+    Route::resource('journal-presences', JournalPresenceController::class);
 
     //Mentor
     Route::get('student/challenge-submits/{challenge}', [ChallengeSubmitController::class, 'index']);
@@ -92,8 +97,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::resource('challenges', ChallengeController::class);
     Route::resource('challenge-submits', ChallengeSubmitController::class)->only(['update', 'destroy']);
     Route::get('submit-challenge/{challenge}', [ChallengeController::class, 'showChallengeSubmit']);
-    
-
     Route::resource('attendances', AttendanceController::class)->except(['edit']);
 
     Route::resource('attendances', AttendanceController::class)->except(['edit', 'show']);
@@ -106,7 +109,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('mentor/classrooms', [ClassroomController::class, 'listClassroom']);
     Route::get('mentor/dashboard/classrooms', [ClassroomController::class, 'listClassroomDashboard']);
 
-    Route::get('mentor/detail/classroom/{slug}', [ClassroomController::class, 'showDetailClassroom']);
     Route::get('mentor/detail-student/classroom', [ClassroomController::class, 'showDetailStudent']);
 
     Route::resource('journals', JournalController::class)->except(['update']);

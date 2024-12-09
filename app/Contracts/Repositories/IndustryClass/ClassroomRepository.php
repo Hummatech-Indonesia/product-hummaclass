@@ -32,7 +32,7 @@ class ClassroomRepository extends BaseRepository implements ClassroomInterface
     public function search(mixed $query, Request $request): mixed
     {
         return $this->model->query()
-            ->where('user_id', $query)
+            ->where($query)
             ->when($request->search, function ($query) use ($request) {
                 $query->where('name', 'like', '%' . $request->search . '%')
                     ->orWhere('class_level', 'like', '%' . $request->search . '%')

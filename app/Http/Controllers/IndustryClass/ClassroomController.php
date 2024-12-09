@@ -148,7 +148,21 @@ class ClassroomController extends Controller
      */
     public function listClassroom(Request $request): JsonResponse
     {
-        $classrooms = $this->classroom->search(auth()->user()->id, $request);
+        $classrooms = $this->classroom->search(['user_id' => auth()->user()->id], $request);
+        return ResponseHelper::success(ClassroomResource::collection($classrooms), trans('alert.fetch_success'));
+    }
+
+    /**
+     * mentorClassroom
+     *
+     * @param  mixed $user
+     * @param  mixed $request
+     * @return JsonResponse
+     */
+    public function listClassroomByTeacher(Request $request): JsonResponse
+    {
+        $teacher = $this->teacher->first(['user_id' => auth()->user()->id]);
+        $classrooms = $this->classroom->search(['teacher_id' => $teacher->id], $request);
         return ResponseHelper::success(ClassroomResource::collection($classrooms), trans('alert.fetch_success'));
     }
 

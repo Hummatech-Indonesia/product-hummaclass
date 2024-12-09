@@ -10,6 +10,7 @@ use App\Http\Requests\JournalUpdateRequest;
 use App\Http\Resources\JournalResource;
 use Illuminate\Http\Request;
 use App\Models\Journal;
+use Illuminate\Http\JsonResponse;
 
 class JournalController extends Controller
 {
@@ -60,9 +61,9 @@ class JournalController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Journal $journal)
+    public function show(Journal $journal): JsonResponse
     {
-        //
+        return ResponseHelper::success(JournalResource::make($journal), trans('alert.fetch_success'));
     }
 
     /**
