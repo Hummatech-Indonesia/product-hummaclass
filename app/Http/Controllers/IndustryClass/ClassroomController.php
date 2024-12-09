@@ -45,7 +45,12 @@ class ClassroomController extends Controller
     public function index(string $slug)
     {
         $school = $this->school->showWithSlug($slug);
-        $classrooms = $this->classroom->getWhere(['school_id' => $school->id]);
+        $classrooms = $this->classroom->getWhere(['school_id' => $school->id], null);
+        return ResponseHelper::success(ClassroomResource::collection($classrooms));
+    }
+
+    public function getByMentorId(string $mentorId, Request $request): mixed {
+        $classrooms = $this->classroom->getWhere(['user_id' => $mentorId], $request->name);
         return ResponseHelper::success(ClassroomResource::collection($classrooms));
     }
 
@@ -83,13 +88,6 @@ class ClassroomController extends Controller
         return ResponseHelper::success(ClassroomResource::make($classroom), trans('alert.fetch_success'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.

@@ -33,6 +33,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('show/classroom/{classroom}', [ClassroomController::class, 'show']);
 
+    Route::get('mentor-classrooms/{mentor}', [ClassroomController::class, 'getByMentorId']);
+
     Route::middleware(['is_admin'])->group(function () {
 
         // school

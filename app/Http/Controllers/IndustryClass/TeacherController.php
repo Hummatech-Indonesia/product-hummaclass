@@ -18,6 +18,7 @@ use App\Models\User;
 use App\Traits\PaginationTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class TeacherController extends Controller
 {
@@ -54,6 +55,7 @@ class TeacherController extends Controller
         $data = $request->validated();
         $data['school_id'] = $school->id;
         $data['email_verified_at'] = now();
+        $data['password'] = Hash::make('password');
         $user = $this->user->store($data)->assignRole(RoleEnum::TEACHER->value);
         $data['user_id'] = $user->id;
         $this->teacher->store($data);

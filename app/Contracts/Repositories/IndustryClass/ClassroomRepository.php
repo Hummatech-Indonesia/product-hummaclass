@@ -24,9 +24,11 @@ class ClassroomRepository extends BaseRepository implements ClassroomInterface
      * @param  mixed $data
      * @return mixed
      */
-    public function getWhere(array $data): mixed
+    public function getWhere(array $data, $search = null): mixed
     {
-        return $this->model->query()->where($data)->get();
+        return $this->model->query()->where($data)
+                ->where('name', 'LIKE', "%$search%")
+            ->get();
     }
 
     public function search(mixed $query, Request $request): mixed
@@ -112,12 +114,12 @@ class ClassroomRepository extends BaseRepository implements ClassroomInterface
     {
         return $this->model->query()
             ->where($query)
-            ->when($request->search, function($query) use ($request){
-                $query->where('name', 'LIKE', '%' . $request->search .'%');
-            })->when($request->school, function($query) use ($request){
-                $query->where('school_id', 'LIKE', '%'. $request->school . '%');
-            })->when($request->classroom, function($query) use ($request){
-                $query->where('classroom_id', 'LIKE', '%'. $request->classroom . '%');
+            ->when($request->search, function ($query) use ($request) {
+                $query->where('name', 'LIKE', '%' . $request->search . '%');
+            })->when($request->school, function ($query) use ($request) {
+                $query->where('school_id', 'LIKE', '%' . $request->school . '%');
+            })->when($request->classroom, function ($query) use ($request) {
+                $query->where('classroom_id', 'LIKE', '%' . $request->classroom . '%');
             })->fastPaginate($pagination);
     }
 }
