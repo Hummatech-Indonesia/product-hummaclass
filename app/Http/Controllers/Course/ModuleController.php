@@ -42,7 +42,7 @@ class ModuleController extends Controller
      */
     public function index(string $slug, Request $request): JsonResponse
     {
-        $course = $this->course->showWithSlug($request, $slug);
+        $course = $this->course->showWithSlug($slug);
         $request->merge(['course_id' => $course->id]);
         $modules = $this->module->search($request);
         return ResponseHelper::success(ModuleResource::collection($modules), trans('alert.fetch_success'));
@@ -54,9 +54,9 @@ class ModuleController extends Controller
      *
      * @return JsonResponse
      */
-    public function store(string $slug, ModuleRequest $request, Request $requestDefault): JsonResponse
+    public function store(string $slug, ModuleRequest $request): JsonResponse
     {
-        $course = $this->course->showWithSlug($requestDefault ,$slug);
+        $course = $this->course->showWithSlug($slug);
         $data = $request->validated();
         $data['course_id'] = $course->id;
 

@@ -166,10 +166,10 @@ class CourseRepository extends BaseRepository implements CourseInterface
      *
      * @return mixed
      */
-    public function showWithSlug(Request $request, string $slug): mixed
+    public function showWithSlug(string $slug, Request $request = null): mixed
     {
         return $this->model->query()->where(['slug' => $slug])
-            ->when($request->transaction, function ($query) use ($request) {
+            ->when($request?->transaction, function ($query) use ($request) {
                 $query->with('transactions');
             })->firstOrFail();
     }
