@@ -38,9 +38,8 @@ class StudentResource extends JsonResource
             'address' => $this->user->address,
             'school' => $this->school,
             'classroom' => $classroom ?? null,
-            'teacher_name' => $classroom?->teacher?->user->name,
-            'mentor_name' => $classroom?->user->name
-            // 'one_classroom' => CustomClassroomResource::make($this->studentClassrooms()->latest()->first()->classroom),
+            'teacher_name' => $classroom && $classroom->teacher && $classroom->teacher->user ? $classroom->teacher->user->name : null,
+            'mentor_name' => $classroom && $classroom->user ? $classroom->user->name : null
         ];
     }
 }
