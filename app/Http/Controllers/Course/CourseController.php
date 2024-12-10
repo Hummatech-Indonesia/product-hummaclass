@@ -87,7 +87,7 @@ class CourseController extends Controller
      */
     public function show(Request $request, string $slug): JsonResponse
     {
-        $course = $this->course->showWithSlug($request, $slug);
+        $course = $this->course->showWithSlug($slug, $request);
         return ResponseHelper::success(DetailCourseResource::make($course), trans('alert.fetch_success'));
     }
 
@@ -122,7 +122,7 @@ class CourseController extends Controller
     }
     public function statistic(Request $request, string $slug): JsonResponse
     {
-        $course = $this->course->showWithSlug($request, $slug);
+        $course = $this->course->showWithSlug($slug, $request);
         // dd($course->transactions);
         return ResponseHelper::success(CourseStatisticResource::make($course), trans('alert.fetch_success'));
     }
@@ -175,7 +175,7 @@ class CourseController extends Controller
      */
     public function share(Request $request, string $slug): JsonResponse
     {
-        $course = $this->course->showWithSlug($request, $slug);
+        $course = $this->course->showWithSlug($slug, $request);
         return ResponseHelper::success(CourseResource::make($course), trans('alert.fetch_success'));
     }
 

@@ -47,7 +47,7 @@ class CourseTestController extends Controller
 
     public function index(string $slug, Request $request): JsonResponse
     {
-        $course = $this->course->showWithSlug($request, $slug);
+        $course = $this->course->showWithSlug($slug, $request);
         $courseTest = $this->courseTest->show($course->id);
         if ($courseTest == null) return ResponseHelper::error(null, "Anda Belum Setting Test");
         return ResponseHelper::success(CourseTestResource::make($courseTest), trans('alert.fetch_success'));
@@ -153,8 +153,9 @@ class CourseTestController extends Controller
      * @param  mixed $slug
      * @return JsonResponse
      */
-    public function store(CourseTestRequest $request, string $slug): JsonResponse
+    public function store(Request $request, string $slug): mixed
     {
+        return $request;
         $course = $this->course->showWithSlug($slug);
         $data = $request->validated();
         $data['course_id'] = $course->id;
