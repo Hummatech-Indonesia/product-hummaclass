@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('assesment_form_students', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->foreignUuid('student_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignUuid('assessment_form_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->enum('value', [1, 2, 3, 4, 5]);
             $table->timestamps();
