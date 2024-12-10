@@ -31,6 +31,11 @@ class ClassroomRepository extends BaseRepository implements ClassroomInterface
             ->get();
     }
 
+    public function where(mixed $query) : mixed
+    {
+        return $this->model->query()->where($query)->get();
+    }
+
     public function search(mixed $query, Request $request): mixed
     {
         return $this->model->query()
