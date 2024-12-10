@@ -4,6 +4,7 @@ namespace App\Http\Controllers\IndustryClass;
 
 use App\Contracts\Interfaces\Auth\UserInterface;
 use App\Contracts\Interfaces\ChallengeInterface;
+use App\Contracts\Interfaces\IndustryClass\LearningPathInterface;
 use App\Contracts\Interfaces\IndustryClass\SchoolInterface;
 use App\Contracts\Interfaces\IndustryClass\StudentInterface;
 use App\Enums\RoleEnum;
@@ -13,6 +14,7 @@ use App\Http\Requests\ImportRequest;
 use App\Http\Requests\StudentRequest;
 use App\Http\Requests\UserStudentRequest;
 use App\Http\Resources\ChallengeResource;
+use App\Http\Resources\LearningPathResource;
 use App\Http\Resources\StudentDashboardResource;
 use App\Http\Resources\StudentResource;
 use App\Imports\StudentsImport;
@@ -30,13 +32,15 @@ class StudentController extends Controller
     private SchoolInterface $school;
     private UserInterface $user;
     private ChallengeInterface $challenge;
+    private LearningPathInterface $learningPath;
 
-    public function __construct(StudentInterface $student, SchoolInterface $school, UserInterface $user, ChallengeInterface $challenge)
+    public function __construct(StudentInterface $student, SchoolInterface $school, UserInterface $user, ChallengeInterface $challenge, LearningPathInterface $learningPath)
     {
         $this->student = $student;
         $this->school = $school;
         $this->user = $user;
         $this->challenge = $challenge;
+        $this->learningPath = $learningPath;
     }
 
 
@@ -184,5 +188,20 @@ class StudentController extends Controller
         } catch (\Throwable $th) {
             return ResponseHelper::success(null, trans('alert.fetch_failed'));
         }
+    }
+
+    public function showLearningPath(Request $request)
+    {
+        $student = $this->student->first(['user_id' => auth()->user()-id]);
+
+        if ($request->has('page')) {
+            $learningPath = $this->learningPath->customPaginate($request, ['division_id' => $student->studentClassrooms()->latest()->first()->classroom->division_id]);
+            $data['paginate'] = $this->customPaginate($learningPath->currentPage(), $learningPath->lastPage());
+            $data['data'] = LearningPathResource::collection($learningPath);
+        } else {
+            $learningPath = $this->learningPath->customPaginate($request, ['division_id' => $student->studentClassrooms()->latest()->first()->classroom->division_id]);
+            $data['data'] = LearningPathResource::collection($learningPath);
+        }
+        return ResponseHelper::success($data, trans('alert.fetch_success'));
     }
 }

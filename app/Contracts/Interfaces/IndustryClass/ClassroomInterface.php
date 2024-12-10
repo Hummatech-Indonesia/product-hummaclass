@@ -20,4 +20,5 @@ interface ClassroomInterface extends GetInterface, StoreInterface, ShowInterface
     public function search(mixed $query, Request $request): mixed;
     public function take(mixed $query, mixed $count): mixed;
     public function getWhere(array $data, $search): mixed;
+    public function where(mixed $query) : mixed;
 }

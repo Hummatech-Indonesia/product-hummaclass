@@ -8,6 +8,7 @@ use App\Contracts\Repositories\BaseRepository;
 use App\Models\Attendance;
 use App\Models\LearningPath;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class LearningPathRepository extends BaseRepository implements LearningPathInterface
 {
@@ -27,6 +28,16 @@ class LearningPathRepository extends BaseRepository implements LearningPathInter
             })
             ->get();
     }
+
+    public function customPaginate(Request $request, mixed $query, int $pagination = 10): LengthAwarePaginator
+    {
+        return $this->model->query()->where($query)
+            ->when($request->search, function($query) use($request) {
+                $query->whereRelation('courseLearningPaths.course', 'title', 'LIKE', '%'. $request->search .'%')
+                ->orWhereRelation('courseLearningPaths.course', 'sub_title', 'LIKE', '%'. $request->search .'%');
+            })->fastPaginate($pagination);
+    }
+
     public function store(array $data): mixed
     {
         return $this->model->query()->create($data);
