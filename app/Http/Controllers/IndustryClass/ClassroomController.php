@@ -50,6 +50,7 @@ class ClassroomController extends Controller
     }
 
     public function getByMentorId(string $mentorId, Request $request): mixed {
+        
         $classrooms = $this->classroom->getWhere(['user_id' => $mentorId], $request->name);
         return ResponseHelper::success(ClassroomResource::collection($classrooms));
     }
