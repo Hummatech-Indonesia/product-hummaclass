@@ -49,8 +49,9 @@ class ClassroomController extends Controller
         return ResponseHelper::success(ClassroomResource::collection($classrooms));
     }
 
-    public function getByMentorId(string $mentorId, Request $request): mixed {
-        
+    public function getByMentorId(string $mentorId, Request $request): mixed
+    {
+
         $classrooms = $this->classroom->getWhere(['user_id' => $mentorId], $request->name);
         return ResponseHelper::success(ClassroomResource::collection($classrooms));
     }
@@ -213,7 +214,9 @@ class ClassroomController extends Controller
 
     public function showClassroomTeacher(Request $request): JsonResponse
     {
+
         $teacher = $this->teacher->first(['user_id' => auth()->user()->id]);
+
         if ($request->has('page')) {
             $classrooms = $this->classroom->customPaginate($request, ['teacher_id' => $teacher->id]);
             $data['paginate'] = $this->customPaginate($classrooms->currentPage(), $classrooms->lastPage());

@@ -45,9 +45,9 @@ class TeacherRepository extends BaseRepository implements TeacherInterface
      * @param  mixed $data
      * @return mixed
      */
-    public function first(mixed $query): mixed
+    public function first(array $data): mixed
     {
-        return $this->model->query()->where($query)->first();
+        return $this->model->query()->where(['user_id' => $data['user_id']])->first();
     }
 
     /**

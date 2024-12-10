@@ -8,7 +8,7 @@ use App\Models\AssessmentForm;
 
 class AssesmentFormStudentRepository extends BaseRepository implements AssesmentFormStudentInterface
 {
-    public function __construct(AssessmentForm $assessmentForm)
+    public function __construct(AssesmentFormStudentRepository $assessmentForm)
     {
         $this->model = $assessmentForm;
     }
@@ -32,6 +32,6 @@ class AssesmentFormStudentRepository extends BaseRepository implements Assesment
      */
     public function getWhere(array $data): mixed
     {
-        return $this->model->query()->where('class_level', $data['class_level'])->where('division_id', $data['division_id'])->where('type', $data['type'])->get();
+        return $this->model->query()->where('student_id', $data['student_id'])->get();
     }
 }

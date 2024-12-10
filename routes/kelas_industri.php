@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AssesmentFormStudentController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\AttendanceStudentController;
 use App\Http\Controllers\Auth\UserController;
@@ -79,6 +80,9 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('assesment-form/{division}/{classLevel}/{type}', [AssesmentFormController::class, 'store']);
         Route::get('assesment-form/{division}/{classLevel}', [AssesmentFormController::class, 'index']);
 
+        // Assesment Form Student
+        Route::get('assesment-form-student/{student}', [AssesmentFormStudentController::class, 'post']);
+
         // student classroom
         Route::post('student-classrooms/{classroom}', [StudentClassroomController::class, 'store']);
 
@@ -100,7 +104,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('class-teacher', [ClassroomController::class, 'listClassroomByTeacher']);
     Route::get('teacher/classrooms', [ClassroomController::class, 'showClassroomTeacher']);
     Route::resource('journal-presences', JournalPresenceController::class);
-    
+
     Route::get('test/{slug}', [CourseTestController::class, 'detailCourse']);
     Route::get('test-student/{classroom}', [UserCourseTestController::class, 'getByClassroom']);
 
@@ -111,7 +115,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::resource('challenges', ChallengeController::class);
     Route::resource('challenge-submits', ChallengeSubmitController::class)->only(['update', 'destroy']);
     Route::get('submit-challenge/{challenge}', [ChallengeController::class, 'showChallengeSubmit']);
-    
+
 
     Route::resource('attendances', AttendanceController::class)->except(['edit']);
 

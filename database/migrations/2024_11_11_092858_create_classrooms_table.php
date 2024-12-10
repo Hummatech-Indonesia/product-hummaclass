@@ -16,8 +16,8 @@ return new class extends Migration {
             $table->foreignUuid('school_id')->constrained();
             $table->foreignUuid('division_id')->constrained();
             $table->foreignId('school_year_id')->constrained();
-            $table->foreignUuid('teacher_id')->nullable()->constrained();
-            $table->foreignUuid('user_id')->nullable()->constrained();
+            $table->foreignUuid('teacher_id')->nullable()->constrained()->onDelete('set null');
+            $table->foreignUuid('user_id')->nullable()->constrained()->onDelete('set null');
             $table->string('name');
             $table->enum('class_level', array_map(fn($enum) => $enum->value, ClassEnum::cases()));
             $table->timestamps();
