@@ -219,9 +219,4 @@ class CourseTestController extends Controller
         $courseTest = $this->courseTest->showWithSlug($slug);
         return ResponseHelper::success(CourseTestDetailResource::make($courseTest), trans('alert.fetch_success'));
     }
-
-    public function classoroomByCourse(string $slug): JsonResponse
-    {
-        $courseTest = $this->courseTest->showWithSlug($slug);
-    }
 }

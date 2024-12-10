@@ -198,5 +198,6 @@ class StudentController extends Controller
         $data['paginate'] = $this->customPaginate($learningPath->currentPage(), $learningPath->lastPage());
         $data['data'] = LearningPathResource::collection($learningPath);
         return ResponseHelper::success($data, trans('alert.fetch_success'));
+        
     }
 }

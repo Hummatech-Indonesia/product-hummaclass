@@ -6,6 +6,8 @@ use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\ChallengeController;
 use App\Http\Controllers\ChallengeSubmitController;
 use App\Http\Controllers\Course\CourseTestController;
+use App\Http\Controllers\Course\UserCourseController;
+use App\Http\Controllers\Course\UserCourseTestController;
 use App\Http\Controllers\DivisionController;
 use App\Http\Controllers\IndustryClass\AssesmentFormController;
 use Illuminate\Support\Facades\Route;
@@ -98,7 +100,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('class-teacher', [ClassroomController::class, 'listClassroomByTeacher']);
     Route::get('teacher/classrooms', [ClassroomController::class, 'showClassroomTeacher']);
     Route::resource('journal-presences', JournalPresenceController::class);
+    
     Route::get('test/{slug}', [CourseTestController::class, 'detailCourse']);
+    Route::get('test-student/{classroom}', [UserCourseTestController::class, 'getByClassroom']);
 
     //Mentor
     Route::get('student/challenge-submits/{challenge}', [ChallengeSubmitController::class, 'index']);

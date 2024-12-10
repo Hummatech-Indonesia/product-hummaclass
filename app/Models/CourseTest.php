@@ -30,7 +30,7 @@ class CourseTest extends Model implements HasCourse, HasUserCourseTests
      */
     public function course(): BelongsTo
     {
-        return $this->belongsTo(Course::class);
+    return $this->belongsTo(Course::class);
     }
     /**
      * Get all of the userCourseTests for the CourseTest

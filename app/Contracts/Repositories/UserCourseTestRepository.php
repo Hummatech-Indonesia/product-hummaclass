@@ -36,7 +36,7 @@ class UserCourseTestRepository extends BaseRepository implements UserCourseTestI
     {
         return $this->model->query()->get();
     }
-    
+
     /**
      * customPaginate
      *
@@ -49,7 +49,7 @@ class UserCourseTestRepository extends BaseRepository implements UserCourseTestI
         return $this->model->query()->when($request->quiz_id, function ($query) use ($request) {
             $query->where(['quiz_id' => $request->quiz_id]);
         })->fastPaginate($pagination);
-    } 
+    }
     /**
      * Method store
      *
@@ -83,5 +83,18 @@ class UserCourseTestRepository extends BaseRepository implements UserCourseTestI
     public function update(mixed $id, array $data): mixed
     {
         return $this->model->query()->findOrFail($id)->update($data);
+    }
+
+    public function getByClassroom(mixed $data): mixed
+    {
+        return $this->model->query()
+            ->whereNotNull('score')
+            ->whereHas('user', function ($query) use ($data) {
+                $query->whereHas('student', function ($query) use ($data) {
+                    $query->whereHas('studentClassrooms', function ($query) use ($data) {
+                        $query->where('classroom_id', $data);
+                    });
+                });
+            });
     }
 }

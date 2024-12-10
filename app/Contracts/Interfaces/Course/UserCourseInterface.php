@@ -30,5 +30,4 @@ interface UserCourseInterface extends CustomPaginationInterface, StoreInterface,
      * @return mixed
      */
     public function customUpdate(mixed $courseId, array $data): mixed;
-
 }

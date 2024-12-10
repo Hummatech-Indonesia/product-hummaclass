@@ -8,6 +8,7 @@ use App\Helpers\CourcePercentaceHelper;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserCourseResource;
+use App\Models\Classroom;
 use App\Models\Course;
 use App\Models\Module;
 use App\Models\SubModule;
