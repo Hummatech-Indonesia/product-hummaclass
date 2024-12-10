@@ -21,7 +21,7 @@ class StudentResource extends JsonResource
             $gender = 'Perempuan';
         }
 
-        $classroom = $this->studentClassrooms()->latest()->first()->classroom;
+        $classroom = $this->studentClassrooms()->latest()->first()?->classroom;
 
         return [
             'rank' => $this->rank ?? null,
@@ -37,9 +37,9 @@ class StudentResource extends JsonResource
             'date_birth' => $this->date_birth,
             'address' => $this->user->address,
             'school' => $this->school,
-            'classroom' => $classroom,
-            'teacher_name' => $classroom->teacher->user->name,
-            'mentor_name' => $classroom->user->name
+            'classroom' => $classroom ?? null,
+            'teacher_name' => $classroom?->teacher?->user->name,
+            'mentor_name' => $classroom?->user->name
             // 'one_classroom' => CustomClassroomResource::make($this->studentClassrooms()->latest()->first()->classroom),
         ];
     }
