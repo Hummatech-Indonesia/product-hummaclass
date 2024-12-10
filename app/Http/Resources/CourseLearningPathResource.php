@@ -17,6 +17,7 @@ class CourseLearningPathResource extends JsonResource
         return [
             'id' => $this->id,
             'course' => CustomCourseResource::make($this->course),
+            'module_count' => $this->course->modules->count(),
             'learning_path' => $this->learningPath
         ];
     }
