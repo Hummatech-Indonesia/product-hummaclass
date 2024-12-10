@@ -52,7 +52,23 @@ class CourseService implements ShouldHandleFileUpload
         return $data;
     }
 
-    public function statisticTransaction($transactions) {
+    public function publish(Course $course)
+    {
+        $data = [
+            'is_ready' => true
+        ];
+
+        try {
+            if ($course->modules()) {
+
+            }
+        } catch (\Throwable $e) {
+            false;
+        }
+    }
+
+    public function statisticTransaction($transactions)
+    {
         // return $transactions->groupBy('created_at');
     }
 }

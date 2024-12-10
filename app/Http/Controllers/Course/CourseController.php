@@ -128,7 +128,7 @@ class CourseController extends Controller
     public function topRatings(): JsonResponse
     {
         $courses = $this->course->topRatings();
-        return ResponseHelper::success(TopCourseResource::collection($courses, trans('alert.fetch_success')));
+        return ResponseHelper::success(TopCourseResource::collection($courses), trans('alert.fetch_success'));
     }
     /**
      * Method readyToUse
@@ -139,10 +139,11 @@ class CourseController extends Controller
      */
     public function readyToUse(Course $course): JsonResponse
     {
-        $data = [
-            'is_ready' => true
-        ];
-        $course = $this->course->update($course->id, $data);
+        try {
+            $course = $this->course->update($course->id, $this->service->publish($course));
+        } catch (\Throwable $e) {
+            return ResponseHelper::error(null, trans('alert.publish_failed'));
+        }
         return ResponseHelper::success($course, trans('alert.update_success'));
     }
     /**

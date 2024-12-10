@@ -47,6 +47,8 @@ return [
     'view_success' => 'berhasil menambah view',
     'not_pre_test_yet' => 'selesaikan pre-test terlebih dahulu',
 
+    'publish_failed' => 'Terdapat kejanggalan pada kursus',
+
     'voucher_limit' => 'Voucher telah habis',
     'voucher_invalid' => 'Kode voucher tidak valid',
     'voucher_valid' => 'Berhasil menggunakan voucher',
