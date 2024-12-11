@@ -36,14 +36,17 @@ class ChallengeController extends Controller
      */
     public function index(Request $request)
     {
-        try {
+        if ($request->has('page')) {
             $challenges = $this->challenge->customPaginate($request);
-            return ResponseHelper::success(ChallengeResource::collection($challenges), trans('alert.fetch_success'));
-        } catch (\Throwable $th) {
-            return ResponseHelper::success(null, trans('alert.fetch_failed'));
+            $data['paginate'] = $this->customPaginate($challenges->currentPage(), $challenges->lastPage());
+            $data['data'] = ChallengeResource::collection($challenges);
+        } else {
+            $challenges = $this->challenge->customPaginate($request);
+            $data['data'] = ChallengeResource::collection($challenges);
         }
+        return ResponseHelper::success($data, trans('alert.fetch_success'));
     }
-    
+
     public function getByClassroom(Request $request, string $studentSlug)
     {
         $student = $this->student->first(['user_id' => auth()->user()->id]);

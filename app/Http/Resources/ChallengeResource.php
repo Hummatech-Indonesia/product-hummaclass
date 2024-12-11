@@ -23,6 +23,9 @@ class ChallengeResource extends JsonResource
             'start_date' => Carbon::parse($this->start_date)->translatedFormat('d F Y - H:i'),
             'end_date' => Carbon::parse($this->end_date)->translatedFormat('d F Y - H:i'),
             'title' => $this->title,
+            'image_active' => $this->image_active,
+            'link_active' => $this->link_active,
+            'file_active' => $this->file_active,
             'slug' => $this->slug,
         ];
     }
