@@ -140,6 +140,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('student/list-student', [StudentClassroomController::class, 'listStudent']);
     Route::get('student/list-range', [StudentController::class, 'listRangeStudent']);
     Route::get('student/challenge', [StudentController::class, 'showChallenge']);
+    Route::get('student/detail-challenge/{slug}', [StudentController::class, 'detailChallenge']);
     Route::get('student/learning-path', [StudentController::class, 'showLearningPath']);
 });
 

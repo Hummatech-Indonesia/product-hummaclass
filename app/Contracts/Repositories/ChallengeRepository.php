@@ -35,6 +35,9 @@ class ChallengeRepository extends BaseRepository implements ChallengeInterface
     {
         return $this->model->query()
             ->whereRelation('classroom', 'slug', $classroomSlug)
+            ->when($request->search, function($query) use ($request){
+                $query->where('title', 'LIKE', '%'. $request->search .'%');
+            })
             ->when($request->classroom, function($query) use ($request){
                 $query->where('classroom_id', $request->classroom);
             })->when($request->status == "finish" , function($query) use ($data){
@@ -42,7 +45,7 @@ class ChallengeRepository extends BaseRepository implements ChallengeInterface
                     $query->where($data);
                 });
             })->when($request->status == "not_finish" , function($query) use ($data){
-                $query->whereHas('challengeSubmits', function($query) use ($data){
+                $query->whereDoesntHave('challengeSubmits', function($query) use ($data){
                     $query->where($data);
                 });
             })->when($request->sort == "newest", function ($query) {
@@ -51,6 +54,7 @@ class ChallengeRepository extends BaseRepository implements ChallengeInterface
             ->when($request->sort == "oldest", function ($query) {
                 $query->orderBy('end_date', 'asc'); 
             })
+            ->orderBy('start_date', 'desc')
             ->fastPaginate($pagination);
     }
 

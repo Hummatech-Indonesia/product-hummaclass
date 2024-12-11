@@ -32,6 +32,14 @@ class ChallengeSubmitRepository extends BaseRepository implements ChallengeSubmi
             ->get();
     }
 
+    public function getByStudentFirst(array $data): mixed
+    {
+        return $this->model->query()
+            ->where('student_id', $data['student_id'])
+            ->where('challenge_id', $data['challenge_id'])
+            ->first();
+    }
+
     public function getByMentor(mixed $id): mixed
     {
         return $this->model->query()->where('challenge_id', $id)->get();

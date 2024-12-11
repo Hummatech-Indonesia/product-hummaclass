@@ -15,6 +15,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 interface ChallengeSubmitInterface extends GetInterface, ShowInterface, StoreInterface, UpdateInterface, DeleteInterface, GetWhereInterface
 {
     public function getByStudent(array $data): mixed;
+    public function getByStudentFirst(array $data): mixed;
     public function getByMentor(mixed $id): mixed;
     public function getByTeacher(mixed $id): mixed;
     public function updateByChallenge(mixed $challenge_id, mixed $student_id, array $data): mixed;

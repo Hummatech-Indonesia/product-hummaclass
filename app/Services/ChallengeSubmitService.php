@@ -32,6 +32,18 @@ class ChallengeSubmitService
         $data = $request->validated();
         $student = Student::where('user_id', auth()->user()->id)->first();
 
+        $challengeSubmit = $this->challengeSubmit->getByStudentFirst(['student_id' => $student->id, 'challenge_id' => $challenge->id]);
+
+        if ($challengeSubmit) {
+            if ($challengeSubmit->image != null) {
+                $this->remove($challengeSubmit->image);
+            }
+            if ($challengeSubmit->file != null) {
+                $this->remove($challengeSubmit->file);
+            }
+            $this->challengeSubmit->delete($challengeSubmit->id);
+        }
+
         $folderName = $this->makeDirectory($challenge->slug);
         $renameFile = $student->studentClassrooms()->latest()->first()->classroom->name . '-' . $student->user->name;
 

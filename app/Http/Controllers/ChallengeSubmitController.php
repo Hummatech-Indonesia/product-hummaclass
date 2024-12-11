@@ -57,13 +57,13 @@ class ChallengeSubmitController extends Controller
      */
     public function store(ChallengeSubmitRequest $request, Challenge $challenge)
     {
-        try {
+        // try {
             $data = $this->service->store($request, $challenge);
             $this->challengeSubmit->store($data);
             return ResponseHelper::success(null, trans('alert.add_success'));
-        } catch (\Throwable $th) {
-            return ResponseHelper::success(null, trans('alert.add_failed'));
-        }
+        // } catch (\Throwable $th) {
+        //     return ResponseHelper::success(null, trans('alert.add_failed'));
+        // }
     }
 
     /**

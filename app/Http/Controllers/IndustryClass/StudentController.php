@@ -14,6 +14,7 @@ use App\Http\Requests\ImportRequest;
 use App\Http\Requests\StudentRequest;
 use App\Http\Requests\UserStudentRequest;
 use App\Http\Resources\ChallengeResource;
+use App\Http\Resources\ChallengeStudentResource;
 use App\Http\Resources\LearningPathResource;
 use App\Http\Resources\StudentDashboardResource;
 use App\Http\Resources\StudentResource;
@@ -185,12 +186,18 @@ class StudentController extends Controller
         if ($request->has('page')) {
             $challenges = $this->challenge->getByClassroom($request, $student->studentClassrooms()->latest()->first()->classroom->slug, ['student_id' => $student->id]);
             $data['paginate'] = $this->customPaginate($challenges->currentPage(), $challenges->lastPage());
-            $data['data'] = ChallengeResource::collection($challenges);
+            $data['data'] = ChallengeStudentResource::collection($challenges);
         } else {
             $challenges = $this->challenge->getByClassroom($request, $student->studentClassrooms()->latest()->first()->classroom->slug, ['student_id' => $student->id]);
-            $data['data'] = ChallengeResource::collection($challenges);
+            $data['data'] = ChallengeStudentResource::collection($challenges);
         }
         return ResponseHelper::success($data, trans('alert.fetch_success'));
+    }
+
+    public function detailChallenge(string $slug)
+    {
+        $challenges = $this->challenge->showWithSlug($slug);
+        return ResponseHelper::success(ChallengeStudentResource::make($challenges), trans('alert.fetch_success'));
     }
 
     public function showLearningPath(Request $request)
