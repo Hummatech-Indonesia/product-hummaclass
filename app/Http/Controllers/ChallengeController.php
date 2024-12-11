@@ -40,7 +40,7 @@ class ChallengeController extends Controller
             return ResponseHelper::success(null, trans('alert.fetch_failed'));
         }
     }
-    
+
     public function getByClassroom(string $studentSlug)
     {
         $challenges = $this->challenge->getByClassroom($studentSlug);
@@ -75,7 +75,7 @@ class ChallengeController extends Controller
     public function show(string $slug)
     {
         $challenge = $this->challenge->showWithSlug($slug);
-        return ResponseHelper::success(DetailChallengeResource::make($challenge), trans('alert.fetch_success'));
+        return ResponseHelper::success(ChallengeResource::make($challenge), trans('alert.fetch_success'));
     }
 
     public function showChallengeSubmit(Request $request, Challenge $challenge)
@@ -88,7 +88,7 @@ class ChallengeController extends Controller
             $challengeSubmits = $this->challengeSubmit->paginateSubmit($request, $challenge->id);
             $data['data'] = ChallengeSubmitResource::collection($challengeSubmits);
         }
-        
+
         return ResponseHelper::success($data, trans('alert.fetch_success'));
     }
 
@@ -130,7 +130,7 @@ class ChallengeController extends Controller
     public function download_zip(Challenge $challenge)
     {
         try {
-            $folderPath = public_path('storage/challenge/'. $challenge->slug);
+            $folderPath = public_path('storage/challenge/' . $challenge->slug);
             $zipFilePath = storage_path("app/public/{$challenge->slug}.zip");
             $this->service->download_zip($folderPath, $zipFilePath);
             return response()->download($zipFilePath)->deleteFileAfterSend(true);
