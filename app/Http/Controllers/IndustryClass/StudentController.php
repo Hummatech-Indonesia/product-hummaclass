@@ -196,11 +196,18 @@ class StudentController extends Controller
     public function showLearningPath(Request $request)
     {
         $student = $this->student->first(['user_id' => auth()->user()->id]);
-
+        if ($student->studentClassrooms->count() == 0) {
+            return response()->json([
+                'meta' => [
+                    "code" => 204,
+                    "status" => "success",
+                    "message" => "Kamu belum memiliki kelas"
+                ]
+            ], 200);
+        }
         $learningPath = $this->learningPath->customPaginate($request, ['division_id' => $student->studentClassrooms()->latest()->first()->classroom->division_id]);
         $data['paginate'] = $this->customPaginate($learningPath->currentPage(), $learningPath->lastPage());
         $data['data'] = LearningPathResource::collection($learningPath);
         return ResponseHelper::success($data, trans('alert.fetch_success'));
-        
     }
 }
