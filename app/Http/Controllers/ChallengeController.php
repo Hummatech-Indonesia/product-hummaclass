@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Contracts\Interfaces\ChallengeInterface;
 use App\Contracts\Interfaces\ChallengeSubmitInterface;
+use App\Contracts\Interfaces\IndustryClass\StudentInterface;
 use App\Http\Resources\ChallengeResource;
 use App\Http\Requests\ChallengeRequest;
 use App\Services\ChallengeService;
@@ -20,12 +21,14 @@ class ChallengeController extends Controller
     private ChallengeInterface $challenge;
     private ChallengeSubmitInterface $challengeSubmit;
     private ChallengeService $service;
+    private StudentInterface $student;
 
-    public function __construct(ChallengeInterface $challenge, ChallengeService $service, ChallengeSubmitInterface $challengeSubmit)
+    public function __construct(ChallengeInterface $challenge, ChallengeService $service, ChallengeSubmitInterface $challengeSubmit, StudentInterface $student)
     {
         $this->challenge = $challenge;
         $this->service = $service;
         $this->challengeSubmit = $challengeSubmit;
+        $this->student = $student;
     }
 
     /**
@@ -40,11 +43,20 @@ class ChallengeController extends Controller
             return ResponseHelper::success(null, trans('alert.fetch_failed'));
         }
     }
-
-    public function getByClassroom(string $studentSlug)
+    
+    public function getByClassroom(Request $request, string $studentSlug)
     {
-        $challenges = $this->challenge->getByClassroom($studentSlug);
-        return ResponseHelper::success(ChallengeResource::collection($challenges), trans('alert.fetch_success'));
+        $student = $this->student->first(['user_id' => auth()->user()->id]);
+        if ($request->has('page')) {
+            $challenges = $this->challenge->getByClassroom($request, $studentSlug, ['student_id' => $student->id]);
+            $data['paginate'] = $this->customPaginate($challenges->currentPage(), $challenges->lastPage());
+            $data['data'] = ChallengeResource::collection($challenges);
+        } else {
+            $challenges = $this->challenge->getByClassroom($request, $studentSlug, ['student_id' => $student->id]);
+            $data['data'] = ChallengeResource::collection($challenges);
+        }
+
+        return ResponseHelper::success($data, trans('alert.fetch_success'));
     }
 
     /**

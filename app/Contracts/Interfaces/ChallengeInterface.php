@@ -9,8 +9,10 @@ use App\Contracts\Interfaces\Eloquent\ShowInterface;
 use App\Contracts\Interfaces\Eloquent\ShowSlugInterface;
 use App\Contracts\Interfaces\Eloquent\StoreInterface;
 use App\Contracts\Interfaces\Eloquent\UpdateInterface;
+use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 interface ChallengeInterface extends GetInterface, ShowInterface, StoreInterface, UpdateInterface, DeleteInterface, ShowSlugInterface, CustomPaginationInterface
 {
-    public function getByClassroom(string $classroomSlug): mixed;
+    public function getByClassroom(Request $request, string $classroomSlug, mixed $data, int $pagination = 10): LengthAwarePaginator;
 }

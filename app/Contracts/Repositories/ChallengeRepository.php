@@ -31,9 +31,27 @@ class ChallengeRepository extends BaseRepository implements ChallengeInterface
             ->fastPaginate($pagination);
     }
 
-    public function getByClassroom(string $classroomSlug): mixed
+    public function getByClassroom(Request $request, string $classroomSlug, mixed $data, int $pagination = 10): LengthAwarePaginator
     {
-        return $this->model->query()->whereRelation('classroom', 'slug', $classroomSlug)->get();
+        return $this->model->query()
+            ->whereRelation('classroom', 'slug', $classroomSlug)
+            ->when($request->classroom, function($query) use ($request){
+                $query->where('classroom_id', $request->classroom);
+            })->when($request->status == "finish" , function($query) use ($data){
+                $query->whereHas('challengeSubmits', function($query) use ($data){
+                    $query->where($data);
+                });
+            })->when($request->status == "not_finish" , function($query) use ($data){
+                $query->whereHas('challengeSubmits', function($query) use ($data){
+                    $query->where($data);
+                });
+            })->when($request->sort == "newest", function ($query) {
+                $query->orderBy('start_date', 'desc');
+            })
+            ->when($request->sort == "oldest", function ($query) {
+                $query->orderBy('end_date', 'asc'); 
+            })
+            ->fastPaginate($pagination);
     }
 
     /**

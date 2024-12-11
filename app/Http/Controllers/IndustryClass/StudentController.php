@@ -179,15 +179,18 @@ class StudentController extends Controller
         }
     }
 
-    public function showChallenge()
+    public function showChallenge(Request $request)
     {
-        try {
-            $student = $this->student->first(['user_id' => auth()->user()->id]);
-            $challenges = $this->challenge->getByClassroom($student->studentClassrooms()->latest()->first()->classroom->slug);
-            return ResponseHelper::success(ChallengeResource::collection($challenges), trans('alert.fetch_success'));
-        } catch (\Throwable $th) {
-            return ResponseHelper::success(null, trans('alert.fetch_failed'));
+        $student = $this->student->first(['user_id' => auth()->user()->id]);
+        if ($request->has('page')) {
+            $challenges = $this->challenge->getByClassroom($request, $student->studentClassrooms()->latest()->first()->classroom->slug, ['student_id' => $student->id]);
+            $data['paginate'] = $this->customPaginate($challenges->currentPage(), $challenges->lastPage());
+            $data['data'] = ChallengeResource::collection($challenges);
+        } else {
+            $challenges = $this->challenge->getByClassroom($request, $student->studentClassrooms()->latest()->first()->classroom->slug, ['student_id' => $student->id]);
+            $data['data'] = ChallengeResource::collection($challenges);
         }
+        return ResponseHelper::success($data, trans('alert.fetch_success'));
     }
 
     public function showLearningPath(Request $request)
