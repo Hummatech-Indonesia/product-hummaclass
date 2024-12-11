@@ -151,8 +151,63 @@ class StudentController extends Controller
             if ($request->has('page')) {
                 $students = $this->student->listRangePoint($request);
                 $data['paginate'] = $this->customPaginate($students->currentPage(), $students->lastPage());
+                $offset = ($students->currentPage() - 1) * $students->perPage();
+                $studentRank = $students->map(function ($student, $index) use ($offset) {
+                    $student->rank = $offset + $index + 1;
+                    return $student;
+                });
+
+                $student = $this->student->first(['user_id' => auth()->user()->id]);
+                $loggedInStudentId = $student->id;
+
+                $found = false;
+                $currentPage = 1;
+                $rank = null;
+
+                while (!$found) {
+                    $students = $this->student->listRangePoint($request->merge(['page' => $currentPage]));
+                    $offset = ($students->currentPage() - 1) * $students->perPage();
+
+                    foreach ($students as $index => $student) {
+                        if ($student->id == $loggedInStudentId) {
+                            $rank = $offset + $index + 1;
+                            $found = true;
+                            break;
+                        }
+                    }
+
+                    if ($students->currentPage() == $students->lastPage()) {
+                        break;
+                    }
+
+                    $currentPage++;
+                }
+
+                $data['position'] = ['position' => $rank];
+                $data['data'] = StudentResource::collection($studentRank);
+            } else {
+                $students = $this->student->listRangePoint($request);
                 $studentRank = $students->map(function ($student, $index) {
                     $student->rank = $index + 1;
+                    return $student;
+                });
+                $data['data'] = StudentResource::collection($studentRank);
+            }
+            return ResponseHelper::success($data, trans('alert.fetch_success'));
+        } catch (\Throwable $th) {
+            return ResponseHelper::success(null, trans('alert.fetch_failed'));
+        }
+    }
+
+    public function listRangeStudentMentor(Request $request): JsonResponse
+    {
+        try {
+            if ($request->has('page')) {
+                $students = $this->student->listRangePoint($request);
+                $data['paginate'] = $this->customPaginate($students->currentPage(), $students->lastPage());
+                $offset = ($students->currentPage() - 1) * $students->perPage();
+                $studentRank = $students->map(function ($student, $index) use ($offset) {
+                    $student->rank = $offset + $index + 1;
                     return $student;
                 });
                 $data['data'] = StudentResource::collection($studentRank);

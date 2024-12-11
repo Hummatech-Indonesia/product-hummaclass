@@ -64,7 +64,7 @@ class StudentRepository extends BaseRepository implements StudentInterface
         return $this->tb_user->select('point')->whereColumn('users.id', 'students.user_id')->limit(1);
     }
 
-    public function listRangePoint(Request $request, int $pagination = 10): LengthAwarePaginator
+    public function listRangePoint(Request $request, int $pagination = 10): LengthAwarePaginator    
     {
         return $this->model->when($request->school_id, function ($query) use ($request) {
             $query->where('school_id', $request->school_id);

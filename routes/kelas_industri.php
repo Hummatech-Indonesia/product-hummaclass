@@ -132,7 +132,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::resource('journals', JournalController::class)->except(['update']);
     Route::post('journals/{journal}', [JournalController::class, 'update']);
-    Route::get('mentor/student/list', [StudentController::class, 'listRangeStudent']);
+    Route::get('mentor/student/list', [StudentController::class, 'listRangeStudentMentor']);
 
     //Student
     Route::post('challenge-submits/{challenge}', [ChallengeSubmitController::class, 'store']);
