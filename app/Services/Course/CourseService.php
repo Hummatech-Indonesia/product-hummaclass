@@ -54,17 +54,11 @@ class CourseService implements ShouldHandleFileUpload
 
     public function publish(Course $course)
     {
-        $data = [
-            'is_ready' => true
+        return [
+            'modules' => $course->modules->count(),
+            'sub_modules' => $course->modules->sortBy('step')->first()?->subModules->count() ?? 0,
+            'test' => $course->courseTest?->courseTestQuestions
         ];
-
-        try {
-            if ($course->modules()) {
-
-            }
-        } catch (\Throwable $e) {
-            false;
-        }
     }
 
     public function statisticTransaction($transactions)

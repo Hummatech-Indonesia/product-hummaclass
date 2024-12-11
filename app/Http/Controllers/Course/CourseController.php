@@ -140,9 +140,35 @@ class CourseController extends Controller
     public function readyToUse(Course $course): JsonResponse
     {
         try {
-            $course = $this->course->update($course->id, $this->service->publish($course));
+            $completeSetting = $this->service->publish($course);
+            if ($completeSetting['modules'] == 0) {
+                return response()->json([
+                    'meta' => [
+                        "code" => 422,
+                        "status" => "error",
+                        "message" => "Belum ada modul pada kursus ini"
+                    ]
+                ], 422);
+            } else if ($completeSetting['sub_modules'] == 0) {
+                return response()->json([
+                    'meta' => [
+                        "code" => 422,
+                        "status" => "error",
+                        "message" => "Belum ada sub modul pada kursus ini"
+                    ]
+                ], 422);
+            } else if (!$completeSetting['test']) {
+                return response()->json([
+                    'meta' => [
+                        "code" => 422,
+                        "status" => "error",
+                        "message" => "Belum ada test pada kursus ini"
+                    ]
+                ], 422);
+            }
+            $course = $this->course->update($course->id, ['is_ready' => true]);
         } catch (\Throwable $e) {
-            return ResponseHelper::error(null, trans('alert.publish_failed'));
+            return ResponseHelper::error(null, $e->getMessage());
         }
         return ResponseHelper::success($course, trans('alert.update_success'));
     }
