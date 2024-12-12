@@ -22,7 +22,7 @@ class ZoomResource extends JsonResource
             'school' => $this->school,
             'classroom' => $this->classroom,
             'mentor' => $this->mentor,
-            'date' => Carbon::parse($this->date)->format('Y-m-d'),
+            'date' => $this->date,
             'link' => $this->link,
         ];
     }
