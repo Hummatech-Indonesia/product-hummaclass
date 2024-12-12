@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -21,7 +22,7 @@ class ZoomResource extends JsonResource
             'school' => $this->school,
             'classroom' => $this->classroom,
             'mentor' => $this->mentor,
-            'date' => $this->date,
+            'date' => Carbon::parse($this->date)->format('Y-m-d'),
             'link' => $this->link,
         ];
     }

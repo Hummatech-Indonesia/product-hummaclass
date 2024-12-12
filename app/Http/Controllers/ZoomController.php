@@ -65,14 +65,14 @@ class ZoomController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(): JsonResponse
+    public function show()
     {
         try {
             $student = $this->student->first(['user_id' => auth()->user()->id]);
             $zooms = $this->zoom->getWhere(['classroom_id' => $student->studentClassrooms()->latest()->first()->classroom_id]);
             return ResponseHelper::success(ZoomResource::collection($zooms), trans('alert.fetch_success'));
         } catch (\Throwable $th) {
-            return ResponseHelper::error(null, trans('alert.fetch_failed'));
+            return ResponseHelper::error(null, trans('alert.fetch_failed') . " error: " . $th->getMessage());
         }
     }
 
