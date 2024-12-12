@@ -47,9 +47,9 @@ class CourseController extends Controller
         $this->service = $service;
         $this->module = $module;
     }
-    public function getSome(): JsonResponse
+    public function getSome(Request $request): JsonResponse
     {
-        $courses = $this->course->getSome();
+        $courses = $this->course->getSome($request);
         return ResponseHelper::success(CustomCourseResource::collection($courses), trans('alert.fetch_success'));
     }
 

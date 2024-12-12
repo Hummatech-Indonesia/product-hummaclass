@@ -38,5 +38,5 @@ interface CourseInterface extends CustomPaginationInterface, StoreInterface, Upd
      *
      * @return mixed
      */
-    public function getSome(): mixed;
+    public function getSome(Request $request): mixed;
 }
