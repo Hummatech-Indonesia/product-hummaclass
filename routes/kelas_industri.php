@@ -92,26 +92,26 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('teacher-detail/{teacher}', [TeacherController::class, 'show']);
         Route::resource('teachers', TeacherController::class)->only(['update', 'destroy']);
 
-        Route::resource('zooms', ZoomController::class);
+        Route::resource('zooms', ZoomController::class)->except(['show']);
     });
-
+    
     Route::get('course-teacher', [CourseTestController::class, 'getByTeacher']);
-
+    
     Route::get('schools-all', [SchoolController::class, 'getAll']);
     Route::get('detail/classroom/{slug}', [ClassroomController::class, 'showDetailClassroom']);
-
+    
     //Teacher
     Route::get('class-teacher', [ClassroomController::class, 'listClassroomByTeacher']);
     Route::get('teacher/classrooms', [ClassroomController::class, 'showClassroomTeacher']);
     Route::resource('journal-presences', JournalPresenceController::class);
-
+    
     Route::get('test/{slug}', [CourseTestController::class, 'detailCourse']);
     Route::get('test-student/{classroom}', [UserCourseTestController::class, 'getByClassroom']);
 
     //Mentor
     Route::get('student/challenge-submits/{challenge}', [ChallengeSubmitController::class, 'index']);
     Route::get('student/challenges/{classroomSlug}', [ChallengeController::class, 'getByClassroom']);
-
+    
     Route::resource('challenges', ChallengeController::class);
     Route::resource('challenge-submits', ChallengeSubmitController::class)->only(['update', 'destroy']);
     Route::get('submit-challenge/{challenge}', [ChallengeController::class, 'showChallengeSubmit']);
@@ -129,7 +129,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('mentor/dashboard/classrooms', [ClassroomController::class, 'listClassroomDashboard']);
 
     Route::get('mentor/detail-student/classroom', [ClassroomController::class, 'showDetailStudent']);
-
+    
     Route::resource('journals', JournalController::class)->except(['update']);
     Route::post('journals/{journal}', [JournalController::class, 'update']);
     Route::get('mentor/student/list', [StudentController::class, 'listRangeStudentMentor']);
@@ -142,6 +142,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('student/challenge', [StudentController::class, 'showChallenge']);
     Route::get('student/detail-challenge/{slug}', [StudentController::class, 'detailChallenge']);
     Route::get('student/learning-path', [StudentController::class, 'showLearningPath']);
+    Route::get('student/zooms', [ZoomController::class, 'show']);
 });
 
 Route::get('challenge/download-zip/{challenge}', [ChallengeController::class, 'download_zip']);

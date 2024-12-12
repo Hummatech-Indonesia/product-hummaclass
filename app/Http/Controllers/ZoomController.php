@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\Interfaces\IndustryClass\StudentInterface;
 use App\Contracts\Interfaces\IndustryClass\ZoomInterface;
 use App\Helpers\ResponseHelper;
 use App\Http\Requests\ZoomRequest;
@@ -16,10 +17,12 @@ class ZoomController extends Controller
 {
     use PaginationTrait;
     private ZoomInterface $zoom;
+    private StudentInterface $student;
 
-    public function __construct(ZoomInterface $zoom)
+    public function __construct(ZoomInterface $zoom, StudentInterface $student)
     {
         $this->zoom = $zoom;
+        $this->student = $student;
     }
 
     /**
@@ -62,9 +65,15 @@ class ZoomController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Zoom $zoom)
+    public function show(): JsonResponse
     {
-        //
+        try {
+            $student = $this->student->first(['user_id' => auth()->user()->id]);
+            $zooms = $this->zoom->getWhere(['classroom_id' => $student->studentClassrooms()->latest()->first()->classroom_id]);
+            return ResponseHelper::success(ZoomResource::collection($zooms), trans('alert.fetch_success'));
+        } catch (\Throwable $th) {
+            return ResponseHelper::error(null, trans('alert.fetch_failed'));
+        }
     }
 
     /**
