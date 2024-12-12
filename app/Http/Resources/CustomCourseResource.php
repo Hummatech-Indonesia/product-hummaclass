@@ -34,6 +34,7 @@ class CustomCourseResource extends JsonResource
                         ->map(fn($group) => $group->count())
                 ),
             'rating' => $this->courseReviews->avg('rating') ?? 0,
+            'status' => $this->courseLearningPaths()->where('course_id', $this->id)->first() ? 'used' : 'unused',
         ];
     }
 }

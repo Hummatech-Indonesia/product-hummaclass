@@ -13,9 +13,14 @@ use App\Contracts\Repositories\BaseRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Contracts\Interfaces\Course\CourseInterface;
 use App\Contracts\Interfaces\Course\CategoryInterface;
+use App\Models\CourseLearningPath;
+use Illuminate\Database\Eloquent\Model;
 
 class CourseRepository extends BaseRepository implements CourseInterface
 {
+
+    public Model $courseLearningPath;
+
     /**
      * Method __construct
      *
@@ -23,9 +28,10 @@ class CourseRepository extends BaseRepository implements CourseInterface
      *
      * @return void
      */
-    public function __construct(Course $course)
+    public function __construct(Course $course, CourseLearningPath $courseLearningPath)
     {
         $this->model = $course;
+        $this->courseLearningPath = $courseLearningPath;
     }
     /**
      * Method customPaginate
@@ -88,12 +94,22 @@ class CourseRepository extends BaseRepository implements CourseInterface
             ->limit(4)
             ->get();
     }
+
+    public function orderByStep(): mixed
+    {
+        return $this->courseLearningPath->select('step')->whereColumn('courses.id', 'course_learning_paths.course_id')->limit(1);
+    }
+
     public function getSome($request): mixed
     {
-        return $this->model->query()->whereDoesntHave('courseLearningPaths')
+        return $this->model->query()
         ->when($request->search, function ($query) use ($request) {
             $query->where('title', "LIKE", "%$request->search%");
         })
+        ->with('courseLearningPaths')
+        ->orderByDesc(
+            $this->orderByStep()
+        )
         ->get();
     }
 
