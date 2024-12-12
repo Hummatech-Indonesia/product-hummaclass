@@ -90,7 +90,7 @@ class ChallengeController extends Controller
     public function show(string $slug)
     {
         $challenge = $this->challenge->showWithSlug($slug);
-        return ResponseHelper::success(ChallengeResource::make($challenge), trans('alert.fetch_success'));
+        return ResponseHelper::success(DetailChallengeResource::make($challenge), trans('alert.fetch_success'));
     }
 
     public function showChallengeSubmit(Request $request, Challenge $challenge)
@@ -121,11 +121,11 @@ class ChallengeController extends Controller
     public function update(ChallengeRequest $request, Challenge $challenge)
     {
         try {
-            $data = $this->service->store($request);
+            $data = $this->service->update($request);
             $this->challenge->update($challenge->id, $data);
             return ResponseHelper::success(null, trans('alert.update_success'));
         } catch (\Throwable $th) {
-            return ResponseHelper::success(null, trans('alert.update_failed'));
+            return ResponseHelper::error(null, trans('alert.update_failed'));
         }
     }
 
