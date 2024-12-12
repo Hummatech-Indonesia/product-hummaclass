@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ZoomRequest extends ApiRequest
+class ZoomUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,12 +27,11 @@ class ZoomRequest extends ApiRequest
             'classroom_id' => 'required|exists:classrooms,id',
             'user_id' => 'required|exists:users,id',
             'link' => 'required|url', 
-            'day' => 'required',
-            'time' => 'required',
+            'date' => 'required',
         ];
     }
 
-    /**
+        /**
      * Get the error messages for the defined validation rules.
      *
      * @return array<string, string>
@@ -53,5 +52,4 @@ class ZoomRequest extends ApiRequest
             'date.date_format' => 'Tanggal harus dalam format Y-m-d H:i (contoh: 2024-12-06 15:30).',
         ];
     }
-
 }
