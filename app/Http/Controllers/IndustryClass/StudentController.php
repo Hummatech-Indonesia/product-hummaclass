@@ -21,6 +21,7 @@ use App\Http\Resources\StudentResource;
 use App\Imports\StudentsImport;
 use App\Models\School;
 use App\Models\Student;
+use App\Services\IndustryClass\StudentService;
 use App\Traits\PaginationTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -29,19 +30,21 @@ use Maatwebsite\Excel\Facades\Excel;
 class StudentController extends Controller
 {
     use PaginationTrait;
+    private StudentService $service;
     private StudentInterface $student;
     private SchoolInterface $school;
     private UserInterface $user;
     private ChallengeInterface $challenge;
     private LearningPathInterface $learningPath;
 
-    public function __construct(StudentInterface $student, SchoolInterface $school, UserInterface $user, ChallengeInterface $challenge, LearningPathInterface $learningPath)
+    public function __construct(StudentService $service, StudentInterface $student, SchoolInterface $school, UserInterface $user, ChallengeInterface $challenge, LearningPathInterface $learningPath)
     {
         $this->student = $student;
         $this->school = $school;
         $this->user = $user;
         $this->challenge = $challenge;
         $this->learningPath = $learningPath;
+        $this->service = $service;
     }
 
 
@@ -225,11 +228,13 @@ class StudentController extends Controller
         }
     }
 
-    public function detailStudent()
+    public function detailStudent()// ini ya
     {
         try {
             $student = $this->student->first(['user_id' => auth()->user()->id]);
-            return ResponseHelper::success(StudentDashboardResource::make($student), trans('alert.fetch_success'));
+            $data['module_task'] = $this->service->studentDashboard($student);
+            $data['data'] = StudentDashboardResource::make($student);
+            return ResponseHelper::success($data, trans('alert.fetch_success'));
         } catch (\Throwable $th) {
             return ResponseHelper::success(null, trans('alert.fetch_failed'));
         }

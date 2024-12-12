@@ -20,12 +20,13 @@ class StudentDashboardResource extends JsonResource
             'nisn' => $this->studentClassrooms()->latest()->first()->student->nisn,
             'school' => $this->studentClassrooms()->latest()->first()->student->school->name,
             'point' => $this->studentClassrooms()->latest()->first()->student->user->point,
+            'classroom' => $this->studentClassrooms()->latest()->first()->classroom,
+            'teacher' => $this->studentClassrooms()->latest()->first()->classroom->teacher,
+            'user' => $this->studentClassrooms()->latest()->first()->classroom->user,   
+            'count_event' => $this->studentClassrooms()->latest()->first()->student->user->userEvents()->count(),
             'count_challenge' => $this->studentClassrooms()->latest()->first()->classroom->challenges()->count(),
             'challenge_clear' => $this->studentClassrooms()->latest()->first()->classroom->challenges()->whereHas('challengeSubmits', function ($query) { $query->where('student_id', $this->id); })->count(),
             'challenge_not_clear' =>  $this->studentClassrooms()->latest()->first()->classroom->challenges()->count() - $this->studentClassrooms()->latest()->first()->classroom->challenges()->whereHas('challengeSubmits', function ($query) { $query->where('student_id', $this->id); })->count(),
-            'classroom' => $this->studentClassrooms()->latest()->first()->classroom,
-            'teacher' => $this->studentClassrooms()->latest()->first()->classroom->teacher,
-            'user' => $this->studentClassrooms()->latest()->first()->classroom->user,
         ];
     }
 }
