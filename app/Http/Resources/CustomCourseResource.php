@@ -14,6 +14,7 @@ class CustomCourseResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $used = $this->courseLearningPaths()->where('course_id', $this->id)->first();
         return [
             'id' => $this->id,
             'module_count' => $this->modules->count(),
@@ -34,7 +35,8 @@ class CustomCourseResource extends JsonResource
                         ->map(fn($group) => $group->count())
                 ),
             'rating' => $this->courseReviews->avg('rating') ?? 0,
-            'status' => $this->courseLearningPaths()->where('course_id', $this->id)->first() ? 'used' : 'unused',
+            'status' => $used ? 'used' : 'unused',
+            'step' => $used?->step ?? null,
         ];
     }
 }
