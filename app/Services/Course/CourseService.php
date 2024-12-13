@@ -48,6 +48,11 @@ class CourseService implements ShouldHandleFileUpload
             $photo = $this->upload(UploadDiskEnum::COURSES->value, $request->file('photo'));
         }
 
+        if (!$data['is_premium']) {
+            $data['price'] = 0;
+            $data['promotinal_price'] = 0;
+        }
+
         $data['photo'] = $photo;
         return $data;
     }
