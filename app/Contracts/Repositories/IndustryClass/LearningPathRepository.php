@@ -54,4 +54,9 @@ class LearningPathRepository extends BaseRepository implements LearningPathInter
     {
         return $this->show($id)->delete();
     }
+
+    public function whereDivision(mixed $division_id, mixed $class): mixed
+    {
+        return $this->model->query()->where('division_id', $division_id)->where('class_level', $class)->first();
+    }
 }

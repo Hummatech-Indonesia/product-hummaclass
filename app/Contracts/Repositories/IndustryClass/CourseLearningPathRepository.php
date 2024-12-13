@@ -40,4 +40,9 @@ class CourseLearningPathRepository extends BaseRepository implements CourseLearn
     {
         return $this->show($id)->delete();
     }
+
+    public function whereCourse(mixed $course_id, mixed $learning_path_id): mixed
+    {
+        return $this->model->query()->where('course_id', $course_id)->where('learning_path_id', $learning_path_id)->first();
+    }
 }

@@ -21,8 +21,23 @@ class LearningPathService
     public function store(LearningPathRequest $request): bool
     {
         $data = $request->validated();
-        $learningPath = $this->learningPath->store($data);
+
+        $condition = $this->learningPath->whereDivision($data['division_id'], $data['class_level']);
+
+        if ($condition) {
+            $learningPath = $condition;
+        } else {
+            $learningPath = $this->learningPath->store($data);
+        }
+
         foreach ($data['course_id'] as $index => $courseId) {
+
+            $courseLearningPath = $this->courseLearningPath->whereCourse($courseId, $learningPath->id);
+
+            if ($courseLearningPath) {
+                $this->courseLearningPath->delete($courseLearningPath->id);
+            }
+
             $courseLearningPathData = [
                 'learning_path_id' => $learningPath->id,
                 'course_id' => $courseId,

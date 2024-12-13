@@ -15,5 +15,6 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 interface LearningPathInterface extends SearchInterface, StoreInterface, ShowInterface, UpdateInterface, DeleteInterface
 {   
+    public function whereDivision(mixed $division_id, mixed $class): mixed;
     public function customPaginate(Request $request, mixed $query, int $pagination = 10): LengthAwarePaginator;
 }

@@ -12,4 +12,5 @@ use App\Contracts\Interfaces\Eloquent\UpdateInterface;
 interface CourseLearningPathInterface extends GetInterface, StoreInterface, ShowInterface, UpdateInterface, DeleteInterface
 {
     public function deleteWhere(array $data): mixed;
+    public function whereCourse(mixed $course_id, mixed $learning_path_id): mixed;
 }
