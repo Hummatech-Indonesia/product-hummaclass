@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Course;
 use App\Contracts\Interfaces\Course\CourseInterface;
 use App\Contracts\Interfaces\Course\CourseTestInterface;
 use App\Contracts\Interfaces\Course\CourseTestQuestionInterface;
+use App\Contracts\Interfaces\Course\ModuleInterface;
 use App\Contracts\Interfaces\Course\ModuleQuestionInterface;
 use App\Contracts\Interfaces\UserCourseTestInterface;
 use App\Helpers\ResponseHelper;
@@ -33,8 +34,9 @@ class CourseTestController extends Controller
     private CourseInterface $course;
     private UserCourseTestInterface $userCourseTest;
     private ModuleQuestionInterface $moduleQuestion;
+    private ModuleInterface $module;
     private CourseTestService $service;
-    public function __construct(CourseTestInterface $courseTest, CourseTestService $service, UserCourseTestInterface $userCourseTest, ModuleQuestionInterface $moduleQuestion, CourseInterface $course, CourseTestQuestionInterface $courseTestQuestion)
+    public function __construct(ModuleInterface $module, CourseTestInterface $courseTest, CourseTestService $service, UserCourseTestInterface $userCourseTest, ModuleQuestionInterface $moduleQuestion, CourseInterface $course, CourseTestQuestionInterface $courseTestQuestion)
     {
         $this->courseTest = $courseTest;
         $this->course = $course;
@@ -42,6 +44,7 @@ class CourseTestController extends Controller
         $this->moduleQuestion = $moduleQuestion;
         $this->courseTestQuestion = $courseTestQuestion;
         $this->service = $service;
+        $this->module = $module;
     }
     public function index(string $slug, Request $request): JsonResponse
     {
@@ -159,13 +162,25 @@ class CourseTestController extends Controller
         $courseTest = $this->courseTest->store($data);
         $courseTest->courseTestQuestions()->delete();
 
+        $result = [];
+
         foreach ($request['question_count'] as $index => $questionCount) {
-            $storeData = [
-                'course_test_id' => $courseTest->id,
-                'question_count' => $questionCount,
-                'module_id' => $data['module_id'][$index]
-            ];
-            $this->courseTestQuestion->store($storeData);
+            $module = $this->module->show($data['module_id'][$index]);
+            
+            if ($questionCount > $module->moduleQuestions()->count()) {
+                array_push($result, 'Jumlah pertanyaan pada modul '. $module->title .' tidak sama dengan yang Anda inputkan.');
+            } else {     
+                $storeData = [
+                    'course_test_id' => $courseTest->id,
+                    'question_count' => $questionCount,
+                    'module_id' => $data['module_id'][$index]
+                ];
+                $this->courseTestQuestion->store($storeData);
+            }
+        }
+
+        if (!empty($result)) {
+            return ResponseHelper::error(null, $result);
         }
 
         return ResponseHelper::success(true, trans('alert.add_success'));

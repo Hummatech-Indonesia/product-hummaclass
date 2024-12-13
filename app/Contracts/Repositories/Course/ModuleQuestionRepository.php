@@ -78,6 +78,7 @@ class ModuleQuestionRepository extends BaseRepository implements ModuleQuestionI
     {
         return $this->model->query()->where('module_id', $id)->get();
     }
+    
     /**
      * Method store
      *
