@@ -25,6 +25,10 @@ class CourseService implements ShouldHandleFileUpload
         $data = $request->validated();
         $data['user_id'] = auth()->user()->id;
         $data['photo'] = $this->upload(UploadDiskEnum::COURSES->value, $request->file('photo'));
+        if ($data['is_premium'] == 0) {
+            $data['price'] = 0;
+            $data['promotional_price'] = 0;
+        }
         return $data;
     }
 
@@ -48,9 +52,9 @@ class CourseService implements ShouldHandleFileUpload
             $photo = $this->upload(UploadDiskEnum::COURSES->value, $request->file('photo'));
         }
 
-        if (!$data['is_premium']) {
+        if ($data['is_premium'] == 0) {
             $data['price'] = 0;
-            $data['promotinal_price'] = 0;                                                                     
+            $data['promotional_price'] = 0;
         }
 
         $data['photo'] = $photo;
