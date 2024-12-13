@@ -106,11 +106,14 @@ class CourseRepository extends BaseRepository implements CourseInterface
         ->when($request->search, function ($query) use ($request) {
             $query->where('title', "LIKE", "%$request->search%");
         })
-        ->with('courseLearningPaths')
-        ->orderByDesc(
-            $this->orderByStep()
-        )
-        ->get();
+        ->with(['courseLearningPaths' => function ($query) {
+            $query->orderBy('step', 'asc');
+        }])
+        ->get()
+        ->sortBy(function ($item) {
+            return $item->courseLearningPaths->first()->step ?? PHP_INT_MAX;
+        })
+        ->values();
     }
 
 
