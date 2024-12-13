@@ -22,7 +22,7 @@ class SchoolYearRepository extends BaseRepository implements SchoolYearInterface
      */
     public function get(): mixed
     {
-        return $this->model->query()->get();
+        return $this->model->query()->orderByDesc('school_year')->get();
     }
 
     /**
