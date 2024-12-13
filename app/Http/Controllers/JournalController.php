@@ -8,12 +8,14 @@ use App\Http\Requests\JournalRequest;
 use App\Helpers\ResponseHelper;
 use App\Http\Requests\JournalUpdateRequest;
 use App\Http\Resources\JournalResource;
+use App\Traits\PaginationTrait;
 use Illuminate\Http\Request;
 use App\Models\Journal;
 use Illuminate\Http\JsonResponse;
 
 class JournalController extends Controller
 {
+    use PaginationTrait;
     private JournalInterface $journal;
     private JournalService $service;
 
@@ -28,12 +30,10 @@ class JournalController extends Controller
      */
     public function index(Request $request)
     {
-        try {
-            $journals = $this->journal->search(['user_id' => auth()->user()->id], $request);
-            return ResponseHelper::success(JournalResource::collection($journals), trans('alert.fetch_success'));
-        } catch (\Throwable $th) {
-            return ResponseHelper::success(null, trans('alert.fetch_failed'));
-        }
+        $journals = $this->journal->customPaginate(['user_id' => auth()->user()->id], $request);
+        $data['paginate'] = $this->customPaginate($journals->currentPage(), $journals->lastPage());
+        $data['data'] = JournalResource::collection($journals);
+        return ResponseHelper::success($data, trans('alert.fetch_success'));
     }
 
     /**

@@ -22,7 +22,7 @@ class DataStudentSeeder extends Seeder
     {
         $role = Role::query()->where('name', RoleEnum::STUDENT->value)->first();
 
-        for ($i = 1; $i <= 1000; $i++) {
+        for ($i = 1; $i <= 20; $i++) {
             $user = User::create([
                 'id' => Uuid::uuid(),
                 'name' => 'Student ' . $i,

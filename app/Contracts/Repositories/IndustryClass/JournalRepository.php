@@ -13,6 +13,17 @@ class JournalRepository extends BaseRepository implements JournalInterface
     {
         $this->model = $journal;
     }
+    public function customPaginate(mixed $query, Request $request, int $pagination = 10): \Illuminate\Pagination\LengthAwarePaginator
+    {
+        return $this->model->query()
+            ->where($query)
+            ->when($request->search, function ($query) use ($request) {
+                $query->where('title', 'like', '%' . $request->search . '%')
+                    ->orWhere('description', 'like', '%' . $request->search . '%')
+                    ->orWhereRelation('classroom', 'name', 'like', '%' . $request->search . '%');
+            })
+            ->fastPaginate($pagination);
+    }
 
     public function search(mixed $query, Request $request): mixed
     {
