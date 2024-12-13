@@ -50,7 +50,7 @@ class CourseService implements ShouldHandleFileUpload
 
         if (!$data['is_premium']) {
             $data['price'] = 0;
-            $data['promotinal_price'] = 0;
+            $data['promotinal_price'] = 0;                                                                     
         }
 
         $data['photo'] = $photo;
