@@ -153,7 +153,7 @@ class CourseTestController extends Controller
      * @param  mixed $slug
      * @return JsonResponse
      */
-    public function store(Request $request, string $slug): mixed
+    public function store(CourseTestRequest $request, string $slug): mixed
     {
         $course = $this->course->showWithSlug($slug);
         $data = $request->validated();
