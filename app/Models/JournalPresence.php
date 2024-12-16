@@ -15,6 +15,7 @@ class JournalPresence extends Model
     protected $primaryKey = 'id';
     protected $fillable = [
         'journal_id',
+        'status',
         'student_classroom_id',
     ];
 

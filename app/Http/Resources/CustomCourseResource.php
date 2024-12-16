@@ -37,7 +37,7 @@ class CustomCourseResource extends JsonResource
             'rating' => $this->courseReviews->avg('rating') ?? 0,
             'status' => $used ? 'used' : 'unused',
             'step' => $used?->step ?? null,
-            'course_test_id' => $this->courseTest->id
+            'course_test_id' => $this->courseTest?->id ?? null
         ];
     }
 }
