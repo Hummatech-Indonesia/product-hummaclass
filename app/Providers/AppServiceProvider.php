@@ -61,6 +61,7 @@ use App\Contracts\Interfaces\DiscussionInterface;
 use App\Contracts\Interfaces\DiscussionTagInterface;
 use App\Contracts\Interfaces\FaqInterface;
 use App\Contracts\Interfaces\IndustryClass\AssesmentFormInterface;
+use App\Contracts\Interfaces\IndustryClass\AssesmentFormStudentInterface;
 use App\Contracts\Interfaces\IndustryClass\AttendanceInterface;
 use App\Contracts\Interfaces\IndustryClass\AttendanceStudentInterface;
 use App\Contracts\Interfaces\IndustryClass\ClassroomInterface;
@@ -94,6 +95,7 @@ use App\Contracts\Repositories\DiscussionTagRepository;
 use App\Contracts\Repositories\EventAttendanceRepository;
 use App\Contracts\Repositories\FaqRepository;
 use App\Contracts\Repositories\IndustryClass\AssesmentFormRepository;
+use App\Contracts\Repositories\IndustryClass\AssesmentFormStudentRepository;
 use App\Contracts\Repositories\IndustryClass\AttendanceRepository;
 use App\Contracts\Repositories\IndustryClass\AttendanceStudentRepository;
 use App\Contracts\Repositories\IndustryClass\ClassroomRepository;
@@ -167,6 +169,7 @@ class AppServiceProvider extends ServiceProvider
         AttendanceInterface::class => AttendanceRepository::class,
         AttendanceStudentInterface::class => AttendanceStudentRepository::class,
         AssesmentFormInterface::class => AssesmentFormRepository::class,
+        AssesmentFormStudentInterface::class => AssesmentFormStudentRepository::class,
         JournalInterface::class => JournalRepository::class,
         JournalPresenceInterface::class => JournalPresenceRepository::class,
         ZoomInterface::class => ZoomRepository::class,

@@ -227,4 +227,10 @@ class ClassroomController extends Controller
         }
         return ResponseHelper::success($data, trans('alert.fetch_success'));
     }
+
+    public function getBySchool(School $school)
+    {
+        $classrooms = $this->classroom->where(['school_id' => $school->id]);
+        return ResponseHelper::success(ClassroomResource::collection($classrooms), trans('alert.fetch_success'));
+    }
 }

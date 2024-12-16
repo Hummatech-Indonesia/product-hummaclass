@@ -8,7 +8,7 @@ use App\Models\AssessmentForm;
 
 class AssesmentFormStudentRepository extends BaseRepository implements AssesmentFormStudentInterface
 {
-    public function __construct(AssesmentFormStudentRepository $assessmentForm)
+    public function __construct(AssessmentForm $assessmentForm)
     {
         $this->model = $assessmentForm;
     }

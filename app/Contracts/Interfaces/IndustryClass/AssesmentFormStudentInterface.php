@@ -4,4 +4,7 @@ namespace App\Contracts\Interfaces\IndustryClass;
 
 use App\Contracts\Interfaces\Eloquent\StoreInterface;
 
-interface AssesmentFormStudentInterface extends StoreInterface {}
+interface AssesmentFormStudentInterface extends StoreInterface 
+{
+    public function getWhere(array $data): mixed;
+}
