@@ -14,7 +14,8 @@ class CustomCourseResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $used = $this->courseLearningPaths()->where('course_id', $this->id)->first();
+        $used = $this->courseLearningPaths()->where('course_id', $this->id)->whereRelation('learningPath', 'division_id', $request->dividion_id)->whereRelation('learningPath', 'class_level', $request->class_level)->first();
+
         return [
             'id' => $this->id,
             'module_count' => $this->modules->count(),
