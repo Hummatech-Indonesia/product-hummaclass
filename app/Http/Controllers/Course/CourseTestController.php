@@ -155,7 +155,6 @@ class CourseTestController extends Controller
      */
     public function store(Request $request, string $slug): mixed
     {
-        return $request;
         $course = $this->course->showWithSlug($slug);
         $data = $request->validated();
         $data['course_id'] = $course->id;
