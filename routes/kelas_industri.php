@@ -13,11 +13,11 @@ use App\Http\Controllers\DivisionController;
 use App\Http\Controllers\IndustryClass\AssesmentFormController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\IndustryClass\SchoolController;
-use App\Http\Controllers\IndustryClass\StudentController;
 use App\Http\Controllers\IndustryClass\ClassroomController;
 use App\Http\Controllers\IndustryClass\LearningPathController;
 use App\Http\Controllers\IndustryClass\SchoolYearController;
 use App\Http\Controllers\IndustryClass\StudentClassroomController;
+use App\Http\Controllers\IndustryClass\StudentController;
 use App\Http\Controllers\IndustryClass\TeacherController;
 use App\Http\Controllers\JournalController;
 use App\Http\Controllers\JournalPresenceController;
@@ -96,24 +96,24 @@ Route::middleware('auth:sanctum')->group(function () {
 
         Route::resource('zooms', ZoomController::class)->except(['show']);
     });
-    
+
     Route::get('course-teacher', [CourseTestController::class, 'getByTeacher']);
-    
+
     Route::get('schools-all', [SchoolController::class, 'getAll']);
     Route::get('detail/classroom/{slug}', [ClassroomController::class, 'showDetailClassroom']);
-    
+
     //Teacher
     Route::get('class-teacher', [ClassroomController::class, 'listClassroomByTeacher']);
     Route::get('teacher/classrooms', [ClassroomController::class, 'showClassroomTeacher']);
     Route::resource('journal-presences', JournalPresenceController::class);
-    
+
     Route::get('test/{slug}', [CourseTestController::class, 'detailCourse']);
     Route::get('test-student/{classroom}', [UserCourseTestController::class, 'getByClassroom']);
 
     //Mentor
     Route::get('student/challenge-submits/{challenge}', [ChallengeSubmitController::class, 'index']);
     Route::get('student/challenges/{classroomSlug}', [ChallengeController::class, 'getByClassroom']);
-    
+
     Route::resource('challenges', ChallengeController::class);
     Route::resource('challenge-submits', ChallengeSubmitController::class)->only(['update', 'destroy']);
     Route::get('submit-challenge/{challenge}', [ChallengeController::class, 'showChallengeSubmit']);
@@ -129,20 +129,27 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('mentor/dashboard/classrooms', [ClassroomController::class, 'listClassroomDashboard']);
 
     Route::get('mentor/detail-student/classroom', [ClassroomController::class, 'showDetailStudent']);
-    
+
     Route::resource('journals', JournalController::class)->except(['update']);
     Route::post('journals/{journal}', [JournalController::class, 'update']);
     Route::get('mentor/student/list', [StudentController::class, 'listRangeStudentMentor']);
 
     //Student
     Route::post('challenge-submits/{challenge}', [ChallengeSubmitController::class, 'store']);
-    Route::get('student/dashboard', [StudentController::class, 'detailStudent']);
-    Route::get('student/list-student', [StudentClassroomController::class, 'listStudent']);
-    Route::get('student/list-range', [StudentController::class, 'listRangeStudent']);
-    Route::get('student/challenge', [StudentController::class, 'showChallenge']);
-    Route::get('student/detail-challenge/{slug}', [StudentController::class, 'detailChallenge']);
-    Route::get('student/learning-path', [StudentController::class, 'showLearningPath']);
-    Route::get('student/zooms', [ZoomController::class, 'show']);
+    Route::prefix('student')->group(function () {
+        Route::get('dashboard', [StudentController::class, 'detailStudent']);
+        Route::get('list-student', [StudentClassroomController::class, 'listStudent']);
+        Route::get('list-range', [StudentController::class, 'listRangeStudent']);
+        Route::get('challenge', [StudentController::class, 'showChallenge']);
+        Route::get('detail-challenge/{slug}', [StudentController::class, 'detailChallenge']);
+        Route::get('learning-path', [StudentController::class, 'showLearningPath']);
+        Route::get('zooms', [ZoomController::class, 'show']);
+
+
+        Route::post('lesson-start/{slug}', [UserCourseController::class, 'store']);
+    })
+    // ->middleware('student');
+    ;
 });
 
 Route::get('challenge/download-zip/{challenge}', [ChallengeController::class, 'download_zip']);

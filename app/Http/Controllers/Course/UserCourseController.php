@@ -71,4 +71,19 @@ class UserCourseController extends Controller
             return ResponseHelper::error(['user_course' => $userCourse, 'course' => Course::with(['modules.subModules'])->where('slug', $request->course_slug)->first()]);
         }
     }
+
+    public function store(Request $request, string $slug): mixed
+    {
+        try {
+            $course = $this->course->showWithSlug($slug);
+            $userCourse = $this->userCourse->checkByCourse($course->id) ?? $this->userCourse->store([
+                'course_id' => $course->id,
+                'user_id' => auth()->user()->id,
+                'sub_module_id' => $course->modules()->orderBy('step', 'asc')->first()->subModules()->orderBy('step', 'asc')->first()->id
+            ]);
+            return ResponseHelper::success(UserCourseResource::make($userCourse), trans('alert.fetch_success'));
+        } catch (\Throwable $th) {
+            return ResponseHelper::error($th->getMessage());
+        }
+    }
 }

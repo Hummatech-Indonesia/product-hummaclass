@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
@@ -44,5 +45,18 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+    protected function unauthenticated($request, AuthenticationException $exception)
+    {
+        // Pastikan respons JSON untuk API
+        if ($request->expectsJson()) {
+            return response()->json([
+                'message' => 'Unauthenticated: Token is missing or invalid.',
+            ], 401); // Mengembalikan HTTP 401 Unauthorized
+        }
+
+        // Default redirect jika bukan permintaan JSON
+        return redirect()->guest(route('login'));
     }
 }
