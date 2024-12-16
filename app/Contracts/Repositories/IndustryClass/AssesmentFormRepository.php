@@ -10,7 +10,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class AssesmentFormRepository extends BaseRepository implements AssesmentFormInterface
 {
-    public function __construct(AssessmentForm $assessmentForm)
+    public function __construct(AssesmentFormInterface $assessmentForm)
     {
         $this->model = $assessmentForm;
     }

@@ -121,4 +121,8 @@ class UserCourseRepository extends BaseRepository implements UserCourseInterface
     {
         return $this->model->query()->where('user_id', auth()->user()->id)->where('course_id', $courseId)->with('subModule')->firstOrFail();
     }
+    public function checkByCourse($courseId): mixed
+    {
+        return $this->model->query()->where('user_id', auth()->user()->id)->where('course_id', $courseId)->with('subModule')->first();
+    }
 }

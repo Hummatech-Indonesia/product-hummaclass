@@ -57,6 +57,7 @@ use App\Http\Controllers\IndustryClass\SchoolController;
 use App\Http\Controllers\IndustryClass\StudentController;
 use App\Http\Controllers\IndustryClass\TeacherController;
 use App\Models\EventAttendance;
+use Illuminate\Auth\AuthenticationException;
 
 /*
 |--------------------------------------------------------------------------
@@ -466,9 +467,9 @@ Route::middleware('enable.cors')->group(function () {
     /**
      * Unauthenticated Error
      */
-    Route::get('login', function () {
-        return ResponseHelper::error(null, 'Unauthenticated');
-    })->name('login');
+    // Route::get('login', function () {
+    //     return ResponseHelper::error(null, 'Unauthenticated');
+    // })->name('login');
 
     Route::get('module-tasks/course/{courseSlug}', [ModuleTaskController::class, 'getByCourse']);
 });
