@@ -36,7 +36,7 @@ class JournalPresenceController extends Controller
             $this->presenceService->store($request['journal_presence'], $journal);
             return ResponseHelper::success(null, trans('alert.add_success'));
         } catch (\Throwable $th) {
-            return ResponseHelper::success(null, trans('alert.add_failed'));
+            return ResponseHelper::error($th, trans('alert.add_failed'));
         }
     }
 
