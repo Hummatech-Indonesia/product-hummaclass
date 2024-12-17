@@ -58,12 +58,12 @@ class ZoomController extends Controller
      */
     public function store(ZoomRequest $request): JsonResponse
     {
-        // try {
+        try {
             $this->service->store($request);
             return ResponseHelper::success(null, trans('alert.add_success'));
-        // } catch (\Throwable $th) {
-        //     return ResponseHelper::error(null, trans('alert.add_failed'));
-        // }
+        } catch (\Throwable $th) {
+            return ResponseHelper::error(null, trans('alert.add_failed'));
+        }
     }
 
     /**

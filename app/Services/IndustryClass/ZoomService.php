@@ -52,7 +52,6 @@ class ZoomService
 
                 $result = [
                     'title' => $data['title'],
-                    'slug' => $data['title'],
                     'school_id' => $data['school_id'],
                     'classroom_id' => $data['classroom_id'],
                     'user_id' => $data['user_id'],

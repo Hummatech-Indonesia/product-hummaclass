@@ -11,11 +11,11 @@ class ZoomObserver
     public function creating(Zoom $zoom): void
     {
         $zoom->id = Uuid::uuid();
-        $zoom->slug = Str::slug($zoom->name);
+        $zoom->slug = Str::slug($zoom->title);
     }
 
     public function updating(Zoom $zoom): void
     {
-        $zoom->slug = Str::slug($zoom->name);
+        $zoom->slug = Str::slug($zoom->title);
     }
 }
