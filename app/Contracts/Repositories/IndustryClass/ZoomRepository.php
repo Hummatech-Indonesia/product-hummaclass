@@ -23,6 +23,10 @@ class ZoomRepository extends BaseRepository implements ZoomInterface
                     ->orWhereRelqtion('user', 'name', 'like', '%' . $request->search . '%')
                     ->orWhereRelation('classroom', 'name', 'like', '%' . $request->search . '%')
                     ->orWhererelation('school', 'name', 'like', '%' . $request->search . '%');
+            })->when($request->school_id, function ($query) use ($request) {
+                $query->where('school_id', $request->school_id);
+            })->when($request->classroom_id, function ($query) use ($request) {
+                $query->where('classroom_id', $request->classroom_id);
             })
             ->latest()
             ->fastPaginate($pagination);
@@ -37,7 +41,7 @@ class ZoomRepository extends BaseRepository implements ZoomInterface
      */
     public function getWhere(array $data): mixed
     {
-        return $this->model->query()->where($data)->get();
+        return $this->model->query()->where($data)->first();
     }
 
     public function get(): mixed

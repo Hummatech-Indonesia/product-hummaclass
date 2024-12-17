@@ -40,8 +40,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('mentor-classrooms/{mentor}', [ClassroomController::class, 'getByMentorId']);
 
-    Route::resource('school-years', controller: SchoolYearController::class)->except('destroy');
+    Route::resource('school-years', SchoolYearController::class)->except('destroy');
 
+    Route::get('assesment-student/{classroomId}', [AssesmentFormStudentController::class, 'index']);
 
     Route::middleware(['is_admin'])->group(function () {
 

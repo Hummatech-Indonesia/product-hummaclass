@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Contracts\Interfaces\IndustryClass\AssesmentFormStudentInterface;
 use App\Helpers\ResponseHelper;
 use App\Http\Requests\IndustryClass\AssesmentFormStudentRequest;
+use App\Http\Resources\AssesmentFormStudentResource;
+use App\Http\Resources\IndustryClass\AssesmentFormResource;
 use App\Models\Student;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -18,6 +20,13 @@ class AssesmentFormStudentController extends Controller
         $this->assesmentFormStudent = $assesmentFormStudent;
     }
 
+    public function index(Request $request, $classroomId): mixed
+    {
+        $studentAssesments = $this->assesmentFormStudent->getStudentAssesment($request, $classroomId);
+        return ResponseHelper::success(AssesmentFormStudentResource::collection($studentAssesments));
+        // return $studentAssesment;
+        // dd($studentAssesment);
+    }
 
     /**
      * post

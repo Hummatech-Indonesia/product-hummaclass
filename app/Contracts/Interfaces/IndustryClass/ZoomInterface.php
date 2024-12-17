@@ -11,7 +11,7 @@ use App\Contracts\Interfaces\Eloquent\ShowInterface;
 use App\Contracts\Interfaces\Eloquent\StoreInterface;
 use App\Contracts\Interfaces\Eloquent\UpdateInterface;
 
-interface ZoomInterface extends SearchInterface, StoreInterface, ShowInterface, UpdateInterface, DeleteInterface, GetWhereInterface, GetInterface, CustomPaginationInterface
+interface ZoomInterface extends SearchInterface, StoreInterface, ShowInterface, UpdateInterface, DeleteInterface, GetInterface, CustomPaginationInterface, GetWhereInterface
 {
     //
 }

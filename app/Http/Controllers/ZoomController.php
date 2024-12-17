@@ -62,7 +62,7 @@ class ZoomController extends Controller
             $this->service->store($request);
             return ResponseHelper::success(null, trans('alert.add_success'));
         } catch (\Throwable $th) {
-            return ResponseHelper::success(null, trans('alert.add_failed'));
+            return ResponseHelper::error(null, trans('alert.add_failed'));
         }
     }
 
@@ -110,7 +110,7 @@ class ZoomController extends Controller
             $this->zoom->delete($zoom->id);
             return ResponseHelper::success(null, trans('alert.delete_success'));
         } catch (\Throwable $th) {
-            return ResponseHelper::success(null, trans('alert.delete_failed'));
+            return ResponseHelper::error(null, trans('alert.delete_failed'));
         }
     }
 }
