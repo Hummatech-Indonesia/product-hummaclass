@@ -24,8 +24,6 @@ class AssesmentFormStudentController extends Controller
     {
         $studentAssesments = $this->assesmentFormStudent->getStudentAssesment($request, $classroomId);
         return ResponseHelper::success(AssesmentFormStudentResource::collection($studentAssesments));
-        // return $studentAssesment;
-        // dd($studentAssesment);
     }
 
     /**
