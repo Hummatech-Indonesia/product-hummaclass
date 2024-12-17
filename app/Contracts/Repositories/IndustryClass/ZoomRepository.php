@@ -37,7 +37,7 @@ class ZoomRepository extends BaseRepository implements ZoomInterface
      */
     public function getWhere(array $data): mixed
     {
-        return $this->model->query()->where($data)->get();
+        return $this->model->query()->where($data)->first();
     }
 
     public function get(): mixed
