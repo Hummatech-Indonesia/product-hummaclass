@@ -44,7 +44,8 @@ class ZoomService
             $date_now = Carbon::now()->format('Y-m-d');
             if ($dateResult > $date_now) {
 
-                $condition = $this->zoom->getWhere(['date' => $dateResult . ' ' . $data['time']]);
+                $condition = $this->zoom->getWhere(['date' => $dateResult . ' ' . $data['time'], 'classroom_id' => $data['classroom_id']]);
+
                 if ($condition) {
                     return ResponseHelper::error(null, 'Zoom sudah tersedia');
                 }
