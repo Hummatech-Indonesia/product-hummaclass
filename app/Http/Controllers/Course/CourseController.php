@@ -49,7 +49,9 @@ class CourseController extends Controller
     }
     public function getSome(Request $request): JsonResponse
     {
-        $courses = $this->course->getSome($request);
+        $course1 = $this->course->getSome($request);
+        $course2 = $this->course->getSome2($request);
+        $courses = $course1->merge($course2);
         return ResponseHelper::success(CustomCourseResource::collection($courses), trans('alert.fetch_success'));
     }
 

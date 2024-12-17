@@ -106,17 +106,20 @@ class CourseRepository extends BaseRepository implements CourseInterface
         ->when($request->search, function ($query) use ($request) {
             $query->where('title', "LIKE", "%$request->search%");
         })
-        ->addSelect(['step' => function ($query) {
-            $query->select('step')
-                ->from('course_learning_paths')
-                ->whereColumn('courses.id', 'course_learning_paths.course_id')
-                ->orderBy('step', 'asc')
-                ->limit(1);
-        }])
-        ->orderBy('step', 'asc')
-        ->with(['courseLearningPaths' => function ($query) {
-            $query->orderBy('step', 'asc');
-        }])     
+        ->whereHas('courseLearningPaths')
+        ->orderBy(
+            $this->orderByStep()
+        ) 
+        ->get();
+    }
+
+    public function getSome2($request): mixed
+    {
+        return $this->model->query()
+        ->when($request->search, function ($query) use ($request) {
+            $query->where('title', "LIKE", "%$request->search%");
+        })
+        ->whereDoesntHave('courseLearningPaths')
         ->get();
     }
 
