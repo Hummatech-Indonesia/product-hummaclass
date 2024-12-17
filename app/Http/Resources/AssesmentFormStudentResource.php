@@ -17,7 +17,7 @@ class AssesmentFormStudentResource extends JsonResource
         return [
             'student' => ['name' => $this->user->name, 'photo' => url('storage/' . $this->user->photo)],
             'classroom' => $this->studentClassrooms()->latest()->first()->classroom->name,
-            'value' => $this->assesmentFormStudents->sum('value') != 0 ? 100 / $this->assesmentFormStudents->sum('value') * $this->assesmentFormStudents->count() : 0,
+            'value' => $this->assesmentFormStudents->sum('value') != 0 ? $this->assesmentFormStudents->count() * (100 / $this->assesmentFormStudents->sum('value')) : 0,
         ];
     }
 }
