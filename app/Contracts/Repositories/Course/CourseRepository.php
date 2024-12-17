@@ -79,6 +79,12 @@ class CourseRepository extends BaseRepository implements CourseInterface
             ->when($user?->hasRole('guest') || !$user, function ($query) {
                 $query->where('is_ready', 1);
             })
+            ->when($request->rating, function ($query) use ($request) {
+                $query->withAvg('courseReviews', 'rating')
+                    ->whereHas('courseReviews', function ($query) use ($request) {
+                        $query->whereIn('rating', $request->rating);
+                    });
+            })
             ->orderBy('created_at', 'desc')
             ->fastPaginate($pagination);
     }
@@ -103,28 +109,28 @@ class CourseRepository extends BaseRepository implements CourseInterface
     public function getSome($request): mixed
     {
         return $this->model->query()
-        ->when($request->search, function ($query) use ($request) {
-            $query->where('title', "LIKE", "%$request->search%");
-        })
-        ->whereHas('courseLearningPaths', function($query) use ($request){
-            $query->whereRelation('learningPath', 'division_id', $request->division_id)->whereRelation('learningPath', 'class_level', $request->class_level);
-        })
-        ->orderBy(
-            $this->orderByStep()
-        ) 
-        ->get();
+            ->when($request->search, function ($query) use ($request) {
+                $query->where('title', "LIKE", "%$request->search%");
+            })
+            ->whereHas('courseLearningPaths', function ($query) use ($request) {
+                $query->whereRelation('learningPath', 'division_id', $request->division_id)->whereRelation('learningPath', 'class_level', $request->class_level);
+            })
+            ->orderBy(
+                $this->orderByStep()
+            )
+            ->get();
     }
 
     public function getSome2($request): mixed
     {
         return $this->model->query()
-        ->when($request->search, function ($query) use ($request) {
-            $query->where('title', "LIKE", "%$request->search%");
-        })
-        ->whereDoesntHave('courseLearningPaths', function($query) use ($request){
-            $query->whereRelation('learningPath', 'division_id', $request->division_id)->whereRelation('learningPath', 'class_level', $request->class_level);
-        })
-        ->get();
+            ->when($request->search, function ($query) use ($request) {
+                $query->where('title', "LIKE", "%$request->search%");
+            })
+            ->whereDoesntHave('courseLearningPaths', function ($query) use ($request) {
+                $query->whereRelation('learningPath', 'division_id', $request->division_id)->whereRelation('learningPath', 'class_level', $request->class_level);
+            })
+            ->get();
     }
 
 
