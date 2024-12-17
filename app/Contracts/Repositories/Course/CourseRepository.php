@@ -106,7 +106,9 @@ class CourseRepository extends BaseRepository implements CourseInterface
         ->when($request->search, function ($query) use ($request) {
             $query->where('title', "LIKE", "%$request->search%");
         })
-        ->whereHas('courseLearningPaths')
+        ->whereHas('courseLearningPaths', function($query) use ($request){
+            $query->whereRelation('learningPath', 'division_id', $request->division_id)->whereRelation('learningPath', 'class_level', $request->class_level);
+        })
         ->orderBy(
             $this->orderByStep()
         ) 
@@ -119,7 +121,9 @@ class CourseRepository extends BaseRepository implements CourseInterface
         ->when($request->search, function ($query) use ($request) {
             $query->where('title', "LIKE", "%$request->search%");
         })
-        ->whereDoesntHave('courseLearningPaths')
+        ->whereDoesntHave('courseLearningPaths', function($query) use ($request){
+            $query->whereRelation('learningPath', 'division_id', $request->division_id)->whereRelation('learningPath', 'class_level', $request->class_level);
+        })
         ->get();
     }
 

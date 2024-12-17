@@ -39,15 +39,17 @@ class LearningPathService
             }
         }
 
-
-        foreach ($data['course_id'] as $index => $courseId) {
-            $courseLearningPathData = [
-                'learning_path_id' => $learningPath->id,
-                'course_id' => $courseId,
-                'step' => $index + 1
-            ];
-            $this->courseLearningPath->store($courseLearningPathData);
+        if (isset($data['course_id']) && !empty($data['course_id'])) {            
+            foreach ($data['course_id'] as $index => $courseId) {
+                $courseLearningPathData = [
+                    'learning_path_id' => $learningPath->id,
+                    'course_id' => $courseId,
+                    'step' => $index + 1
+                ];
+                $this->courseLearningPath->store($courseLearningPathData);
+            }
         }
+
         return true;
     }
     public function update(LearningPathRequest $request, LearningPath $learningPath): bool

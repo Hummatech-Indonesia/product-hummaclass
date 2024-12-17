@@ -24,7 +24,7 @@ class LearningPathRequest extends ApiRequest
         return [
             'division_id' => 'required',
             'class_level' => 'required',
-            'course_id' => 'required|array',
+            'course_id' => 'nullable|array',
         ];
     }
     /**
@@ -37,7 +37,6 @@ class LearningPathRequest extends ApiRequest
         return [
             'division_id.required' => 'divisi wajib diisi',
             'class_level.required' => 'kelas wajib diisi',
-            'course_id.required' => 'kursus wajib diisi',
             'course_id.array' => 'kursus wajib berupa array'
         ];
     }
