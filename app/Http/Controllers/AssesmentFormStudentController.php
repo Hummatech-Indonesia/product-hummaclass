@@ -32,12 +32,12 @@ class AssesmentFormStudentController extends Controller
      * @param  mixed $student
      * @return JsonResponse
      */
-    public function post(AssesmentFormStudentRequest $erquest, Student $student): JsonResponse
+    public function post(AssesmentFormStudentRequest $request, Student $student): JsonResponse
     {
-        for ($i = 1; $i <= count($erquest->assessment_form_id); $i++) {
+        for ($i = 1; $i <= count($request->assessment_form_id); $i++) {
             $this->assesmentFormStudent->store([
-                'assessment_form_id' => $erquest->assessment_form_id[$i],
-                'value' => $erquest->value[$i],
+                'assessment_form_id' => $request->assessment_form_id[$i],
+                'value' => $request->value[$i],
                 'student_id' => $student->id
             ]);
         }

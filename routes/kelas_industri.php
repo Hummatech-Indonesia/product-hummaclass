@@ -86,7 +86,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('assesment-form/{division}/{classLevel}', [AssesmentFormController::class, 'index']);
 
         // Assesment Form Student
-        Route::get('assesment-form-student/{student}', [AssesmentFormStudentController::class, 'post']);
+        Route::post('assesment-form-student/{student}', [AssesmentFormStudentController::class, 'post']);
 
         // student classroom
         Route::post('student-classrooms/{classroom}', [StudentClassroomController::class, 'store']);
