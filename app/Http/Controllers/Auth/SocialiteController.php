@@ -56,7 +56,7 @@ class SocialiteController extends Controller
         //     $data = $response->json();
 
         $data['token'] = $token;
-        $data['user'] = $user->toArray()(); 
+        $data['user'] = $user->toArray(); 
         $queryString = http_build_query($data);
         return redirect(config('app.frontend_url') . "/save-token-google/" . $queryString);
 
