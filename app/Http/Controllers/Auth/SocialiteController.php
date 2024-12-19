@@ -55,6 +55,7 @@ class SocialiteController extends Controller
         // if ($response->successful()) {
         //     $data = $response->json();
 
+        dd($user);
 
         $data['token'] = $token;
         $data['user'] = $user;
