@@ -57,7 +57,7 @@ class SocialiteController extends Controller
         $response = Http::post(config('app.frontend_url') . "/save-token-google", [
             "token" => $token,
             "user" => $user
-        ]);
+        ])->json();
 
         dd($response);
         //     //     dd('success', $data);
