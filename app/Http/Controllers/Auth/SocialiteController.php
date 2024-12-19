@@ -53,7 +53,13 @@ class SocialiteController extends Controller
 
         // if ($response->successful()) {
         //     $data = $response->json();
-        return redirect(env('FRONTEND_URL') . "/save-token-google?token=$token&user=$user");
+        // return redirect(env('FRONTEND_URL') . "/save-token-google?token=$token&user=$user");
+        $response = Http::post(env('FRONTEND_URL') . "/save-token-google", [
+            "token" => $token,
+            "user" => $user
+        ]);
+
+        dd($response->json());
         //     //     dd('success', $data);
         // }
         // else {
