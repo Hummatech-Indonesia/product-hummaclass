@@ -54,7 +54,7 @@ class SocialiteController extends Controller
         // if ($response->successful()) {
         //     $data = $response->json();
         // return redirect(env('FRONTEND_URL') . "/save-token-google?token=$token&user=$user");
-        $response = Http::post(env('FRONTEND_URL') . "/save-token-google", [
+        $response = Http::post(config('app.frontend_url') . "/save-token-google", [
             "token" => $token,
             "user" => $user
         ]);
