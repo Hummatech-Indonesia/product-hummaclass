@@ -35,7 +35,6 @@ class SocialiteController extends Controller
         $user = auth()->user();
         $user->assignRole('guest');
         $roles = $user->roles->pluck('name')->first();
-        dd($roles);
         $user->roles = $roles;
 
 
@@ -56,11 +55,10 @@ class SocialiteController extends Controller
         // if ($response->successful()) {
         //     $data = $response->json();
 
-        dd($user);
-
         $data['token'] = $token;
         $data['user'] = $user;
-        return redirect(config('app.frontend_url') . "/save-token-google/" . json_encode($data));
+        $queryString = http_build_query($data);
+        return redirect(config('app.frontend_url') . "/save-token-google/" . $queryString);
 
         // $response = Http::post(config('app.frontend_url') . "/save-token-google", [
         //     "token" => $token,
