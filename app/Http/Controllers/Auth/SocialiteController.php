@@ -34,8 +34,9 @@ class SocialiteController extends Controller
         $token = auth()->user()->createToken('auth_token')->plainTextToken;
         $user = auth()->user();
         $user->assignRole('guest');
-        $roles = $user->roles->pluck('name');
-        $user->roles = json_encode($roles);
+        $roles = $user->roles->pluck('name')->first();
+        dd($roles);
+        $user->roles = $roles;
 
 
         // dd($token, $user);
