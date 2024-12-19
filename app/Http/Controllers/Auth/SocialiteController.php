@@ -59,7 +59,7 @@ class SocialiteController extends Controller
             "user" => $user
         ]);
 
-        dd($response->json());
+        dd($response);
         //     //     dd('success', $data);
         // }
         // else {
