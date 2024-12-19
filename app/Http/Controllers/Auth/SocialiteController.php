@@ -58,7 +58,7 @@ class SocialiteController extends Controller
 
         $data['token'] = $token;
         $data['user'] = $user;
-        return redirect(config('app.frontend_url'). "save-token-google/ $data"); 
+        return redirect(config('app.frontend_url'). "save-token-google/json_endcode($data)"); 
 
         // $response = Http::post(config('app.frontend_url') . "/save-token-google", [
         //     "token" => $token,
