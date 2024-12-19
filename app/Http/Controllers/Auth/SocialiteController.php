@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Helpers\ResponseHelper;
 use Exception;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -54,12 +55,19 @@ class SocialiteController extends Controller
         // if ($response->successful()) {
         //     $data = $response->json();
         // return redirect(env('FRONTEND_URL') . "/save-token-google?token=$token&user=$user");
-        $response = Http::post(config('app.frontend_url') . "/save-token-google", [
-            "token" => $token,
-            "user" => $user
-        ])->json();
 
-        dd($response);
+        $data['token'] = $token;
+        $data['user'] = $user;
+        return ResponseHelper::success($data);
+
+        // $response = Http::post(config('app.frontend_url') . "/save-token-google", [
+        //     "token" => $token,
+        //     "user" => $user
+        // ])->json();
+
+        // dd($response);
+
+
         //     //     dd('success', $data);
         // }
         // else {
