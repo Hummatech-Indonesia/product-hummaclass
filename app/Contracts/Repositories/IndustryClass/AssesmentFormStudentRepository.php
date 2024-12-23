@@ -31,7 +31,7 @@ class AssesmentFormStudentRepository extends BaseRepository implements Assesment
      */
     public function store(array $data): mixed
     {
-        return $this->model->query()->create($data);
+        return $this->assesmentStudentForm->query()->create($data);
     }
 
     /**

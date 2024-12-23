@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\AssesmentFormStudent;
 use App\Models\AssessmentForm;
 use App\Models\Attendance;
 use App\Models\AttendanceStudent;
@@ -36,6 +37,7 @@ use App\Models\UserCourseTest;
 use App\Models\UserQuiz;
 use App\Models\Zoom;
 use App\Observers\AssesmentFormObserver;
+use App\Observers\AssessmentFormStudentObserver;
 use App\Observers\AttendanceObserver;
 use App\Observers\AttendanceStudentObserver;
 use App\Observers\BlogObserver;
@@ -122,6 +124,7 @@ class EventServiceProvider extends ServiceProvider
         AssessmentForm::observe(AssesmentFormObserver::class);
         Zoom::observe(ZoomObserver::class);
         JournalPresence::observe(JournalPresenceObserver::class);
+        AssesmentFormStudent::observe(AssessmentFormStudentObserver::class);
     }
 
     /**

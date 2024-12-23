@@ -14,6 +14,9 @@ class AssesmentFormStudent extends Model implements HasAssesmentForm
     protected $table = 'assesment_form_students';
 
     protected $fillable = ['assessment_form_id', 'value', 'student_id'];
+    public $keyType = 'char';
+    public $incrementing = false;
+    protected $primaryKey = 'id';
 
     public function assesmentForm(): BelongsTo
     {

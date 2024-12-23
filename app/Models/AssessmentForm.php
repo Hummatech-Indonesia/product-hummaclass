@@ -14,6 +14,10 @@ class AssessmentForm extends Model implements HasDivision
     protected $table = 'assessment_forms';
 
     protected $fillable = ['class_level', 'division_id', 'indicator', 'type'];
+    public $keyType = 'char';
+    protected $primaryKey = 'id';
+    public $incrementing = false;
+
 
     /**
      * division

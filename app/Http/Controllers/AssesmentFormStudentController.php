@@ -34,12 +34,14 @@ class AssesmentFormStudentController extends Controller
      */
     public function post(AssesmentFormStudentRequest $request, Student $student): JsonResponse
     {
-        for ($i = 1; $i <= count($request->assessment_form_id); $i++) {
-            $this->assesmentFormStudent->store([
-                'assessment_form_id' => $request->assessment_form_id[$i],
-                'value' => $request->value[$i],
+        $data = $request->validated();
+        foreach ($data['assessment_form_id'] as $index => $formId) {
+            $studentFormData = [
+                'assessment_form_id' => $formId,
+                'value' => $data['value'][$index],
                 'student_id' => $student->id
-            ]);
+            ];
+            $this->assesmentFormStudent->store($studentFormData);
         }
 
         return ResponseHelper::success(null, trans('alert.add_success'));
