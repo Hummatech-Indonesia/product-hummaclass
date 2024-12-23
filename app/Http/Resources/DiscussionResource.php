@@ -5,6 +5,7 @@ namespace App\Http\Resources;
 use App\Http\Resources\Course\ModuleResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class DiscussionResource extends JsonResource
 {
@@ -18,6 +19,14 @@ class DiscussionResource extends JsonResource
         $createdAt = $this->created_at;
         $now = now();
 
+        $authorizationHeader = $request->header('Authorization');
+        if ($authorizationHeader && str_starts_with($authorizationHeader, 'Bearer ')) {
+            $token = substr($authorizationHeader, 7);
+        } else {
+            $token = null;
+        }
+        $user = $token ? PersonalAccessToken::findToken($token)?->tokenable : null;
+
         return [
             'id' => $this->id,
             'discussion_title' => $this->discussion_title,
@@ -26,6 +35,7 @@ class DiscussionResource extends JsonResource
             'discussion_answers_count' => $this->discussionAnswers->count(),
             'discussion_tags' => $this->discussionTags ? DiscussionTagResource::collection($this->discussionTags) : null,
             'time_ago' => $this->calculateTimeAgo($createdAt, $now),
+            'user' => $user
         ];
     }
 
