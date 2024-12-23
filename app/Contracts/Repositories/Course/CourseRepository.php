@@ -68,15 +68,19 @@ class CourseRepository extends BaseRepository implements CourseInterface
             })
             ->when($request->minimum, function ($query) use ($request) {
                 return $query->where(function ($q) use ($request) {
-                    $q->where('promotional_price', '>=', intval($request->minimum))
-                        ->orWhereNull('promotional_price')
-                        ->where('price', '>=', intval($request->minimum));
+                    $q->where(function ($subQuery) use ($request) {
+                        $subQuery->where('promotional_price', '>=', intval($request->minimum))
+                                ->orWhereNull('promotional_price')
+                                ->orWhere('promotional_price', 0);
+                    })
+                    ->where('price', '>=', intval($request->minimum));
                 });
             })
             ->when($request->maximum, function ($query) use ($request) {
                 return $query->where(function ($q) use ($request) {
                     $q->where('promotional_price', '<=', intval($request->maximum))
                         ->orWhereNull('promotional_price')
+                        ->orWhere('promotional_price', 0)
                         ->where('price', '<=', intval($request->maximum));
                 });
             })
