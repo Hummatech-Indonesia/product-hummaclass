@@ -104,7 +104,7 @@ class SubModuleController extends Controller
             $firstModuleNext = $this->module->moduleNextStep($module->step);
             $subModuleInNextModule = $this->subModule->nextSubModule(1, $firstModuleNext->id);
         }
-
+        
         if ($service) {
             return ResponseHelper::success($service, trans('alert.fetch_success'));
         } else if ($service == false && $subModule) {

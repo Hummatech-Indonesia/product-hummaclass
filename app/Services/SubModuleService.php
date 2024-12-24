@@ -32,7 +32,7 @@ class SubModuleService
     {
         $subModuleNext = $this->subModule->nextSubModule($subModule->step + 1, $subModule->module_id);
         $firstModuleNext = $this->module->moduleNextStep($subModule->module->step);
-        $subModuleInNextModule = $this->subModule->nextSubModule(1, $firstModuleNext);
+        $subModuleInNextModule = $this->subModule->nextSubModule(1, $firstModuleNext->id);
         if ($subModuleNext) {
             return SubModuleResource::make($subModuleNext);
         } else if ($subModuleInNextModule) {
@@ -52,7 +52,7 @@ class SubModuleService
     {
         $subModulePrev = $this->subModule->prevSubModule($subModule->step - 1, $subModule->module_id);
         $firstModulePrev = $this->module->modulePrevStep($subModule->module->step);
-        $subModuleInPrevModule = $this->subModule->prevSubModule(1, $firstModulePrev);
+        $subModuleInPrevModule = $this->subModule->prevSubModule(1, $firstModulePrev->id);
         if ($subModulePrev) {
             return SubModuleResource::make($subModulePrev);
         } else if ($subModuleInPrevModule) {
