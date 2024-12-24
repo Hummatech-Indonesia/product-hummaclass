@@ -63,7 +63,7 @@ class TripayService
         $privateKey   = config('tripay.private_key');
         $merchantCode = config('tripay.merchant_code');
         $merchantRef  = "HMCLS" . substr(time(), 6);
-        $productPrice = $product->promotional_price ?? $product->price;
+        $productPrice = $product->promotional_price == null || $product->promotional_price == 0 ? $product->price : $product->promotional_price;
         $amount       = $courseVoucher ? $productPrice - ($productPrice * ($courseVoucher->discount / 100)) : $productPrice;
         // $amount       = $product->price;
         $data = [
