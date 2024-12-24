@@ -56,7 +56,7 @@ class SubModuleController extends Controller
             $data['step'] = 1;
         }
 
-        
+
         $subModule = $this->subModule->store($data);
         $imageFilenames = $this->service->getImages($request->content);
         $this->service->updateUsedImage($imageFilenames, $subModule);
@@ -104,6 +104,7 @@ class SubModuleController extends Controller
             $firstModuleNext = $this->module->moduleNextStep($module->step);
             $subModuleInNextModule = $this->subModule->nextSubModule(1, $firstModuleNext->id);
         }
+
         if ($service) {
             return ResponseHelper::success($service, trans('alert.fetch_success'));
         } else if ($service == false && $subModule) {
@@ -134,7 +135,7 @@ class SubModuleController extends Controller
             return ResponseHelper::success($service, trans('alert.fetch_success'));
         } else if ($service == false && $subModule) {
             $module = $this->module->modulePrevStep($subModule->module->step);
-            return ResponseHelper::error($module->slug, 'Anda sudah pada halaman terakhir');
+            return ResponseHelper::error($module->slug, 'Anda sudah pada halaman pertama');
         } else {
             return ResponseHelper::success(SubModuleResource::make($subModuleInPrevModule));
         }
