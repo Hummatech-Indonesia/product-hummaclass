@@ -18,7 +18,8 @@ class ContactSeeder extends Seeder
             'twitter' => 'hummatech.telegram',
             'facebook' => 'url hummasoft',
             'email' => 'info@hummatech.com',
-            'phone_number' => '0987654321'
+            'phone_number' => '0987654321',
+            'description' => 'when an unknown printer took galley of type and scrambled it to make pspecimen bookt has.'
         ]);
     }
 }
