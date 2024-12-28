@@ -22,6 +22,7 @@ class ContactRequest extends ApiRequest
     public function rules(): array
     {
         return [
+            'description' => 'required|string|max:255',
             'whatsapp' => 'required|string|max:255',
             'twitter' => 'required|string|max:255',
             'facebook' => 'required|string|max:255',
@@ -37,6 +38,8 @@ class ContactRequest extends ApiRequest
     public function messages(): array
     {
         return [
+            'description.required' => 'Deskripsi wajib diisi',
+            'description.max' => 'Deskripsi maksimal :max karakter',
             'whatsapp.required' => 'Whatsapp wajib diisi',
             'whatsapp.max' => 'Whatsapp maksimal 255 karakter',
             'twitter.required' => 'twitter wajib diisi',

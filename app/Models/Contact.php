@@ -14,5 +14,6 @@ class Contact extends Model
         'facebook',
         'email',
         'phone_number',
+        'description'
     ];
 }
