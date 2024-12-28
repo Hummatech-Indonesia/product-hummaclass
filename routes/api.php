@@ -45,6 +45,7 @@ use App\Http\Controllers\Course\UserCourseTestController;
 use App\Http\Controllers\Course\CourseVoucherUserController;
 use App\Http\Controllers\HeaderController;
 use App\Http\Controllers\SuperiorFeatureController;
+use App\Http\Controllers\TermConditionController;
 
 Route::get('test-email', [TransactionController::class, 'testEmail']);
 Route::get('submission-tasks/download/{submissionTask}', [SubmissionTaskController::class, 'download']);
@@ -74,6 +75,10 @@ Route::middleware('enable.cors')->group(function () {
     //contact
     Route::get('contact', [ContactController::class, 'show']);
     Route::patch('contact', [ContactController::class, 'update']);
+
+    //term and condition
+    Route::get('term-condition', [TermConditionController::class, 'show']);
+    Route::patch('term-condition', [TermConditionController::class, 'update']);
 
     //Blog
     Route::get('blogs', [BlogController::class, 'index']);
