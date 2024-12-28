@@ -51,6 +51,7 @@ use App\Contracts\Repositories\Course\CourseTestRepository;
 use App\Contracts\Repositories\Course\ModuleTaskRepository;
 use App\Contracts\Repositories\Course\UserCourseRepository;
 use App\Contracts\Interfaces\Configuration\ContactInterface;
+use App\Contracts\Interfaces\Configuration\PrivacyPolicyInterface;
 use App\Contracts\Interfaces\Configuration\TermConditionInterface;
 use App\Contracts\Interfaces\Course\CourseTestQuestionInterface;
 use App\Contracts\Interfaces\Course\ModuleQuestionInterface;
@@ -69,6 +70,7 @@ use App\Contracts\Repositories\Course\SubCategoryRepository;
 use App\Contracts\Repositories\Course\CourseReviewRepository;
 use App\Contracts\Repositories\Course\CourseVoucherRepository;
 use App\Contracts\Repositories\Configuration\ContactRepository;
+use App\Contracts\Repositories\Configuration\PrivacyPolicyRepository;
 use App\Contracts\Repositories\Configuration\TermConditionRepository;
 use App\Contracts\Repositories\Course\CourseTestQuestionRepository;
 use App\Contracts\Repositories\Course\ModuleQuestionRepository;
@@ -127,7 +129,8 @@ class AppServiceProvider extends ServiceProvider
         UserEventAttendanceInterface::class => UserEventAttendanceRepository::class,
         HeaderInterface::class => HeaderRepository::class,
         SuperiorFeatureInterface::class => SuperiorFeatureRepository::class,
-        TermConditionInterface::class => TermConditionRepository::class
+        TermConditionInterface::class => TermConditionRepository::class,
+        PrivacyPolicyInterface::class => PrivacyPolicyRepository::class
     ];
 
     /**

@@ -44,6 +44,7 @@ use App\Http\Controllers\Course\SubmissionTaskController;
 use App\Http\Controllers\Course\UserCourseTestController;
 use App\Http\Controllers\Course\CourseVoucherUserController;
 use App\Http\Controllers\HeaderController;
+use App\Http\Controllers\PrivacyPolicyController;
 use App\Http\Controllers\SuperiorFeatureController;
 use App\Http\Controllers\TermConditionController;
 
@@ -79,6 +80,10 @@ Route::middleware('enable.cors')->group(function () {
     //term and condition
     Route::get('term-condition', [TermConditionController::class, 'show']);
     Route::patch('term-condition', [TermConditionController::class, 'update']);
+
+    //privacy policy
+    Route::get('privacy-policy', [PrivacyPolicyController::class, 'show']);
+    Route::patch('privacy-policy', [PrivacyPolicyController::class, 'update']);
 
     //Blog
     Route::get('blogs', [BlogController::class, 'index']);
