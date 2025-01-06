@@ -52,7 +52,7 @@ class ModuleTaskController extends Controller
         $data['module_id'] = $module->id;
         $this->moduleTask->store($data);
         return ResponseHelper::success(true, trans('alert.add_success'));
-    }    
+    }
     /**
      * Method show
      *
@@ -76,7 +76,7 @@ class ModuleTaskController extends Controller
     public function update(ModuleTaskRequest $request, ModuleTask $moduleTask): JsonResponse
     {
         $this->moduleTask->update($moduleTask->id, $request->validated());
-        return ResponseHelper::success(true, trans('alert.update_success'));
+        return ResponseHelper::success($moduleTask->module->id, trans('alert.update_success'));
     }
     /**
      * Method destroy

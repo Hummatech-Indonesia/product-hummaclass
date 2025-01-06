@@ -46,6 +46,13 @@ class SubmissionTaskController extends Controller
         $submissionTasks = $this->submissionTask->getWhere(['module_task_id' => $moduleTask->id]);
         return ResponseHelper::success(SubmissionTaskResource::collection($submissionTasks), trans('alert.fetch_success'));
     }
+        
+    /**
+     * show
+     *
+     * @param  mixed $submissionTask
+     * @return JsonResponse
+     */
     public function show(SubmissionTask $submissionTask): JsonResponse
     {
         return ResponseHelper::success(ShowSubmissionTaskResource::make($submissionTask), trans('alert.fetch_success'));
