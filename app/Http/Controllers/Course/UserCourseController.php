@@ -25,6 +25,7 @@ class UserCourseController extends Controller
     private UserCourseInterface $userCourse;
     private CourseInterface $course;
     private UserCourseService $service;
+
     public function __construct(UserCourseInterface $userCourse, UserCourseService $service, CourseInterface $course)
     {
         $this->userCourse = $userCourse;

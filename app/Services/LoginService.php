@@ -28,3 +28,4 @@ class LoginService
         return ResponseHelper::error(null, trans('auth.failed'), Response::HTTP_BAD_REQUEST);
     }
 }
+    

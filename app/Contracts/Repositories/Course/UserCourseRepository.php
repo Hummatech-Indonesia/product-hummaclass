@@ -18,6 +18,8 @@ class UserCourseRepository extends BaseRepository implements UserCourseInterface
     {
         $this->model = $userCourse;
     }
+
+    
     /**
      * Method customPaginate
      *
@@ -33,7 +35,6 @@ class UserCourseRepository extends BaseRepository implements UserCourseInterface
                 'subModule.module',
                 'course' => function ($query) {
                     $query->with(['subCategory', 'user'])
-
                         ->withCount('userCourses')
                         ->withAvg('courseReviews', 'rating')
                         ->with([
