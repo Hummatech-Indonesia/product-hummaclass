@@ -83,7 +83,7 @@ class TripayService
                     'image_url'   => $product->photo ?? null,
                 ],
             ],
-            'return_url'   => 'http://127.0.0.1:8000/api/callback',
+            'return_url'   => env('APP_URL') . '/api/callback',
             'expired_time' => (time() + (24 * 60 * 60)), // 24 jam
             'signature'    => hash_hmac('sha256', $merchantCode . $merchantRef . $amount, $privateKey)
         ];
@@ -92,7 +92,7 @@ class TripayService
 
         curl_setopt_array($curl, [
             CURLOPT_FRESH_CONNECT  => true,
-            CURLOPT_URL            => 'https://tripay.co.id/api-sandbox/transaction/create',
+            CURLOPT_URL            => (config('tripay.api_url')) . 'transaction/create',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_HEADER         => false,
             CURLOPT_HTTPHEADER     => ['Authorization: Bearer ' . $apiKey],
