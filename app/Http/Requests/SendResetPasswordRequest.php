@@ -30,7 +30,7 @@ class SendResetPasswordRequest extends ApiRequest
     {
         return [
             'email.required' => 'Email harus diisi',
-            'email.email' => 'email tidak falid'
+            'email.email' => 'email tidak falid',
         ];
     }
 }

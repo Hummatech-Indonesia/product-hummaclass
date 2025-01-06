@@ -26,9 +26,14 @@ class ResetPasswordController extends Controller
             $request->only('email')
         );
 
-        return $status === Password::RESET_LINK_SENT
-            ? ResponseHelper::success(null, "Link reset sudah dikirim, mohon cek email anda")
-            : ResponseHelper::error($status, "Terjadi kesalahan");
+        if ($status === Password::RESET_LINK_SENT) {
+            return response()->json(['message' => 'Link reset sudah dikirim, mohon cek email Anda.'], 200);
+        }
+    
+        return response()->json([
+            'message' => 'Gagal mengirim link reset.',
+            'error' => trans($status) 
+        ], 400);
     }
 
 
