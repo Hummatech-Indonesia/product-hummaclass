@@ -51,7 +51,7 @@ class SchoolYearController extends Controller
         try {
             $this->schoolYear->delete();
         } catch (\Throwable $e) {
-            return ResponseHelper::error(null, trans('alert.delete_failed'));
+            return ResponseHelper::error(null, 'Tahun Ajaran Hanya Sisa 1');
         }
         return ResponseHelper::success(null, trans('alert.delete_success'));
     }
