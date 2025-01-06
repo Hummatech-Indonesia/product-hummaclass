@@ -41,7 +41,7 @@ class RegisterRequest extends ApiRequest
             'email.string' => 'Email harus berupa teks.',
             'email.max' => 'Email tidak boleh lebih dari 255 karakter.',
             'email.email' => 'Format email tidak valid.',
-            'email.unique' => 'Email sudah terdaftar, silakan gunakan email lain.',
+            'email.unique' => 'Email sudah terdaftar, silakan guna kan email lain.',
 
             'password.required' => 'Kata sandi wajib diisi.',
             'password.string' => 'Kata sandi harus berupa teks.',
