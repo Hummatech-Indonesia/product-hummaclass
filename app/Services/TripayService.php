@@ -87,7 +87,6 @@ class TripayService
             'expired_time' => (time() + (24 * 60 * 60)), // 24 jam
             'signature'    => hash_hmac('sha256', $merchantCode . $merchantRef . $amount, $privateKey)
         ];
-        dd(config('app.url') . '/api/callback');
 
         $curl = curl_init();
 
