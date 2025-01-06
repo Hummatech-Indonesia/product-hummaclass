@@ -79,15 +79,15 @@ class TripayService
                     'name'        => $product->title,
                     'price'       => $amount,
                     'quantity'    => 1,
-                    'product_url' => env('APP_URL') . "/courses/courses/$product->slug",
+                    'product_url' => config('app.url') . "/courses/courses/$product->slug",
                     'image_url'   => $product->photo ?? null,
                 ],
             ],
-            'return_url'   => env('APP_URL') . '/api/callback',
+            'return_url'   => config('app.url') . '/api/callback',
             'expired_time' => (time() + (24 * 60 * 60)), // 24 jam
             'signature'    => hash_hmac('sha256', $merchantCode . $merchantRef . $amount, $privateKey)
         ];
-        dd(env('APP_URL') . '/api/callback');
+        dd(config('app.url') . '/api/callback');
 
         $curl = curl_init();
 
