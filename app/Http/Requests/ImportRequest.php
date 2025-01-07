@@ -34,7 +34,8 @@ class ImportRequest extends ApiRequest
     public function messages(): array
     {
         return [
-            'file.required' => 'File wajib diisi'
+            'file.required' => 'File wajib diisi',
+            'file.mimes' => 'Format file tidak valid'
         ];
     }
 }

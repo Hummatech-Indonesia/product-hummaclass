@@ -11,9 +11,8 @@ use App\Enums\RoleEnum;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ImportRequest;
-use App\Http\Requests\StudentRequest;
+use Illuminate\Support\Facades\Log;
 use App\Http\Requests\UserStudentRequest;
-use App\Http\Resources\ChallengeResource;
 use App\Http\Resources\ChallengeStudentResource;
 use App\Http\Resources\LearningPathResource;
 use App\Http\Resources\StudentDashboardResource;
@@ -133,8 +132,10 @@ class StudentController extends Controller
     {
         $school = $this->school->showWithSlug($slug);
         Excel::import(new StudentsImport($school->id), $request->file('file'));
+
         return ResponseHelper::success(null, trans('alert.add_success'));
     }
+
 
     /**
      * withoutClassroom
@@ -228,7 +229,7 @@ class StudentController extends Controller
         }
     }
 
-    public function detailStudent()// ini ya
+    public function detailStudent() // ini ya
     {
         try {
             $student = $this->student->first(['user_id' => auth()->user()->id]);
