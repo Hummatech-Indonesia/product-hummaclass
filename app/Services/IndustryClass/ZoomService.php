@@ -7,16 +7,17 @@ use App\Helpers\ResponseHelper;
 use App\Http\Requests\ZoomRequest;
 use Carbon\Carbon;
 
-class ZoomService 
+class ZoomService
 {
     private ZoomInterface $zoom;
 
     public function __construct(ZoomInterface $zoom)
-    {   
+    {
         $this->zoom = $zoom;
     }
 
-    private function getDatesByDayInCurrentMonth($dayOfWeek) {
+    private function getDatesByDayInCurrentMonth($dayOfWeek)
+    {
 
         $now = Carbon::now();
         $year = $now->year;
@@ -39,24 +40,20 @@ class ZoomService
         $data = $request->validated();
         $dateResults = $this->getDatesByDayInCurrentMonth($data['day']);
 
-        
-        foreach ($dateResults as $dateResult) {  
+        foreach ($dateResults as $dateResult) {
             $date_now = Carbon::now()->format('Y-m-d');
             if ($dateResult > $date_now) {
-
                 $condition = $this->zoom->getWhere(['date' => $dateResult . ' ' . $data['time'], 'classroom_id' => $data['classroom_id']]);
-
-                if ($condition) {
+                if ($condition->first() != null) {
                     return ResponseHelper::error(null, 'Zoom sudah tersedia');
                 }
-
                 $result = [
                     'title' => $data['title'],
                     'school_id' => $data['school_id'],
                     'classroom_id' => $data['classroom_id'],
                     'user_id' => $data['user_id'],
                     'link' => $data['link'],
-                    'date' => $dateResult . ' ' . $data['time'], 
+                    'date' => $dateResult . ' ' . $data['time'],
                 ];
                 $this->zoom->store($result);
             }

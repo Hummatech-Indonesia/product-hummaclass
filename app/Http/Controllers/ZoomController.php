@@ -39,7 +39,7 @@ class ZoomController extends Controller
             $data['paginate'] = $this->customPaginate($zooms->currentPage(), $zooms->lastPage());
             $data['data'] = ZoomResource::collection($zooms);
         } else {
-            $zooms = $this->zoom->customPaginate($request);
+            $zooms = $this->zoom->search($request);
             $data['data'] = ZoomResource::collection($zooms);
         }
         return ResponseHelper::success($data, trans('alert.fetch_success'));
@@ -58,18 +58,19 @@ class ZoomController extends Controller
      */
     public function store(ZoomRequest $request): JsonResponse
     {
-        try {
-            $this->service->store($request);
-            return ResponseHelper::success(null, trans('alert.add_success'));
-        } catch (\Throwable $th) {
-            return ResponseHelper::error(null, trans('alert.add_failed'));
-        }
+        // try {
+        $this->service->store($request);
+
+        return ResponseHelper::success(null, trans('alert.add_success'));
+        // } catch (\Throwable $th) {
+        //     return ResponseHelper::error(null, trans('alert.add_failed'));
+        // }
     }
 
     /**
      * Display the specified resource.
      */
-    public function show()
+    public function detailZoom()
     {
         try {
             $student = $this->student->first(['user_id' => auth()->user()->id]);
@@ -81,21 +82,13 @@ class ZoomController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Zoom $zoom)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
     public function update(ZoomUpdateRequest $request, Zoom $zoom): JsonResponse
     {
         // try {
-            $this->zoom->update($zoom->id, $request->validated());
-            return ResponseHelper::success(null, trans('alert.update_success'));
+        $this->zoom->update($zoom->id, $request->validated());
+        return ResponseHelper::success(null, trans('alert.update_success'));
         // } catch (\Throwable $th) {
         //     return ResponseHelper::success(null, trans('alert.update_failed'));
         // }

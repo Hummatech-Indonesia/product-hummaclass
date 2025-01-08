@@ -146,7 +146,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('challenge', [StudentController::class, 'showChallenge']);
         Route::get('detail-challenge/{slug}', [StudentController::class, 'detailChallenge']);
         Route::get('learning-path', [StudentController::class, 'showLearningPath']);
-        Route::get('zooms', [ZoomController::class, 'show']);
+        Route::get('zooms', [ZoomController::class, 'detailZoom']);
 
 
         Route::post('lesson-start/{slug}', [UserCourseController::class, 'store']);

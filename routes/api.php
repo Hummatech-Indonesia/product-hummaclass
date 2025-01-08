@@ -56,6 +56,7 @@ use App\Http\Controllers\IndustryClass\ClassroomController;
 use App\Http\Controllers\IndustryClass\SchoolController;
 use App\Http\Controllers\IndustryClass\StudentController;
 use App\Http\Controllers\IndustryClass\TeacherController;
+use App\Http\Resources\UserResource;
 use App\Models\EventAttendance;
 use Illuminate\Auth\AuthenticationException;
 
@@ -271,6 +272,10 @@ Route::middleware('enable.cors')->group(function () {
         Route::get('/user', function (Request $request) {
             return \App\Models\User::with('roles')->find($request->user()->id);
         });
+        Route::get('/profile', function (Request $request) {
+            $user = \App\Models\User::with('roles')->find($request->user()->id);
+            return UserResource::make($user);
+        });
         Route::delete('users/{user}', [UserController::class, 'destroy']);
 
 
@@ -463,6 +468,7 @@ Route::middleware('enable.cors')->group(function () {
         Route::post('reset', [ResetPasswordController::class, 'reset']);
         Route::patch('update', [UpdatePasswordController::class, 'update'])->middleware('auth:sanctum');
     });
+
 
     /**
      * Unauthenticated Error

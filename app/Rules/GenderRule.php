@@ -28,6 +28,6 @@ class GenderRule implements Rule
      */
     public function message(): string
     {
-        return 'Jawaban yang anda pilih tidak valid';
+        return 'Gender yang anda pilih tidak valid';
     }
 }
