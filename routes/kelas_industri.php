@@ -22,6 +22,7 @@ use App\Http\Controllers\IndustryClass\TeacherController;
 use App\Http\Controllers\JournalController;
 use App\Http\Controllers\JournalPresenceController;
 use App\Http\Controllers\MentorController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ZoomController;
 use App\Http\Requests\IndustryClass\TeacherClassroomRequest;
 
@@ -147,6 +148,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('list-student', [StudentClassroomController::class, 'listStudent']);
         Route::get('list-range', [StudentController::class, 'listRangeStudent']);
         Route::get('challenge', [StudentController::class, 'showChallenge']);
+        Route::get('payments', [PaymentController::class, 'index']);
         Route::get('detail-challenge/{slug}', [StudentController::class, 'detailChallenge']);
         Route::get('learning-path', [StudentController::class, 'showLearningPath']);
         Route::get('zooms', [ZoomController::class, 'detailZoom']);

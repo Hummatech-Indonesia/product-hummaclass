@@ -7,6 +7,7 @@ namespace App\Models;
 use App\Base\Interfaces\HasCourseReviews;
 use App\Base\Interfaces\HasEventUsers;
 use App\Base\Interfaces\HasOneStudent;
+use App\Base\Interfaces\HasPayments;
 use Laravel\Sanctum\HasApiTokens;
 use App\Base\Interfaces\HasUserCourses;
 use Spatie\Permission\Traits\HasRoles;
@@ -20,7 +21,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable implements HasUserCourses, HasSocialAccount, MustVerifyEmail, HasUserCourseTests, HasCourseReviews, HasOneStudent
+class User extends Authenticatable implements HasUserCourses, HasSocialAccount, MustVerifyEmail, HasUserCourseTests, HasCourseReviews, HasOneStudent, HasPayments
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
@@ -139,5 +140,15 @@ class User extends Authenticatable implements HasUserCourses, HasSocialAccount, 
     public function mentor(): HasOne
     {
         return $this->hasOne(Mentor::class);
+    }
+
+    /**
+     * payments
+     *
+     * @return HasMany
+     */
+    public function payments(): HasMany
+    {
+        return $this->hasMany(Payment::class);
     }
 }
