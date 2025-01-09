@@ -11,7 +11,7 @@ class UpdateMentorRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,24 @@ class UpdateMentorRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required',
+            'email' => 'required|email|unique:users',
+            'phone_number' => 'required',
+            'address' => 'required',
+            'rekening_number' => 'nullable',
+            'bank_name' => 'nullable',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'name.required' => 'Nama wajib diisi',
+            'email.required' => 'Email wajib diisi',
+            'email.email' => 'Email tidak valid',
+            'email.unique' => 'Email sudah digunakan',
+            'phone_number.required' => 'Nomor telepon wajib diisi',
+            'address.required' => 'Alamat wajib diisi',
         ];
     }
 }

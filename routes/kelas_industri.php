@@ -21,6 +21,7 @@ use App\Http\Controllers\IndustryClass\StudentController;
 use App\Http\Controllers\IndustryClass\TeacherController;
 use App\Http\Controllers\JournalController;
 use App\Http\Controllers\JournalPresenceController;
+use App\Http\Controllers\MentorController;
 use App\Http\Controllers\ZoomController;
 use App\Http\Requests\IndustryClass\TeacherClassroomRequest;
 
@@ -66,7 +67,7 @@ Route::middleware('auth:sanctum')->group(function () {
         //Mentor
         Route::get('get-mentors', [UserController::class, 'getMentor']);
         Route::get('mentors', [UserController::class, 'getMentorAdmin']);
-        Route::post('mentors', [UserController::class, 'createMentor']);
+        Route::post('mentors', [MentorController::class, 'store']);
         Route::get('mentors/{user}', [UserController::class, 'show']);
         Route::post('mentors-update/{mentor}', [UserController::class, 'updateMentor']);
 

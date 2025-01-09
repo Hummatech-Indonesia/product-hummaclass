@@ -130,4 +130,14 @@ class User extends Authenticatable implements HasUserCourses, HasSocialAccount, 
     {
         return $this->hasOne(Student::class);
     }
+
+    /**
+     * Get the mentor associated with the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function mentor(): HasOne
+    {
+        return $this->hasOne(Mentor::class);
+    }
 }

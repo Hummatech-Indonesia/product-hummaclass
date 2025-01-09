@@ -20,6 +20,7 @@ use App\Models\Event as ModelsEvent;
 use App\Models\Journal;
 use App\Models\JournalPresence;
 use App\Models\LearningPath;
+use App\Models\Mentor;
 use App\Models\Modul;
 use App\Models\Module;
 use App\Models\ModuleQuestion;
@@ -54,6 +55,7 @@ use App\Observers\EventObserver;
 use App\Observers\JournalObserver;
 use App\Observers\JournalPresenceObserver;
 use App\Observers\LearningPathObserver;
+use App\Observers\MentorObserver;
 use App\Observers\ModuleObserver;
 use App\Observers\ModuleQuestionObserver;
 use App\Observers\ModuleTaskObserver;
@@ -125,6 +127,7 @@ class EventServiceProvider extends ServiceProvider
         Zoom::observe(ZoomObserver::class);
         JournalPresence::observe(JournalPresenceObserver::class);
         AssesmentFormStudent::observe(AssessmentFormStudentObserver::class);
+        Mentor::observe(MentorObserver::class);
     }
 
     /**
