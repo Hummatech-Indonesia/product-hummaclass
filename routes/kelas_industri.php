@@ -66,10 +66,11 @@ Route::middleware('auth:sanctum')->group(function () {
 
         //Mentor
         Route::get('get-mentors', [UserController::class, 'getMentor']);
-        Route::get('mentors', [UserController::class, 'getMentorAdmin']);
+        Route::get('mentors', [MentorController::class, 'getMentorAdmin']);
         Route::post('mentors', [MentorController::class, 'store']);
-        Route::get('mentors/{user}', [UserController::class, 'show']);
-        Route::post('mentors-update/{mentor}', [UserController::class, 'updateMentor']);
+        Route::get('mentors/{mentor}', [MentorController::class, 'show']);
+        Route::post('mentors-update/{mentor}', [MentorController::class, 'update']);
+        Route::delete('mentor/{mentor}', [MentorController::class, 'destroy']);
 
         //Teacher
         Route::get('get-teachers/{slug}', [UserController::class, 'getTeacher']);

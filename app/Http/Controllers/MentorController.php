@@ -9,10 +9,14 @@ use App\Http\Requests\StoreMentorRequest;
 use App\Http\Requests\UpdateMentorRequest;
 use App\Http\Resources\MentorResource;
 use App\Services\MentorService;
+use App\Traits\PaginationTrait;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+
 
 class MentorController extends Controller
 {
+    use PaginationTrait;
     private MentorInterface $mentor;
     private MentorService $service;
 
@@ -29,6 +33,14 @@ class MentorController extends Controller
     {
         $mentors = $this->mentor->get();
         return ResponseHelper::success(MentorResource::collection($mentors), trans('alert.fetch_success'));
+    }
+
+    public function getMentorAdmin(Request $request)
+    {
+        $mentors = $this->mentor->getMentorPaginate($request);
+        $data['paginate'] = $this->customPaginate($mentors->currentPage(), $mentors->lastPage());
+        $data['data'] = MentorResource::collection($mentors);
+        return ResponseHelper::success($data);
     }
 
     /**
@@ -61,7 +73,8 @@ class MentorController extends Controller
      */
     public function show(Mentor $mentor)
     {
-        //
+        $data = $this->mentor->show($mentor->id);
+        return ResponseHelper::success(new MentorResource($data), trans('alert.fetch_success'));
     }
 
     /**
@@ -94,6 +107,15 @@ class MentorController extends Controller
      */
     public function destroy(Mentor $mentor)
     {
-        //
+        DB::beginTransaction();
+        try {
+            $mentor->user->delete();
+            $mentor->delete();
+            DB::commit();
+            return ResponseHelper::success(trans('alert.delete_success'));
+        } catch (\Exception $th) {
+            DB::rollBack();
+            return ResponseHelper::error($th, trans('alert.delete_fail'));
+        }
     }
 }

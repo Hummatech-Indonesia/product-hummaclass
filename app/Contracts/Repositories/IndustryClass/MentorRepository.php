@@ -4,7 +4,10 @@ namespace App\Contracts\Repositories\IndustryClass;
 
 use App\Contracts\Interfaces\IndustryClass\MentorInterface;
 use App\Contracts\Repositories\BaseRepository;
+use App\Enums\RoleEnum;
 use App\Models\Mentor;
+use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class MentorRepository extends BaseRepository implements MentorInterface
 {
@@ -22,6 +25,16 @@ class MentorRepository extends BaseRepository implements MentorInterface
     public function get(): mixed
     {
         return $this->model->query()->get();
+    }
+
+    public function getMentorPaginate(Request $request, int $pagination = 10): LengthAwarePaginator
+    {
+        return $this->model->query()
+        ->when($request->mentor, function ($query) use ($request) {
+            $query->whereHas('user', function($q) use ($request) {
+                $q->where('name', 'LIKE', '%' .  $request->mentor . '%');
+            });
+        })->fastPaginate($pagination);
     }
 
     /**

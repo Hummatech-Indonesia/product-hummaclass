@@ -23,7 +23,8 @@ class UpdateMentorRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'email' => 'required|email|unique:users',
+            'gender' => 'required',
+            'email' => 'required|email',
             'phone_number' => 'required',
             'address' => 'required',
             'rekening_number' => 'nullable',
@@ -35,9 +36,9 @@ class UpdateMentorRequest extends FormRequest
     {
         return [
             'name.required' => 'Nama wajib diisi',
+            'gender.required' => 'Jenis kelamin wajib diisi',
             'email.required' => 'Email wajib diisi',
             'email.email' => 'Email tidak valid',
-            'email.unique' => 'Email sudah digunakan',
             'phone_number.required' => 'Nomor telepon wajib diisi',
             'address.required' => 'Alamat wajib diisi',
         ];
