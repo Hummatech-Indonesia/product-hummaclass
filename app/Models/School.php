@@ -20,6 +20,7 @@ class School extends Model implements HasZooms, HasClassrooms
         'address',
         'head_master',
         'photo',
+        'payment_method',
         'description',
         'phone_number',
         'npsn',

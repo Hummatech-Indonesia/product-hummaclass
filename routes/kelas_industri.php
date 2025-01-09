@@ -48,6 +48,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
         // school
         Route::resource('schools', SchoolController::class)->only(['index', 'store', 'update', 'delete']);
+        Route::patch('update-payment-method-school/{school}', [SchoolController::class, 'updatePaymentMethod']);
         Route::resource('learning-paths', LearningPathController::class);
         Route::get('schools/{slug}', [SchoolController::class, 'show']);
 

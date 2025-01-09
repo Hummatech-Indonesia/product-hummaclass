@@ -6,11 +6,13 @@ use App\Contracts\Interfaces\IndustryClass\SchoolInterface;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\IndustryClass\SchoolRequest;
+use App\Http\Requests\UpdatePaymentMethodSchoolRequest;
 use App\Http\Resources\DetailSchoolResource;
 use App\Http\Resources\IndustryClass\SchoolResource;
 use App\Models\School;
 use App\Services\IndustryClass\SchoolService;
 use App\Traits\PaginationTrait;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class SchoolController extends Controller
@@ -84,5 +86,18 @@ class SchoolController extends Controller
             return ResponseHelper::error(null, trans('alert.delete_constrained'));
         }
         return ResponseHelper::success(null, trans('alert.delete_success'));
+    }
+    
+    /**
+     * updatePaymentMethod
+     *
+     * @param  mixed $school
+     * @param  mixed $request
+     * @return JsonResponse
+     */
+    public function updatePaymentMethod(School $school, UpdatePaymentMethodSchoolRequest $request): JsonResponse
+    {
+        $this->school->update($school->id, $request->validated());
+        return ResponseHelper::success();
     }
 }
