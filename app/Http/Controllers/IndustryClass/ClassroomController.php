@@ -12,6 +12,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\IndustryClass\ClassroomRequest;
 use App\Http\Requests\IndustryClass\MentorClassroomRequest;
 use App\Http\Requests\IndustryClass\TeacherClassroomRequest;
+use App\Http\Requests\UpdatePriceClassroomRequest;
 use App\Http\Resources\IndustryClass\ClassroomResource;
 use App\Http\Resources\IndustryClass\StudentClassroomResource;
 use App\Models\Classroom;
@@ -60,14 +61,6 @@ class ClassroomController extends Controller
     {
         $classrooms = $this->classroom->get();
         return ResponseHelper::success(ClassroomResource::collection($classrooms), trans('alert.fetch_success'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -228,9 +221,26 @@ class ClassroomController extends Controller
         return ResponseHelper::success($data, trans('alert.fetch_success'));
     }
 
+    /**
+     * getBySchool
+     *
+     * @param  mixed $school
+     * @return void
+     */
     public function getBySchool(School $school)
     {
         $classrooms = $this->classroom->where(['school_id' => $school->id]);
         return ResponseHelper::success(ClassroomResource::collection($classrooms), trans('alert.fetch_success'));
+    }
+
+    /**
+     * updatePrice
+     *
+     * @return JsonResponse
+     */
+    public function updatePrice(Classroom $classroom, UpdatePriceClassroomRequest $request): JsonResponse
+    {
+        $this->classroom->update($classroom->id, ['price' => $request->price]);
+        return ResponseHelper::success(null, trans('alert.update_success'));
     }
 }

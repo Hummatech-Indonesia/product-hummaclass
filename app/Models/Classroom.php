@@ -31,7 +31,8 @@ class Classroom extends Model implements HasSchool, HasDivision, HasUser, HasTea
         'teacher_id',
         'user_id',
         'name',
-        'class_level'
+        'class_level',
+        'price'
     ];
     /**
      * Get the school that owns the Classroom

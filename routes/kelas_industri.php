@@ -59,6 +59,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('classroom-detail/{classroom}', [ClassroomController::class, 'show']);
         Route::patch('teacher-classrooms/{classroom}', [ClassroomController::class, 'teacherClassroom']);
         Route::patch('mentor-classrooms/{classroom}', [ClassroomController::class, 'mentorClassroom']);
+        Route::patch('update-price-classroom/{classroom}', [ClassroomController::class, 'updatePrice']);
         Route::resource('classrooms', ClassroomController::class)->only(['update', 'destroy']);
 
         //Mentor
@@ -151,7 +152,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
         Route::post('lesson-start/{slug}', [UserCourseController::class, 'store']);
     })
-    // ->middleware('student');
+        // ->middleware('student');
     ;
 });
 
