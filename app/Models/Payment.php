@@ -11,7 +11,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Payment extends Model implements HasDetailPayments
 {
     use HasFactory;
-    
+    protected $fillable = ['user_id', 'invoice_id', 'fee_amount', 'amount', 'expiry_date', 'paid_amount', 'payment_channel', 'payment_method', 'invoice_status'];
+
     /**
      * detailPayments
      *

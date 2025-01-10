@@ -26,4 +26,15 @@ class PaymentRepository extends BaseRepository implements PaymentInterface
     {
         return $this->model->query()->get();
     }
+
+    /**
+     * store
+     *
+     * @param  mixed $data
+     * @return mixed
+     */
+    public function store(array $data): mixed
+    {
+        return $this->model->query()->create($data);
+    }
 }

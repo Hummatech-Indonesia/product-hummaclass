@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Payment\TransactionController;
+use App\Http\Controllers\PaymentController;
+
 // Tripay
 
 Route::middleware('enable.cors')->group(function () {
@@ -12,7 +14,9 @@ Route::middleware('enable.cors')->group(function () {
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::get('transaction-signature', [TransactionController::class, 'generateSignature']);
-        Route::get('transaction-create/{productType}/{id}', [TransactionController::class, 'store']);
+        Route::get('transaction-create/{productType}/{id}', [PaymentController::class, 'store']);
+
+        Route::post('payment-create', [PaymentController::class, 'store']);
 
         Route::get('return-callback', [TransactionController::class, 'returnCallback']);
         Route::get('check-status/{reference}', [TransactionController::class, 'checkStatus']);

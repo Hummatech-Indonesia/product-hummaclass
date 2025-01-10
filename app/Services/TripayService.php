@@ -27,6 +27,13 @@ class TripayService
 
         return $formattedCollection;
     }
+    
+    /**
+     * handlePaymentInstructions
+     *
+     * @param  mixed $code
+     * @return void
+     */
     public function handlePaymentInstructions($code)
     {
         $res = Http::withToken(config('tripay.api_key'))

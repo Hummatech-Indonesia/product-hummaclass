@@ -107,6 +107,7 @@ use App\Contracts\Repositories\IndustryClass\JournalPresenceRepository;
 use App\Contracts\Repositories\IndustryClass\JournalRepository;
 use App\Contracts\Repositories\IndustryClass\LearningPathRepository;
 use App\Contracts\Repositories\IndustryClass\MentorRepository;
+use App\Contracts\Repositories\IndustryClass\PaymentRepository;
 use App\Contracts\Repositories\IndustryClass\SchoolRepository;
 use App\Contracts\Repositories\IndustryClass\SchoolYearRepository;
 use App\Contracts\Repositories\IndustryClass\StudentClassroomRepository;
@@ -177,7 +178,7 @@ class AppServiceProvider extends ServiceProvider
         JournalPresenceInterface::class => JournalPresenceRepository::class,
         ZoomInterface::class => ZoomRepository::class,
         MentorInterface::class => MentorRepository::class,
-        PaymentInterface::class
+        PaymentInterface::class => PaymentRepository::class
     ];
 
     /**

@@ -2,6 +2,8 @@
 
 namespace App\Helpers;
 
+use App\Enums\InvoiceStatusEnum;
+
 class PaymentHelper
 {
 
@@ -39,7 +41,7 @@ class PaymentHelper
 
         $detailPayment = [];
 
-        foreach (auth()->user()->payments as $payment) {
+        foreach (auth()->user()->payments->where('invoice_status', InvoiceStatusEnum::PAID->value) as $payment) {
             $details = $payment->detailPayments->where('year', $year);
             foreach ($details as $detail) {
                 $detailPayment[] = $detail;
