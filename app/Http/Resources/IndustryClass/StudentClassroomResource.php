@@ -31,7 +31,7 @@ class StudentClassroomResource extends JsonResource
             'phone_number' => $this->student->user->phone_number,
             'gender' => $gender,
             'nisn' => $this->student->nisn,
-            'date_birth' => $this->student->date_birth
+            'date_birth' => $this->student->date_birth,
         ];
     }
 }

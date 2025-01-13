@@ -10,4 +10,5 @@ interface AssesmentFormStudentInterface extends StoreInterface
 {
     public function getWhere(array $data): mixed;
     public function getStudentAssesment(Request $request, mixed $classroomId, int $pagination = 10): LengthAwarePaginator;
+    public function getByStudent(array $data): mixed;   
 }

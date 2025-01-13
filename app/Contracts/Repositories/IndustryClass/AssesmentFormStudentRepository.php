@@ -57,4 +57,17 @@ class AssesmentFormStudentRepository extends BaseRepository implements Assesment
             })
             ->fastPaginate($pagination);
     }
+
+    public function getByStudent(array $data): mixed
+    {
+        return $this->assesmentStudentForm->query()
+        ->whereHas('assessmentForm', function ($query) use ($data) {
+            $query->where('class_level', $data['class_level'])
+            ->where('division_id', $data['division_id'])
+            ->where('type', $data['type']);
+        })
+        ->where('student_id', $data['student_id'])
+        ->with('assessmentForm')
+        ->get(); 
+    }
 }

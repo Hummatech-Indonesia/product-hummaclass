@@ -6,6 +6,7 @@ use App\Base\Interfaces\HasDivision;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class AssessmentForm extends Model implements HasDivision
 {
@@ -27,5 +28,15 @@ class AssessmentForm extends Model implements HasDivision
     public function division(): BelongsTo
     {
         return $this->belongsTo(Division::class);
+    }
+
+    /**
+     * Get all of the assesmentFormStudents for the AssessmentForm
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function assesmentFormStudents(): HasMany
+    {
+        return $this->hasMany(AssesmentFormStudent::class);
     }
 }

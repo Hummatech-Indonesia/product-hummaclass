@@ -13,5 +13,5 @@ interface HasAssesmentForm
      * @return BelongsTo
      */
 
-    public function assesmentForm(): BelongsTo;
+    public function assessmentForm(): BelongsTo;
 }

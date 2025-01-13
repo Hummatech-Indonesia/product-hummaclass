@@ -18,8 +18,13 @@ class AssesmentFormStudent extends Model implements HasAssesmentForm
     public $incrementing = false;
     protected $primaryKey = 'id';
 
-    public function assesmentForm(): BelongsTo
+    public function assessmentForm(): BelongsTo
     {
         return $this->belongsTo(AssessmentForm::class);
+    }
+
+    public function student(): BelongsTo
+    {
+        return $this->belongsTo(Student::class);
     }
 }

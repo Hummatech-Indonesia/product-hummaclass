@@ -92,6 +92,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
         // Assesment Form Student
         Route::post('assesment-form-student/{student}', [AssesmentFormStudentController::class, 'post']);
+        Route::get('assesment-form-student/{studentClassroom}', [AssesmentFormStudentController::class, 'show']);
 
         // student classroom
         Route::post('student-classrooms/{classroom}', [StudentClassroomController::class, 'store']);
@@ -117,6 +118,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('test/{slug}', [CourseTestController::class, 'detailCourse']);
     Route::get('test-student/{classroom}', [UserCourseTestController::class, 'getByClassroom']);
+
 
     //Mentor
     Route::get('student/challenge-submits/{challenge}', [ChallengeSubmitController::class, 'index']);
