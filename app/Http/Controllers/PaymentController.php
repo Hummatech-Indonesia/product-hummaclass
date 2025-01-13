@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\InvoiceStatusEnum;
 use App\Helpers\PaymentHelper;
 use App\Helpers\ResponseHelper;
 use App\Services\IndustryClass\PaymentService;
@@ -52,9 +53,10 @@ class PaymentController extends Controller
 
         $monthStatus = [];
 
-        foreach ($getSemester["month"] as $month) {
+        foreach ($getSemester["month"] as  $month) {
             $status = in_array($month, $paidMonths) ? 'paid' : 'unpaid';
             $monthStatus[$month] = [
+                'month_numeric' => $month,
                 'month' => $monthNames[$month],
                 'status' => $status,
                 'semester' => $getSemester["semester"],
@@ -72,11 +74,17 @@ class PaymentController extends Controller
      */
     public function store(Request $request)
     {
-        $payment = $this->payment->store($request);
-        if ($payment) {
-            return ResponseHelper::success($payment, 'Berhasil melakukan request pembayaran');
-        } else {
-            return ResponseHelper::error($payment);
+        $paymentUser = auth()->user()->payments->where('invoice_status', InvoiceStatusEnum::PENDING->value)->where('expiry_date', '>=', now())->first();
+
+        if ($paymentUser == null) {
+            $payment = $this->payment->store($request);
+            if ($payment->success) {
+                return ResponseHelper::success($payment, 'Berhasil melakukan request pembayaran');
+            } else {
+                return ResponseHelper::error(null, $payment->message);
+            }
+        }else{
+            return ResponseHelper::error(null, "Selesaikan Transaksi Sebelumnya");
         }
     }
 }
