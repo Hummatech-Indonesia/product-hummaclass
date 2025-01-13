@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Contracts\Interfaces\Course\UserCourseInterface;
 use App\Contracts\Interfaces\Course\UserEventInterface;
+use App\Contracts\Interfaces\IndustryClass\PaymentInterface;
 use App\Contracts\Interfaces\TransactionInterface;
 use App\Helpers\ResponseHelper;
 use App\Jobs\SendEmailEventJob;
@@ -20,10 +21,12 @@ class TransactionService
 {
     private TransactionInterface $transaction;
     private UserCourseInterface $userCourse;
+    private PaymentInterface $payment;
     private UserEventInterface $userEvent;
-    public function __construct(TransactionInterface $transaction, UserCourseInterface $userCourse, UserEventInterface $userEvent)
+    public function __construct(TransactionInterface $transaction, UserCourseInterface $userCourse, UserEventInterface $userEvent, PaymentInterface $payment)
     {
         $this->transaction = $transaction;
+        $this->payment = $payment;
         $this->userCourse = $userCourse;
         $this->userEvent = $userEvent;
     }
@@ -61,57 +64,88 @@ class TransactionService
      */
     public function handlePaymentCallback($request): mixed
     {
-        $transaction = $this->transaction->show($request->reference);
-        $product = $transaction->course ?? $transaction->event;
-        $product->type = $transaction->course ? 'course' : 'event';
-        $created = $this->handleCerateUserCourse($product, $transaction);
-        $data = null;
+        $payment = $this->payment->show($request->reference);
+        if ($payment) {
+            switch ($request->status) {
+                case 'UNPAID':
+                    $data = [
+                        'invoice_status' => 'unpaid'
+                    ];
+                    break;
+                case 'PAID':
 
-        // return response()->json($created->user);
-        switch ($request->status) {
-            case 'UNPAID':
-                $data = [
-                    'invoice_status' => 'unpaid'
-                ];
-                break;
-            case 'PAID':
-                if ($product->type == 'event') {
-                    $this->sendEmailEvent([
-                        'email' => $created->user->email,
-                        'content' => $product->email_content
-                    ]);
-                }
-                $data = [
-                    'id' => $request->reference,
-                    'invoice_id' => $request->merchant_ref,
-                    'fee_amount' => $request->fee_merchant,
-                    'paid_amount' => $request->total_amount,
-                    'payment_channel' => $request->payment_method,
-                    'payment_method' => $request->payment_method_code,
-                    'invoice_status' => $request->status
-                ];
-                break;
-            case 'EXPIRED':
-                $data = [
-                    'invoice_status' => 'expired'
-                ];
-                $product->delete();
-                break;
-            case 'FAILED':
-                $data = [
-                    'invoice_status' => 'failed'
-                ];
-                $product->delete();
-                break;
-            default:
-                return $request;
-                break;
-        }
-        $updated =  $this->transaction->update($request->reference, $data);
-        if ($updated) {
+                    break;
+                case 'EXPIRED':
+                    $data = [
+                        'invoice_status' => 'expired'
+                    ];
+                    $payment->delete();
+                    break;
+                case 'FAILED':
+                    $data = [
+                        'invoice_status' => 'failed'
+                    ];
+                    $payment->delete();
+                    break;
+                default:
+                    return $request;
+                    break;
+            }
+            $payment->update($data);
             return ResponseHelper::success(null, "Callback success");
         } else {
-            return ResponseHelper::error(null, "Callback gagal");
+            $transaction = $this->transaction->show($request->reference);
+            $product = $transaction->course ?? $transaction->event;
+            $product->type = $transaction->course ? 'course' : 'event';
+            $created = $this->handleCerateUserCourse($product, $transaction);
+            $data = null;
+
+            // return response()->json($created->user);
+            switch ($request->status) {
+                case 'UNPAID':
+                    $data = [
+                        'invoice_status' => 'unpaid'
+                    ];
+                    break;
+                case 'PAID':
+                    if ($product->type == 'event') {
+                        $this->sendEmailEvent([
+                            'email' => $created->user->email,
+                            'content' => $product->email_content
+                        ]);
+                    }
+                    $data = [
+                        'id' => $request->reference,
+                        'invoice_id' => $request->merchant_ref,
+                        'fee_amount' => $request->fee_merchant,
+                        'paid_amount' => $request->total_amount,
+                        'payment_channel' => $request->payment_method,
+                        'payment_method' => $request->payment_method_code,
+                        'invoice_status' => $request->status
+                    ];
+                    break;
+                case 'EXPIRED':
+                    $data = [
+                        'invoice_status' => 'expired'
+                    ];
+                    $product->delete();
+                    break;
+                case 'FAILED':
+                    $data = [
+                        'invoice_status' => 'failed'
+                    ];
+                    $product->delete();
+                    break;
+                default:
+                    return $request;
+                    break;
+            }
+            $updated =  $this->transaction->update($request->reference, $data);
+            if ($updated) {
+                return ResponseHelper::success(null, "Callback success");
+            } else {
+                return ResponseHelper::error(null, "Callback gagal");
+            }
         }
     }
 

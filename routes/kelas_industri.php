@@ -152,6 +152,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('payments', [PaymentController::class, 'index']);
         Route::get('check-status-payment/{reference}', [PaymentController::class, 'checkStatus']);
         Route::get('payments/{reference}/detail', [PaymentController::class, 'show']);
+        Route::get('semester-bill', [PaymentController::class, 'semesterBill']);
 
         Route::get('detail-challenge/{slug}', [StudentController::class, 'detailChallenge']);
         Route::get('learning-path', [StudentController::class, 'showLearningPath']);

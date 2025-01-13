@@ -5,6 +5,7 @@ namespace App\Services\IndustryClass;
 use App\Contracts\Interfaces\IndustryClass\PaymentInterface;
 use App\Enums\InvoiceStatusEnum;
 use App\Helpers\PaymentHelper;
+use App\Helpers\ResponseHelper;
 use Illuminate\Http\Request;
 
 class PaymentService
@@ -17,6 +18,12 @@ class PaymentService
         $this->payment = $payment;
     }
 
+    /**
+     * store
+     *
+     * @param  mixed $request
+     * @return void
+     */
     public function store(Request $request)
     {
         $month = $request->month;

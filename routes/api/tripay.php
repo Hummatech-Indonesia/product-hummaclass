@@ -21,4 +21,5 @@ Route::middleware('enable.cors')->group(function () {
         Route::get('transaction/{reference}/detail', [TransactionController::class, 'show']);
     });
     Route::post('callback', [TransactionController::class, 'callback'])->middleware('tripay.signature');
+    Route::post('callback-payment', [PaymentController::class, 'callback'])->middleware('tripay.signature');
 });

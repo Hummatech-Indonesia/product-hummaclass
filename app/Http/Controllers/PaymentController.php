@@ -90,7 +90,7 @@ class PaymentController extends Controller
                 return ResponseHelper::error(null, $payment->message);
             }
         } else {
-            return ResponseHelper::error(null, "Selesaikan Transaksi Sebelumnya");
+            return ResponseHelper::error($paymentUser, "Selesaikan Transaksi Sebelumnya");
         }
     }
 
@@ -117,5 +117,27 @@ class PaymentController extends Controller
     {
         $payment = $this->paymentInterface->show($id);
         return ResponseHelper::success(PaymentResource::make($payment));
+    }
+
+    /**
+     * callback
+     *
+     * @param  mixed $request
+     * @return JsonResponse
+     */
+    public function callback(Request $request): JsonResponse
+    {
+        return $this->payment->handlePaymentCallback($request);
+    }
+
+    /**
+     * semesterBill
+     *
+     * @return JsonResponse
+     */
+    public function semesterBill()
+    {
+        $semesterBill = PaymentHelper::semesterBill();
+        return ResponseHelper::success($semesterBill);
     }
 }
