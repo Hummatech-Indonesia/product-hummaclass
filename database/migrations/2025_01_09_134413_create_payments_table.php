@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignUuid('user_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('invoice_id')->unique();
             $table->integer('fee_amount');
+            $table->string('reference')->unique();
             $table->integer('amount');
             $table->timestamp('expiry_date');
             $table->integer('paid_amount');
@@ -32,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('payment_industry_classes');
+        Schema::dropIfExists('payments');
     }
 };

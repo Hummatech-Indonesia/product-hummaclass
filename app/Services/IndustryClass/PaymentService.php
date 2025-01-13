@@ -96,6 +96,7 @@ class PaymentService
         if ($response && $responseDecode->success) {
             $payment = $this->payment->store([
                 'user_id' => auth()->user()->id,
+                'reference' => $responseDecode->data->reference,
                 'fee_amount' => $responseDecode->data->total_fee,
                 'invoice_id' => $responseDecode->data->merchant_ref,
                 'amount' => $responseDecode->data->amount_received,

@@ -2,15 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\Interfaces\IndustryClass\PaymentInterface;
 use App\Enums\InvoiceStatusEnum;
 use App\Helpers\PaymentHelper;
+use Illuminate\Support\Facades\Http;
 use App\Helpers\ResponseHelper;
+use App\Http\Resources\PaymentResource;
 use App\Services\IndustryClass\PaymentService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class PaymentController extends Controller
 {
     private PaymentService $payment;
+    private PaymentInterface $paymentInterface;
 
     /**
      * __construct
@@ -18,9 +23,10 @@ class PaymentController extends Controller
      * @param  mixed $payment
      * @return void
      */
-    public function __construct(PaymentService $payment)
+    public function __construct(PaymentService $payment, PaymentInterface $paymentInterface)
     {
         $this->payment = $payment;
+        $this->paymentInterface = $paymentInterface;
     }
 
     /**
@@ -83,8 +89,33 @@ class PaymentController extends Controller
             } else {
                 return ResponseHelper::error(null, $payment->message);
             }
-        }else{
+        } else {
             return ResponseHelper::error(null, "Selesaikan Transaksi Sebelumnya");
         }
+    }
+
+    /**
+     * checkStatus
+     *
+     * @param  mixed $reference
+     * @return void
+     */
+    public function checkStatus($reference)
+    {
+        $response = Http::withToken(config('tripay.api_key'))->get(config('tripay.api_url') . 'transaction/detail?reference=' . $reference);
+
+        return $response;
+    }
+
+    /**
+     * show
+     *
+     * @param  mixed $id
+     * @return JsonResponse
+     */
+    public function show(string $id): JsonResponse
+    {
+        $payment = $this->paymentInterface->show($id);
+        return ResponseHelper::success(PaymentResource::make($payment));
     }
 }

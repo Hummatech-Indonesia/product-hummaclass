@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('payment_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->integer('month');
-            $table->integer('year');
-            $table->year('price');
+            $table->year('year');
+            $table->integer('price');
             $table->timestamps();
         });
     }
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('detail_payment_industry_classes');
+        Schema::dropIfExists('detail_payments');
     }
 };

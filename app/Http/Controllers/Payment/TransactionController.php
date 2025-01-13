@@ -8,8 +8,6 @@ use App\Contracts\Interfaces\Course\UserCourseInterface;
 use App\Contracts\Interfaces\Course\UserEventInterface;
 use App\Contracts\Interfaces\EventInterface;
 use Carbon\Carbon;
-use App\Models\Course;
-use App\Models\Transaction;
 use Illuminate\Http\Request;
 use App\Helpers\ResponseHelper;
 use App\Services\TripayService;
@@ -17,11 +15,8 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Services\TransactionService;
 use Illuminate\Support\Facades\Http;
-use App\Http\Resources\PaymentChannelResource;
 use App\Contracts\Interfaces\TransactionInterface;
 use App\Http\Resources\TransactionResource;
-use App\Models\User;
-use App\Models\UserEvent;
 use App\Traits\PaginationTrait;
 
 class TransactionController extends Controller
@@ -170,11 +165,17 @@ class TransactionController extends Controller
         return 'return callback';
     }
 
+    /**
+     * checkStatus
+     *
+     * @param  mixed $request
+     * @param  mixed $reference
+     * @return void
+     */
     public function checkStatus(Request $request, $reference)
     {
         $response = Http::withToken(config('tripay.api_key'))->get(config('tripay.api_url') . 'transaction/detail?reference=' . $reference);
 
-        // dd($response->getStatusCode());
         return $response;
     }
 

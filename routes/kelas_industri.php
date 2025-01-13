@@ -150,6 +150,9 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('list-range', [StudentController::class, 'listRangeStudent']);
         Route::get('challenge', [StudentController::class, 'showChallenge']);
         Route::get('payments', [PaymentController::class, 'index']);
+        Route::get('check-status-payment/{reference}', [PaymentController::class, 'checkStatus']);
+        Route::get('payments/{reference}/detail', [PaymentController::class, 'show']);
+
         Route::get('detail-challenge/{slug}', [StudentController::class, 'detailChallenge']);
         Route::get('learning-path', [StudentController::class, 'showLearningPath']);
         Route::get('zooms', [ZoomController::class, 'detailZoom']);

@@ -15,10 +15,8 @@ Route::middleware('enable.cors')->group(function () {
     Route::middleware('auth:sanctum')->group(function () {
         Route::get('transaction-signature', [TransactionController::class, 'generateSignature']);
         Route::get('transaction-create/{productType}/{id}', [TransactionController::class, 'store']);
-
-        Route::post('payment-create', [PaymentController::class, 'store']);
-
         Route::get('return-callback', [TransactionController::class, 'returnCallback']);
+        Route::post('payments-create', [PaymentController::class, 'store']);
         Route::get('check-status/{reference}', [TransactionController::class, 'checkStatus']);
         Route::get('transaction/{reference}/detail', [TransactionController::class, 'show']);
     });
