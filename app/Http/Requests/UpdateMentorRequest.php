@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\GenderRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateMentorRequest extends FormRequest
@@ -23,7 +24,7 @@ class UpdateMentorRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'gender' => 'required',
+            'gender' => ['required', new GenderRule()],
             'email' => 'required|email',
             'phone_number' => 'required',
             'address' => 'required',

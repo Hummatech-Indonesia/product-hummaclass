@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\GenderRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreMentorRequest extends FormRequest
@@ -23,7 +24,7 @@ class StoreMentorRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'gender' => 'required',
+            'gender' => ['required', new GenderRule()],
             'email' => 'required|email|unique:users',
             'phone_number' => 'required',
             'address' => 'required',
