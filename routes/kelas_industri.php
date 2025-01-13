@@ -145,24 +145,22 @@ Route::middleware('auth:sanctum')->group(function () {
     //Student
     Route::post('challenge-submits/{challenge}', [ChallengeSubmitController::class, 'store']);
     Route::prefix('student')->group(function () {
-        Route::get('dashboard', [StudentController::class, 'detailStudent']);
-        Route::get('list-student', [StudentClassroomController::class, 'listStudent']);
-        Route::get('list-range', [StudentController::class, 'listRangeStudent']);
-        Route::get('challenge', [StudentController::class, 'showChallenge']);
-        Route::get('payments', [PaymentController::class, 'index']);
-        Route::get('check-status-payment/{reference}', [PaymentController::class, 'checkStatus']);
-        Route::get('payments/{reference}/detail', [PaymentController::class, 'show']);
+        Route::middleware('payment_student')->group(function () {
+            Route::get('dashboard', [StudentController::class, 'detailStudent']);
+            Route::get('list-student', [StudentClassroomController::class, 'listStudent']);
+            Route::get('list-range', [StudentController::class, 'listRangeStudent']);
+            Route::get('challenge', [StudentController::class, 'showChallenge']);
+            Route::get('check-status-payment/{reference}', [PaymentController::class, 'checkStatus']);
+            Route::get('payments/{reference}/detail', [PaymentController::class, 'show']);
+
+            Route::get('detail-challenge/{slug}', [StudentController::class, 'detailChallenge']);
+            Route::get('learning-path', [StudentController::class, 'showLearningPath']);
+            Route::get('zooms', [ZoomController::class, 'detailZoom']);
+            Route::post('lesson-start/{slug}', [UserCourseController::class, 'store']);
+        });
         Route::get('semester-bill', [PaymentController::class, 'semesterBill']);
-
-        Route::get('detail-challenge/{slug}', [StudentController::class, 'detailChallenge']);
-        Route::get('learning-path', [StudentController::class, 'showLearningPath']);
-        Route::get('zooms', [ZoomController::class, 'detailZoom']);
-
-
-        Route::post('lesson-start/{slug}', [UserCourseController::class, 'store']);
-    })
-        // ->middleware('student');
-    ;
+        Route::get('payments', [PaymentController::class, 'index']);
+    });
 });
 
 Route::get('challenge/download-zip/{challenge}', [ChallengeController::class, 'download_zip']);

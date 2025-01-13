@@ -61,7 +61,7 @@ class PaymentHelper
         if (empty($paidMonth)) {
             return self::monthlyBill() * 6;
         } else {
-            $notYetPaid = count(self::getSemester()['month']) - $paidMonth->count();
+            $notYetPaid = count(self::getSemester()['month']) - count($paidMonth);
             return self::monthlyBill() * $notYetPaid;
         }
     }
