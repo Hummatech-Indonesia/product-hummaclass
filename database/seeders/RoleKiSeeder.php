@@ -20,7 +20,7 @@ class RoleKiSeeder extends Seeder
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
         $reflection = new \ReflectionClass(RoleEnum::class);
-
+ 
         foreach ($reflection->getConstants() as $case) {
             if ($case->value != RoleEnum::ADMIN->value && $case->value != RoleEnum::GUEST->value) {
                 Role::create([
