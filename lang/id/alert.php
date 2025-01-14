@@ -15,6 +15,7 @@ return [
     'fetch_success' => 'Berhasil fetch data',
     'fetch_failed' => 'Gagal fetch data',
     'download_success' => 'Berhasil download data',
+    'download_failed' => 'Gagal download data',
     'add_success' => 'Berhasil menambahkan data',
     'add_failed' => 'Gagal menambahkan data',
     'update_success' => 'Berhasil memperbarui data',

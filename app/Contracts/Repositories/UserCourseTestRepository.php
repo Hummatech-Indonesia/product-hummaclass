@@ -93,4 +93,17 @@ class UserCourseTestRepository extends BaseRepository implements UserCourseTestI
     {
         return $this->model->query()->findOrFail($id)->update($data);
     }
+
+    public function getByClassroom(mixed $data): mixed
+    {
+        return $this->model->query()
+            ->whereNotNull('score')
+            ->whereHas('user', function ($query) use ($data) {
+                $query->whereHas('student', function ($query) use ($data) {
+                    $query->whereHas('studentClassrooms', function ($query) use ($data) {
+                        $query->where('classroom_id', $data);
+                    });
+                });
+            });
+    }
 }

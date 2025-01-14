@@ -4,11 +4,15 @@ namespace App\Http\Controllers\Auth;
 
 use App\Contracts\Interfaces\Auth\UserInterface;
 use App\Contracts\Interfaces\Course\UserCourseInterface;
+use App\Contracts\Interfaces\IndustryClass\SchoolInterface;
+use App\Contracts\Interfaces\IndustryClass\TeacherInterface;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreMentorRequest;
 use App\Http\Requests\UserRequest;
 use App\Http\Resources\AuthResource;
 use App\Http\Resources\CustomUserEventResource;
+use App\Http\Resources\TeacherResource;
 use App\Http\Resources\UserCourseActivityResource;
 use App\Http\Resources\UserCourseResource;
 use App\Http\Resources\UserEventResource;
@@ -24,11 +28,15 @@ class UserController extends Controller
 {
     use PaginationTrait;
     private UserInterface $user;
+    private TeacherInterface $teacher;
+    private SchoolInterface $school;
     private UserService $service;
     private UserCourseInterface $userCourse;
-    public function __construct(UserInterface $user, UserCourseInterface $userCourse, UserService $service)
+    public function __construct(UserInterface $user, UserCourseInterface $userCourse, UserService $service, TeacherInterface $teacher, SchoolInterface $school)
     {
+        $this->school = $school;
         $this->user = $user;
+        $this->teacher = $teacher;
         $this->service = $service;
         $this->userCourse = $userCourse;
     }
@@ -95,8 +103,9 @@ class UserController extends Controller
         $user = $this->user->show(auth()->user()->id);
         return ResponseHelper::success(UserResource::make($user), trans('alert.fetch_success'));
     }
+
     /**
-     * Method newestCount
+     * newestCount
      *
      * @return JsonResponse
      */
@@ -104,5 +113,62 @@ class UserController extends Controller
     {
         $users = $this->user->countUsersbyMonth();
         return ResponseHelper::success($users, trans('alert.fetch_success'));
+    }
+
+    /**
+     * getMentor
+     *
+     * @return void
+     */
+    public function getMentor(): JsonResponse
+    {
+        $mentors = $this->user->getMentor();
+        return ResponseHelper::success(UserResource::collection($mentors));
+    }
+
+    public function createMentor(StoreMentorRequest $request): mixed
+    {
+        $data = $request->validated();
+        $mentor = $this->user->createMentor($data);
+        return ResponseHelper::success(UserResource::make($mentor));
+    }
+
+    public function updateMentor(StoreMentorRequest $request, User $mentor): mixed
+    {
+        $data = $request->validated();
+        $mentor = $this->user->updateMentor($mentor->id, $data);
+        if ($mentor) return ResponseHelper::success(trans('alert.update_success'));
+        else return ResponseHelper::error(null, trans('alert.update_failed'));
+    }
+
+    /**
+     * getMentor
+     *
+     * @return void
+     */
+    public function getMentorAdmin(Request $request)
+    {
+        $mentors = $this->user->getMentorPaginate($request);
+        $data['paginate'] = $this->customPaginate($mentors->currentPage(), $mentors->lastPage());
+        $data['data'] = UserResource::collection($mentors);
+        return ResponseHelper::success($data);
+    }
+
+    /**
+     * getTeacher
+     *
+     * @return JsonResponse
+     */
+    public function getTeacher(Request $request, string $slug): JsonResponse
+    {
+        $school = $this->school->showWithSlug($slug);
+        $request->merge(['school_id' => $school->id]);
+        $teachers = $this->teacher->search($request);
+        return ResponseHelper::success(TeacherResource::collection($teachers));
+    }
+
+    public function destroy(User $user)
+    {
+        return $this->user->delete($user->id);
     }
 }

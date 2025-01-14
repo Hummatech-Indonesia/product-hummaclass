@@ -207,4 +207,16 @@ class ModuleRepository extends BaseRepository implements ModuleInterface
     {
         return $this->model->query()->where('step', $step)->where('course_id', $course_id)->firstOrFail();
     }
+
+
+    /**
+     * whereDevision
+     *
+     * @param  mixed $step
+     * @return mixed
+     */
+    public function whereDivision(mixed $division_id): mixed
+    {
+        return $this->model->query()->whereRelation('course.courseLearningPaths.learningPath', 'division_id', $division_id)->get();
+    }
 }

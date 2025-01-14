@@ -13,6 +13,7 @@ use App\Http\Requests\UpdateCourseRequest;
 use App\Http\Resources\Course\DetailCourseResource;
 use App\Http\Resources\CourseResource;
 use App\Http\Resources\CourseStatisticResource;
+use App\Http\Resources\CustomCourseResource;
 use App\Http\Resources\QuizResource;
 use App\Http\Resources\TopCourseResource;
 use App\Http\Resources\UserCourseResource;
@@ -45,6 +46,13 @@ class CourseController extends Controller
         $this->course = $course;
         $this->service = $service;
         $this->module = $module;
+    }
+    public function getSome(Request $request): JsonResponse
+    {
+        $course1 = $this->course->getSome($request);
+        $course2 = $this->course->getSome2($request);
+        $courses = $course1->merge($course2);
+        return ResponseHelper::success(CustomCourseResource::collection($courses), trans('alert.fetch_success'));
     }
 
     public function index(Request $request): JsonResponse
@@ -81,7 +89,7 @@ class CourseController extends Controller
      */
     public function show(Request $request, string $slug): JsonResponse
     {
-        $course = $this->course->showWithSlug($request, $slug);
+        $course = $this->course->showWithSlug($slug, $request);
         return ResponseHelper::success(DetailCourseResource::make($course), trans('alert.fetch_success'));
     }
 
@@ -116,7 +124,7 @@ class CourseController extends Controller
     }
     public function statistic(Request $request, string $slug): JsonResponse
     {
-        $course = $this->course->showWithSlug($request, $slug);
+        $course = $this->course->showWithSlug($slug, $request);
         // dd($course->transactions);
         return ResponseHelper::success(CourseStatisticResource::make($course), trans('alert.fetch_success'));
     }
@@ -201,7 +209,7 @@ class CourseController extends Controller
      */
     public function share(Request $request, string $slug): JsonResponse
     {
-        $course = $this->course->showWithSlug($request, $slug);
+        $course = $this->course->showWithSlug($slug, $request);
         return ResponseHelper::success(CourseResource::make($course), trans('alert.fetch_success'));
     }
 

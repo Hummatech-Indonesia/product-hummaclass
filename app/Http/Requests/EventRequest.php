@@ -36,6 +36,7 @@ class EventRequest extends ApiRequest
             'user' => 'array|required',
             'start' => 'array|required',
             'end' => 'array|required',
+            'event_date' => 'array|required',
             'session' => 'array|required',
             'user.*' => 'required',
             'event_date.*' => 'required',

@@ -29,7 +29,13 @@ class DatabaseSeeder extends Seeder
             // RewardSeeder::class,
             // BlogSeeder::class,
             HeaderSeeder::class,
-            SuperiorFeatureSeeder::class
+            SuperiorFeatureSeeder::class,
+            DiscussionSeeder::class,
+            EventSeeder::class,
+            VoucherSeeder::class,
+            RewardSeeder::class,
+            BlogSeeder::class,
+            SchoolYearSeeder::class
         ]);
     }
 }

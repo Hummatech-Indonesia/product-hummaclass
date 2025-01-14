@@ -10,4 +10,7 @@ enum UploadDiskEnum: string
     case BLOGS = 'blogs';
     case IMAGE = 'image';
     case REWARDS = 'rewards';
+    case SCHOOL = 'schools';
+    case FILE = 'file';
+    case JOURNAL = 'journal';
 }

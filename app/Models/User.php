@@ -6,6 +6,8 @@ namespace App\Models;
 
 use App\Base\Interfaces\HasCourseReviews;
 use App\Base\Interfaces\HasEventUsers;
+use App\Base\Interfaces\HasOneStudent;
+use App\Base\Interfaces\HasPayments;
 use Laravel\Sanctum\HasApiTokens;
 use App\Base\Interfaces\HasUserCourses;
 use Spatie\Permission\Traits\HasRoles;
@@ -16,9 +18,10 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable implements HasUserCourses, HasSocialAccount, MustVerifyEmail, HasUserCourseTests, HasCourseReviews
+class User extends Authenticatable implements HasUserCourses, HasSocialAccount, MustVerifyEmail, HasUserCourseTests, HasCourseReviews, HasOneStudent, HasPayments
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
@@ -37,9 +40,11 @@ class User extends Authenticatable implements HasUserCourses, HasSocialAccount, 
         'email',
         'password',
         'point',
+        'gender',
         'phone_number',
         'address',
-        'photo'
+        'photo',
+        'email_verified_at'
     ];
 
     /**
@@ -115,5 +120,35 @@ class User extends Authenticatable implements HasUserCourses, HasSocialAccount, 
     public function userEvents(): HasMany
     {
         return $this->hasMany(UserEvent::class);
+    }
+
+    /**
+     * student
+     *
+     * @return HasOne
+     */
+    public function student(): HasOne
+    {
+        return $this->hasOne(Student::class);
+    }
+
+    /**
+     * Get the mentor associated with the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function mentor(): HasOne
+    {
+        return $this->hasOne(Mentor::class);
+    }
+
+    /**
+     * payments
+     *
+     * @return HasMany
+     */
+    public function payments(): HasMany
+    {
+        return $this->hasMany(Payment::class);
     }
 }

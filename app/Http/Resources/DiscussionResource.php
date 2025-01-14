@@ -27,7 +27,6 @@ class DiscussionResource extends JsonResource
             'discussion_answers_count' => $this->discussionAnswers->count(),
             'discussion_tags' => $this->discussionTags ? DiscussionTagResource::collection($this->discussionTags) : null,
             'time_ago' => $this->calculateTimeAgo($createdAt, $now),
-            'user' => UserResource::make($this->user),
         ];
     }
 

@@ -16,6 +16,7 @@ class TransactionResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'course' => $this->course,
             'user' => $this->user,  // ID user
             'user_photo' => url('storage/' . $this->user->photo),
             'product' => $this->event ?? CourseResource::make($this->course),  // ID course

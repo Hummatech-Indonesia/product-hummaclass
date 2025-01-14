@@ -13,6 +13,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CourseTestRequest;
 use App\Http\Requests\CustomCourseTestRequest;
 use App\Http\Requests\UserCourseTestRequest;
+use App\Http\Resources\CourseTestDetailResource;
 use App\Http\Resources\CourseTestResource;
 use App\Http\Resources\CourseTestResultResource;
 use App\Http\Resources\ModuleQuestionResource;
@@ -46,9 +47,10 @@ class CourseTestController extends Controller
         $this->service = $service;
         $this->module = $module;
     }
+
     public function index(string $slug, Request $request): JsonResponse
     {
-        $course = $this->course->showWithSlug($request, $slug);
+        $course = $this->course->showWithSlug($slug, $request);
         $courseTest = $this->courseTest->show($course->id);
         if ($courseTest == null) return ResponseHelper::error(null, "Anda Belum Setting Test");
         return ResponseHelper::success(CourseTestResource::make($courseTest), trans('alert.fetch_success'));
@@ -154,7 +156,7 @@ class CourseTestController extends Controller
      * @param  mixed $slug
      * @return JsonResponse
      */
-    public function store(CourseTestRequest $request, string $slug): JsonResponse
+    public function store(CourseTestRequest $request, string $slug): mixed
     {
         $course = $this->course->showWithSlugWithoutRequest($slug);
         $data = $request->validated();
@@ -211,5 +213,24 @@ class CourseTestController extends Controller
     {
         $this->courseTest->delete($courseTest->id);
         return ResponseHelper::success(true, trans('alert.delete_success'));
+    }
+
+    public function getByTeacher(Request $request): JsonResponse
+    {
+        if ($request->has('page')) {
+            $courseTests = $this->courseTest->getByTeacher($request, auth()->user()->id);
+            $data['paginate'] = $this->customPaginate($courseTests->currentPage(), $courseTests->lastPage());
+            $data['data'] = CourseTestResource::collection($courseTests);
+        } else {
+            $courseTests = $this->courseTest->getByTeacher($request, auth()->user()->id);
+            $data['data'] = CourseTestResource::collection($courseTests);
+        }
+        return ResponseHelper::success($data, trans('alert.fetch_success'));
+    }
+
+    public function detailCourse(string $slug): JsonResponse
+    {   
+        $courseTest = $this->courseTest->showWithSlug($slug);
+        return ResponseHelper::success(CourseTestDetailResource::make($courseTest), trans('alert.fetch_success'));
     }
 }

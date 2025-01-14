@@ -66,7 +66,7 @@ class QuizController extends Controller
         } else {
             return ResponseHelper::error(null, 'Quiz belum ada');
         }
-    }
+    } 
 
     /**
      * show
@@ -103,7 +103,7 @@ class QuizController extends Controller
     {
         $submit = $this->service->submit($request, $userQuiz);
         if ($submit == 'failed') {
-            return ResponseHelper::error(null, 'masih ada delay waktu tersisa');
+            return ResponseHelper::error(null, 'masih ada delay waktu tersisa sebelum anda dapat melakukan submit kembali');
         }
         return ResponseHelper::success(true, trans('alert.fetch_success'));
     }

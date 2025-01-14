@@ -42,7 +42,7 @@ class ModuleController extends Controller
      */
     public function index(string $slug, Request $request): JsonResponse
     {
-        $course = $this->course->showWithSlug($request, $slug);
+        $course = $this->course->showWithSlugWithoutRequest($slug);
         $request->merge(['course_id' => $course->id]);
         $modules = $this->module->search($request);
         return ResponseHelper::success(ModuleResource::collection($modules), trans('alert.fetch_success'));

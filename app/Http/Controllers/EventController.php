@@ -76,7 +76,7 @@ class EventController extends Controller
      * Method update
      *
      * @param EventRequest $request [explicite description]
-     * @param Event $event [explicite description]
+     * @param string $slug [explicite description]
      *
      * @return JsonResponse
      */

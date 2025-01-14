@@ -13,9 +13,13 @@ use App\Contracts\Repositories\BaseRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Contracts\Interfaces\Course\CourseInterface;
 use App\Contracts\Interfaces\Course\CategoryInterface;
+use App\Models\CourseLearningPath;
+use Illuminate\Database\Eloquent\Model;
 
 class CourseRepository extends BaseRepository implements CourseInterface
 {
+
+    public Model $courseLearningPath;
 
     /**
      * Method __construct
@@ -24,9 +28,10 @@ class CourseRepository extends BaseRepository implements CourseInterface
      *
      * @return void
      */
-    public function __construct(Course $course)
+    public function __construct(Course $course, CourseLearningPath $courseLearningPath)
     {
         $this->model = $course;
+        $this->courseLearningPath = $courseLearningPath;
     }
     /**
      * Method customPaginate
@@ -70,10 +75,10 @@ class CourseRepository extends BaseRepository implements CourseInterface
                 return $query->where(function ($q) use ($request) {
                     $q->where(function ($subQuery) use ($request) {
                         $subQuery->where('promotional_price', '>=', intval($request->minimum))
-                                ->orWhereNull('promotional_price')
-                                ->orWhere('promotional_price', 0);
+                            ->orWhereNull('promotional_price')
+                            ->orWhere('promotional_price', 0);
                     })
-                    ->where('price', '>=', intval($request->minimum));
+                        ->where('price', '>=', intval($request->minimum));
                 });
             })
             ->when($request->maximum, function ($query) use ($request) {
@@ -87,7 +92,13 @@ class CourseRepository extends BaseRepository implements CourseInterface
             ->when($user?->hasRole('guest') || !$user, function ($query) {
                 $query->where('is_ready', 1);
             })
-            ->orderByDesc('created_at')
+            ->when($request->rating, function ($query) use ($request) {
+                $query->withAvg('courseReviews', 'rating')
+                    ->whereHas('courseReviews', function ($query) use ($request) {
+                        $query->whereIn('rating', $request->rating);
+                    });
+            })
+            ->orderBy('created_at', 'desc')
             ->fastPaginate($pagination);
     }
 
@@ -115,6 +126,38 @@ class CourseRepository extends BaseRepository implements CourseInterface
             ->where('is_ready', true)
             ->orderBy('course_reviews_count', 'desc') // Mengurutkan berdasarkan courseReviews count
             ->limit(4)
+            ->get();
+    }
+
+    public function orderByStep(): mixed
+    {
+        return $this->courseLearningPath->select('step')->whereColumn('courses.id', 'course_learning_paths.course_id')->limit(1);
+    }
+
+    public function getSome($request): mixed
+    {
+        return $this->model->query()
+            ->when($request->search, function ($query) use ($request) {
+                $query->where('title', "LIKE", "%$request->search%");
+            })
+            ->whereHas('courseLearningPaths', function ($query) use ($request) {
+                $query->whereRelation('learningPath', 'division_id', $request->division_id)->whereRelation('learningPath', 'class_level', $request->class_level);
+            })
+            ->orderBy(
+                $this->orderByStep()
+            )
+            ->get();
+    }
+
+    public function getSome2($request): mixed
+    {
+        return $this->model->query()
+            ->when($request->search, function ($query) use ($request) {
+                $query->where('title', "LIKE", "%$request->search%");
+            })
+            ->whereDoesntHave('courseLearningPaths', function ($query) use ($request) {
+                $query->whereRelation('learningPath', 'division_id', $request->division_id)->whereRelation('learningPath', 'class_level', $request->class_level);
+            })
             ->get();
     }
 
@@ -202,7 +245,7 @@ class CourseRepository extends BaseRepository implements CourseInterface
     public function showWithSlug(Request $request, string $slug): mixed
     {
         return $this->model->query()->where(['slug' => $slug])
-            ->when($request->transaction, function ($query) use ($request) {
+            ->when($request?->transaction, function ($query) use ($request) {
                 $query->with('transactions');
             })->firstOrFail();
     }

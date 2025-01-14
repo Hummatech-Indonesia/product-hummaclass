@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Hash;
 use App\Contracts\Repositories\BaseRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Contracts\Interfaces\Auth\UserInterface;
+use App\Enums\RoleEnum;
+use Illuminate\Database\Eloquent\Model;
 
 class UserRepository extends BaseRepository implements UserInterface
 {
@@ -17,7 +19,6 @@ class UserRepository extends BaseRepository implements UserInterface
     }
     public function countUsersByMonth(): array
     {
-        // Nama bulan dalam format singkat
         $months = [
             1 => 'Jan',
             2 => 'Feb',
@@ -33,7 +34,6 @@ class UserRepository extends BaseRepository implements UserInterface
             12 => 'Dec'
         ];
 
-        // Menghitung pengguna per bulan dari Januari hingga Desember untuk satu tahun terakhir
         $userCounts = $this->model->query()
             ->where('email', '!=', 'admin@gmail.com')
             ->where('created_at', '>=', now()->subYear())
@@ -95,6 +95,19 @@ class UserRepository extends BaseRepository implements UserInterface
     {
         return $this->show($id)->update($data);
     }
+
+    public function updateMentor(mixed $id, array $data): mixed
+    {
+        return $this->show($id)->update($data);
+    }
+    public function store(array $data): mixed
+    {
+        return $this->model->query()->create($data);
+    }
+    public function delete(mixed $id): mixed
+    {
+        return $this->show($id)->delete();
+    }
     /**
      * Method customUpdate
      *
@@ -105,5 +118,35 @@ class UserRepository extends BaseRepository implements UserInterface
     public function customUpdate(mixed $id, array $data): mixed
     {
         return $this->show($id)->update($data);
+    }
+
+    /**
+     * getMentor
+     *
+     * @return mixed
+     */
+    public function getMentor(): mixed
+    {
+        return $this->model->whereHas('roles', function ($q) {
+            $q->where('name', RoleEnum::MENTOR->value);
+        })->get();
+    }
+    public function getMentorPaginate(Request $request, int $pagination = 10): LengthAwarePaginator
+    {
+        return $this->model->query()->when($request->name, function ($query) use ($request) {
+            $query->where('name', 'LIKE', '%' . $request->name . '%');
+        })
+            ->where('email', '!=', 'admin@gmail.com')
+            // ->whereRelation('roles', 'name', RoleEnum::MENTOR->value)
+            ->role(RoleEnum::MENTOR->value)
+            ->fastPaginate($pagination);
+    }
+
+    public function createMentor($data): mixed
+    {
+        $data['password'] = Hash::make("password");
+        $user = $this->model->query()->create($data);
+        $user->assignRole(RoleEnum::MENTOR->value);
+        return $user;
     }
 }

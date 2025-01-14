@@ -22,6 +22,8 @@ use App\Contracts\Repositories\RegisterRepository;
 use App\Contracts\Repositories\UserQuizRepository;
 use App\Contracts\Interfaces\Auth\ProfileInterface;
 use App\Contracts\Interfaces\CertificateInterface;
+use App\Contracts\Interfaces\ChallengeInterface;
+use App\Contracts\Interfaces\ChallengeSubmitInterface;
 use App\Contracts\Repositories\Auth\UserRepository;
 use App\Contracts\Repositories\UserEventRepository;
 use App\Contracts\Interfaces\Course\CourseInterface;
@@ -61,11 +63,31 @@ use App\Contracts\Interfaces\DiscussionInterface;
 use App\Contracts\Interfaces\DiscussionTagInterface;
 use App\Contracts\Interfaces\FaqInterface;
 use App\Contracts\Interfaces\HeaderInterface;
+use App\Contracts\Interfaces\IndustryClass\AssesmentFormInterface;
+use App\Contracts\Interfaces\IndustryClass\AssesmentFormStudentInterface;
+use App\Contracts\Interfaces\IndustryClass\AttendanceInterface;
+use App\Contracts\Interfaces\IndustryClass\AttendanceStudentInterface;
+use App\Contracts\Interfaces\IndustryClass\ClassroomInterface;
+use App\Contracts\Interfaces\IndustryClass\CourseLearningPathInterface;
+use App\Contracts\Interfaces\IndustryClass\DivisionInterface;
+use App\Contracts\Interfaces\IndustryClass\JournalInterface;
+use App\Contracts\Interfaces\IndustryClass\JournalPresenceInterface;
+use App\Contracts\Interfaces\IndustryClass\LearningPathInterface;
+use App\Contracts\Interfaces\IndustryClass\MentorInterface;
+use App\Contracts\Interfaces\IndustryClass\PaymentInterface;
+use App\Contracts\Interfaces\IndustryClass\SchoolInterface;
+use App\Contracts\Interfaces\IndustryClass\SchoolYearInterface;
+use App\Contracts\Interfaces\IndustryClass\StudentClassroomInterface;
+use App\Contracts\Interfaces\IndustryClass\StudentInterface;
+use App\Contracts\Interfaces\IndustryClass\TeacherInterface;
+use App\Contracts\Interfaces\IndustryClass\ZoomInterface;
 use App\Contracts\Interfaces\RewardInterface;
 use App\Contracts\Interfaces\SuperiorFeatureInterface;
 use App\Contracts\Interfaces\TagInterface;
 use App\Contracts\Interfaces\UserRewardInterface;
 use App\Contracts\Repositories\CertificateRepository;
+use App\Contracts\Repositories\ChallengeRepository;
+use App\Contracts\Repositories\ChallengeSubmitRepository;
 use App\Contracts\Repositories\Course\SubCategoryRepository;
 use App\Contracts\Repositories\Course\CourseReviewRepository;
 use App\Contracts\Repositories\Course\CourseVoucherRepository;
@@ -81,6 +103,24 @@ use App\Contracts\Repositories\DiscussionTagRepository;
 use App\Contracts\Repositories\EventAttendanceRepository;
 use App\Contracts\Repositories\FaqRepository;
 use App\Contracts\Repositories\HeaderRepository;
+use App\Contracts\Repositories\IndustryClass\AssesmentFormRepository;
+use App\Contracts\Repositories\IndustryClass\AssesmentFormStudentRepository;
+use App\Contracts\Repositories\IndustryClass\AttendanceRepository;
+use App\Contracts\Repositories\IndustryClass\AttendanceStudentRepository;
+use App\Contracts\Repositories\IndustryClass\ClassroomRepository;
+use App\Contracts\Repositories\IndustryClass\CourseLearningPathRepository;
+use App\Contracts\Repositories\IndustryClass\DivisionRepository;
+use App\Contracts\Repositories\IndustryClass\JournalPresenceRepository;
+use App\Contracts\Repositories\IndustryClass\JournalRepository;
+use App\Contracts\Repositories\IndustryClass\LearningPathRepository;
+use App\Contracts\Repositories\IndustryClass\MentorRepository;
+use App\Contracts\Repositories\IndustryClass\PaymentRepository;
+use App\Contracts\Repositories\IndustryClass\SchoolRepository;
+use App\Contracts\Repositories\IndustryClass\SchoolYearRepository;
+use App\Contracts\Repositories\IndustryClass\StudentClassroomRepository;
+use App\Contracts\Repositories\IndustryClass\StudentRepository;
+use App\Contracts\Repositories\IndustryClass\TeacherRepository;
+use App\Contracts\Repositories\IndustryClass\ZoomRepository;
 use App\Contracts\Repositories\RewardRepository;
 use App\Contracts\Repositories\SuperiorFeatureRepository;
 use App\Contracts\Repositories\TagRepository;
@@ -130,7 +170,27 @@ class AppServiceProvider extends ServiceProvider
         HeaderInterface::class => HeaderRepository::class,
         SuperiorFeatureInterface::class => SuperiorFeatureRepository::class,
         TermConditionInterface::class => TermConditionRepository::class,
-        PrivacyPolicyInterface::class => PrivacyPolicyRepository::class
+        PrivacyPolicyInterface::class => PrivacyPolicyRepository::class,
+        SchoolInterface::class => SchoolRepository::class,
+        ClassroomInterface::class => ClassroomRepository::class,
+        StudentInterface::class => StudentRepository::class,
+        StudentClassroomInterface::class => StudentClassroomRepository::class,
+        DivisionInterface::class => DivisionRepository::class,
+        TeacherInterface::class => TeacherRepository::class,
+        SchoolYearInterface::class => SchoolYearRepository::class,
+        LearningPathInterface::class => LearningPathRepository::class,
+        CourseLearningPathInterface::class => CourseLearningPathRepository::class,
+        ChallengeInterface::class => ChallengeRepository::class,
+        ChallengeSubmitInterface::class => ChallengeSubmitRepository::class,
+        AttendanceInterface::class => AttendanceRepository::class,
+        AttendanceStudentInterface::class => AttendanceStudentRepository::class,
+        AssesmentFormInterface::class => AssesmentFormRepository::class,
+        AssesmentFormStudentInterface::class => AssesmentFormStudentRepository::class,
+        JournalInterface::class => JournalRepository::class,
+        JournalPresenceInterface::class => JournalPresenceRepository::class,
+        ZoomInterface::class => ZoomRepository::class,
+        MentorInterface::class => MentorRepository::class,
+        PaymentInterface::class => PaymentRepository::class
     ];
 
     /**
