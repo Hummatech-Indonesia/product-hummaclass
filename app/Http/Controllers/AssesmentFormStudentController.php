@@ -12,6 +12,8 @@ use App\Http\Resources\IndustryClass\AssesmentFormResource;
 use App\Http\Resources\StudentAssesmentResource;
 use App\Models\Student;
 use App\Models\StudentClassroom;
+use App\Services\AssesmentFormService;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -19,11 +21,13 @@ class AssesmentFormStudentController extends Controller
 {
     private AssesmentFormStudentInterface $assesmentFormStudent;
     private AssesmentFormInterface $assementForm;
+    private AssesmentFormService $assesmentFormService;
 
-    public function __construct(AssesmentFormStudentInterface $assesmentFormStudent, AssesmentFormInterface $assementForm)
+    public function __construct(AssesmentFormStudentInterface $assesmentFormStudent, AssesmentFormInterface $assementForm, AssesmentFormService $assesmentFormService)
     {
         $this->assesmentFormStudent = $assesmentFormStudent;
         $this->assementForm = $assementForm;
+        $this->assesmentFormService = $assesmentFormService;
     }
 
     public function index(Request $request, $classroomId): mixed
@@ -53,11 +57,24 @@ class AssesmentFormStudentController extends Controller
         return ResponseHelper::success(null, trans('alert.add_success'));
     }
 
-    public function show(StudentClassroom $studentClassroom): JsonResponse  
+    public function show(StudentClassroom $studentClassroom): JsonResponse
     {
         $data['assementFormAttitudes'] = StudentAssesmentResource::collection($this->assesmentFormStudent->getByStudent(['student_id' => $studentClassroom->student->id, 'division_id' => $studentClassroom->classroom->division->id, 'class_level' => $studentClassroom->classroom->class_level, 'type' => TypeAssesmentEnum::ATTITUDE->value]));
         $data['assementFormSkills'] = StudentAssesmentResource::collection($this->assesmentFormStudent->getByStudent(['student_id' => $studentClassroom->student->id, 'division_id' => $studentClassroom->classroom->division->id, 'class_level' => $studentClassroom->classroom->class_level, 'type' => TypeAssesmentEnum::SKILL->value]));
-        
+
         return ResponseHelper::success($data);
+    }
+
+    public function downloadAssessmentPdf(StudentClassroom $studentClassroom)
+    {
+        $assementFormAttitudes = $this->assesmentFormStudent->getByStudent(['student_id' => $studentClassroom->student->id,'division_id' => $studentClassroom->classroom->division->id,'class_level' => $studentClassroom->classroom->class_level,'type' => TypeAssesmentEnum::ATTITUDE->value]);
+
+        $assementFormSkills = $this->assesmentFormStudent->getByStudent(['student_id' => $studentClassroom->student->id,'division_id' => $studentClassroom->classroom->division->id,'class_level' => $studentClassroom->classroom->class_level,'type' => TypeAssesmentEnum::SKILL->value]);
+
+        $totalAssesment = $this->assesmentFormService->totalAssesment($assementFormAttitudes, $assementFormSkills);
+ 
+        $pdf = Pdf::loadView('pdf.studentAssesment', compact('studentClassroom', 'assementFormAttitudes', 'assementFormSkills', 'totalAssesment'));         
+
+        return $pdf->download('penilaian ' . $studentClassroom->student->user->name . '-' . $studentClassroom->classroom->name . '.pdf');
     }
 }

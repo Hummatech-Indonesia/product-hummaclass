@@ -166,3 +166,5 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 Route::get('challenge/download-zip/{challenge}', [ChallengeController::class, 'download_zip']);
+ // Assesmet export pdf
+ Route::get('assesment-form-student-pdf/{studentClassroom}', [AssesmentFormStudentController::class, 'downloadAssessmentPdf']);
