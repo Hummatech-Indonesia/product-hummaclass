@@ -50,7 +50,7 @@ class CourseTestController extends Controller
 
     public function index(string $slug, Request $request): JsonResponse
     {
-        $course = $this->course->showWithSlug($slug, $request);
+        $course = $this->course->showWithSlug($request, $slug);
         $courseTest = $this->courseTest->show($course->id);
         if ($courseTest == null) return ResponseHelper::error(null, "Anda Belum Setting Test");
         return ResponseHelper::success(CourseTestResource::make($courseTest), trans('alert.fetch_success'));
@@ -168,10 +168,10 @@ class CourseTestController extends Controller
 
         foreach ($request['question_count'] as $index => $questionCount) {
             $module = $this->module->show($data['module_id'][$index]);
-            
+
             if ($questionCount > $module->moduleQuestions()->count()) {
-                array_push($result, 'Jumlah pertanyaan pada modul '. $module->title .' tidak sama dengan yang Anda inputkan.');
-            } else {     
+                array_push($result, 'Jumlah pertanyaan pada modul ' . $module->title . ' tidak sama dengan yang Anda inputkan.');
+            } else {
                 $storeData = [
                     'course_test_id' => $courseTest->id,
                     'question_count' => $questionCount,
@@ -229,7 +229,7 @@ class CourseTestController extends Controller
     }
 
     public function detailCourse(string $slug): JsonResponse
-    {   
+    {
         $courseTest = $this->courseTest->showWithSlug($slug);
         return ResponseHelper::success(CourseTestDetailResource::make($courseTest), trans('alert.fetch_success'));
     }

@@ -30,7 +30,6 @@ class CourseStatisticResource extends JsonResource
             return [$monthNameLowerCase => $items->sum('amount')];
         });
 
-        // Calculating pre-test and post-test averages
         $preTestAvg = UserCourseTest::whereIn('course_test_id', $this->courseTests->pluck('id'))
             ->where('test_type', TestEnum::PRETEST->value)
             ->avg('score');
@@ -39,7 +38,6 @@ class CourseStatisticResource extends JsonResource
             ->where('test_type', TestEnum::POSTTEST->value)
             ->avg('score');
 
-        // Sequential scores for statistics
         $preTestScores = UserCourseTest::whereIn('course_test_id', $this->courseTests->pluck('id'))
             ->where('test_type', TestEnum::PRETEST->value)
             ->orderBy('created_at')
@@ -59,18 +57,17 @@ class CourseStatisticResource extends JsonResource
                     ->map(fn($group) => $group->count())
             );
 
-        $totalUsers = usercourse::where('course_id', $this->id)->count();
+        $totalUsers = UserCourse::where('course_id', $this->id)->count();
         $completedCount = UserCourse::where('course_id', $this->id)->where('has_post_test', true)->count();
         $uncompletedCount = UserCourse::where('course_id', $this->id)->where('has_post_test', false)->count();
-        $completedPercentage = $completedCount / $totalUsers * 100;
-        $uncompletedPercentage = $uncompletedCount / $totalUsers * 100;
 
-        // Calculate percentage distribution for each rating
+        $completedPercentage = $totalUsers > 0 ? ($completedCount / $totalUsers) * 100 : 0;
+        $uncompletedPercentage = $totalUsers > 0 ? ($uncompletedCount / $totalUsers) * 100 : 0;
+
         $ratingsPercentageDistribution = $ratingsDistribution->map(function ($count) use ($totalRatings) {
             return $totalRatings > 0 ? round(($count / $totalRatings) * 100, 2) : 0;
         });
 
-        // Completed distribution by month
         $completedByMonth = UserCourse::where('course_id', $this->id)
             ->where('has_post_test', true)
             ->get()
@@ -90,8 +87,8 @@ class CourseStatisticResource extends JsonResource
             'completed' => $this->userCourses()->whereNotNull('has_post_test')->count(),
             'completed_by_month' => $completedByMonth->all(),
 
-            'complete_percentage' => number_format($completedPercentage),
-            'uncomplete_percentage' => number_format($uncompletedPercentage),
+            'complete_percentage' => number_format($completedPercentage, 2),
+            'uncomplete_percentage' => number_format($uncompletedPercentage, 2),
 
             'transaction' => $groupedTransactionsWithMonthName,
 
@@ -103,7 +100,6 @@ class CourseStatisticResource extends JsonResource
             'ratings_distribution' => $ratingsDistribution->all(),
             'ratings_percentage_distribution' => $ratingsPercentageDistribution->all(),
 
-            // Adding sequential score arrays for statistics
             'score_average' => UserCourseTest::whereIn('course_test_id', $this->courseTests->pluck('id'))->avg('score'),
             'pre_test_score_distribution' => $preTestScores,
             'post_test_score_distribution' => $postTestScores,
