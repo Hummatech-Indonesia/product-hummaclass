@@ -96,19 +96,24 @@ class TransactionController extends Controller
      */
     public function store(Request $request, $productType, string $id): mixed
     {
-        $course = $this->course->show($id);
-        $currentUserCourse = $course ? $course->currentUserCourse : null;
+        // $course = $this->course->show($id);
+        // $currentUserCourse = $course ? $course->currentUserCourse : null;
 
-        if ($currentUserCourse && $currentUserCourse->user->id == auth()->user()->id) {
-            return ResponseHelper::error(null, "anda sudah membeli kursus ini");
-        } else if ($currentUserCourse && $currentUserCourse->user->id == auth()->user()->id) {
-            return ResponseHelper::error(null, "anda sudah bergabung event ini");
-        }
+        // if ($currentUserCourse && $currentUserCourse->user->id == auth()->user()->id) {
+        //     return ResponseHelper::error(null, "anda sudah membeli kursus ini");
+        // } else if ($currentUserCourse && $currentUserCourse->user->id == auth()->user()->id) {
+        //     return ResponseHelper::error(null, "anda sudah bergabung event ini");
+        // }
 
 
         $voucher = $this->courseVoucher->getByCode($request->voucher_code);
         if ($productType == 'course') {
             $course = $this->course->show($id);
+            $currentUserCourse = $course ? $course->currentUserCourse : null;
+            if ($currentUserCourse && $currentUserCourse->user->id == auth()->user()->id) {
+                return ResponseHelper::error(null, "anda sudah membeli kursus ini");
+            }
+
             if (!$course->is_premium) {
                 $userCourse = $this->transactionService->handleCerateUserCourse($course, (object) ['user_id' => auth()->user()->id, 'course_id' => $course->id]);
                 return ResponseHelper::success($userCourse, 'Berhasil');
@@ -117,6 +122,11 @@ class TransactionController extends Controller
             }
         } else if ($productType == 'event') {
             $event = $this->event->show($id);
+            $currentUserEvent = $event ? $event->currentUserEvent : null;
+
+            if ($currentUserEvent && $currentUserEvent->user->id == auth()->user()->id) {
+                return ResponseHelper::error(null, "anda sudah bergabung event ini");
+            }
             if (!$event->price > 0) {
                 $userEvent = $this->transactionService->handleCerateUserCourse($event, (object) ['user_id' => auth()->user()->id, 'event_id' => $event->id]);
                 return ResponseHelper::success($userEvent, 'Berhasil');
