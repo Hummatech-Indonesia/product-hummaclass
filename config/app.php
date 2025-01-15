@@ -16,6 +16,7 @@ return [
     */
 
     'name' => env('APP_NAME', 'Laravel'),
+    'frontend_url' => env('FE_URL', "https://getskill.id"),
 
     /*
     |--------------------------------------------------------------------------
