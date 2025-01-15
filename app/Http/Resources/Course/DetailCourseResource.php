@@ -20,7 +20,8 @@ class DetailCourseResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $user = \Laravel\Sanctum\PersonalAccessToken::findToken(substr($request->header('authorization'), 7, 100))?->tokenable()->first();
+        $token = substr($request->header('authorization') ?? '', 7, 100);
+        $user = \Laravel\Sanctum\PersonalAccessToken::findToken($token)?->tokenable;
 
         $totalReviews = $this->courseReviews->count();
 
@@ -33,22 +34,19 @@ class DetailCourseResource extends JsonResource
         ]);
 
         $result = $this->courseLearningPaths()
-        ->whereHas('learningPath.division.classrooms.studentClassrooms.student.user', function ($query) use ($user) {
-            $query->where('id', $user->id);
-        })
-        ->exists();        
-
+            ->whereHas('learningPath.division.classrooms.studentClassrooms.student.user', function ($query) use ($user) {
+                if ($user) {
+                    $query->where('id', $user->id);
+                }
+            })
+            ->exists();
 
         $ratingsPercentage = $ratingsCount->mapWithKeys(function ($count, $rating) use ($totalReviews) {
             return [$rating => $totalReviews > 0 ? round(($count / $totalReviews) * 100, 2) : 0];
         });
 
-        $userCource = $this->userCourses()?->where('user_id', $user?->id)->with('subModule')->first();
-        if ($userCource && $user) {
-            $completed = CourcePercentaceHelper::getPercentace($userCource);
-        } else {
-            $completed = null;
-        }
+        $userCource = $user ? $this->userCourses()?->where('user_id', $user?->id)->with('subModule')->first() : null;
+        $completed = $userCource ? CourcePercentaceHelper::getPercentace($userCource) : null;
 
         return [
             'id' => $this->id,
@@ -74,7 +72,7 @@ class DetailCourseResource extends JsonResource
             'course_review_count' => $this->courseReviews->count(),
             'user_courses_count' => $this->userCourses->count(),
             'created' => $this->created_at,
-            'is_admin' => $user?->hasRole('admin'),
+            'is_admin' => $user?->hasRole('admin') ?? false,
             'is_student' => $result,
         ];
     }
