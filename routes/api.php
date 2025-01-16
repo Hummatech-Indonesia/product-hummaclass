@@ -231,7 +231,7 @@ Route::middleware('enable.cors')->group(function () {
         Route::get('user-events/{slug}', [UserEventController::class, 'show']);
 
         //UserCourse
-        Route::get('user-courses', [UserCourseController::class, 'index']);
+        Route::get('user-courses', [UserCourseController::class, 'guest']);
 
         //Sub Module
         Route::get('sub-modules/detail/{slug}', [SubModuleController::class, 'show'])->middleware('check_last_step_user');

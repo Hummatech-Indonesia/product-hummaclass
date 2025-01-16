@@ -24,8 +24,8 @@ class RegisterRequest extends ApiRequest
         return [
             'name' => 'required|string|max:255',
             'email' => 'required|string|max:255|email|unique:users',
-            'password' => 'required|string|min:8',
-            'password_confirmation' => 'required|confirmed',
+            'password' => 'required|string|min:8|confirmed',
+            'password_confirmation' => 'required',
         ];
     }
 
@@ -46,10 +46,10 @@ class RegisterRequest extends ApiRequest
             'password.required' => 'Kata sandi wajib diisi.',
             'password.string' => 'Kata sandi harus berupa teks.',
             'password.min' => 'Kata sandi harus minimal 8 karakter.',
-            'password.confirmed' => 'Konfirmasi kata sandi tidak cocok.',
+            'password.confirmed' => 'Kata sandi tidak cocok dengan password konfirmasi.',
 
             'password_confirmation.required' => 'Kata sandi wajib diisi.',
-            'password_confirmation.confirmed' => 'Konfirmasi kata sandi tidak cocok.',
+            // 'password_confirmation.confirmed' => 'Konfirmasi kata sandi tidak cocok.',
         ];
     }
 }
