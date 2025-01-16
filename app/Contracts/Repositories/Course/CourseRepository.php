@@ -68,6 +68,13 @@ class CourseRepository extends BaseRepository implements CourseInterface
                     }
                 );
             })
+            ->when($request->sub_category_id, function ($query) use ($request) {
+                $query->when(
+                    function ($query) use ($request) {
+                        $query->where('sub_category_id', $request->sub_category_id);
+                    }
+                );
+            })
             ->when($request->status, function ($query) use ($request) {
                 return $query->where('is_ready', $request->status);
             })
