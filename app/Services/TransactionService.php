@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Contracts\Interfaces\Course\CourseInterface;
 use App\Contracts\Interfaces\Course\UserCourseInterface;
 use App\Contracts\Interfaces\Course\UserEventInterface;
 use App\Contracts\Interfaces\IndustryClass\PaymentInterface;
@@ -20,12 +21,14 @@ use Illuminate\Support\Facades\Mail;
 class TransactionService
 {
     private TransactionInterface $transaction;
+    private CourseInterface $course;
     private UserCourseInterface $userCourse;
     private PaymentInterface $payment;
     private UserEventInterface $userEvent;
-    public function __construct(TransactionInterface $transaction, UserCourseInterface $userCourse, UserEventInterface $userEvent, PaymentInterface $payment)
+    public function __construct(TransactionInterface $transaction, UserCourseInterface $userCourse, UserEventInterface $userEvent, PaymentInterface $payment, CourseInterface $course)
     {
         $this->transaction = $transaction;
+        $this->course = $course;
         $this->payment = $payment;
         $this->userCourse = $userCourse;
         $this->userEvent = $userEvent;
@@ -43,11 +46,14 @@ class TransactionService
     public function handleCerateUserCourse($product, $transaction): mixed
     {
         if (is_object($product) && get_class($product) == Course::class) {
+            $course = $this->course->show($transaction->course_id);
+
             $data = $this->userCourse->store([
                 'user_id' => $transaction->user_id,
                 'course_id' => $transaction->course_id,
                 'sub_module_id' => Module::where('course_id', $product->id)->whereHas('subModules')->orderBy('step', 'asc')->first()->subModules->first()->id
             ]);
+            $data->sub_module_slug = Module::where('course_id', $product->id)->whereHas('subModules')->orderBy('step', 'asc')->first()->subModules->first()->slug;
             $data->test_id = $product->courseTest->id;
             return $data;
         } else {
