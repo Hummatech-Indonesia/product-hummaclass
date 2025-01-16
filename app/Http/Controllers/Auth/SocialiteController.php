@@ -28,54 +28,18 @@ class SocialiteController extends Controller
         }
         // find or create user and send params user get from socialite and provider
         $authUser = $this->findOrCreateUser($user, $provider);
-
+        
         // login user
         $auth = auth()->login($authUser, true);
         $token = auth()->user()->createToken('auth_token')->plainTextToken;
         $user = auth()->user();
         $user->assignRole('guest');
-        // $roles = $user->roles->pluck('name');
-        $user->roles = ['guest'];
-
-
-        // dd($token, $user);
-
-        // $response = Http::post(env('FRONTEND_URL') . '/save-token', [
-        //     'token' => $token,
-        //     'user' => $user
-        // ]);
-
-        // // Check the status code and response body
-        // $status = $response->status();
-        // $body = $response->body();
-        // $contentType = $response->header('Content-Type');
-
-        // dd($status, $contentType, $body);
-
-        // if ($response->successful()) {
-        //     $data = $response->json();
+        $user->roles = $user->roles;
 
         $data['token'] = $token;
-        $data['user'] = $user->toArray(); 
+        $data['user'] = $user->toArray();
         $queryString = http_build_query($data);
-        return redirect(config('app.frontend_url') . "/save-token-google/" . $queryString);
-
-        // $response = Http::post(config('app.frontend_url') . "/save-token-google", [
-        //     "token" => $token,
-        //     "user" => $user
-        // ])->json();
-
-        // dd($response);
-
-
-        //     //     dd('success', $data);
-        // }
-        // else {
-        //     dd('Failed to get a successful response', $body);
-        // }
-        // setelah login redirect ke dashboard
-        // return response()->json(['auth' => $auth]);
-
+        return redirect(config('app.frontend_url') . "/save-token-google?" . $queryString);
     }
 
     public function findOrCreateUser($socialUser, $provider)
