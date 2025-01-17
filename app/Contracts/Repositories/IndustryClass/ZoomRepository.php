@@ -20,7 +20,7 @@ class ZoomRepository extends BaseRepository implements ZoomInterface
         return $this->model->query()
             ->when($request->search, function ($query) use ($request) {
                 $query->where('title', 'like', '%' . $request->search . '%')
-                    ->orWhereRelation('user', 'name', 'like', '%' . $request->search . '%')
+                    ->orWhereRelation('mentor', 'name', 'like', '%' . $request->search . '%')
                     ->orWhereRelation('classroom', 'name', 'like', '%' . $request->search . '%')
                     ->orWhererelation('school', 'name', 'like', '%' . $request->search . '%');
             })->when($request->school_id, function ($query) use ($request) {
