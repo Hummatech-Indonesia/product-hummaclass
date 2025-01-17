@@ -6,6 +6,7 @@ use App\Base\Interfaces\HasDetailPayments;
 use App\Base\Interfaces\HasDivision;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Payment extends Model implements HasDetailPayments
@@ -21,5 +22,15 @@ class Payment extends Model implements HasDetailPayments
     public function detailPayments(): HasMany
     {
         return $this->hasMany(DetailPayment::class);
+    }
+
+    /**
+     * Get the user that owns the Payment
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }

@@ -69,6 +69,7 @@ use App\Contracts\Interfaces\IndustryClass\AttendanceInterface;
 use App\Contracts\Interfaces\IndustryClass\AttendanceStudentInterface;
 use App\Contracts\Interfaces\IndustryClass\ClassroomInterface;
 use App\Contracts\Interfaces\IndustryClass\CourseLearningPathInterface;
+use App\Contracts\Interfaces\IndustryClass\DetailPaymentInterface;
 use App\Contracts\Interfaces\IndustryClass\DivisionInterface;
 use App\Contracts\Interfaces\IndustryClass\JournalInterface;
 use App\Contracts\Interfaces\IndustryClass\JournalPresenceInterface;
@@ -109,6 +110,7 @@ use App\Contracts\Repositories\IndustryClass\AttendanceRepository;
 use App\Contracts\Repositories\IndustryClass\AttendanceStudentRepository;
 use App\Contracts\Repositories\IndustryClass\ClassroomRepository;
 use App\Contracts\Repositories\IndustryClass\CourseLearningPathRepository;
+use App\Contracts\Repositories\IndustryClass\DetailPaymentRepository;
 use App\Contracts\Repositories\IndustryClass\DivisionRepository;
 use App\Contracts\Repositories\IndustryClass\JournalPresenceRepository;
 use App\Contracts\Repositories\IndustryClass\JournalRepository;
@@ -190,7 +192,8 @@ class AppServiceProvider extends ServiceProvider
         JournalPresenceInterface::class => JournalPresenceRepository::class,
         ZoomInterface::class => ZoomRepository::class,
         MentorInterface::class => MentorRepository::class,
-        PaymentInterface::class => PaymentRepository::class
+        PaymentInterface::class => PaymentRepository::class,
+        DetailPaymentInterface::class => DetailPaymentRepository::class,
     ];
 
     /**

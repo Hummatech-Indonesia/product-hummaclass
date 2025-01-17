@@ -104,6 +104,9 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::resource('teachers', TeacherController::class)->only(['update', 'destroy']);
 
         Route::resource('zooms', ZoomController::class)->except(['show']);
+
+        // list payment
+        Route::get('classroom-payments/{classroom}', [PaymentController::class, 'getByClassroom']);
     });
 
     Route::get('course-teacher', [CourseTestController::class, 'getByTeacher']);

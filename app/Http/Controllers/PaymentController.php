@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\Interfaces\IndustryClass\DetailPaymentInterface;
 use App\Contracts\Interfaces\IndustryClass\PaymentInterface;
 use App\Enums\InvoiceStatusEnum;
 use App\Helpers\PaymentHelper;
 use Illuminate\Support\Facades\Http;
 use App\Helpers\ResponseHelper;
 use App\Http\Resources\PaymentResource;
+use App\Http\Resources\StudentPaymentResource;
+use App\Models\Classroom;
 use App\Services\IndustryClass\PaymentService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -16,6 +19,7 @@ class PaymentController extends Controller
 {
     private PaymentService $payment;
     private PaymentInterface $paymentInterface;
+    private DetailPaymentInterface $detailPayment;
 
     /**
      * __construct
@@ -23,10 +27,11 @@ class PaymentController extends Controller
      * @param  mixed $payment
      * @return void
      */
-    public function __construct(PaymentService $payment, PaymentInterface $paymentInterface)
+    public function __construct(PaymentService $payment, PaymentInterface $paymentInterface, DetailPaymentInterface $detailPayment)
     {
         $this->payment = $payment;
         $this->paymentInterface = $paymentInterface;
+        $this->detailPayment = $detailPayment;
     }
 
     /**
@@ -139,5 +144,20 @@ class PaymentController extends Controller
     {
         $semesterBill = PaymentHelper::semesterBill();
         return ResponseHelper::success($semesterBill);
+    }
+
+    public function getByClassroom(Classroom $classroom): mixed
+    {
+        $getSemester = PaymentHelper::getSemester();
+        $months = $getSemester['month'];
+        $year = now()->year;
+
+        $data = [
+            'studentPayments' => $this->detailPayment->getByClassroom($classroom, $months, $year),
+            'classroom' => $classroom->name,
+            'semester' => $getSemester['semester'],
+        ];
+        
+        return ResponseHelper::success($data);
     }
 }
