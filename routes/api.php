@@ -43,6 +43,7 @@ use App\Http\Controllers\Course\ModuleQuestionController;
 use App\Http\Controllers\Course\SubmissionTaskController;
 use App\Http\Controllers\Course\UserCourseTestController;
 use App\Http\Controllers\Course\CourseVoucherUserController;
+use App\Http\Controllers\EventAttendanceController;
 use App\Http\Controllers\HeaderController;
 use App\Http\Controllers\PrivacyPolicyController;
 use App\Http\Controllers\SuperiorFeatureController;
@@ -158,6 +159,8 @@ Route::middleware('enable.cors')->group(function () {
 
 
     Route::middleware(['auth:sanctum'])->group(function () {
+        Route::get('/event-attendances/{event}', [EventAttendanceController::class, 'index']);
+
         Route::get('module-questions/detail/{module}', [ModuleQuestionController::class, 'index']);
 
         Route::get('course-test-questions/{course_test}', [CourseTestQuestionController::class, 'index']);
@@ -354,7 +357,7 @@ Route::middleware('enable.cors')->group(function () {
 
 
             //Event
-            Route::get('event-attendance/{event_attendance}/{date}', [EventController::class, 'attendance'])->name('event-attendance.store');
+            Route::get('event-attendances/{event_attendance}/{date}', [EventController::class, 'attendance'])->name('event-attendance.store');
 
             //User Event
             Route::post('user-events-check', [UserEventController::class, 'checkPayment']);

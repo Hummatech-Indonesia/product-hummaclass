@@ -36,7 +36,8 @@ class EventResource extends JsonResource
             'is_online' => $this->is_online,
             'email_content' => $this->email_content,
             'start_date' => $this->start_date,
-            'end_date' => $this->end_date,  
+            'end_date' => $this->end_date,
+            'eventAttendance' => $this->eventAttendance,
             'image' => url('storage/' . $this->image),
             'event_details' => $this->eventDetails,
             'start_in' => $start_in, // Add the start_in field here
