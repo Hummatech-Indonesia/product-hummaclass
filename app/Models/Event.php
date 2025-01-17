@@ -59,8 +59,8 @@ class Event extends Model implements HasEventDetails
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function eventAttendances(): HasMany
+    public function eventAttendance(): HasOne
     {
-        return $this->hasMany(EventAttendance::class);
+        return $this->hasOne(EventAttendance::class);
     }
 }
