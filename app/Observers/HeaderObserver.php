@@ -12,7 +12,6 @@ class HeaderObserver
     public function creating(Header $header): void
     {
         $header->title = htmlspecialchars($header->title);
-        $header->description = htmlspecialchars($header->description);
     }
 
     /**
@@ -21,6 +20,5 @@ class HeaderObserver
     public function updating(Header $header): void
     {
         $header->title = htmlspecialchars($header->title);
-        $header->description = htmlspecialchars($header->description);
     }
 }
