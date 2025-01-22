@@ -18,6 +18,7 @@ use App\Models\CourseTest;
 use App\Models\CourseVoucher;
 use App\Models\Division;
 use App\Models\Event as ModelsEvent;
+use App\Models\Header;
 use App\Models\Journal;
 use App\Models\JournalPresence;
 use App\Models\LearningPath;
@@ -54,6 +55,7 @@ use App\Observers\CourseTestObserver;
 use App\Observers\CourseVoucherObserver;
 use App\Observers\DivisionObserver;
 use App\Observers\EventObserver;
+use App\Observers\HeaderObserver;
 use App\Observers\JournalObserver;
 use App\Observers\JournalPresenceObserver;
 use App\Observers\LearningPathObserver;
@@ -130,6 +132,7 @@ class EventServiceProvider extends ServiceProvider
         JournalPresence::observe(JournalPresenceObserver::class);
         AssesmentFormStudent::observe(AssessmentFormStudentObserver::class);
         Mentor::observe(MentorObserver::class);
+        Header::observe(HeaderObserver::class);
     }
 
     /**
