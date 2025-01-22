@@ -29,8 +29,8 @@ class UpdatePasswordRequest extends ApiRequest
                     $fail('Password lama yang Anda masukkan tidak sesuai.');
                 }
             }],
-            'password' => 'required|min:8',
-            'password_confirmation' => 'required|confirmed', // Konfirmasi password sudah otomatis diverifikasi dengan 'confirmed'
+            'password' => 'required|min:8|confirmed',
+            'password_confirmation' => 'required', // Konfirmasi password sudah otomatis diverifikasi dengan 'confirmed'
         ];
     }
 
