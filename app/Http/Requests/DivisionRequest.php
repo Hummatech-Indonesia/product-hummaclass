@@ -25,4 +25,11 @@ class DivisionRequest extends FormRequest
             'name' => 'required'
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'name.required' => 'Nama divisi harus diisi.'
+        ];
+    }   
 }
