@@ -16,6 +16,7 @@ use App\Http\Requests\UpdatePriceClassroomRequest;
 use App\Http\Resources\IndustryClass\ClassroomResource;
 use App\Http\Resources\IndustryClass\StudentClassroomResource;
 use App\Models\Classroom;
+use App\Models\Mentor;
 use App\Models\School;
 use App\Models\User;
 use App\Traits\PaginationTrait;
@@ -50,10 +51,9 @@ class ClassroomController extends Controller
         return ResponseHelper::success(ClassroomResource::collection($classrooms));
     }
 
-    public function getByMentorId(string $mentorId, Request $request): mixed
+    public function getByMentorId(Mentor $mentor, Request $request): mixed
     {
-
-        $classrooms = $this->classroom->getWhere(['user_id' => $mentorId], $request->name);
+        $classrooms = $this->classroom->getWhere(['user_id' => $mentor->user_id], $request->name);
         return ResponseHelper::success(ClassroomResource::collection($classrooms));
     }
 
