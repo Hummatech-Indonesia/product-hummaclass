@@ -21,7 +21,7 @@ class UpdatePriceClassroomRequest extends ApiRequest
     public function rules(): array
     {
         return [
-            'price' => 'required|integer'
+            'price' => 'required|integer|min:0'
         ];
     }
 
@@ -29,6 +29,7 @@ class UpdatePriceClassroomRequest extends ApiRequest
     {
         return [
             'price.required' => 'Harga wajib diisi',
+            'price.min' => 'Harga tidak boleh minus'
         ];
     }
 }
