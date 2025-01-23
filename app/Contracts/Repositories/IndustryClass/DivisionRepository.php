@@ -29,6 +29,13 @@ class DivisionRepository extends BaseRepository implements DivisionInterface
     {
         return $this->model->query()->get();
     }
+    
+    public function search(Request $request): mixed
+    {
+        return $this->model->query()->when($request->has('search'), function ($query) use ($request) {
+            return $query->where('name', 'like', '%' . $request->search . '%');
+        })->get();
+    }
 
     /**
      * Method store

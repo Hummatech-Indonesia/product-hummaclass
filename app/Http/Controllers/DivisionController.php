@@ -19,9 +19,9 @@ class DivisionController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $divisions = $this->division->get();
+        $divisions = $this->division->search($request);
         return ResponseHelper::success(DivisionResource::collection($divisions), trans('alert.fetch_success'));
     }
 
