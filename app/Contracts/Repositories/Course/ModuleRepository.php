@@ -169,10 +169,11 @@ class ModuleRepository extends BaseRepository implements ModuleInterface
      * @param  mixed $step
      * @return mixed
      */
-    public function moduleNextStep(int $step): mixed
+    public function moduleNextStep(int $step, string $course_id): mixed
     {
         return $this->model->query()
-            ->where('step', $step + 1)->first();
+            ->where('step', $step + 1)
+            ->where('course_id', $course_id)->first();
     }
     /**
      * Method modulePrevStep
@@ -181,9 +182,9 @@ class ModuleRepository extends BaseRepository implements ModuleInterface
      *
      * @return mixed
      */
-    public function modulePrevStep(int $step): mixed
+    public function modulePrevStep(int $step, string $course_id): mixed
     {
-        return $this->model->query()->where('step', $step - 1)->first();
+        return $this->model->query()->where('step', $step - 1)->where('course_id', $course_id)->first();
     }
 
     /**

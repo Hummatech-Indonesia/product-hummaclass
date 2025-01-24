@@ -191,7 +191,7 @@ Route::middleware('enable.cors')->group(function () {
         Route::get('discussions/{discussion}', [DiscussionController::class, 'show']);
 
         //Quiz
-        Route::get('quizzes/{slug}', [QuizController::class, 'index']);
+        Route::get('quizzes/{slug}', [QuizController::class, 'index'])->middleware('check_access_quiz');
         Route::get('quizzes', [QuizController::class, 'get']);
         Route::get('quiz-start/{quiz}', [QuizController::class, 'show']);
         Route::post('quizzes/{module}', [QuizController::class, 'store']);

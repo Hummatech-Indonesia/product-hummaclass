@@ -54,7 +54,7 @@ interface ModuleInterface extends CustomPaginationInterface, StoreInterface, Sho
      *
      * @return mixed
      */
-    public function moduleNextStep(int $step): mixed;
+    public function moduleNextStep(int $step, string $course_id): mixed;
     /**
      * Method modulePrevStep
      *
@@ -62,7 +62,7 @@ interface ModuleInterface extends CustomPaginationInterface, StoreInterface, Sho
      *
      * @return mixed
      */
-    public function modulePrevStep(int $step): mixed;
+    public function modulePrevStep(int $step, string $course_id): mixed;
 
 
     /**
@@ -72,7 +72,7 @@ interface ModuleInterface extends CustomPaginationInterface, StoreInterface, Sho
      * @return mixed
      */
     public function whereStepCourse(int $step, mixed $course_id): mixed;
-    
+
     /**
      * whereDivision
      *

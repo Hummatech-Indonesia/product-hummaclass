@@ -31,10 +31,10 @@ class SubModuleService
     public function next(mixed $subModule): mixed
     {
         $subModuleNext = $this->subModule->nextSubModule($subModule->step + 1, $subModule->module_id);
-        if ($subModuleNext == null) {
+        if ($subModuleNext == null && $subModule->module->quizzes->first() != null) {
             return false;
         }
-        $firstModuleNext = $this->module->moduleNextStep($subModule->module->step);
+        $firstModuleNext = $this->module->moduleNextStep($subModule->module->step, $subModule->module->course->id);
         $subModuleInNextModule = $this->subModule->nextSubModule(1, $firstModuleNext->id);
         if ($subModuleNext) {
             return SubModuleResource::make($subModuleNext);
@@ -52,14 +52,12 @@ class SubModuleService
     public function prev(mixed $subModule): mixed
     {
         $subModulePrev = $this->subModule->prevSubModule($subModule->step - 1, $subModule->module_id);
-        if ($subModulePrev == null) {
-            return false;
-        }
-        $firstModulePrev = $this->module->modulePrevStep($subModule->module->step);
-        $subModuleInPrevModule = $this->subModule->prevSubModule(1, $firstModulePrev->id);
         if ($subModulePrev) {
             return SubModuleResource::make($subModulePrev);
-        } else if ($subModuleInPrevModule) {
+        }
+        $firstModulePrev = $this->module->modulePrevStep($subModule->module->step, $subModule->module->course->id);
+        $subModuleInPrevModule = $this->subModule->prevSubModule($firstModulePrev->subModules->count(), $firstModulePrev->id);
+        if ($subModuleInPrevModule) {
             return SubModuleResource::make($subModuleInPrevModule);
         }
     }
