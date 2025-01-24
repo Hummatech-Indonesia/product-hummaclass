@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Module;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -19,9 +20,12 @@ class QuizResource extends JsonResource
         } else {
             $auth = null;
         }
+        $submodulenext = Module::where('step', $this->module->step + 1)->where('course_id', $this->module->course_id)->first()->subModules->first()->slug;
         return [
             'id' => $this->id,
             'module_id' => $this->module_id,
+            'sub_module_slug_prev' => $this->module->subModules->where('step', $this->module->subModules->count())->first()->slug,
+            'sub_module_slug_next' => $submodulenext,
             'course_slug' => $this->module->course->slug,
             'course_title' => $this->module->course->title,
             'module_title' => $this->module->title,
