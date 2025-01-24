@@ -32,6 +32,12 @@ class UserQuizController extends Controller
         $userQuizzes = $this->userQuiz->get();
         return ResponseHelper::success(UserQuizResource::collection($userQuizzes), trans('alert.fetch_success'));
     }
+    /**
+     * getByUser
+     *
+     * @param  mixed $slug
+     * @return JsonResponse
+     */
     public function getByUser(string $slug): JsonResponse
     {
         $module = $this->module->showWithSlug($slug);

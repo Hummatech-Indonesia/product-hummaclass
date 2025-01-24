@@ -452,7 +452,7 @@ Route::middleware('enable.cors')->group(function () {
         Route::post('quizzes-submit/{user_quiz}', [QuizController::class, 'submit']);
         Route::get('user-module-quizzes', [QuizController::class, 'getByAuthModule']);
 
-        Route::get('user-quizzes', [UserQuizController::class, 'getByUser']);
+        Route::get('user-quizzes', [UserQuizController::class, 'index']);
 
         // faq and discussion configuration
         Route::resources([
