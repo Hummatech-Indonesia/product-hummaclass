@@ -21,10 +21,15 @@ class QuizResource extends JsonResource
             $auth = null;
         }
         $submodulenext = Module::where('step', $this->module->step + 1)->where('course_id', $this->module->course_id)->first()->subModules->first()->slug;
+
+        $subModules = $this->module->subModules;
+        $lastSubModule = $subModules->where('step', $subModules->count())->first();
+        $subModuleprev = $lastSubModule ? $lastSubModule->slug : null;
+        
         return [
             'id' => $this->id,
             'module_id' => $this->module_id,
-            'sub_module_slug_prev' => $this->module->subModules->where('step', $this->module->subModules->count())->first()->slug,
+            'sub_module_slug_prev' => $subModuleprev,
             'sub_module_slug_next' => $submodulenext,
             'course_slug' => $this->module->course->slug,
             'course_title' => $this->module->course->title,

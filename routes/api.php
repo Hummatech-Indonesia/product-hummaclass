@@ -306,6 +306,7 @@ Route::middleware('enable.cors')->group(function () {
 
             //Course
             Route::resource('courses', CourseController::class)->except(['index', 'show']);
+            Route::get('get-some-course', [CourseController::class, 'getSome']);
             Route::get('course-statistic/{slug}', [CourseController::class, 'statistic']);
             Route::patch('courses-ready/{course}', [CourseController::class, 'readyToUse']);
             Route::get('courses/count', [CourseController::class, 'count']);
