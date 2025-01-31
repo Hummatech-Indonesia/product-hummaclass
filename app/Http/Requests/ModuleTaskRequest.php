@@ -24,7 +24,7 @@ class ModuleTaskRequest extends ApiRequest
     {
         return [
             'question' => 'required|string|max:500',
-            'point' => 'required|integer',
+            'point' => 'required|integer|min:1',
             'description' => 'required'
         ];
     }
@@ -38,7 +38,9 @@ class ModuleTaskRequest extends ApiRequest
     {
         return [
             'question.required' => 'pertanyaan wajib diisi',
+            'question.max' => 'Pertanyaan maksimal 500 karakter',
             'point.required' => 'Point wajib diisi',
+            'point.min' => 'Point minimal 1',
             'point.integer' => 'Point harus angka',
             'description.required' => 'Deskripsi wajib diisi'
         ];
